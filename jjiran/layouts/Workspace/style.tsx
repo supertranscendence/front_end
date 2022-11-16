@@ -6,6 +6,7 @@ export const RightMenu = styled.div`
 
 export const Header = styled.header`
   height: 38px;
+  max-width: 100%;
   background: #350d36;
   color: #ffffff;
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
@@ -18,7 +19,7 @@ export const InnerHeader = styled.header`
   height: 64px;
   line-height: 64px;
   border: none;
-  
+
   text-align: center;
   border-top: 1px solid rgb(82, 38, 83);
   border-bottom: 1px solid rgb(82, 38, 83);

@@ -16,11 +16,7 @@ const EachChannel: VFC<Props> = ({ channel }) => {
   });
   const date = localStorage.getItem(`${workspace}-${channel.name}`) || 0;
   const { data: count, mutate } = useSWR<number>(
-<<<<<<< HEAD
-    userData ? `http://localhost:3095/api/workspaces/${workspace}/chat/${channel.name}/unreads?after=${date}` : null,
-=======
     userData ? `http://localhost:3095/api/workspaces/${workspace}/channels/${channel.name}/unreads?after=${date}` : null,
->>>>>>> edb1d2b2ab1a6117ee265784c04b061553987610
     fetcher,
   );
 
