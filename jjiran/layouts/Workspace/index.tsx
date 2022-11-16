@@ -38,14 +38,7 @@ import {
   } from './style';
 
 const Channel = loadable(() => import ('@pages/Channel') );
-<<<<<<< HEAD
-const ChatChannel = loadable(() => import ('@pages/ChatChannel') );
-const GameChannel = loadable(() => import ('@pages/GameChannel') );
 const Intro = loadable(() => import ('@pages/Intro') );
-
-=======
-const Intro = loadable(() => import ('@pages/Intro') );
->>>>>>> edb1d2b2ab1a6117ee265784c04b061553987610
 // const DirectMessage = loadable(() => import ('@pages/DirectMessage') );
 
 const Workspace:FC = ({children}) =>
@@ -59,7 +52,7 @@ const Workspace:FC = ({children}) =>
 	// const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 	const {workspace} = useParams<{workspace:string}>();
 	const {data: channelData} = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,fetcher);
-	
+
 	console.log(userData);
 	const onLogout = useCallback(()=>
 	{
@@ -71,20 +64,12 @@ const Workspace:FC = ({children}) =>
 			})
 			// .finally(()=>{ return <Redirect to="/"/>});
 	}, []);
-	
+
 	const onClickUserProfile = useCallback(()=>{
 		setShowUserMenu(!ShowUserMenu);
 	}, [ShowUserMenu]);
-	
-<<<<<<< HEAD
-	// const goHomeYank = useCallback((e)=>{
-	// 	e.preventDefault();
-	// 	console.log("clcickc");
-	// // ()=>{<Link to="/workspace/:workspace/intro"/>}
-	// },[]);
-=======
->>>>>>> edb1d2b2ab1a6117ee265784c04b061553987610
-	
+
+
 	if (!userData)
 	{
 		return <Redirect to="/"/>;
@@ -100,10 +85,10 @@ const Workspace:FC = ({children}) =>
 					<ProfileModal>
 						<img src = {gravatar.url(userData.email, {s : '50px', d:'retro'})} alt="" />
 						<div>
-							<span id = "profile-name"> 
+							<span id = "profile-name">
 								{userData.nickname}
 							</span>
-							<span id = "profile-active"> 
+							<span id = "profile-active">
 								Active
 							</span>
 						</div>
@@ -112,17 +97,10 @@ const Workspace:FC = ({children}) =>
 				</Menu>
 				)}
 			</span>
-		</RightMenu> 
+		</RightMenu>
 		<WorkspaceWrapper>
 			<Channels>
-<<<<<<< HEAD
-				<WorkspaceName>jjiransendence!</WorkspaceName>
-				{/* <WorkspaceName onClick={(e)=>{e.preventDefault();console.log("clcickc");
-				 return<Link to="/workspace/:workspace/intro"/>
-				}} >jjiransendence!</WorkspaceName> */}
-=======
 				<WorkspaceName onClick={()=>{<Redirect to="/workspace/:workspace/intro"/>}} >jjiransendence!</WorkspaceName>
->>>>>>> edb1d2b2ab1a6117ee265784c04b061553987610
 				<MenuScroll>
 				<ChannelList />
 				<DMList />
@@ -132,17 +110,12 @@ const Workspace:FC = ({children}) =>
 				<Switch>
 					<Route path = "/workspace/:workspace/intro" component={Intro}/>
 					<Route path = "/workspace/:workspace/channel/:channel" component={Channel}/>
-<<<<<<< HEAD
-					<Route path = "/workspace/:workspace/chat/:channel" component={ChatChannel}/>
-					{/* <Route path = "/workspace/:workspace/game/:channel" component={GameChannel}/> */}
-=======
->>>>>>> edb1d2b2ab1a6117ee265784c04b061553987610
 					<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>
 				</Switch>
 			</Chats>
 		</WorkspaceWrapper>
 		</div>
 	)
-	
+
 }
 export default Workspace;
