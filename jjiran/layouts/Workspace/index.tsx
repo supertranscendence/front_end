@@ -37,9 +37,13 @@ import {
 	InnerHeader
   } from './style';
 
-const Channel = loadable(() => import ('@pages/Channel') );
+// const Channel = loadable(() => import ('@pages/Channel') );
 const Intro = loadable(() => import ('@pages/Intro') );
 // const DirectMessage = loadable(() => import ('@pages/DirectMessage') );
+
+
+const Chat = loadable(() => import ('@pages/ChatChannel') );
+const Game = loadable(() => import ('@pages/GameChannel') );
 
 const Workspace:FC = ({children}) =>
 {
@@ -109,8 +113,10 @@ const Workspace:FC = ({children}) =>
 			<Chats>
 				<Switch>
 					<Route path = "/workspace/:workspace/intro" component={Intro}/>
-					<Route path = "/workspace/:workspace/channel/:channel" component={Channel}/>
+					{/* <Route path = "/workspace/:workspace/channel/:channel" component={Channel}/> */}
 					<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>
+					<Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
+                    <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
 				</Switch>
 			</Chats>
 		</WorkspaceWrapper>

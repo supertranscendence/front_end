@@ -10,6 +10,7 @@ const SignUp = loadable(() => import ('@pages/SignUp') );
 // const DirectMessage = loadable(() => import ('@pages/DirectMessage') );
 const Workspaces = loadable(() => import ('@layouts/Workspace/index') );
 
+
 const App = () => {
   return (
   <Switch>
