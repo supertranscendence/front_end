@@ -15,10 +15,21 @@ import { Redirect } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
+import { Button } from '@mui/material';
+import BasicTable from '@components/GameTable';
+import AddIcon from '@mui/icons-material/Add';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
-const PAGE_SIZE = 20;
+//const PAGE_SIZE = 20;
 const Channel = () => {
-return <div>햐asdasd햐</div>
+return(
+<div>
+  <Button variant="outlined" startIcon={<AddIcon />}>New</Button>
+  <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Rank</Button>
+  <div />
+  <BasicTable />
+</div>
+);
   // const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   // const [socket] = useSocket(workspace);
   // const { data: userData } = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
