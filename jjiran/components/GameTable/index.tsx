@@ -7,7 +7,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LockIcon from '@mui/icons-material/Lock';
-import { Button, Icon, SvgIcon } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Button, ButtonGroup, Icon, SvgIcon } from '@mui/material';
 
 function createData(
   name: string,
@@ -21,12 +22,12 @@ function createData(
 
 const rows = [
   createData('헌터 1:1 초보만', true, 'jisokang', 1, 0),
-  createData('Hyopark들어와', false, 'jji', 1, 0),
+  createData('Hyopark들어와', true, 'jji', 1, 0),
   createData('으아아아아', false, 'hyopark', 2, 4),
   createData('Noname', false, 'gilee', 2, 4),
 ];
 
-function isPrivate(
+function isGamePrivate(
 	props:boolean
 ){
 	if(props == true)
@@ -57,12 +58,17 @@ export default function BasicTable() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}{isPrivate(row.isprivate)}
+                {row.name}{isGamePrivate(row.isprivate)}
               </TableCell>
               <TableCell align="left">{row.host}</TableCell>
               <TableCell align="right">{row.slot}/{MAX_SLOT}</TableCell>
               <TableCell align="right">{row.observer}/{MAX_OBSERVER}</TableCell>
-              <TableCell align="right"><Button variant="outlined">Join</Button></TableCell>
+              <TableCell align="right">
+                <ButtonGroup variant="outlined" size='small'>
+                  <Button startIcon={<VisibilityIcon />}>Observe</Button>
+                  <Button>Join</Button>
+                </ButtonGroup>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
