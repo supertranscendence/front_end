@@ -48,7 +48,7 @@ const DirectMessage = () => {
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < PAGE_SIZE);
 
   const onSubmitForm = useCallback(
-    (e) => {
+    (e:any) => {
       e.preventDefault();
       if (chat?.trim() && chatData) {
         const savedChat = chat;
@@ -124,7 +124,7 @@ const DirectMessage = () => {
   }, [workspace, id]);
 
   const onDrop = useCallback(
-    (e) => {
+    (e:any) => {
       e.preventDefault();
       console.log(e);
       const formData = new FormData();
@@ -154,7 +154,7 @@ const DirectMessage = () => {
     [workspace, id, mutateChat],
   );
 
-  const onDragOver = useCallback((e) => {
+  const onDragOver = useCallback((e:any) => {
     e.preventDefault();
     console.log(e);
     setDragOver(true);

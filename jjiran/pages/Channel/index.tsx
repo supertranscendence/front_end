@@ -57,7 +57,7 @@ const Channel = () => {
   }, []);
 
   const onSubmitForm = useCallback(
-    (e) => {
+    (e:any) => {
       e.preventDefault();
       if (chat?.trim() && chatData && channelData && userData) {
         const savedChat = chat;
@@ -140,7 +140,7 @@ const Channel = () => {
   }, []);
 
   const onDrop = useCallback(
-    (e) => {
+    (e:any) => {
       e.preventDefault();
       console.log(e);
       const formData = new FormData();
@@ -170,7 +170,7 @@ const Channel = () => {
     [workspace, channel],
   );
 
-  const onDragOver = useCallback((e) => {
+  const onDragOver = useCallback((e:any) => {
     e.preventDefault();
     console.log(e);
     setDragOver(true);

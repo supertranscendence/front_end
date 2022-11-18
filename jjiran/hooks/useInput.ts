@@ -4,7 +4,7 @@ type ReturnType<T =any>  = [T, (e: any) =>void, Dispatch<SetStateAction<T>>];
 // const useInput = (initData : any) =>{
 const useInput = <T = any>(initData : T) : ReturnType<T> =>{
 	const [value, setValue] = useState(initData);
-	const handler = useCallback((e) =>{
+	const handler = useCallback((e:any) =>{
 		setValue(e.target.value);
 	}, []);
 	return [value, handler, setValue]
