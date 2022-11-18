@@ -3,7 +3,7 @@ import ChatList from '@components/ChatList';
 import InviteChannelModal from '@components/InviteChannelModal';
 import useInput from '@hooks/useInput';
 import useSocket from '@hooks/useSocket';
-import { Header, Container, DragOver } from '@pages/Channel/styles';
+import { Header, DragOver } from '@pages/Channel/styles';
 import { IChannel, IChat, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import makeSection from '@utils/makeSection';
@@ -15,7 +15,7 @@ import { Redirect } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
-import { Button } from '@mui/material';
+import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import BasicTable from '@components/GameTable';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -23,12 +23,23 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 //const PAGE_SIZE = 20;
 const Channel = () => {
 return(
-<div>
-  <Button variant="outlined" startIcon={<AddIcon />}>New</Button>
-  <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Rank</Button>
-  <div />
-  <BasicTable />
-</div>
+  <div>
+    <Container maxWidth="lg">
+      <Stack spacing={2}>
+        <Stack />
+        <Stack
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          spacing={1}
+        >
+          <Button variant="outlined" startIcon={<AddIcon />}>New Game</Button>
+          <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Find Match</Button>
+        </Stack>
+        <BasicTable />
+      </Stack>
+    </Container>
+  </div>
 );
   // const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   // const [socket] = useSocket(workspace);
