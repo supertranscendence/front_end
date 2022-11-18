@@ -45,7 +45,10 @@ const Intro = loadable(() => import ('@pages/Intro') );
 const Chat = loadable(() => import ('@pages/ChatChannel') );
 const Game = loadable(() => import ('@pages/GameChannel') );
 
-const Workspace:FC = ({children}) =>
+interface Props {
+	children:any
+  }
+const Workspace:FC<Props> = ({children}) =>
 {
 	const {data: userData, error, mutate}  = useSWR<IUser | false>('http://localhost:3095/api/users',fetcher);
 	const [ShowUserMenu,setShowUserMenu] = useState(false);

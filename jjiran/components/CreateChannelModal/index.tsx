@@ -21,7 +21,7 @@ const CreateChannelModal: FC<PropsWithChildren<Props>> = ({ show, children, onCl
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,fetcher);
   
-  const onCreateChannel = useCallback((e) => {
+  const onCreateChannel = useCallback((e:any) => {
     // e.onCreateChannel();
     e.preventDefault();
     axios.post(`http://localhost:3095/api/workspaces/${workspace}/channels`, {

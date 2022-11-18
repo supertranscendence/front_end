@@ -13,7 +13,7 @@ interface Props {
 }
 const ChatList: FC<Props> = ({ scrollbarRef, isReachingEnd, isEmpty, chatSections, setSize }) => {
   const onScroll = useCallback(
-    (values) => {
+    (values:any) => {
       if (values.scrollTop === 0 && !isReachingEnd && !isEmpty) {
         setSize((size) => size + 1).then(() => {
           scrollbarRef.current?.scrollTop(scrollbarRef.current?.getScrollHeight() - values.scrollHeight);
