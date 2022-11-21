@@ -1,5 +1,6 @@
 import { CollapseButton } from '@components/DMList/styles';
 import EachChannel from '@components/EachChannel';
+import GameRoom from '@pages/GameRoom';
 import { IChannel, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import React, { FC, useCallback, useState } from 'react';
@@ -24,7 +25,7 @@ const ChannelList: FC<Props> = () => {
   }, []);
   const chat:IChannel  = {name:"Chat", WorkspaceId:-1, id:-1, private:false};
   const game:IChannel  = {name:"Game", WorkspaceId:-1, id:-1, private:false};
-  // const game:IChannel  = {name:"game"};
+   const gameroom:IChannel  = {name:"GameRoom", WorkspaceId:-1, id:-1, private:false};
   return (
     <>
       <h2>
@@ -42,6 +43,7 @@ const ChannelList: FC<Props> = () => {
           <>
             <EachChannel channel={chat}></EachChannel>
             <EachChannel channel={game}></EachChannel>
+            <EachChannel channel={gameroom}></EachChannel>
           </>
           )}
       </div>
