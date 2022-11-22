@@ -17,14 +17,13 @@ const ChannelList: FC<Props> = () => {
   const { data: userData } = useSWR<IUser>('http://localhost:3095/api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
-  const { data: channelData } = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null, fetcher);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
+  
   const chat:IChannel  = {name:"Chat", WorkspaceId:-1, id:-1, private:false};
   const game:IChannel  = {name:"Game", WorkspaceId:-1, id:-1, private:false};
-  // const game:IChannel  = {name:"game"};
   return (
     <>
       <h2>

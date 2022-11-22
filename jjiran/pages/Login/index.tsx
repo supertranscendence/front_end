@@ -35,15 +35,17 @@ const LogIn = () => {
     },
     [email, password, mutate],
   );
-if (data){
-	return <Redirect to="/workspace/sleact/intro"/>
-}
-//   console.log(error, userData);
-//   if (!error && userData) {
-//     console.log('로그인됨', userData);
-//     return <Redirect to="/workspace/sleact/channel/일반" />;
-//   }
-
+  if (data){
+    console.log("dataaaaa",data);
+    localStorage.setItem("access", data.email);
+    return <Redirect to="/workspace/sleact/intro"/>
+  }
+  //   console.log(error, userData);
+  //   if (!error && userData) {
+    //     console.log('로그인됨', userData);
+    //     return <Redirect to="/workspace/sleact/channel/일반" />;
+    //   }
+    
   return (
     <div id="container">
       <Header>Jiiranscendence</Header>
