@@ -38,6 +38,7 @@ import {
 	InnerHeader
   } from './style';
 
+
 // const Channel = loadable(() => import ('@pages/Channel') );
 const Intro = loadable(() => import ('@pages/Intro') );
 // const DirectMessage = loadable(() => import ('@pages/DirectMessage') );
@@ -45,6 +46,7 @@ const Intro = loadable(() => import ('@pages/Intro') );
 
 const Chat = loadable(() => import ('@pages/ChatChannel') );
 const Game = loadable(() => import ('@pages/GameChannel') );
+const GameRoom = loadable(() => import ('@pages/GameRoom') );
 const ChatRoom = loadable(() => import ('@pages/ChatRoom') );
 
 interface Props {
@@ -118,6 +120,7 @@ const Workspace:FC<Props> = ({children}) =>
                     <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom" component={ChatRoom}/>
 					<Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
                     <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
+                    <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
 				</Switch>
 			</Chats>
 		</WorkspaceWrapper>

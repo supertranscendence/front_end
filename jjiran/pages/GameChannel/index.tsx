@@ -16,7 +16,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import { Button, Container, Grid, Stack, Divider } from '@mui/material';
-import BasicTable from '@components/GameTable';
+import GameTable from '@components/GameTable';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
@@ -36,7 +36,7 @@ return(
           <Button variant="outlined" startIcon={<AddIcon />}>New Game</Button>
           <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Find Match</Button>
         </Stack>
-        <BasicTable />
+        <GameTable />
       </Stack>
     </Container>
   </div>

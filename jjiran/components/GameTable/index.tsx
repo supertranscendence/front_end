@@ -9,6 +9,10 @@ import Paper from '@mui/material/Paper';
 import LockIcon from '@mui/icons-material/Lock';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Button, ButtonGroup, Icon, SvgIcon } from '@mui/material';
+import { Route, Redirect, Link, useParams } from 'react-router-dom';
+//import GameRoom from '@pages/GameRoom';
+import loadable from '@loadable/component';
+
 
 function createData(
   name: string,
@@ -35,10 +39,18 @@ function isGamePrivate(
 	return'';
 }
 
+const moveToGameRoom = () =>
+{
+  const { workspace} = useParams<{ workspace: string;}>();
+  console.log("CLICK!");
+  <Link to = {`/workspace/${workspace}/channel/GameRoom/`} />
+}
+
 const MAX_SLOT = 2;
 const MAX_OBSERVER = 4;
 
-export default function BasicTable() {
+export default function GameTable() {
+  const { workspace, id } = useParams<{ workspace: string; id: string }>();
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -66,7 +78,7 @@ export default function BasicTable() {
               <TableCell align="right">
                 <ButtonGroup variant="outlined" size='small'>
                   <Button startIcon={<VisibilityIcon />}>Observe</Button>
-                  <Button>Join</Button>
+                  <Button component={Link} to={`/workspace/${workspace}/channel/GameRoom/`}>Join</Button>
                 </ButtonGroup>
               </TableCell>
             </TableRow>
