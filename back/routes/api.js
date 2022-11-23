@@ -304,6 +304,9 @@ router.post(
       io.of(`/ws-${workspace.url}`)
         .to(`/ws-${workspace.url}-${channel.id}`)
         .emit("message", chatWithUser);
+      io.of(`/ws-${workspace.url}`)
+        .to(`/ws-${workspace.url}-${channel.id}`)
+        .on("sibal", (strm, fx)=>{console.log(str),fx();});
       res.send("ok");
     } catch (error) {
       next(error);
