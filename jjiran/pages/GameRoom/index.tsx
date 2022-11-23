@@ -1,10 +1,12 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { Container, Stack, Button, IconButton, Divider, Tooltip, Box } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
 import gravatar from 'gravatar';
 import PrintHostVsPlayer from "@components/PrintHostVsPlayer";
 
 const GameRoom = () => {
+	const { workspace, id } = useParams<{ workspace: string; id: string }>();
 	return(
 		<Container maxWidth="lg">
 			<Stack spacing={1}>
@@ -16,9 +18,8 @@ const GameRoom = () => {
 				>
 					<h1>GAME ROOM</h1>{/* game_room_name */}
 					<Tooltip title="나가기" arrow>
-						<IconButton aria-label="cancle">
+						<IconButton aria-label="cancle" component={Link} to={`/workspace/${workspace}/channel/Game/`}>
 							<CancelIcon />
-							{/* EXIT to gameChannel */}
 						</IconButton>
 					</Tooltip>
 				</Stack>
