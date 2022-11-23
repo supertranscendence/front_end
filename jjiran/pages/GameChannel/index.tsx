@@ -19,6 +19,7 @@ import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import GameTable from '@components/GameTable';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CreateRoomModal from '@components/CreateRoomModal';
 
 //const PAGE_SIZE = 20;
 const Channel = () => {
