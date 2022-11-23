@@ -1,6 +1,8 @@
 import React, { PropsWithChildren, FC} from "react";
 import { useTable } from "react-table";
 import { Tbody, Thead } from "./styles";
+import { MenuScroll } from "@layouts/Workspace/style";
+
 
 
 interface Props {
@@ -12,6 +14,7 @@ const Table: FC<PropsWithChildren<Props>> = ({ columns, data }) =>  {
     useTable({ columns, data });
 
   return (
+    <MenuScroll>
     <table {...getTableProps()}>
       <Thead>
         {headerGroups.map((headerGroup) => (
@@ -35,6 +38,7 @@ const Table: FC<PropsWithChildren<Props>> = ({ columns, data }) =>  {
         })}
       </Tbody>
     </table>
+    </MenuScroll>
   );
 }
 

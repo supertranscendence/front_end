@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {FC, useCallback, useState } from 'react';
+import React, {FC, useCallback, useState ,useEffect} from 'react';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
@@ -12,11 +12,12 @@ import { Label, Input, Button} from '@pages/SignUp/styles';
 import Modal from '@components/Modal'
 import useInput from '@hooks/useInput'
 import {toast} from 'react-toastify'
-import CreateChannelModal from '@components/CreateChannelModal'
+import CreateChannelModal from '@components/CreateRoomModal'
 // import { channel } from 'diagnostics_channel';
 import DirectMessage from '@pages/DirectMessage';
 import DMList from '@components/DMList';
 import ChannelList from '@components/ChannelList';
+import useSocket from '@hooks/useSocket';
 // import Intro from '@pages/Intro';
 
 import {
@@ -44,23 +45,20 @@ const Intro = loadable(() => import ('@pages/Intro') );
 
 const Chat = loadable(() => import ('@pages/ChatChannel') );
 const Game = loadable(() => import ('@pages/GameChannel') );
+const ChatRoom = loadable(() => import ('@pages/ChatRoom') );
 
 interface Props {
 	children:any
   }
 const Workspace:FC<Props> = ({children}) =>
 {
+	const {workspace} = useParams<{workspace:string}>();
+	const [socket, disconnectSocket] = useSocket(workspace);
 	const {data: userData, error, mutate}  = useSWR<IUser | false>('http://localhost:3095/api/users',fetcher);
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
-	// const [ShowCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
-	// const [ShowCreateChannelModal, setShowCreateChannelModal] = useState(false);
-	// const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
-	// const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
-	// const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
-	const {workspace} = useParams<{workspace:string}>();
 	const {data: channelData} = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,fetcher);
-
-	console.log(userData);
+	
+	  console.log(userData);
 	const onLogout = useCallback(()=>
 	{
 		axios.post('http://localhost:3095/api/users/logout', null, {
@@ -107,7 +105,7 @@ const Workspace:FC<Props> = ({children}) =>
 		</RightMenu>
 		<WorkspaceWrapper>
 			<Channels>
-				<WorkspaceName onClick={()=>{<Redirect to="/workspace/:workspace/intro"/>}} >jjiransendence!</WorkspaceName>
+				<WorkspaceName >jjiransendence!</WorkspaceName>
 				<MenuScroll>
 				<ChannelList />
 				<DMList />
@@ -116,8 +114,8 @@ const Workspace:FC<Props> = ({children}) =>
 			<Chats>
 				<Switch>
 					<Route path = "/workspace/:workspace/intro" component={Intro}/>
-					{/* <Route path = "/workspace/:workspace/channel/:channel" component={Channel}/> */}
 					<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>
+                    <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom" component={ChatRoom}/>
 					<Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
                     <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
 				</Switch>
