@@ -1,7 +1,7 @@
 import { CreateModal, CloseModalButton } from '@components/Modal/style';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
 import {Label, Input} from '@pages/SignUp/styles';
-import { Button, Modal, Box } from '@mui/material';
+import { Button, Modal, Box, TextField } from '@mui/material';
 import useInput from "@hooks/useInput"
 //import Modal from "@components/Modal"
 import axios from 'axios';
@@ -56,17 +56,18 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
     return null;
   }
   return (
-    //<Modal show = {show} onCloseModal={onCloseModal}>
     <Modal
      open={show}
      onClose={onCloseModal}
     >
       <Box sx={styleModal}>
         <form onSubmit={onCreateRoom}>
-          <Label id="room-create">
-            <span>방이름</span>
-            <Input id="room" value={newRoom} onChange={onChangeNewRoom}/>
-          </Label>
+            <TextField
+              label="방 이름"
+              variant="outlined"
+              value={newRoom}
+              onChange={onChangeNewRoom}
+            />
           <Button type="submit" variant='outlined'>생성</Button>
         </form>
       </Box>
