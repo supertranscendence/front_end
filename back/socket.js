@@ -41,6 +41,11 @@ module.exports = (server, app) => {
       fx(publicRooms(socket));
     });
     
+    socket.on("getChatRoomInfoSWR",(sr, fx) =>{
+      console.log("callling");
+      fx(publicRooms(socket));
+    });
+    
 
     
     socket.on("create-room", (room,fx) => {
