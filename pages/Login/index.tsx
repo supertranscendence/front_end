@@ -1,6 +1,7 @@
 import useInput from '@hooks/useInput';
 import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages/SignUp/styles';
 import fetcher from '@utils/fetcher';
+import authfetcher from '@utils/authfetcher';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
@@ -8,7 +9,11 @@ import React, { useCallback, useState } from 'react';
 
 const LogIn = () => {
 //   const { data: userData, error, mutate } = useSWR('/api/users', fetcher);
-	const {data, error, mutate}  = useSWR('http://localhost:3095/api/users',fetcher,{
+	const {data, error, mutate}  = useSWR('/api/users',fetcher,{
+		dedupingInterval:100000
+		});
+		
+	const  {data:data1, error:error1, mutate:mutate1} = useSWR('/auth/api/auth/ft/redirect',fetcher,{
 		dedupingInterval:100000
 		});
   const [logInError, setLogInError] = useState(false);
@@ -20,7 +25,7 @@ const LogIn = () => {
       setLogInError(false);
       axios
         .post(
-          'http://localhost:3095/api/users/login',
+          'api/users/login',
           { email, password },
           {
             withCredentials: true,

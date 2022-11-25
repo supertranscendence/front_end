@@ -21,14 +21,14 @@ const PAGE_SIZE = 20;
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
   const [socket] = useSocket(workspace);
-  const { data: myData } = useSWR('http://localhost:3095/api/users', fetcher);
-  const { data: userData } = useSWR(`http://localhost:3095/api/workspaces/${workspace}/users/${id}`, fetcher);
+  const { data: myData } = useSWR('api/users', fetcher);
+  const { data: userData } = useSWR(`api/workspaces/${workspace}/users/${id}`, fetcher);
   const {
     data: chatData,
     mutate: mutateChat,
     setSize,
   } = useSWRInfinite<IDM[]>(
-    (index) => `http://localhost:3095/api/workspaces/${workspace}/dms/${id}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
+    (index) => `api/workspaces/${workspace}/dms/${id}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
     fetcher,
     {
       onSuccess(data) {
@@ -72,7 +72,7 @@ const DirectMessage = () => {
           }
         });
         axios
-          .post(`http://localhost:3095/api/workspaces/${workspace}/dms/${id}/chats`, {
+          .post(`api/workspaces/${workspace}/dms/${id}/chats`, {
             content: chat,
           })
           .catch(console.error);
@@ -145,7 +145,7 @@ const DirectMessage = () => {
           formData.append('image', e.dataTransfer.files[i]);
         }
       }
-      axios.post(`http://localhost:3095/api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
+      axios.post(`api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
         setDragOver(false);
         localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
         mutateChat();

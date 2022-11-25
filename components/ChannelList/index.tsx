@@ -15,7 +15,7 @@ interface Props {
 const ChannelList: FC<Props> = () => {
   const { workspace } = useParams<{ workspace?: string }>();
   const [channelCollapse, setChannelCollapse] = useState(false);
-  const { data: userData } = useSWR<IUser>('http://localhost:3095/api/users', fetcher, {
+  const { data: userData } = useSWR<IUser>('api/users', fetcher, {
     dedupingInterval: 2000, // 2초
   });
 

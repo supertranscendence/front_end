@@ -43,15 +43,15 @@ return(
 );
   // const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   // const [socket] = useSocket(workspace);
-  // const { data: userData } = useSWR<IUser>('http://localhost:3095/api/users', fetcher);
-  // const { data: channelsData } = useSWR<IChannel[]>(`http://localhost:3095/api/workspaces/${workspace}/channels`, fetcher);
+  // const { data: userData } = useSWR<IUser>('api/users', fetcher);
+  // const { data: channelsData } = useSWR<IChannel[]>(`api/workspaces/${workspace}/channels`, fetcher);
   // const channelData = channelsData?.find((v) => v.name === channel);
   // const {
   //   data: chatData,
   //   mutate: mutateChat,
   //   setSize,
   // } = useSWRInfinite<IChat[]>(
-  //   (index) => `http://localhost:3095/api/workspaces/${workspace}/channels/${channel}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
+  //   (index) => `api/workspaces/${workspace}/channels/${channel}/chats?perPage=${PAGE_SIZE}&page=${index + 1}`,
   //   fetcher,
   //   {
   //     onSuccess(data) {
@@ -64,7 +64,7 @@ return(
   //   },
   // );
   // const { data: channelMembersData } = useSWR<IUser[]>(
-  //   userData ? `http://localhost:3095/api/workspaces/${workspace}/channels/${channel}/members` : null,
+  //   userData ? `api/workspaces/${workspace}/channels/${channel}/members` : null,
   //   fetcher,
   // );
   // const [chat, onChangeChat, setChat] = useInput('');
@@ -104,7 +104,7 @@ return(
   //         }
   //       });
   //       axios
-  //         .post(`http://localhost:3095/api/workspaces/${workspace}/channels/${channel}/chats`, {
+  //         .post(`api/workspaces/${workspace}/channels/${channel}/chats`, {
   //           content: savedChat,
   //         })
   //         .catch(console.error);
@@ -185,7 +185,7 @@ return(
   //         formData.append('image', e.dataTransfer.files[i]);
   //       }
   //     }
-  //     axios.post(`http://localhost:3095/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {
+  //     axios.post(`api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {
   //       setDragOver(false);
   //       localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
   //     });

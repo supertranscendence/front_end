@@ -6,7 +6,7 @@ import fetcher from '@utils/fetcher';
 import useSWR from "swr";
 
 const PrintHostVsPlayer = () => {
-	const { data: member } = useSWR<IUser>('http://localhost:3095/api/users', fetcher, {
+	const { data: member } = useSWR<IUser>('api/users', fetcher, {
     	dedupingInterval: 2000, // 2초
   	});
 	return(

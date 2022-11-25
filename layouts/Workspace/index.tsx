@@ -56,14 +56,14 @@ const Workspace:FC<Props> = ({children}) =>
 {
 	const {workspace} = useParams<{workspace:string}>();
 	const [socket, disconnectSocket] = useSocket(workspace);
-	const {data: userData, error, mutate}  = useSWR<IUser | false>('http://localhost:3095/api/users',fetcher);
+	const {data: userData, error, mutate}  = useSWR<IUser | false>('api/users',fetcher);
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
-	const {data: channelData} = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,fetcher);
+	const {data: channelData} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
 	
 	  console.log(userData);
 	const onLogout = useCallback(()=>
 	{
-		axios.post('http://localhost:3095/api/users/logout', null, {
+		axios.post('api/users/logout', null, {
 			withCredentials : true,
 		})
 			.then(()=>{
