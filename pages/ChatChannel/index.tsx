@@ -21,29 +21,12 @@ import loadable from '@loadable/component';
 import CreateChannelModal from '@components/CreateRoomModal'
 import getRoomInfo from '@utils/getRoomInfo'
 
-
-// import faker from "faker/locale/ko";
 const ChatRoom = loadable(() => import ('@pages/ChatRoom') );
-// const PAGE_SIZE = 20;
 const ChatChannel = () => {
 const { workspace } = useParams<{ workspace?: string }>();
 const [socket] = useSocket(workspace);
 const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
 const [newRoomFlag, setNewRoomFlag] = useState(false);
-// let newRoomFlag:Boolean = false;
-// const setNewRoomFlag = (flag:Boolean)=>{newRoomFlag = flag}
-
-// const {data : tetets} = useSWR( 'getChatRoomInfoSWR',getRoomInfo );
-
-// const { data: myData } = useSWR('/api/users', fetcher);
-// console.log("tetets",tetets);
-const [test, setTest] = useState([]);
-useEffect(()=>{
-  console.log("hi");
-  socket?.on("getChatRoomInfoSWR",()=>{
-    setTest([...test]);
-  });
-}, [test]);
 
 const onClickAddRoom = useCallback(() => {
   setShowCreateRoomModal(true);
@@ -54,37 +37,10 @@ const onCloseModal = useCallback(() => {
 }, []);
 
 const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
-// let roomArr:{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[] = [];
-// const setRoomArr = (par:{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]) => {
-//   roomArr = par;
-// }
-// const onClickBtn = useCallback((e:any)=>{
-//   e.preventDefault();
-//   console.log("cl", e.target.id);
-   
-// },[]);
-
-// const getRooms =  useCallback( (publicRooms : [])=>{
-//   console.log("publicRooms", publicRooms);
-
-//   setRoomArr( [...publicRooms.map((_name)=>{
-//           return {
-//              name: _name,
-//              roomType:"public",
-//              currCnt: 1,
-//              enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button>입장</button></Link>
-//          }})
-//       ])
-//       console.log("roomArr", roomArr);
-// }, [setRoomArr]);
-
-
-
 
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
   console.log("publicRooms", publicRooms);
-
   setRoomArr( [...publicRooms.map((_name)=>{
           return {
              name: _name,
@@ -98,27 +54,11 @@ useEffect(()=>{
 console.log("room arr:", roomArr);
 }, [newRoomFlag]);
 
-// useEffect(()=>{
-//   console.log("flag:", newRoomFlag);
-//     console.log("what's after2 fuck:", newRoomFlag);
-//     socket?.on("new-room-created", ()=>{
-//     console.log("fuck:", newRoomFlag);
-//     setNewRoomFlag(newRoomFlag=> !newRoomFlag);
-//     console.log("what's after fuck:", newRoomFlag);
-//   });
-  
-// },[]);
-
 useEffect(()=>{
-  console.log("flag:", newRoomFlag);
-    console.log("what's after2 fuck:", newRoomFlag);
-    socket?.on("new-room-created", ()=>{
-    console.log("fuck:", newRoomFlag);
-    setNewRoomFlag(newRoomFlag=> !newRoomFlag);
-    console.log("what's after fuck:", newRoomFlag);
+  socket?.on("new-room-created", ()=>{
+  setNewRoomFlag(newRoomFlag => !newRoomFlag);
   });
-  
-},[]);
+},[roomArr]);
 
 
 const columns = useMemo(
