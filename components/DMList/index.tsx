@@ -40,17 +40,18 @@ const DMList = () => {
       socket?.off('onlineList');
     };
   }, [socket]);
-  
-  
+
+
   return (
     <>
       <h2>
         <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-          <i
+          {/*<i
             className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
             data-qa="channel-section-collapse"
             aria-hidden="true"
-          />
+          />*/}
+          📎
         </CollapseButton>
         <span>My firends</span>
       </h2>
@@ -60,9 +61,6 @@ const DMList = () => {
             const isOnline = onlineList.includes(member.id);
             return <EachDM key={member.id} member={member} isOnline={isOnline} />;
           })
-          // <>
-            
-          // </>
           }
       </div>
     </>
