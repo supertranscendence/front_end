@@ -17,10 +17,10 @@ interface Props {
   setShowCreateRoomModal : (flag:boolean) => void
 }
 const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowCreateRoomModal }) => {
-  const {data: userData, error, mutate: mutate}  = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher);
+  const {data: userData, error, mutate: mutate}  = useSWR<IUser | false>('api/users', fetcher);
   const[newRoom, onChangeNewRoom, setNewRoom] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,fetcher);
+  // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
   const [socket] = useSocket(workspace);
   
   const clearModal = useCallback(()=>{
