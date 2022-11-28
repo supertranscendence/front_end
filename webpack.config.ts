@@ -79,12 +79,17 @@ const config: Configuration = {
     port: 3090,
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
-    // proxy : {
-    //   '/api/':{
-    //     target:'http://localhost:3095',
-    //     changeOrigin:true,
-    //   }
-    // }
+    proxy : {
+    //   // '/auth/api/auth/':{
+    //   //   target: "http://3.39.238.148",
+    //   //   changeOrigin:true,
+    //   //   pathRewrite: {"/auth/": "/"},
+    //   // },
+      '/api/':{
+        target:'http://localhost:3095',
+        changeOrigin:true,
+      }
+    }
   },
 };
 

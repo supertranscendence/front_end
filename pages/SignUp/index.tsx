@@ -16,7 +16,7 @@ const SignUp = () => {
 //   const [password, , setPassword] = useInput('');
 //   const [passwordCheck, , setPasswordCheck] = useInput('');
 
-const {data, error, mutate}  = useSWR('http://localhost:3095/api/users',fetcher);
+const {data, error, mutate}  = useSWR('api/users',fetcher);
 const[email, onChangeEmail, setEmail] = useInput('');
 const[nickname, onChangeNickname, setNickname] = useInput('');
 const[password, setPassword] = useState('');
@@ -31,10 +31,10 @@ const onSubmit = useCallback( (e:any)=>{
 	if (mismatchError && nickname)
 	{
 		console.log("서버로 숑",email,nickname,password,passwordCheck, mismatchError);
-		// axios.post("http://localhost:3095/api/users",{
+		// axios.post("api/users",{
 		setsignUpError('');
 		setSignUpSuccess(false);
-		axios.post("http://localhost:3095/api/users",{
+		axios.post("api/users",{
 			email,
 			nickname,
 			password
