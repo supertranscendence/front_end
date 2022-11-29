@@ -8,11 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LockIcon from '@mui/icons-material/Lock';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Button, ButtonGroup, Icon, SvgIcon } from '@mui/material';
+import { Button, ButtonGroup, Icon, SvgIcon, Box } from '@mui/material';
 import { Route, Redirect, Link, useParams } from 'react-router-dom';
-//import GameRoom from '@pages/GameRoom';
+import UserMenu from '@components/UserMenu';
 import loadable from '@loadable/component';
-
 
 function createData(
   name: string,
@@ -79,6 +78,14 @@ export default function GameTable() {
                 <ButtonGroup variant="outlined" size='small'>
                   <Button startIcon={<VisibilityIcon />}>Observe</Button>
                   <Button component={Link} to={`/workspace/${workspace}/channel/GameRoom/`}>Join</Button>
+                  {/*<Button
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}>
+                  <UserMenu />
+                  </Button>*/}
                 </ButtonGroup>
               </TableCell>
             </TableRow>

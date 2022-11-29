@@ -1,5 +1,6 @@
 import useInput from '@hooks/useInput';
-import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages/SignUp/styles';
+import { Button } from '@mui/material';
+import { Error, Form, Header, Input, Label, LinkContainer } from '@pages/SignUp/styles';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
@@ -45,9 +46,10 @@ const LogIn = () => {
     //     console.log('로그인됨', userData);
     //     return <Redirect to="/workspace/sleact/channel/일반" />;
     //   }
-    
+
   return (
     <div id="container">
+      {/*<Button component={Redirect} to = "/workspace/sleact/intro">Test Link</Button>*/}
       <Header>Jiiranscendence</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
