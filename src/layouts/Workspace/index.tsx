@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {FC, useCallback, useState ,useEffect} from 'react';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 // import { Header, ProfileImg, RightMenu, WorkspaceWrapper,Workspaces, Channels, Chats, MenuScroll, WorkspaceName, ProfileModal, LogOutButton, WorkspaceButton, AddButton, WorkspaceModal } from '@layouts/Workspace/style';
@@ -17,7 +17,8 @@ import CreateChannelModal from 'src/components/CreateRoomModal'
 import DirectMessage from 'src/pages/DirectMessage';
 import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
-import useSocket from 'src/hooks/useSocket';
+// import useSocket from 'src/hooks/useSocket';
+import authfetcher from 'src/utils/authfetcher';
 // import Intro from '@pages/Intro';
 
 import {
@@ -55,45 +56,44 @@ interface Props {
 const Workspace:FC<Props> = ({children}) =>
 {
 	const {workspace} = useParams<{workspace:string}>();
-	const [socket, disconnectSocket] = useSocket(workspace);
-	const {data: userData, error, mutate}  = useSWR<IUser | false>('/api/users',fetcher);
+	const {data, mutate} = useSWR('token', authfetcher ,{
+    	dedupingInterval:100000
+  });
+
+console.log("workspace",localStorage.getItem(" refreshToken"))
+	if ( !localStorage.getItem(" refreshToken") )
+	{
+		console.log("return /");
+		return <Redirect to="/"/>;
+	}
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
-	const {data: channelData} = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null,fetcher);
-	
-	  console.log(userData);
 	const onLogout = useCallback(()=>
 	{
-		axios.post('/api/users/logout', null, {
-			withCredentials : true,
-		})
-			.then(()=>{
-				mutate(false);
-			})
-			// .finally(()=>{ return <Redirect to="/"/>});
-	}, []);
+		localStorage.removeItem(" refreshToken");
+		// mutate();
+		return <Redirect to="/"/>;
+	}, [localStorage]);
 
 	const onClickUserProfile = useCallback(()=>{
 		setShowUserMenu(!ShowUserMenu);
 	}, [ShowUserMenu]);
 
 
-	if (!userData)
-	{
-		return <Redirect to="/"/>;
-	}
+	
 	return(
 		<div>
 		<Header>JJIRANSENDANCE</Header>
 		<RightMenu>
 			<span onClick={onClickUserProfile}>
-				<ProfileImg src={gravatar.url(userData.email, {s : '50px', d:'retro'})}/>
+				{/* <ProfileImg src={gravatar.url(userData.email, {s : '50px', d:'retro'})}/> */}
+				유저프로필버튼이여야할것
 				{ShowUserMenu && (
 					<Menu style={{right: 0, top: 38}} show={ShowUserMenu} onCloseModal={onClickUserProfile} >
 					<ProfileModal>
-						<img src = {gravatar.url(userData.email, {s : '50px', d:'retro'})} alt="" />
+						{/* <img src = {gravatar.url(userData.email, {s : '50px', d:'retro'})} alt="" /> */}
 						<div>
 							<span id = "profile-name">
-								{userData.nickname}
+								{/* {userData.nickname} */}
 							</span>
 							<span id = "profile-active">
 								Active

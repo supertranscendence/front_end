@@ -2,7 +2,7 @@
   "name": "sleact-ts-front",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "start": "export PORT=3001 && react-scripts start",
     "build": "react-scripts build",

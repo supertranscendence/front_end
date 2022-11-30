@@ -1,13 +1,29 @@
 import axios from 'axios'
 import { report } from 'process';
 
-const authfetcher = (url:string) => axios.get(url,{
-	withCredentials:true,
-	headers:{
-		// "Access-Control-Allow-Origin": "http://localhost:3090",
-		"Access-Control-Allow-Origin": "http://3.39.238.148",
-		"Access-Control-Allow-Credentials": true,
+var deleteCookie = function(name:string){
+	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+  }
+  
+const authfetcher = (url:string) => {
+	const returnArr:string[][] = [];
+	if (!localStorage.getItem(" refreshToken"))
+	{
+		if (document.cookie != ''){
+			console.log ("authfetcher call", document.cookie);
+			document.cookie.split(';').forEach((s)=>{returnArr.push(s.split("="))});
+			localStorage.setItem(returnArr[1][0],returnArr[1][1]);
+			// document.cookie = '';
+			deleteCookie(" refreshToken");
+			deleteCookie("accessToken");
+			return returnArr[0][1];
 		}
-}).then((response) => response.data);
+		else
+			return ;
+	}
+	else
+		return ;
+}
+
 
 export default authfetcher;
