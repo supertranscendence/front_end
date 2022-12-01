@@ -58,7 +58,7 @@ useEffect(()=>{
   socket?.on("new-room-created", ()=>{
   setNewRoomFlag(newRoomFlag => !newRoomFlag);
   });
-},[roomArr]);
+},[]);
 
 
 const columns = useMemo(

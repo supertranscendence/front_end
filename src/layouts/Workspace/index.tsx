@@ -56,26 +56,28 @@ interface Props {
 const Workspace:FC<Props> = ({children}) =>
 {
 	const {workspace} = useParams<{workspace:string}>();
-	const {data, mutate} = useSWR('token', authfetcher ,{
-    	dedupingInterval:100000
-  });
+	const {data, mutate} = useSWR('token', authfetcher);
 
 console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
 		console.log("return /");
-		return <Redirect to="/"/>;
+		location.href ="/";
+		// return <Redirect to="/"/>;
 	}
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
 	const onLogout = useCallback(()=>
 	{
 		localStorage.removeItem(" refreshToken");
-		// mutate();
+		mutate(null);
+		
+		console.log("data", data,"tokken",localStorage.getItem(" refreshToken"));
+		setShowUserMenu(ShowUserMenu => false);
 		return <Redirect to="/"/>;
 	}, [localStorage]);
 
 	const onClickUserProfile = useCallback(()=>{
-		setShowUserMenu(!ShowUserMenu);
+		setShowUserMenu(ShowUserMenu => !ShowUserMenu);
 	}, [ShowUserMenu]);
 
 
