@@ -6,7 +6,7 @@ import authfetcher from 'src/utils/authfetcher';
 
 const LogIn = () => {  
   
-  const {data} = useSWR('token', authfetcher ,{
+  const {data, mutate} = useSWR('token', authfetcher ,{
     dedupingInterval:100000
   });
   // let data  = '';
@@ -19,6 +19,7 @@ const LogIn = () => {
   if (data){
     console.log("already have acc token");
     return <Redirect to="/workspace/sleact/intro"/>
+    // location.href=("/");
   }
 
   return (

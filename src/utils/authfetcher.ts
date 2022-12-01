@@ -5,8 +5,9 @@ var deleteCookie = function(name:string){
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
   }
   
-const authfetcher = (url:string) => {
+ const authfetcher = (url:string) => {
 	const returnArr:string[][] = [];
+	console.log("fetcher data", localStorage.getItem(" refreshToken"));
 	if (!localStorage.getItem(" refreshToken"))
 	{
 		if (document.cookie != ''){
@@ -18,11 +19,15 @@ const authfetcher = (url:string) => {
 			deleteCookie("accessToken");
 			return returnArr[0][1];
 		}
-		else
-			return ;
+		else{
+			console.log("fetcher end", localStorage.getItem(" refreshToken"));
+			return null;
+		}
 	}
-	else
-		return ;
+	else{
+		console.log("fetcher end", localStorage.getItem(" refreshToken"));
+		return null;
+	}
 }
 
 

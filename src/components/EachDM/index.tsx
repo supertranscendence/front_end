@@ -15,7 +15,8 @@ import { Stack } from '@mui/system';
 
 const grey_color = grey[50];
 interface Props {
-  member: IUser;
+  // member: IUser;
+  member: {name:string,kg:number,email:string};
   isOnline: boolean;
 }
 
@@ -25,14 +26,14 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
   const { data: userData } = useSWR<IUser>('api/users', fetcher, {
     dedupingInterval: 2000, //x 2초
   });
-  const date = localStorage.getItem(`${workspace}-${member.id}`) || 0;
+  const date = localStorage.getItem(`${workspace}-${member.kg}`) || 0;
   const { data: count, mutate } = useSWR<number>(
-    userData ? `api/workspaces/${workspace}/dms/${member.id}/unreads?after=${date}` : null,
+    userData ? `api/workspaces/${workspace}/dms/${member.kg}/unreads?after=${date}` : null,
     fetcher,
   );
 
   useEffect(() => {
-    if (location.pathname === `/workspace/${workspace}/dm/${member.id}`) {
+    if (location.pathname === `/workspace/${workspace}/dm/${member.kg}`) {
       mutate(0);
     }
   }, [mutate, location.pathname, workspace, member]);
@@ -96,8 +97,8 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
           </StyledBadge>
         </ListItemAvatar>
           {/*<NavLink key={member.id} activeClassName="selected" to={`/workspace/${workspace}/dm/${member.id}`}>*/}
-          <ListItemText className={count && count > 0 ? 'bold' : undefined}>{member.nickname}</ListItemText>
-          {member.id === userData?.id && <span> (나)</span>}
+          <ListItemText className={count && count > 0 ? 'bold' : undefined}>{member.name}</ListItemText>
+          {member.kg === userData?.id && <span> (나)</span>}
           {(count && count > 0 && <span className="count">{count}</span>) || null}
           {/*</NavLink>*/}
       </ListItemButton>
@@ -111,7 +112,7 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
         }}
       >
         <MenuItem onClick={handleClose}>프로필 보기</MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${member.id}`}>DM 보내기</MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${member.kg}`}>DM 보내기</MenuItem>
         <MenuItem onClick={handleClose}>친구 추가/삭제</MenuItem>
         <MenuItem onClick={handleClose}>음소거하기</MenuItem>
       </Menu>
