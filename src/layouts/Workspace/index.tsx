@@ -2,13 +2,13 @@ import axios from 'axios';
 import React, {FC, useCallback, useState ,useEffect} from 'react';
 import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';
-import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
+import { Link, Redirect, Switch, Route, useParams, NavLink } from 'react-router-dom';
 // import { Header, ProfileImg, RightMenu, WorkspaceWrapper,Workspaces, Channels, Chats, MenuScroll, WorkspaceName, ProfileModal, LogOutButton, WorkspaceButton, AddButton, WorkspaceModal } from '@layouts/Workspace/style';
 import gravatar from "gravatar";
 import loadable from '@loadable/component';
 import Menu from 'src/components/Menu';
 import { IChannel, IUser } from 'src/typings/db';
-import { Label, Input, Button} from 'src/pages/SignUp/styles';
+import { Label, Input} from 'src/pages/SignUp/styles';
 import Modal from 'src/components/Modal'
 import useInput from 'src/hooks/useInput'
 import {toast} from 'react-toastify'
@@ -25,7 +25,7 @@ import {
 	AddButton,
 	Channels,
 	Chats,
-	Header,
+	//Header,
 	LogOutButton,
 	MenuScroll,
 	ProfileImg,
@@ -38,11 +38,10 @@ import {
 	WorkspaceWrapper,
 	InnerHeader
   } from './style';
+import { AppBar, Avatar, Button, Container } from '@mui/material';
 
-
-// const Channel = loadable(() => import ('@pages/Channel') );
 const Intro = loadable(() => import ('src/pages/Intro') );
-// const DirectMessage = loadable(() => import ('@pages/DirectMessage') );
+const Profile = loadable(() => import ('src/pages/Profile') );
 
 
 const Chat = loadable(() => import ('src/pages/ChatChannel') );
@@ -74,19 +73,28 @@ console.log("workspace",localStorage.getItem(" refreshToken"))
 		return <Redirect to="/"/>;
 	}, [localStorage]);
 
-	const onClickUserProfile = useCallback(()=>{
-		setShowUserMenu(!ShowUserMenu);
-	}, [ShowUserMenu]);
+	//const onClickUserProfile = useCallback(()=>{
+	//	setShowUserMenu(!ShowUserMenu);
+	//}, [ShowUserMenu]);
 
+	const onClickUserProfile = () =>{
+		console.log("CLICK PROFILE!")
+		return <Link to ={`/workspace/${workspace}/profile`}/>;
+	};
 
-	
 	return(
 		<div>
-		<Header>JJIRANSENDANCE</Header>
+		<AppBar position="static">
+		<Container>
+		JJIRANSENDANCE
 		<RightMenu>
 			<span onClick={onClickUserProfile}>
 				{/* <ProfileImg src={gravatar.url(userData.email, {s : '50px', d:'retro'})}/> */}
-				유저프로필버튼이여야할것
+				<Avatar
+					component={Link} to={`/workspace/${workspace}/profile`}
+					sx={{ width: 32, height: 32 }}
+				></Avatar>
+				Profile
 				{ShowUserMenu && (
 					<Menu style={{right: 0, top: 38}} show={ShowUserMenu} onCloseModal={onClickUserProfile} >
 					<ProfileModal>
@@ -105,6 +113,8 @@ console.log("workspace",localStorage.getItem(" refreshToken"))
 				)}
 			</span>
 		</RightMenu>
+		</Container>
+		</AppBar>
 		<WorkspaceWrapper>
 			<Channels>
 				<WorkspaceName >jjiransendence!</WorkspaceName>
@@ -116,6 +126,7 @@ console.log("workspace",localStorage.getItem(" refreshToken"))
 			<Chats>
 				<Switch>
 					<Route path = "/workspace/:workspace/intro" component={Intro}/>
+					<Route path = "/workspace/:workspace/profile" component={Profile}/>
 					<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>
                     <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
 					<Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
