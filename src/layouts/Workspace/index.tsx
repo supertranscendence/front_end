@@ -6,7 +6,7 @@ import { Link, Redirect, Switch, Route, useParams, NavLink } from 'react-router-
 // import { Header, ProfileImg, RightMenu, WorkspaceWrapper,Workspaces, Channels, Chats, MenuScroll, WorkspaceName, ProfileModal, LogOutButton, WorkspaceButton, AddButton, WorkspaceModal } from '@layouts/Workspace/style';
 import gravatar from "gravatar";
 import loadable from '@loadable/component';
-import Menu from 'src/components/Menu';
+//import Menu from 'src/components/Menu';
 import { IChannel, IUser } from 'src/typings/db';
 import { Label, Input} from 'src/pages/SignUp/styles';
 import Modal from 'src/components/Modal'
@@ -21,122 +21,125 @@ import ChannelList from 'src/components/ChannelList';
 import authfetcher from 'src/utils/authfetcher';
 // import Intro from '@pages/Intro';
 
+import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
+import { Box, Stack, width } from '@mui/system';
 import {
-	AddButton,
-	Channels,
-	Chats,
-	//Header,
-	LogOutButton,
-	MenuScroll,
-	ProfileImg,
-	ProfileModal,
-	RightMenu,
-	WorkspaceButton,
-	WorkspaceModal,
-	WorkspaceName,
-	Workspaces,
-	WorkspaceWrapper,
-	InnerHeader
+    AddButton,
+    Channels,
+    Chats,
+    //Header,
+    LogOutButton,
+    MenuScroll,
+    ProfileImg,
+    ProfileModal,
+    RightMenu,
+    WorkspaceButton,
+    WorkspaceModal,
+    WorkspaceName,
+    Workspaces,
+    WorkspaceWrapper,
+    InnerHeader
   } from './style';
-import { AppBar, Avatar, Button, Container } from '@mui/material';
 
 const Intro = loadable(() => import ('src/pages/Intro') );
 const Profile = loadable(() => import ('src/pages/Profile') );
-
-
 const Chat = loadable(() => import ('src/pages/ChatChannel') );
 const Game = loadable(() => import ('src/pages/GameChannel') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 
 interface Props {
-	children:any
+    children:any
   }
 const Workspace:FC<Props> = ({children}) =>
 {
-	const {workspace} = useParams<{workspace:string}>();
-	const {data, mutate} = useSWR('token', authfetcher ,{
-    	dedupingInterval:100000
+    const {workspace} = useParams<{workspace:string}>();
+    const {data, mutate} = useSWR('token', authfetcher ,{
+        dedupingInterval:100000
   });
 
-console.log("workspace",localStorage.getItem(" refreshToken"))
-	if ( !localStorage.getItem(" refreshToken") )
-	{
-		console.log("return /");
-		return <Redirect to="/"/>;
-	}
-	const [ShowUserMenu,setShowUserMenu] = useState(false);
-	const onLogout = useCallback(()=>
-	{
-		localStorage.removeItem(" refreshToken");
-		// mutate();
-		return <Redirect to="/"/>;
-	}, [localStorage]);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleOpenProfileMenu = (event:any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-	//const onClickUserProfile = useCallback(()=>{
-	//	setShowUserMenu(!ShowUserMenu);
-	//}, [ShowUserMenu]);
+    console.log("workspace",localStorage.getItem(" refreshToken"))
+    if ( !localStorage.getItem(" refreshToken") )
+    {
+        console.log("return /");
+        return <Redirect to="/"/>;
+    }
+    const [ShowUserMenu,setShowUserMenu] = useState(false);
+    const onLogout = useCallback(()=>
+    {
+        localStorage.removeItem(" refreshToken");
+        // mutate();
+        return <Redirect to="/"/>;
+    }, [localStorage]);
 
-	const onClickUserProfile = () =>{
-		console.log("CLICK PROFILE!")
-		return <Link to ={`/workspace/${workspace}/profile`}/>;
-	};
+    const onClickUserProfile = useCallback(()=>{
+    	setShowUserMenu(!ShowUserMenu);
+    }, [ShowUserMenu]);
 
-	return(
-		<div>
-		<AppBar position="static">
-		<Container>
-		JJIRANSENDANCE
-		<RightMenu>
-			<span onClick={onClickUserProfile}>
-				{/* <ProfileImg src={gravatar.url(userData.email, {s : '50px', d:'retro'})}/> */}
-				<Avatar
-					component={Link} to={`/workspace/${workspace}/profile`}
-					sx={{ width: 32, height: 32 }}
-				></Avatar>
-				Profile
-				{ShowUserMenu && (
-					<Menu style={{right: 0, top: 38}} show={ShowUserMenu} onCloseModal={onClickUserProfile} >
-					<ProfileModal>
-						{/* <img src = {gravatar.url(userData.email, {s : '50px', d:'retro'})} alt="" /> */}
-						<div>
-							<span id = "profile-name">
-								{/* {userData.nickname} */}
-							</span>
-							<span id = "profile-active">
-								Active
-							</span>
-						</div>
-					</ProfileModal>
-					<LogOutButton onClick={onLogout}>로그아웃</LogOutButton>
-				</Menu>
-				)}
-			</span>
-		</RightMenu>
-		</Container>
-		</AppBar>
-		<WorkspaceWrapper>
-			<Channels>
-				<WorkspaceName >jjiransendence!</WorkspaceName>
-				<MenuScroll>
-				<ChannelList />
-				<DMList />
-				</MenuScroll>
-			</Channels>
-			<Chats>
-				<Switch>
-					<Route path = "/workspace/:workspace/intro" component={Intro}/>
-					<Route path = "/workspace/:workspace/profile" component={Profile}/>
-					<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>
-                    <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
-					<Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
-                    <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
-                    <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
-				</Switch>
-			</Chats>
-		</WorkspaceWrapper>
-		</div>
-	)
+    //const onClickUserProfile = () =>{
+    //    console.log("CLICK PROFILE!")
+
+    //};
+
+    return(
+      <div>
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Box sx={{ flexGrow: 1 }}>
+              <h2>jjiransendence!</h2>
+            </Box>
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={handleOpenProfileMenu} sx={{ p: 0 }}>
+                <Avatar />
+              </IconButton>
+              <Menu
+                id="menu-profile"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+                >
+                <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile`}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>Logout</MenuItem>
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <WorkspaceWrapper>
+          <Channels>
+              <WorkspaceName >jjiransendence!</WorkspaceName>
+              <MenuScroll>
+              <ChannelList />
+              <DMList />
+              </MenuScroll>
+          </Channels>
+          <Chats>
+            <Switch>
+              <Route path = "/workspace/:workspace/intro" component={Intro}/>
+              <Route path = "/workspace/:workspace/profile" component={Profile}/>
+              <Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>
+              <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
+              <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
+              <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
+              <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
+            </Switch>
+          </Chats>
+      </WorkspaceWrapper>
+      </div>
+    )
 
 }
 export default Workspace;

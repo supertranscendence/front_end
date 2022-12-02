@@ -1,11 +1,13 @@
-import { Error, Form, Header, Input, Label, LinkContainer } from 'src/pages/SignUp/styles';
+//import { Error, Form, Header, Input, Label, LinkContainer } from 'src/pages/SignUp/styles';
 import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
 import React, { useCallback, useState } from 'react';
 import authfetcher from 'src/utils/authfetcher';
+import { Avatar, Button, Container } from '@mui/material';
+import { Box, Stack } from '@mui/system';
 
-const LogIn = () => {  
-  
+const LogIn = () => {
+
   const {data} = useSWR('token', authfetcher ,{
     dedupingInterval:100000
   });
@@ -22,15 +24,32 @@ const LogIn = () => {
   }
 
   return (
-    <div id="container">
-      <Header>Jiiranscendence</Header>
-       <button onClick={()=>{
-            window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
-        }}>기리네로 가보자</button>
-       <button onClick={()=>{
-         window.location.href = "http://127.0.0.1:3000/api/auth/ft/redirect";
-        }}>로컬 백엔드로 가보자</button>
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{
+            marginTop: 15,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+        <Stack spacing={1}>
+          <Avatar/>
+          <h1>Jjiranscendence</h1>
+          <Stack/>
+          <Button
+              variant='outlined'
+              onClick={()=>{
+                window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+            }}>기리네로 로그인</Button>
+          <Button
+              variant='outlined'
+              onClick={()=>{
+                window.location.href = "http://127.0.0.1:3000/api/auth/ft/redirect";
+            }}>로컬 백엔드로 로그인</Button>
+        </Stack>
+      </Box>
+
+    </Container>
   );
 };
 

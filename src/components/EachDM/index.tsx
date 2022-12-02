@@ -79,7 +79,6 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
   return (
     <List>
       <ListItemButton
-        aria-label="cancle"
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
