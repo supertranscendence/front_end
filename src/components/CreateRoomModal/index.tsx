@@ -4,7 +4,7 @@ import {Label, Input, Button} from 'src/pages/SignUp/styles';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import {toast} from 'react-toastify'
 import fetcher from 'src/utils/fetcher'
 import useSWR from 'swr'
@@ -36,6 +36,7 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
     console.log("createRoom!",newRoom );
     socket?.emit("create-room", newRoom, clearModal);
     socket?.on("helloRoom", (str:string)=>console.log(str));
+    // return (<Redirect to= {`/workspace/sleact/channel/Chat/${newRoom}`}/>);
   }, [newRoom]);
 
   if (!show) {

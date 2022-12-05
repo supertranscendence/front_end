@@ -20,6 +20,7 @@ import loadable from '@loadable/component';
 // import Modal from '@components/Modal'
 import CreateChannelModal from 'src/components/CreateRoomModal'
 import getRoomInfo from 'src/utils/getRoomInfo'
+import roomfetcher from 'src/utils/roomfetcher'
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const ChatChannel = () => {
@@ -27,6 +28,7 @@ const { workspace } = useParams<{ workspace?: string }>();
 const [socket] = useSocket(workspace);
 const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
 const [newRoomFlag, setNewRoomFlag] = useState(false);
+const [redirectRoom, setRedirectRoom] = useState('');
 
 const onClickAddRoom = useCallback(() => {
   setShowCreateRoomModal(true);
@@ -37,28 +39,39 @@ const onCloseModal = useCallback(() => {
 }, []);
 
 const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
+// const [data] = useSWR("roomFlag", roomfetcher);
+const enterRoom = useCallback( (e:any)=> {
+// console.log("roooooooomname :" ,e.target.name.value,e.target.name,e.target.name )
+  socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
+    // location.href = `/workspace/sleact/channel/Chat/${e.target.name}`;
+    <Redirect to= {`/workspace/sleact/channel/Chat/${e.target.name}`}/>
+  })
+},[])
 
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
   console.log("publicRooms", publicRooms);
+  
   setRoomArr( [...publicRooms.map((_name)=>{
           return {
              name: _name,
              roomType:"public",
              currCnt: 1,
-             enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button>입장</button></Link>
+             enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button name={_name} onClick={enterRoom}>입장</button></Link>
          }})
       ])
       console.log("roomArr", roomArr);
 });
 console.log("room arr:", roomArr);
-}, [newRoomFlag]);
+}, [newRoomFlag, socket]);
 
 useEffect(()=>{
-  socket?.on("new-room-created", ()=>{
-  setNewRoomFlag(newRoomFlag => !newRoomFlag);
+  socket?.on("new-room-created", (room:string)=>{
+    setNewRoomFlag(newRoomFlag => !newRoomFlag);
+    console.log(`/workspace/sleact/channel/Chat/${room}`);
+    setRedirectRoom(()=>room);
   });
-},[]);
+},[socket,setNewRoomFlag]);
 
 
 const columns = useMemo(
@@ -82,6 +95,8 @@ const columns = useMemo(
     ,],
   []
 );
+if (redirectRoom)
+  return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 
   return (
     <div>
@@ -90,7 +105,7 @@ const columns = useMemo(
         show={showCreateChannelModal}
         onCloseModal={onCloseModal}
         setShowCreateRoomModal={setShowCreateRoomModal}
-      />
+        />
     </div>
   );
 };
