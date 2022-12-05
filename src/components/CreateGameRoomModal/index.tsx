@@ -14,29 +14,29 @@ import useSocket from 'src/hooks/useSocket';
 interface Props {
   show: boolean;
   onCloseModal: () => void;
-  setShowCreateRoomModal : (flag:boolean) => void
+  setShowCreateGameRoomModal : (flag:boolean) => void
 }
-const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowCreateRoomModal }) => {
+const CreateGameRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowCreateGameRoomModal }) => {
   const {data: userData, error, mutate: mutate}  = useSWR<IUser | false>('api/users', fetcher);
-  const[newRoom, onChangeNewRoom, setNewRoom] = useInput('');
+  const[newGameRoom, onChangeNewGameRoom, setNewGameRoom] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
   const [socket] = useSocket(workspace);
 
   const clearModal = useCallback(()=>{
     mutate();
-    setNewRoom("");
-    setShowCreateRoomModal(false);
+    setNewGameRoom("");
+    setShowCreateGameRoomModal(false);
   },[]);
   const onCreateRoom = useCallback((e:any) => {
     e.preventDefault();
-    if (!newRoom || !newRoom.trim()) {
+    if (!newGameRoom || !newGameRoom.trim()) {
       return;
     }
-    console.log("createRoom!",newRoom );
-    socket?.emit("create-room", newRoom, clearModal);
-    socket?.on("helloRoom", (str:string)=>console.log(str));
-  }, [newRoom]);
+    console.log("createGameRoom!",newGameRoom );
+    socket?.emit("create-game-room", newGameRoom, clearModal);
+    //socket?.on("helloRoom", (str:string)=>console.log(str));
+  }, [newGameRoom]);
 
   if (!show) {
     return null;
@@ -45,8 +45,8 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
     <Modal show = {show} onCloseModal={onCloseModal}>
     <form onSubmit={onCreateRoom}>
     <Label id="room-create">
-      <span>방이름</span>
-      <Input id="room" value={newRoom} onChange={onChangeNewRoom}/>
+      <span>게임방 이름</span>
+      <Input id="game_room" value={newGameRoom} onChange={onChangeNewGameRoom}/>
     </Label>
     <Button type="submit">생성</Button>
     </form>
@@ -54,4 +54,4 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
   );
 };
 
-export default CreateRoomModal;
+export default CreateGameRoomModal;

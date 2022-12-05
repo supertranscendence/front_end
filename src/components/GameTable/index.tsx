@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { PropsWithChildren, FC } from "react";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,16 +13,6 @@ import { Button, ButtonGroup, Icon, SvgIcon, Box } from '@mui/material';
 import { Route, Redirect, Link, useParams } from 'react-router-dom';
 import UserMenu from 'src/components/UserMenu';
 import loadable from '@loadable/component';
-
-function createData(
-  name: string,
-  isprivate: boolean,
-  host: string,
-  slot: number,
-  observer: number
-) {
-  return { name, isprivate, host, slot, observer};
-}
 
 const rows = [
   createData('헌터 1:1 초보만', true, 'jisokang', 1, 0),
@@ -48,7 +39,22 @@ const moveToGameRoom = () =>
 const MAX_SLOT = 2;
 const MAX_OBSERVER = 4;
 
-export default function GameTable() {
+function createData(
+  name: string,
+  isprivate: boolean,
+  host: string,
+  slot: number,
+  observer: number
+) {
+  return { name, isprivate, host, slot, observer};
+}
+
+interface Props {
+  data: any;
+}
+
+//export default function GameTable() {
+const GameTable: FC<PropsWithChildren<Props>> = ({ data }) =>  {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
   return (
     <TableContainer component={Paper}>
@@ -95,3 +101,5 @@ export default function GameTable() {
     </TableContainer>
   );
 }
+
+export default GameTable;
