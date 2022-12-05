@@ -46,6 +46,12 @@ module.exports = (server, app) => {
       fx(publicRooms(socket));
     });
     
+    soocket.on("newMsg", (newMsgObj, done) =>{
+      console.log("newMsg getto", newMsgObj);
+      done();
+			soocket.to(newMsgObj.room).emit("newMsg", `${newMsgObj.name}: ${newMsgObj.msg}`);
+		});
+    
 
     
     socket.on("create-room", (room,fx) => {

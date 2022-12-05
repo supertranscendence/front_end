@@ -1,176 +1,227 @@
-import ChatBox from 'src/components/ChatBox';
-import ChatList from 'src/components/ChatList';
-import useInput from 'src/hooks/useInput';
+// import ChatBox from 'src/components/ChatBox';
+// import ChatList from 'src/components/ChatList';
+// import useInput from 'src/hooks/useInput';
+// import {Label, Input, Button} from 'src/pages/SignUp/styles';
+// import useSocket from 'src/hooks/useSocket';
+// import { DragOver } from 'src/pages/Channel/styles';
+// import { Header, Container } from 'src/pages/DirectMessage/styles';
+// import { IDM } from 'src/typings/db';
+// import fetcher from 'src/utils/fetcher';
+// import makeSection from 'src/utils/makeSection';
+// import axios from 'axios';
+// import gravatar from 'gravatar';
+// import React, { useCallback, useEffect, useRef, useState } from 'react';
+// import { Scrollbars } from 'react-custom-scrollbars-2';
+// import { useParams } from 'react-router';
+// import { toast } from 'react-toastify';
+// import useSWR from 'swr';
+// import useSWRInfinite from 'swr/infinite';
+
+// const ChatRoom = () => {
+//   const { workspace } = useParams<{ workspace?: string }>();
+//   const scrollbarRef = useRef<Scrollbars>(null);
+//   const [socket] = useSocket(workspace);
+//   const [msgInfo, setMsgInfo] = useState<{user: string; room: string | undefined; msg: any}>({
+//     user: "",
+//     room: "",
+//     msg: ""
+//   });
+  
+//   const { ChatRoom } = useParams<{ ChatRoom?: string }>();
+//   const chatWindow = useRef(null);
+  
+
+//   console.log("Chat",ChatRoom);
+  
+  
+//   // const input = killForm.querySelector("input");
+  
+//   // const addMsg = useCallback((msg:string)=>{
+//   //   const nameForm = msgg.querySelector("#name");
+//   // },[])
+  
+//   const moveScrollToReceiveMessage = useCallback(() => { 
+//     if (chatWindow.current) {
+//       chatWindow.current.scrollTo({
+//         top: chatWindow.current.scrollHeight,
+//         behavior: "smooth",
+//       });
+//     }
+//   }, []);
+  
+//   const addMsg = useCallback(pongData => {
+//     const newMessage = makeMessage(pongData); // makeMessage는 아직 구현하지 않은 함수.
+//     setMessages(messages => [...messages, newMessage]);
+//     moveScrollToReceiveMessage();
+//   },
+//   [moveScrollToReceiveMessage]
+// );
+//   // const resetMsg = useCallback((e:any)=>{
+//   //   setMsgInfo({
+//   //     user: "",
+//   //     room: "",
+//   //     msg: ""
+//   //     }
+//   //   )
+//   // }, []);
+  
+//   const sendMsg = useCallback((e:any)=>{
+//     e.preventDefault();
+//     console.log(e.target.msg.value,"send");
+//     console.log(ChatRoom,"send");
+//     console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
+//     setMsgInfo({
+//         user: "hyopark",
+//         room: ChatRoom,
+//         msg: e.target.msg.value,
+//     }
+//     )
+//     console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
+//     socket?.emit("newMsg", {
+//       user: "hyopark",
+//       room: ChatRoom,
+//       msg: e.target.msg.value,
+//   }, ()=>{e.target.msg.value = ""});
+//   },[]);
+  
+//   // useEffect(()=>{
+//     socket?.on("newMsg", (msg:any) => addMsg(msg) );
+//   // },[])
+  
+//   return (<div>{ChatRoom}
+//     <form onSubmit={sendMsg}>
+//     <input
+//       name="msg"
+//       placeholder="메세지 입력해보슈"
+//       // onChange={onChangeAccount}
+//     />
+//       <button></button>
+//     </form>
+//     <ul>
+//     </ul>
+//     </div>  
+//   );
+// };
+
+// export default ChatRoom;
+
+
+
+
+import React,{ useState, useCallback, useEffect, useContext, useRef } from "react";
+
 import useSocket from 'src/hooks/useSocket';
-import { DragOver } from 'src/pages/Channel/styles';
-import { Header, Container } from 'src/pages/DirectMessage/styles';
-import { IDM } from 'src/typings/db';
-import fetcher from 'src/utils/fetcher';
-import makeSection from 'src/utils/makeSection';
-import axios from 'axios';
-import gravatar from 'gravatar';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import useSWR from 'swr';
-import useSWRInfinite from 'swr/infinite';
+import { ChatArea } from "@components/ChatBox/styles";
+const ChatRoom = () => {
 
-const PAGE_SIZE = 20;
-const DirectMessage = () => {
-  // const { workspace, id } = useParams<{ workspace: string; id: string }>();
-  // const [socket] = useSocket(workspace);
-  // const { data: myData } = useSWR('/api/users', fetcher);
-  // const { data: userData } = useSWR(`/api/workspaces/${workspace}/users/${id}`, fetcher);
-  // const [chat, onChangeChat, setChat] = useInput('');
-  // const scrollbarRef = useRef<Scrollbars>(null);
-  // const [dragOver, setDragOver] = useState(false);
-
-  // const isEmpty = chatData?.[0]?.length === 0;
-  // const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < PAGE_SIZE);
-
-  // const onSubmitForm = useCallback(
-  //   (e:any) => {
-  //     e.preventDefault();
-  //     if (chat?.trim() && chatData) {
-  //       const savedChat = chat;
-  //       mutateChat((prevChatData) => {
-  //         prevChatData?.[0].unshift({
-  //           id: (chatData[0][0]?.id || 0) + 1,
-  //           content: savedChat,
-  //           SenderId: myData.id,
-  //           Sender: myData,
-  //           ReceiverId: userData.id,
-  //           Receiver: userData,
-  //           createdAt: new Date(),
-  //         });
-  //         return prevChatData;
-  //       }, false).then(() => {
-  //         localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
-  //         setChat('');
-  //         if (scrollbarRef.current) {
-  //           console.log('scrollToBottom!', scrollbarRef.current?.getValues());
-  //           scrollbarRef.current.scrollToBottom();
-  //         }
-  //       });
-  //       axios
-  //         .post(`/api/workspaces/${workspace}/dms/${id}/chats`, {
-  //           content: chat,
-  //         })
-  //         .catch(console.error);
-  //     }
-  //   },
-  //   [chat, workspace, id, myData, userData, chatData, mutateChat, setChat],
-  // );
-
-  // const onMessage = useCallback(
-  //   (data: IDM) => {
-  //     if (data.SenderId === Number(id) && myData.id !== Number(id)) {
-  //       mutateChat((chatData) => {
-  //         chatData?.[0].unshift(data);
-  //         return chatData;
-  //       }, false).then(() => {
-  //         if (scrollbarRef.current) {
-  //           if (
-  //             scrollbarRef.current.getScrollHeight() <
-  //             scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
-  //           ) {
-  //             console.log('scrollToBottom!', scrollbarRef.current?.getValues());
-  //             setTimeout(() => {
-  //               scrollbarRef.current?.scrollToBottom();
-  //             }, 100);
-  //           } else {
-  //             toast.success('새 메시지가 도착했습니다.', {
-  //               onClick() {
-  //                 scrollbarRef.current?.scrollToBottom();
-  //               },
-  //               closeOnClick: true,
-  //             });
-  //           }
-  //         }
-  //       });
-  //     }
-  //   },
-  //   [id, myData, mutateChat],
-  // );
-
-  // useEffect(() => {
-  //   socket?.on('dm', onMessage);
-  //   return () => {
-  //     socket?.off('dm', onMessage);
-  //   };
-  // }, [socket, onMessage]);
-
-  // useEffect(() => {
-  //   localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
-  // }, [workspace, id]);
-
-  // const onDrop = useCallback(
-  //   (e:any) => {
-  //     e.preventDefault();
-  //     console.log(e);
-  //     const formData = new FormData();
-  //     if (e.dataTransfer.items) {
-  //       // Use DataTransferItemList interface to access the file(s)
-  //       for (let i = 0; i < e.dataTransfer.items.length; i++) {
-  //         // If dropped items aren't files, reject them
-  //         if (e.dataTransfer.items[i].kind === 'file') {
-  //           const file = e.dataTransfer.items[i].getAsFile();
-  //           console.log('... file[' + i + '].name = ' + file.name);
-  //           formData.append('image', file);
-  //         }
-  //       }
-  //     } else {
-  //       // Use DataTransfer interface to access the file(s)
-  //       for (let i = 0; i < e.dataTransfer.files.length; i++) {
-  //         console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
-  //         formData.append('image', e.dataTransfer.files[i]);
-  //       }
-  //     }
-  //     axios.post(`/api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
-  //       setDragOver(false);
-  //       localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
-  //       mutateChat();
-  //     });
-  //   },
-  //   [workspace, id, mutateChat],
-  // );
-
-  // const onDragOver = useCallback((e:any) => {
-  //   e.preventDefault();
-  //   console.log(e);
-  //   setDragOver(true);
-  // }, []);
-
-  // if (!userData || !myData) {
-  //   return null;
-  // }
-
-  // const chatSections = makeSection(chatData ? ([] as IDM[]).concat(...chatData).reverse() : []);
-
-  return (<div>asdasd</div>
-    // <Container onDrop={onDrop} onDragOver={onDragOver}>
-    //   <Header>
-    //     <img src={gravatar.url(userData.email, { s: '24px', d: 'retro' })} alt={userData.nickname} />
-    //     <span>{userData.nickname}</span>
-    //   </Header>
-    //   <ChatList
-    //     scrollbarRef={scrollbarRef}
-    //     isReachingEnd={isReachingEnd}
-    //     isEmpty={isEmpty}
-    //     chatSections={chatSections}
-    //     setSize={setSize}
-    //   />
-    //   <ChatBox
-    //     onSubmitForm={onSubmitForm}
-    //     chat={chat}
-    //     onChangeChat={onChangeChat}
-    //     placeholder={`Message ${userData.nickname}`}
-    //     data={[]}
-    //   />
-    //   {dragOver && <DragOver>업로드!</DragOver>}
-    // </Container>
+  const { ChatRoom } = useParams<{ ChatRoom?: string }>();
+  const [socket] = useSocket("sleact");
+  const [messages, setMessages] = useState<{room: string, user: string, msg: string}[]>([]);
+  const chatWindow:any = useRef(null);
+  // const [msgInfo, setMsgInfo] = useState<{user: string; room: string | undefined; msg: any}>({
+      //   user: "",
+      //   room: "",
+      //   msg: ""
+      // });
+  // 새 메시지를 받으면 스크롤을 이동하는 함수
+  const moveScrollToReceiveMessage = useCallback(() => { 
+    
+    if (chatWindow.current) {
+      chatWindow.current.scrollTo({
+        top: chatWindow.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, []);
+  const handleReceiveMessage = useCallback((pongData:any) => {
+    const newMessage =pongData; // makeMessage는 아직 구현하지 않은 함수.
+      console.log("pongData", pongData);
+      // console.log("pongData", newMessage);
+      setMessages((msg)=>[...msg.map((str)=>{
+        return str}),newMessage]);
+      console.log("messssss",messages);
+      moveScrollToReceiveMessage();
+    },
+    [moveScrollToReceiveMessage ]
   );
-};
+  
+  
 
-export default DirectMessage;
+const setMyMsg = (str:string) => {
+if (ChatRoom)
+  setMessages((msg)=>[...msg.map((str)=>{
+    return str}),
+    {
+      room : ChatRoom,
+      user: "it's me",
+      msg : str
+    }
+    ]);
+}
+  
+
+  const sendMsg = useCallback((e:any)=>{
+    e.preventDefault();
+    console.log(e.target.msg.value,"send");
+    console.log(ChatRoom,"send");
+    // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
+    // setMsgInfo({
+    //     user: "hyopark",
+    //     room: ChatRoom,
+    //     msg: e.target.msg.value,
+    // }
+    // )
+    // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
+    socket?.emit("newMsg", {
+      user: "hyopark",
+      room: ChatRoom,
+      msg: e.target.msg.value,
+  }, );
+  setMyMsg(e.target.msg.value);
+  e.target.msg.value = "";
+  },[socket]);
+  
+  useEffect(() => {
+    socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) ); 
+  }, [socket, handleReceiveMessage]);
+  
+  return (
+    <div className="d-flex flex-column" style={{ width: 1000 }}>
+      <div className="text-box">
+        <span>{"hyopark"}</span> 님 환영합니다!
+      </div>
+      <div
+        className="chat-window card"
+        ref={chatWindow}
+      >
+      <div>{ChatRoom}
+     <form onSubmit={sendMsg}>
+     <input
+       name="msg"
+       placeholder="메세지 입력해보슈"
+       // onChange={onChangeAccount}
+     />
+       <button></button>
+     </form>
+     <ul>
+     </ul>
+     </div>  
+     메세지 나와라 뚝딲!
+        {messages.map((message, index) => { 
+          const { room, user, msg } = message;
+          // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
+          return (
+            <div key={index} className="d-flex flex-row">
+              {msg && <div className="message-user">{user}: </div>}
+              <div>{msg}</div>
+              {/* <div className="time">{message}</div> */}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default ChatRoom;
