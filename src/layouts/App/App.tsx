@@ -1,13 +1,10 @@
 import React from 'react';
 import loadable from '@loadable/component';
 import {Switch, Route, Redirect } from 'react-router-dom';
-// import orkspaces } from '@layouts/Workspace';
-// import DirectMessage from '@pages/DirectMessage';
+import Profile from '@pages/Profile';
 
 const Login = loadable(() => import ('src/pages/Login') );
 const SignUp = loadable(() => import ('src/pages/SignUp') );
-// const Channel = loadable(() => import ('@pages/Channel') );
-// const DirectMessage = loadable(() => import ('@pages/DirectMessage') );
 const Workspaces = loadable(() => import ('src/layouts/Workspace/index') );
 
 

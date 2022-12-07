@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 export const RightMenu = styled.div`
   float: right;
+
 `;
 
 export const Header = styled.header`
