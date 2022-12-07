@@ -53,10 +53,8 @@ interface Props {
   }
 const Workspace:FC<Props> = ({children}) =>
 {
-    const {workspace} = useParams<{workspace:string}>();
-    const {data, mutate} = useSWR('token', authfetcher ,{
-        dedupingInterval:100000
-  });
+	const {workspace} = useParams<{workspace:string}>();
+	const {data, mutate} = useSWR('token', authfetcher);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -67,23 +65,31 @@ const Workspace:FC<Props> = ({children}) =>
     setAnchorEl(null);
   };
 
-    console.log("workspace",localStorage.getItem(" refreshToken"))
-    if ( !localStorage.getItem(" refreshToken") )
-    {
-        console.log("return /");
-        return <Redirect to="/"/>;
-    }
-    const [ShowUserMenu,setShowUserMenu] = useState(false);
-    const onLogout = useCallback(()=>
-    {
-        localStorage.removeItem(" refreshToken");
-        // mutate();
-        return <Redirect to="/"/>;
-    }, [localStorage]);
+  console.log("workspace",localStorage.getItem(" refreshToken"))
+	if ( !localStorage.getItem(" refreshToken") )
+	{
+		console.log("return /");
+		location.href ="/";
+		// return <Redirect to="/"/>;
+	}
+	const [ShowUserMenu,setShowUserMenu] = useState(false);
+	const onLogout = useCallback(()=>
+	{
+		localStorage.removeItem(" refreshToken");
+		mutate(null);
 
-    const onClickUserProfile = useCallback(()=>{
-    	setShowUserMenu(!ShowUserMenu);
-    }, [ShowUserMenu]);
+		console.log("data", data,"tokken",localStorage.getItem(" refreshToken"));
+		setShowUserMenu(ShowUserMenu => false);
+		return <Redirect to="/"/>;
+	}, [localStorage]);
+
+	//const onClickUserProfile = useCallback(()=>{
+	//	setShowUserMenu(ShowUserMenu => !ShowUserMenu);
+	//}, [ShowUserMenu]);
+
+  //  const onClickUserProfile = useCallback(()=>{
+  //  	setShowUserMenu(!ShowUserMenu);
+  //  }, [ShowUserMenu]);
 
     //const onClickUserProfile = () =>{
     //    console.log("CLICK PROFILE!")

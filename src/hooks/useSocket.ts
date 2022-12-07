@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { io, Socket } from 'socket.io-client'
 
-const backUrl = 'http://localhost:3095';
+const backUrl = 'http://localhost:3000';
 
 const sockets: { [key: string]: Socket } = {};
 const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
@@ -15,7 +15,7 @@ const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
     return [undefined, disconnect];
   }
   if (!sockets[workspace]) {
-    sockets[workspace] = io(`${backUrl}/ws-${workspace}`, {
+    sockets[workspace] = io(`${backUrl}`, {
       transports: ['websocket'],
     });
     console.info('create socket', workspace, sockets[workspace]);
