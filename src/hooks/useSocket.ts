@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { io, Socket } from 'socket.io-client'
 
-const backUrl = 'https://server.gilee.click';
+const backUrl = 'https://gilee.click';
 
 const sockets: { [key: string]: Socket } = {};
 const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
