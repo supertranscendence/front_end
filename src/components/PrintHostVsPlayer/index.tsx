@@ -6,9 +6,9 @@ import fetcher from 'src/utils/fetcher';
 import useSWR from "swr";
 
 const PrintHostVsPlayer = () => {
-	const { data: member } = useSWR<IUser>('api/users', fetcher, {
-    	dedupingInterval: 2000, // 2초
-  	});
+	//const { data: member } = useSWR<IUser>('api/users', fetcher, {
+    //	dedupingInterval: 2000, // 2초
+  	//});
 	return(
 		<Stack direction="row" justifyContent="space-between">
 			<div>
@@ -18,7 +18,8 @@ const PrintHostVsPlayer = () => {
 			<h3> VS </h3>
 			<div>
 				<Avatar/>
-				<b>{member?.nickname}</b>
+				{/*<b>{member?.nickname}</b>*/}
+				<b>namename</b>
 			</div>
 		</Stack>
 	);

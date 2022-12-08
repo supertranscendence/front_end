@@ -1,7 +1,7 @@
 import Table from "src/components/Table";
 import ChatBox from 'src/components/ChatBox';
 import ChatList from 'src/components/ChatList';
-import InviteChannelModal from 'src/components/InviteChannelModal';
+//import InviteChannelModal from 'src/components/InviteChannelModal';
 import useInput from 'src/hooks/useInput';
 import useSocket from 'src/hooks/useSocket';
 import { Header, Container, DragOver } from 'src/pages/Channel/styles';
@@ -51,7 +51,7 @@ const enterRoom = useCallback( (e:any)=> {
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
   console.log("publicRooms", publicRooms);
-  
+
   setRoomArr( [...publicRooms.map((_name)=>{
           return {
              name: _name,
