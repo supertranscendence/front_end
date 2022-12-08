@@ -25,6 +25,10 @@ const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
     console.log("auth token:", 'Bearer ' + data);
     sockets[workspace] = io(`${backUrl}`, {
       transports: ['websocket'],
+      auth: {
+        token:'Bearer '+ data,
+        authorization:'Bearer '+ data
+      },
       extraHeaders: {
         authorization: 'Bearer ' + data,
         // "Sec-WebSocket-Protocol": "chat",
