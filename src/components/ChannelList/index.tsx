@@ -15,14 +15,14 @@ interface Props {
 const ChannelList: FC<Props> = () => {
   const { workspace } = useParams<{ workspace?: string }>();
   const [channelCollapse, setChannelCollapse] = useState(false);
-  const { data: userData } = useSWR<IUser>('api/users', fetcher, {
-    dedupingInterval: 2000, // 2초
-  });
+  //const { data: userData } = useSWR<IUser>('api/users', fetcher, {
+  //  dedupingInterval: 2000, // 2초
+  //});
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
-  
+
   const chat:IChannel  = {name:"Chat", WorkspaceId:-1, id:-1, private:false};
   const game:IChannel  = {name:"Game", WorkspaceId:-1, id:-1, private:false};
    const gameroom:IChannel  = {name:"GameRoom", WorkspaceId:-1, id:-1, private:false};
