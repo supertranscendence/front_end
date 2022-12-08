@@ -17,9 +17,9 @@ const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
   if (!sockets[workspace]) {
     sockets[workspace] = io(`${backUrl}`, {
       transports: ['websocket'],
-      extraHeaders: {
-     "Sec-WebSocket-Protocol": "chat, superchat"
-  }
+//       extraHeaders: {
+//      "Sec-WebSocket-Protocol": "chat, superchat"
+//   }
     });
     console.info('create socket', workspace, sockets[workspace]);
   }
