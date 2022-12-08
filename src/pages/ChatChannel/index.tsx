@@ -69,7 +69,7 @@ useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
     setNewRoomFlag(newRoomFlag => !newRoomFlag);
     console.log(`/workspace/sleact/channel/Chat/${room}`);
-    setRedirectRoom(()=>room);
+    setRedirectRoom((s)=>room);
   });
 },[socket,setNewRoomFlag]);
 
