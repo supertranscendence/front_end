@@ -63,7 +63,6 @@
     "@types/socket.io-client": "^3.0.0",
     "@types/webpack": "^5.28.0",
     "@types/webpack-dev-server": "^4.0.3",
-    "babel-loader": "^8.2.2",
     "css-loader": "^6.2.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.1.0",

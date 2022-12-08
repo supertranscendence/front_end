@@ -22,6 +22,7 @@ import authfetcher from 'src/utils/authfetcher';
 // import Intro from '@pages/Intro';
 
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Box, Stack, width } from '@mui/system';
 import {
     AddButton,
@@ -41,10 +42,13 @@ import {
     InnerHeader
   } from './style';
 
+//import GamePong from 'src/pages/GamePong/Game';
+
 const Intro = loadable(() => import ('src/pages/Intro') );
 const Profile = loadable(() => import ('src/pages/Profile') );
 const Chat = loadable(() => import ('src/pages/ChatChannel') );
 const Game = loadable(() => import ('src/pages/GameChannel') );
+const GamePong = loadable(() => import ('src/pages/GamePong/Game') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 
@@ -83,26 +87,13 @@ const Workspace:FC<Props> = ({children}) =>
 		return <Redirect to="/"/>;
 	}, [localStorage]);
 
-	//const onClickUserProfile = useCallback(()=>{
-	//	setShowUserMenu(ShowUserMenu => !ShowUserMenu);
-	//}, [ShowUserMenu]);
-
-  //  const onClickUserProfile = useCallback(()=>{
-  //  	setShowUserMenu(!ShowUserMenu);
-  //  }, [ShowUserMenu]);
-
-    //const onClickUserProfile = () =>{
-    //    console.log("CLICK PROFILE!")
-
-    //};
-
     return(
       <div>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1 }}>
-              <h2>jjiransendence!</h2>
+              <h2> Jjiransendence! </h2>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenProfileMenu} sx={{ p: 0 }}>
@@ -126,7 +117,6 @@ const Workspace:FC<Props> = ({children}) =>
       </AppBar>
       <WorkspaceWrapper>
           <Channels>
-              <WorkspaceName >jjiransendence!</WorkspaceName>
               <MenuScroll>
               <ChannelList />
               <DMList />
@@ -140,6 +130,7 @@ const Workspace:FC<Props> = ({children}) =>
               <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
               <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
+              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={GamePong}/>
               <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
             </Switch>
           </Chats>
