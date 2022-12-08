@@ -25,8 +25,8 @@ var deleteCookie = function(name:string){
 		}
 	}
 	else{
-		console.log("fetcher end", localStorage.getItem(" refreshToken"));
-		return null;
+		// console.log("fetcher end", localStorage.getItem(" refreshToken"));
+		// return null;
 	}
 }
 
