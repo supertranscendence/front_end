@@ -106,11 +106,11 @@ const columns = useMemo(
   []
 );
 const fetchch = useCallback(()=>{
-  axios.get("http://3.39.238.148/api/auth/ft/refresh", {
+  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
     headers:{
       Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      "Access-Control-Allow-Origin" : "https://gilee.click",
-      "Access-Control-Allow-Credentials":true
+      // "Access-Control-Allow-Origin" : "https://gilee.click",
+      // "Access-Control-Allow-Credentials":true
       }
   }).then((response) => console.log(response)).catch((err) => console.log(err));
 },[])
