@@ -75,12 +75,6 @@ useEffect(()=>{
   });
 },[socket,setNewRoomFlag]);
 
-useEffect(()=>{
-  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
-  console.log("EXIT in FRONT!");
-});
-
-
 const columns = useMemo(
   () => [
     {
@@ -105,6 +99,10 @@ const columns = useMemo(
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 
+  useEffect(()=>{
+    socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+    console.log("EXIT in FRONT!");
+  });
   return (
     <div>
       <Table columns={columns} data={roomArr} />
