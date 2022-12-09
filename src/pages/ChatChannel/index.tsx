@@ -30,26 +30,48 @@ const enterRoom = useCallback( (e:any)=> {
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
     // location.href = `/workspace/sleact/channel/Chat/${e.target.name}`;
     <Redirect to= {`/workspace/sleact/channel/Chat/${e.target.name}`}/>
+    //TODO: 뒤로가기가 방으로 리다이렉트 되는 이유가 웬지 스테이트를 안바꿔서 그런것같은 예감 다시 초기화 시켜보자!
   })
 },[])
 
+const getJoinedRoom = useCallback((str:string)=>{
+  const arr :string[] = str.split(" ");
+  console.log("arr",arr);
+  console.log("arr.length",arr.length);
+  console.log("arr.length",arr.length);
+  if (arr.length > 1){
+    setJoinedRoom((f)=>true);
+    return ;
+  }
+},[]);
+
+useEffect(()=>{
+  socket?.emit("joinedRoom", getJoinedRoom)
+},[]);
+
+if (joinedRoom)
+{
+  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+  console.log("EXIT in FRONT!");
+}
+    
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
   console.log("publicRooms", publicRooms);
   //socket.on("getExitRoomInfo, ");
   //socket?.emit("ExitRoom",{room:target.name, name:"userinfo"},()=>{})
   setRoomArr( [...publicRooms.map((_name)=>{
-          return {
-             name: _name,
-             roomType:"public",
-             currCnt: 1,
-             enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button name={_name} onClick={enterRoom}>입장</button></Link>
-         }})
+      return {
+          name: _name,
+          roomType:"public",
+          currCnt: 1,
+          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button name={_name} onClick={enterRoom}>입장</button></Link>
+      }})
       ])
       console.log("roomArr", roomArr);
 });
 console.log("room arr:", roomArr);
-}, [newRoomFlag, socket]);
+}, [newRoomFlag, socket, joinedRoom]);
 
 useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
@@ -59,17 +81,6 @@ useEffect(()=>{
     setRedirectRoom((s)=>room);
   });
 },[socket,setNewRoomFlag]);
-
-const getJoinedRoom = useCallback((str:string)=>{
-  const arr :string[] = str.split(" ");
-  if (arr.length > 1){
-    setJoinedRoom((f)=>true);
-  }
-},[]);
-
-useEffect(()=>{
-  socket?.emit("joinedRoom", getJoinedRoom)
-},[]);
 
 const columns = useMemo(
   () => [
@@ -94,13 +105,11 @@ const columns = useMemo(
 );
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
-if (joinedRoom)
-{
-  useEffect(()=>{
-    socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
-    console.log("EXIT in FRONT!");
-  });
-}
+
+  // useEffect(()=>{
+    
+  // }
+  // ,[])
   return (
     <div>
       <Table columns={columns} data={roomArr} />
