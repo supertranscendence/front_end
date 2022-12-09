@@ -109,7 +109,8 @@ const fetchch = useCallback(()=>{
   axios.get("https://server.gilee.click/api/auth/ft/refresh", {
     headers:{
       Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      "Access-Control-Allow-Origin" : "*"
+      "Access-Control-Allow-Origin" : "https://gilee.click",
+      "Access-Control-Allow-Credentials":true
       }
   }).then((response) => console.log(response)).catch((err) => console.log(err));
 },[])
