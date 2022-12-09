@@ -45,16 +45,16 @@ const getJoinedRoom = useCallback((str:string)=>{
   }
 },[]);
 
-useEffect(()=>{
-  socket?.emit("joinedRoom", getJoinedRoom)
-},[]);
+//useEffect(()=>{
+//  socket?.emit("joinedRoom", getJoinedRoom)
+//},[]);
 
-if (joinedRoom)
-{
-  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
-  console.log("EXIT in FRONT!");
-}
-    
+//if (joinedRoom)
+//{
+//  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+//  console.log("EXIT in FRONT!");
+//}
+
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
   console.log("publicRooms", publicRooms);
@@ -107,7 +107,7 @@ if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 
   // useEffect(()=>{
-    
+
   // }
   // ,[])
   return (
