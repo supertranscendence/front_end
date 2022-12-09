@@ -4,6 +4,7 @@ import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import loadable from '@loadable/component';
 import CreateChannelModal from 'src/components/CreateRoomModal'
+import axios from "axios";
 
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
@@ -40,20 +41,21 @@ const getJoinedRoom = useCallback((str:string)=>{
   console.log("arr.length",arr.length);
   console.log("arr.length",arr.length);
   if (arr.length > 1){
-    setJoinedRoom((f)=>true);
+    // setJoinedRoom((f)=>true);
     return ;
   }
 },[]);
 
-//useEffect(()=>{
+// useEffect(()=>{
 //  socket?.emit("joinedRoom", getJoinedRoom)
-//},[]);
+// },[]);
 
-//if (joinedRoom)
-//{
+// if (joinedRoom)
+// {
 //  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+//  setJoinedRoom((f)=>false);
 //  console.log("EXIT in FRONT!");
-//}
+// }
 
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
@@ -103,6 +105,14 @@ const columns = useMemo(
     ,],
   []
 );
+const fetchch = useCallback(()=>{
+  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+    headers:{
+      Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      "Access-Control-Allow-Origin" : "*"
+      }
+  }).then((response) => console.log(response)).catch((err) => console.log(err));
+},[])
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 
@@ -118,6 +128,7 @@ if (redirectRoom)
         onCloseModal={onCloseModal}
         setShowCreateRoomModal={setShowCreateRoomModal}
         />
+        <button onClick={fetchch} > api 불러보기</button>
     </div>
   );
 };
