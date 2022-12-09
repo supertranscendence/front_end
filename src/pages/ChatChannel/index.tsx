@@ -1,26 +1,10 @@
 import Table from "src/components/Table";
-import ChatBox from 'src/components/ChatBox';
-import ChatList from 'src/components/ChatList';
-//import InviteChannelModal from 'src/components/InviteChannelModal';
-import useInput from 'src/hooks/useInput';
 import useSocket from 'src/hooks/useSocket';
-import { Header, Container, DragOver } from 'src/pages/Channel/styles';
-import { IChannel, IChat, IUser } from 'src/typings/db';
-import fetcher from 'src/utils/fetcher';
-import makeSection from 'src/utils/makeSection';
-import axios from 'axios';
 import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
-import { toast, ToastContainer } from 'react-toastify';
-import useSWR from 'swr';
-import useSWRInfinite from 'swr/infinite';
-import { useTable, useGlobalFilter, useSortBy } from "react-table";
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import loadable from '@loadable/component';
-// import Modal from '@components/Modal'
 import CreateChannelModal from 'src/components/CreateRoomModal'
-import getRoomInfo from 'src/utils/getRoomInfo'
-import roomfetcher from 'src/utils/roomfetcher'
+
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const ChatChannel = () => {
@@ -29,6 +13,7 @@ const [socket] = useSocket(workspace);
 const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
 const [newRoomFlag, setNewRoomFlag] = useState(false);
 const [redirectRoom, setRedirectRoom] = useState('');
+const [joinedRoom, setJoinedRoom] = useState(false);
 
 const onClickAddRoom = useCallback(() => {
   setShowCreateRoomModal(true);
@@ -75,6 +60,17 @@ useEffect(()=>{
   });
 },[socket,setNewRoomFlag]);
 
+const getJoinedRoom = useCallback((str:string)=>{
+  const arr :string[] = str.split(" ");
+  if (arr.length > 1){
+    setJoinedRoom((f)=>true);
+  }
+},[]);
+
+useEffect(()=>{
+  socket?.emit("joinedRoom", getJoinedRoom)
+},[]);
+
 const columns = useMemo(
   () => [
     {
@@ -98,11 +94,13 @@ const columns = useMemo(
 );
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
-
+if (joinedRoom)
+{
   useEffect(()=>{
     socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
     console.log("EXIT in FRONT!");
   });
+}
   return (
     <div>
       <Table columns={columns} data={roomArr} />
