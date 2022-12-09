@@ -51,7 +51,8 @@ const enterRoom = useCallback( (e:any)=> {
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
   console.log("publicRooms", publicRooms);
-
+  //socket.on("getExitRoomInfo, ");
+  //socket?.emit("ExitRoom",{room:target.name, name:"userinfo"},()=>{})
   setRoomArr( [...publicRooms.map((_name)=>{
           return {
              name: _name,
@@ -68,10 +69,16 @@ console.log("room arr:", roomArr);
 useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
     setNewRoomFlag(newRoomFlag => !newRoomFlag);
+    console.log("new-room-created: ");
     console.log(`/workspace/sleact/channel/Chat/${room}`);
     setRedirectRoom((s)=>room);
   });
 },[socket,setNewRoomFlag]);
+
+useEffect(()=>{
+  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+  console.log("EXIT in FRONT!");
+});
 
 
 const columns = useMemo(
