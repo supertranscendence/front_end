@@ -106,7 +106,7 @@ const columns = useMemo(
   []
 );
 const fetchch = useCallback(()=>{
-  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+  axios.get("http://3.39.238.148/api/auth/ft/refresh", {
     headers:{
       Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       "Access-Control-Allow-Origin" : "https://gilee.click",
