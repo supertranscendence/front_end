@@ -1,4 +1,11 @@
-import Table from "src/components/Table";
+//import Table from "src/components/Table";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import useSocket from 'src/hooks/useSocket';
 import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
@@ -7,7 +14,8 @@ import CreateChannelModal from 'src/components/CreateRoomModal'
 import axios from "axios";
 import authfetcher from "src/utils/authfetcher";
 import useSWR from "swr";
-
+import { Button, Container, Grid, Stack, Divider } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const ChatChannel = () => {
@@ -150,7 +158,42 @@ else
   socket?.emit("clearRoom");
   return (
     <div>
-      <Table columns={columns} data={roomArr} />
+      <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Game</Button>
+      {/*<Table columns={columns} data={roomArr} />*/}
+      <Container maxWidth="lg">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Room</TableCell>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="right">Room Type</TableCell>
+                <TableCell align="right">Slot </TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {roomArr.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.name}
+                  {/*{isGamePrivate(row.isprivate)}*/}
+                </TableCell>
+                <TableCell align="left">1{row.name}</TableCell>
+                <TableCell align="right">{row.roomType}</TableCell>
+                <TableCell align="right">{row.currCnt}/{4}</TableCell>
+                <TableCell align="right">
+
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
       <CreateChannelModal
         show={showCreateChannelModal}
         onCloseModal={onCloseModal}
