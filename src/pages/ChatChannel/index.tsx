@@ -108,8 +108,9 @@ const columns = useMemo(
 const fetchch = useCallback(()=>{
   axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
+  // auth : 'Bearer ' + localStorage.getItem(" refreshToken"),
     headers:{
-      Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       // "Access-Control-Allow-Origin" : "https://gilee.click",
       // "Access-Control-Allow-Credentials":true
       }
@@ -119,7 +120,7 @@ const fetchch2 = useCallback(()=>{
   axios.get("https://gilee.click/api/auth/ft/revoke", {
   withCredentials:true,
     headers:{
-      Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       // "Access-Control-Allow-Origin" : "https://gilee.click",
       // "Access-Control-Allow-Credentials":true
       }
