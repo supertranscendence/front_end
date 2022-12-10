@@ -118,7 +118,7 @@ const Workspace:FC<Props> = ({children}) =>
                 }}
                 >
                 <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile`}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={onLogout} >Logout</MenuItem>
               </Menu>
             </Box>
           </Toolbar>
