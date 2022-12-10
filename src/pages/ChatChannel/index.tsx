@@ -109,35 +109,39 @@ const columns = useMemo(
 );
 
 const fetchch = useCallback(()=>{
-  axios.get("http://3.39.238.148/api/auth/ft/refresh", {
+  axios.get("https://gilee.click/api/auth/ft/revoke", {
   withCredentials:true,
     headers:{
       // authorization: 'Bearer ' + data,
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      accept: "*/*"
       }
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
 const fetchch2 = useCallback(()=>{
-  axios.get("http://3.39.238.148/api/auth/ft/revoke", {
+  axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      accept: "*/*"
       }
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
 const fetchch3 = useCallback(()=>{
-  axios.get("https://3.39.238.148/api/auth/ft/refresh", {
+  axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      authorization: 'Bearer ' + data,
+      accept: "*/*"
       }
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
 const fetchch4 = useCallback(()=>{
-  axios.get("https://3.39.238.148/api/auth/ft/revoke", {
+  axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      authorization: 'Bearer ' + data,
+      accept: "*/*"
       // authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       }
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
