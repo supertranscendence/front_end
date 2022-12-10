@@ -80,7 +80,7 @@ useEffect(()=>{
           enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button name={_name} onClick={enterRoom}>입장</button></Link>
       }})
       ])
-      console.log("roomArr", roomArr);
+      console.log("roomArr 배열", roomArr);
 });
 console.log("room arr:", roomArr);
 }, [newRoomFlag, socket, joinedRoom]);
