@@ -116,16 +116,16 @@ const fetchch = useCallback(()=>{
       }
   }).then((response) => console.log(response)).catch((err) => console.log(err));
 },[])
-const fetchch2 = useCallback(()=>{
-  axios.get("https://gilee.click/api/auth/ft/revoke", {
-  withCredentials:true,
-    headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      // "Access-Control-Allow-Origin" : "https://gilee.click",
-      // "Access-Control-Allow-Credentials":true
-      }
-  }).then((response) => console.log(response)).catch((err) => console.log(err));
-},[])
+// const fetchch2 = useCallback(()=>{
+//   axios.get("http://127.0.0.1:3000/api/auth/ft/refresh", {
+//   withCredentials:true,
+//     headers:{
+//       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+//       "Access-Control-Allow-Origin" : "https://gilee.click",
+//       "Access-Control-Allow-Credentials":true
+//       }
+//   }).then((response) => console.log(response)).catch((err) => console.log(err));
+// },[])
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 
@@ -142,7 +142,7 @@ if (redirectRoom)
         setShowCreateRoomModal={setShowCreateRoomModal}
         />
         <button onClick={fetchch} > api 불러보기</button>
-        <button onClick={fetchch2} > api2 불러보기</button>
+        {/* <button onClick={fetchch2} > api2 불러보기</button> */}
     </div>
   );
 };
