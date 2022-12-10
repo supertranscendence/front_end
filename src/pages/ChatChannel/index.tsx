@@ -116,23 +116,11 @@ const fetchch = useCallback(()=>{
       }
   }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
-// const fetchch2 = useCallback(()=>{
-//   axios.get("http://127.0.0.1:3000/api/auth/ft/refresh", {
-//   withCredentials:true,
-//     headers:{
-//       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-//       "Access-Control-Allow-Origin" : "https://gilee.click",
-//       "Access-Control-Allow-Credentials":true
-//       }
-//   }).then((response) => console.log(response)).catch((err) => console.log(err));
-// },[])
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
-
-  // useEffect(()=>{
-
-  // }
-  // ,[])
+else
+{
+  socket?.emit("clearRoom");
   return (
     <div>
       <Table columns={columns} data={roomArr} />
@@ -145,6 +133,7 @@ if (redirectRoom)
         {/* <button onClick={fetchch2} > api2 불러보기</button> */}
     </div>
   );
+}
 };
 
 export default ChatChannel;
