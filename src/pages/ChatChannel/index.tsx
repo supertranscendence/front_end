@@ -109,7 +109,7 @@ const columns = useMemo(
 );
 
 const fetchch = useCallback(()=>{
-  axios.get("https://gilee.click/api/auth/ft/refresh", {
+  axios.get("https://gilee.click/api/auth/ft/revoke", {
   withCredentials:true,
     headers:{
       // authorization: 'Bearer ' + data,
@@ -118,7 +118,7 @@ const fetchch = useCallback(()=>{
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
 const fetchch2 = useCallback(()=>{
-  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+  axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -126,7 +126,7 @@ const fetchch2 = useCallback(()=>{
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
 const fetchch3 = useCallback(()=>{
-  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+  axios.get("https://gilee.click/api/auth/ft/revoke", {
   withCredentials:true,
     headers:{
       authorization: 'Bearer ' + data,
