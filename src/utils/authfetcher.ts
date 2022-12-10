@@ -13,10 +13,10 @@ var deleteCookie = function(name:string){
 		if (document.cookie != ''){
 			console.log ("authfetcher call", document.cookie);
 			document.cookie.split(';').forEach((s)=>{returnArr.push(s.split("="))});
-			localStorage.setItem(returnArr[1][0],returnArr[1][1]);
 			// document.cookie = '';
-			deleteCookie(" refreshToken");
+			deleteCookie("refreshToken");
 			deleteCookie("accessToken");
+			localStorage.setItem(returnArr[1][0],returnArr[1][1]);
 			return returnArr[0][1];
 		}
 		else{
