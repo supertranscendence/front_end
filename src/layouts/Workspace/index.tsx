@@ -82,9 +82,9 @@ const Workspace:FC<Props> = ({children}) =>
 	{
     console.log("onLogout 들어감!")
 		localStorage.removeItem(" refreshToken");
+		mutate(null);
 		deleteCookie("refreshToken");
 		deleteCookie("accessToken");
-		mutate(null);
 
 		console.log("data", data,"tokken",localStorage.getItem(" refreshToken"));
 		//setShowUserMenu(ShowUserMenu => false);
