@@ -9,7 +9,7 @@ import App from './layouts/App/App';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
-  process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:3001' : 'http://127.0.0.1:3001';
+  process.env.NODE_ENV === 'production' ? 'https://gilee.click' : 'https://gilee.click';
 
 render(
   <BrowserRouter>
