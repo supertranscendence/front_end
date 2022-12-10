@@ -48,6 +48,10 @@ const Game = loadable(() => import ('src/pages/GameChannel') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 
+var deleteCookie = function(name:string){
+	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+  }
+
 interface Props {
     children:any
   }
@@ -78,6 +82,8 @@ const Workspace:FC<Props> = ({children}) =>
 	{
     console.log("onLogout 들어감!")
 		localStorage.removeItem(" refreshToken");
+		deleteCookie("refreshToken");
+		deleteCookie("accessToken");
 		mutate(null);
 
 		console.log("data", data,"tokken",localStorage.getItem(" refreshToken"));
