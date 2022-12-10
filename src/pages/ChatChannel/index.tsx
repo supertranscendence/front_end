@@ -52,7 +52,7 @@ useEffect(()=>{
  socket?.emit("joinedRoom", getJoinedRoom)
 },[]);
 
-if (joinedRoom)
+if (\)
 {
  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
  setJoinedRoom((f)=>false);
