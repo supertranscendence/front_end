@@ -107,16 +107,42 @@ const columns = useMemo(
     ,],
   []
 );
+
 const fetchch = useCallback(()=>{
   axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
-  // auth : 'Bearer ' + localStorage.getItem(" refreshToken"),
     headers:{
       // authorization: 'Bearer ' + data,
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       }
-  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
+const fetchch2 = useCallback(()=>{
+  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+  withCredentials:true,
+    headers:{
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      }
+  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+},[])
+const fetchch3 = useCallback(()=>{
+  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+  withCredentials:true,
+    headers:{
+      authorization: 'Bearer ' + data,
+      }
+  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+},[])
+const fetchch4 = useCallback(()=>{
+  axios.get("https://gilee.click/api/auth/ft/refresh", {
+  withCredentials:true,
+    headers:{
+      authorization: 'Bearer ' + data,
+      // authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      }
+  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+},[])
+
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 else
@@ -131,7 +157,9 @@ else
         setShowCreateRoomModal={setShowCreateRoomModal}
         />
         <button onClick={fetchch} > api 불러보기</button>
-        {/* <button onClick={fetchch2} > api2 불러보기</button> */}
+        <button onClick={fetchch2} > api2 불러보기</button>
+        <button onClick={fetchch3} > api2 불러보기</button>
+        <button onClick={fetchch4} > api2 불러보기</button>
     </div>
   );
 }
