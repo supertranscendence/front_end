@@ -46,16 +46,16 @@ const getJoinedRoom = useCallback((str:string)=>{
   }
 },[]);
 
-// useEffect(()=>{
-//  socket?.emit("joinedRoom", getJoinedRoom)
-// },[]);
+useEffect(()=>{
+ socket?.emit("joinedRoom", getJoinedRoom)
+},[]);
 
-// if (joinedRoom)
-// {
-//  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
-//  setJoinedRoom((f)=>false);
-//  console.log("EXIT in FRONT!");
-// }
+if (joinedRoom)
+{
+ socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+ setJoinedRoom((f)=>false);
+ console.log("EXIT in FRONT!");
+}
 
 useEffect(()=>{
   socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
@@ -110,7 +110,7 @@ const fetchch = useCallback(()=>{
     headers:{
       Authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       // "Access-Control-Allow-Origin" : "https://gilee.click",
-      // "Access-Control-Allow-Credentials":true
+      "Access-Control-Allow-Credentials":true
       }
   }).then((response) => console.log(response)).catch((err) => console.log(err));
 },[])
