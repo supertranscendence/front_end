@@ -5,7 +5,7 @@ import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import loadable from '@loadable/component';
 import CreateChannelModal from 'src/components/CreateRoomModal'
 import axios from "axios";
-import authfetcher from "@utils/authfetcher";
+import authfetcher from "src/utils/authfetcher";
 import useSWR from "swr";
 
 
