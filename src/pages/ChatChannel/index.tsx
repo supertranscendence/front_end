@@ -114,7 +114,7 @@ const fetchch = useCallback(()=>{
       "Access-Control-Allow-Origin" : "https://gilee.click",
       "Access-Control-Allow-Credentials":true
       }
-  }).then((response) => console.log(response)).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 // const fetchch2 = useCallback(()=>{
 //   axios.get("http://127.0.0.1:3000/api/auth/ft/refresh", {
