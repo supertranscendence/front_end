@@ -5,6 +5,8 @@ import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import loadable from '@loadable/component';
 import CreateChannelModal from 'src/components/CreateRoomModal'
 import axios from "axios";
+import authfetcher from "@utils/authfetcher";
+import useSWR from "swr";
 
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
@@ -25,7 +27,7 @@ const onCloseModal = useCallback(() => {
 }, []);
 
 const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
-// const [data] = useSWR("roomFlag", roomfetcher);
+const {data} = useSWR("token", authfetcher);
 const enterRoom = useCallback( (e:any)=> {
 // console.log("roooooooomname :" ,e.target.name.value,e.target.name,e.target.name )
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
@@ -110,7 +112,8 @@ const fetchch = useCallback(()=>{
   withCredentials:true,
   // auth : 'Bearer ' + localStorage.getItem(" refreshToken"),
     headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      authorization: 'Bearer ' + data,
+      // authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       "Access-Control-Allow-Origin" : "https://gilee.click",
       "Access-Control-Allow-Credentials":true
       }
