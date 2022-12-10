@@ -1,14 +1,15 @@
 
 import React,{ useState, useCallback, useEffect, useContext, useRef } from "react";
 import useSocket from 'src/hooks/useSocket';
-import { useParams } from 'react-router';
 import { ChatArea } from "@components/ChatBox/styles";
 import { userInfo } from "os";
+import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 
 const ChatRoom = () => {
 
   const { ChatRoom } = useParams<{ ChatRoom?: string }>();
   const [socket] = useSocket("sleact");
+  const [returnFlag, setReturnFlag] = useState(false);
   const [messages, setMessages] = useState<{room: string, user: string, msg: string}[]>([]);
   const chatWindow:any = useRef(null);
   // const [msgInfo, setMsgInfo] = useState<{user: string; room: string | undefined; msg: any}>({
@@ -38,8 +39,6 @@ const ChatRoom = () => {
     [moveScrollToReceiveMessage ]
   );
 
-
-
 const setMyMsg = (str:string) => {
 if (ChatRoom)
   setMessages((msg)=>[...msg.map((str)=>{
@@ -50,8 +49,7 @@ if (ChatRoom)
       msg : str
     }
     ]);
-}
-
+  }
 
   const sendMsg = useCallback((e:any)=>{
     e.preventDefault();
@@ -78,6 +76,20 @@ if (ChatRoom)
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
 
+
+const retrunChannel = useCallback(()=>{
+  setReturnFlag((flag)=>true);
+},[])
+const leaveRoom = useCallback(()=>{
+  // useEffect(() => {
+    socket?.emit("leaveRoom", {room:ChatRoom},retrunChannel);
+  // }, [socket]);
+},[]);
+if (returnFlag)
+{
+  return ( <Redirect to= {`/workspace/sleact/channel/Chat`}/>);
+}
+
   return (
     <div className="d-flex flex-column" style={{ width: 1000 }}>
       <div className="text-box">
@@ -94,7 +106,8 @@ if (ChatRoom)
        placeholder="메세지 입력해보슈"
        // onChange={onChangeAccount}
      />
-       <button></button>
+       <button>보내버리기</button>
+       <button onClick={leaveRoom}>나가볼끼?</button>
      </form>
      <ul>
      </ul>
