@@ -112,10 +112,8 @@ const fetchch = useCallback(()=>{
   withCredentials:true,
   // auth : 'Bearer ' + localStorage.getItem(" refreshToken"),
     headers:{
-      authorization: 'Bearer ' + data,
-      // authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      "Access-Control-Allow-Origin" : "https://gilee.click",
-      "Access-Control-Allow-Credentials":true
+      // authorization: 'Bearer ' + data,
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       }
   }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
