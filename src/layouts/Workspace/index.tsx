@@ -68,19 +68,21 @@ const Workspace:FC<Props> = ({children}) =>
   console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
-		console.log("return /");
-		location.href ="/";
+    console.log("if문 들어감!")
+    console.log("return /");
+		location.href ="http://gilee.click/";
 		// return <Redirect to="/"/>;
 	}
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
 	const onLogout = useCallback(()=>
 	{
+    console.log("onLogout 들어감!")
 		localStorage.removeItem(" refreshToken");
 		mutate(null);
 
 		console.log("data", data,"tokken",localStorage.getItem(" refreshToken"));
-		setShowUserMenu(ShowUserMenu => false);
-		return <Redirect to="/"/>;
+		//setShowUserMenu(ShowUserMenu => false);
+		//return <Redirect to="/"/>;
 	}, [localStorage]);
 
 	//const onClickUserProfile = useCallback(()=>{
