@@ -109,14 +109,14 @@ const columns = useMemo(
 );
 
 const fetchch = useCallback(()=>{
-  axios.get("https://gilee.click/api/auth/ft/revoke", {
+  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
       // authorization: 'Bearer ' + data,
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       accept: "*/*"
       }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 const fetchch2 = useCallback(()=>{
   axios.get("https://gilee.click/api/auth/ft/refresh", {
@@ -125,26 +125,26 @@ const fetchch2 = useCallback(()=>{
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       accept: "*/*"
       }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 const fetchch3 = useCallback(()=>{
   axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
-      authorization: 'Bearer ' + data,
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       accept: "*/*"
       }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 const fetchch4 = useCallback(()=>{
   axios.get("https://gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
-      authorization: 'Bearer ' + data,
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       accept: "*/*"
       // authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 
 if (redirectRoom)
