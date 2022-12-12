@@ -25,8 +25,16 @@ var deleteCookie = function(name:string){
 		}
 	}
 	else{
-		// console.log("fetcher end", localStorage.getItem(" refreshToken"));
-		// return null;
+		axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+			withCredentials:true,
+			headers:{
+				authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+				accept: "*/*"
+			}
+			}).then((response) =>{
+				console.log("data",response.data);
+				return (response.data?.act);
+			}).catch((err) => console.log(err));
 	}
 }
 
