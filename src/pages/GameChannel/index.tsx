@@ -27,6 +27,7 @@ return(
     <Container maxWidth="lg">
       <Stack spacing={2}>
         <Stack />
+        <h1>GAME LOBBY</h1>
         <Stack
           direction="row"
           justifyContent="flex-end"

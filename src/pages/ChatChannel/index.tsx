@@ -137,7 +137,7 @@ else
       <Container maxWidth="lg">
         <Stack spacing={2}>
           <Stack/>
-          <h1>Chat Lobby</h1>
+          <h1>CHAT LOBBY</h1>
           <Stack
             direction="row"
             justifyContent="flex-end"
@@ -151,9 +151,9 @@ else
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Room Name</TableCell>
-                <TableCell align="right">Room Type</TableCell>
-                <TableCell align="right">Slot </TableCell>
+                <TableCell><b>Room Name</b></TableCell>
+                <TableCell align="right"><b>Room Type</b></TableCell>
+                <TableCell align="right"><b>Slot</b></TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
             </TableHead>

@@ -34,7 +34,7 @@ function isGamePrivate(
 	props:boolean
 ){
 	if(props == true)
-		return <LockIcon fontSize='small'/>;
+		return "🔒";
 	return'';
 }
 
@@ -55,10 +55,10 @@ export default function GameTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Room</TableCell>
-            <TableCell align="left">Host</TableCell>
-            <TableCell align="right">Slot</TableCell>
-            <TableCell align="right">Observer</TableCell>
+            <TableCell><b>Room</b></TableCell>
+            <TableCell align="left"><b>Host</b></TableCell>
+            <TableCell align="right"><b>Slot</b></TableCell>
+            <TableCell align="right"><b>Observer</b></TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
