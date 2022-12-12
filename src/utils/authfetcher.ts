@@ -17,6 +17,7 @@ var deleteCookie = function(name:string){
 			deleteCookie("refreshToken");
 			deleteCookie("accessToken");
 			localStorage.setItem(returnArr[1][0],returnArr[1][1]);
+			localStorage.setItem(returnArr[0][0],returnArr[0][1]);
 			return returnArr[0][1];
 		}
 		else{
