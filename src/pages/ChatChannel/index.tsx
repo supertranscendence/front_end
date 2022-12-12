@@ -87,7 +87,7 @@ console.log("room arr:", roomArr);
 
 useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
-    setNewRoomFlag(newRoomFlag => !newRoomFlag);
+    setNewRoomFlag(newRoomFlag => true);
     console.log("new-room-created: ");
     console.log(`/workspace/sleact/channel/Chat/${room}`);
     setRedirectRoom((s)=>room);
@@ -117,20 +117,26 @@ const columns = useMemo(
 );
 
 const fetchch = useCallback(()=>{
-  axios.get("http://3.39.238.148/api/auth/ft/refresh", {
+  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
       // authorization: 'Bearer ' + data,
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      accept: "*/*"
       }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
+  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 else
 {
-  socket?.emit("clearRoom");
+//TODO : 클리어 룸 버그가 너무 많음 고쳐야함
+//  if (!newRoomFlag)
+//   {
+//     console.log("crearRoom call");
+//     socket?.emit("clearRoom");
+//   }
   return (
     <div>
       {/*<Table columns={columns} data={roomArr} />*/}
