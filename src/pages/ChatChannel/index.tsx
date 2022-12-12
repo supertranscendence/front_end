@@ -151,11 +151,12 @@ if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 else
 {
- if (!newRoomFlag)
-  {
-    console.log("crearRoom call");
-    socket?.emit("clearRoom");
-  }
+//TODO : 클리어 룸 버그가 너무 많음 고쳐야함
+//  if (!newRoomFlag)
+//   {
+//     console.log("crearRoom call");
+//     socket?.emit("clearRoom");
+//   }
   return (
     <div>
       <Table columns={columns} data={roomArr} />
