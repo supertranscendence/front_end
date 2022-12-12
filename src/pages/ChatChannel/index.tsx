@@ -152,7 +152,10 @@ if (redirectRoom)
 else
 {
  if (!newRoomFlag)
+  {
+    console.log("crearRoom call");
     socket?.emit("clearRoom");
+  }
   return (
     <div>
       <Table columns={columns} data={roomArr} />
