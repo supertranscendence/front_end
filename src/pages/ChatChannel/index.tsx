@@ -40,7 +40,7 @@ const enterRoom = useCallback( (e:any)=> {
 // console.log("roooooooomname :" ,e.target.name.value,e.target.name,e.target.name )
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
     // location.href = `/workspace/sleact/channel/Chat/${e.target.name}`;
-    <Redirect to= {`/workspace/sleact/channel/Chat/${e.target.name}`}/>
+    //<Redirect to= {`/workspace/sleact/channel/Chat/${e.target.name}`}/>
     //TODO: 뒤로가기가 방으로 리다이렉트 되는 이유가 웬지 스테이트를 안바꿔서 그런것같은 예감 다시 초기화 시켜보자!
   })
 },[])
@@ -77,7 +77,7 @@ useEffect(()=>{
           name: _name,
           roomType:"public",
           currCnt: 1,
-          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><button name={_name} onClick={enterRoom}>입장</button></Link>
+          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><Button name={_name} onClick={enterRoom}>Join</Button></Link>
       }})
       ])
       console.log("roomArr 배열", roomArr);
@@ -125,31 +125,6 @@ const fetchch = useCallback(()=>{
       }
   }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
 },[])
-const fetchch2 = useCallback(()=>{
-  axios.get("http://3.39.238.148/api/auth/ft/revoke", {
-  withCredentials:true,
-    headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
-},[])
-const fetchch3 = useCallback(()=>{
-  axios.get("https://3.39.238.148/api/auth/ft/refresh", {
-  withCredentials:true,
-    headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
-},[])
-const fetchch4 = useCallback(()=>{
-  axios.get("https://3.39.238.148/api/auth/ft/revoke", {
-  withCredentials:true,
-    headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      // authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      }
-  }).then((response) =>{ console.log(response);console.log("header",response.headers);}).catch((err) => console.log(err));
-},[])
 
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
@@ -158,15 +133,25 @@ else
   socket?.emit("clearRoom");
   return (
     <div>
-      <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Game</Button>
       {/*<Table columns={columns} data={roomArr} />*/}
       <Container maxWidth="lg">
-        <TableContainer component={Paper}>
+        <Stack spacing={2}>
+          <Stack/>
+          <h1>Chat Lobby</h1>
+          <Stack
+            direction="row"
+            justifyContent="flex-end"
+            alignItems="center"
+            spacing={1}
+          >
+            <Button variant="outlined" onClick={fetchch} > API 받아오기 (refresh)</Button>
+            <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Chat</Button>
+          </Stack>
+          <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Room</TableCell>
-                <TableCell align="left">Name</TableCell>
+                <TableCell>Room Name</TableCell>
                 <TableCell align="right">Room Type</TableCell>
                 <TableCell align="right">Slot </TableCell>
                 <TableCell align="right"></TableCell>
@@ -182,27 +167,23 @@ else
                   {row.name}
                   {/*{isGamePrivate(row.isprivate)}*/}
                 </TableCell>
-                <TableCell align="left">1{row.name}</TableCell>
                 <TableCell align="right">{row.roomType}</TableCell>
                 <TableCell align="right">{row.currCnt}/{4}</TableCell>
                 <TableCell align="right">
-
+                  {row.enterButton}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
           </Table>
-        </TableContainer>
+          </TableContainer>
+        </Stack>
       </Container>
       <CreateChannelModal
         show={showCreateChannelModal}
         onCloseModal={onCloseModal}
         setShowCreateRoomModal={setShowCreateRoomModal}
         />
-        <button onClick={fetchch} > api 불러보기</button>
-        <button onClick={fetchch2} > api2 불러보기</button>
-        <button onClick={fetchch3} > api2 불러보기</button>
-        <button onClick={fetchch4} > api2 불러보기</button>
     </div>
   );
 }
