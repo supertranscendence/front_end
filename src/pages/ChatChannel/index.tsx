@@ -151,7 +151,7 @@ if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 else
 {
-  socket?.emit("clearRoom");
+  //socket?.emit("clearRoom");
   return (
     <div>
       <Table columns={columns} data={roomArr} />
