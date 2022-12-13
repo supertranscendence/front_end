@@ -1,5 +1,7 @@
 import { CreateModal, CloseModalButton } from 'src/components/Modal/style';
 import React, { FC, PropsWithChildren, useCallback } from 'react';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { IconButton } from '@mui/material';
 
 interface Props {
   show: boolean;
@@ -17,7 +19,9 @@ const Modal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal }) =
   return (
     <CreateModal onClick={onCloseModal}>
       <div onClick={stopPropagation}>
-        <CloseModalButton onClick={onCloseModal}>&times;</CloseModalButton>
+        <IconButton aria-label="cancle" onClick={onCloseModal}
+          sx={{position: 'absolute', right: '10px', top: '10px', border: 'none'}}><CancelIcon /></IconButton>
+        {/*<CloseModalButton onClick={onCloseModal}></CloseModalButton>*/}
         {children}
       </div>
     </CreateModal>

@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import EditProfileModal from 'src/components/EditProfileModal';
 
 function createData(
     player: string,
@@ -30,19 +31,28 @@ function createData(
   ];
 
 const Profile = () => {
+  const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
+  const onClickAddRoom = useCallback(() => {
+    setShowCreateRoomModal(true);
+  }, []);
+
+  const onCloseModal = useCallback(() => {
+    setShowCreateRoomModal(false);
+  }, []);
 
   return (
     <Container maxWidth="lg">
         <Stack spacing={1}>
             <Stack />
+            <h1>PROFILE</h1>
             <Stack
                 direction="row"
                 alignItems="flex-end"
-            >
+                >
                 <Avatar sx={{ width: 128, height: 128 }}/>
                 <b>JISOKANG</b>
                 <Tooltip title="수정하기" arrow>
-                    <IconButton aria-label="edit"> {/* Link to Modal for edit */}
+                    <IconButton aria-label="edit" onClick={onClickAddRoom}> {/* Link to Modal for edit */}
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
@@ -84,7 +94,13 @@ const Profile = () => {
                 </Table>
                 </TableContainer>
         </Stack>
+        <EditProfileModal
+          show={showCreateChannelModal}
+          onCloseModal={onCloseModal}
+          setShowCreateRoomModal={setShowCreateRoomModal}
+        />
     </Container>
+
   );
 };
 
