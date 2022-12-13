@@ -74,11 +74,11 @@ useEffect(()=>{
         <GameTable />
       </Stack>
     </Container>
-    {/*<CreateGameRoomModal
+    <CreateGameRoomModal
       show={showCreateGameRoomModal}
       onCloseModal={onCloseModal}
       setShowCreateGameRoomModal={setShowCreateGameRoomModal}
-      />*/}
+      />
   </div>
   );
 
