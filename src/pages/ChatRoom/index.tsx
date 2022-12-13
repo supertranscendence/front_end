@@ -12,7 +12,7 @@ import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
 import { IChannel, IChat, IUser } from 'src/typings/db';
 
-import scrollbar from 'smooth-scrollbar';
+// import scrollbar from 'smooth-scrollbar';
 
 // smooth scroll 설정
 
