@@ -26,6 +26,13 @@ export const CreateModal = styled.div`
   }
 `;
 
+export const IconButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  border: none;
+`;
+
 export const CloseModalButton = styled.button`
   position: absolute;
   right: 10px;
