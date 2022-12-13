@@ -94,28 +94,6 @@ useEffect(()=>{
   });
 },[socket,setNewRoomFlag]);
 
-const columns = useMemo(
-  () => [
-    {
-      accessor: "name",
-      Header: "Name",
-    },
-    {
-      accessor: "roomType",
-      Header: "RoomType",
-    },
-    {
-      accessor: "currCnt",
-      Header: "CurrCnt",
-    },
-    {
-      accessor: "enterButton",
-      Header: <button onClick={onClickAddRoom}>생성 버튼</button>,
-    }
-    ,],
-  []
-);
-
 const fetchch = useCallback(()=>{
   axios.get("https://server.gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
@@ -124,7 +102,13 @@ const fetchch = useCallback(()=>{
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       accept: "*/*"
       }
-  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
+  }).then((response) =>{
+    console.log(response);
+    console.log("data",response.data);
+  }).catch((err) =>{
+    console.log("ERROR axios.get!");
+    console.log(err);
+  });
 },[])
 
 if (redirectRoom)

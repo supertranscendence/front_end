@@ -31,7 +31,7 @@ const DMList = () => {
       setmemberData(()=>data);
     });
   }, [socket]);
-  
+
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);
