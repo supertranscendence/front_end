@@ -4,6 +4,18 @@ import useSocket from 'src/hooks/useSocket';
 import { ChatArea } from "@components/ChatBox/styles";
 import { userInfo } from "os";
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
+import { Header, Container, DragOver } from 'src/pages/ChatRoom/styles';
+import ChatBox from 'src/components/ChatBox';
+import ChatList from 'src/components/ChatList';
+import { Scrollbars } from 'react-custom-scrollbars-2';
+import makeSection from 'src/utils/makeSection';
+import useInput from 'src/hooks/useInput';
+import { IChannel, IChat, IUser } from 'src/typings/db';
+
+import scrollbar from 'smooth-scrollbar';
+
+// smooth scroll 설정
+
 
 const ChatRoom = () => {
 
@@ -12,12 +24,6 @@ const ChatRoom = () => {
   const [returnFlag, setReturnFlag] = useState(false);
   const [messages, setMessages] = useState<{room: string, user: string, msg: string}[]>([]);
   const chatWindow:any = useRef(null);
-  // const [msgInfo, setMsgInfo] = useState<{user: string; room: string | undefined; msg: any}>({
-      //   user: "",
-      //   room: "",
-      //   msg: ""
-      // });
-  // 새 메시지를 받으면 스크롤을 이동하는 함수
   const moveScrollToReceiveMessage = useCallback(() => {
 
     if (chatWindow.current) {
@@ -53,8 +59,8 @@ if (ChatRoom)
 
   const sendMsg = useCallback((e:any)=>{
     e.preventDefault();
-    console.log(e.target.msg.value,"send");
-    console.log(ChatRoom,"send");
+    console.log(e.target.value,"send");
+    // console.log(ChatRoom,"send");
     // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
     // setMsgInfo({
     //     user: "hyopark",
@@ -63,13 +69,14 @@ if (ChatRoom)
     // }
     // )
     // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
+    console.log (e.target)
     socket?.emit("newMsg", {
       user: "tester_hyopark",
       room: ChatRoom,
-      msg: e.target.msg.value,
+      msg: e.target.value,
   }, );
-  setMyMsg(e.target.msg.value);
-  e.target.msg.value = "";
+  setMyMsg(e.target.value);
+  e.target.value = "";
   },[socket]);
 
   useEffect(() => {
@@ -85,35 +92,95 @@ const leaveRoom = useCallback(()=>{
     socket?.emit("leaveRoom", {room:ChatRoom},retrunChannel);
   // }, [socket]);
 },[]);
+
+
+
+//////test////////
+
+const [dragOver, setDragOver] = useState(false);
+const scrollbarRef = useRef<Scrollbars>(null);
+const isEmpty = messages?.length === 0;
+const isReachingEnd = isEmpty || (messages && messages?.length < 20);
+const [chat, onChangeChat, setChat] = useInput('');
+
+const chatData = messages;// socket?.emit("getRoomInfo")
+
+const chatSections = makeSection(messages ? ([] as any[]).concat(...messages).reverse() : []);
+
+const onSubmitForm = useCallback(
+  (e:any) => {
+    e.preventDefault();
+    if (chat?.trim() && chatData) {
+      const savedChat = chat;
+        // localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+        console.log ("chat!!!!!", chat);
+        socket?.emit("newMsg", {
+          user: "tester_hyopark",
+          room: ChatRoom,
+          msg: chat,
+      }, );
+      setMyMsg(chat);
+        setChat('');
+        if (scrollbarRef.current) {
+          console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+          scrollbarRef.current.scrollToBottom();
+        }
+    }
+  },
+  [chat,  chatData, setChat],
+);
+
+const onDrop = useCallback(
+  (e:any) => {
+    e.preventDefault();
+    console.log(e);
+    const formData = new FormData();
+    if (e.dataTransfer.items) {
+      // Use DataTransferItemList interface to access the file(s)
+      for (let i = 0; i < e.dataTransfer.items.length; i++) {
+        // If dropped items aren't files, reject them
+        if (e.dataTransfer.items[i].kind === 'file') {
+          const file = e.dataTransfer.items[i].getAsFile();
+          console.log('... file[' + i + '].name = ' + file.name);
+          formData.append('image', file);
+        }
+      }
+    } else {
+      for (let i = 0; i < e.dataTransfer.files.length; i++) {
+        console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+        formData.append('image', e.dataTransfer.files[i]);
+      }
+    }
+  },
+  [],
+);
+
+const onDragOver = useCallback((e:any) => {
+  e.preventDefault();
+  console.log(e);
+  setDragOver(true);
+}, []);
+
 if (returnFlag)
 {
   return ( <Redirect to= {`/workspace/sleact/channel/Chat`}/>);
-}
-
+}   
   return (
-    <div className="d-flex flex-column" style={{ width: 1000 }}>
-      <div className="text-box">
-        <span>{}</span> 님 환영합니다!!
-      </div>
-      <div
-        className="chat-window card"
-        ref={chatWindow}
-      >
-      <div>ChatRoom: {ChatRoom}
-     <form onSubmit={sendMsg}>
-     <input
-       name="msg"
-       placeholder="메세지 입력해보슈"
-       // onChange={onChangeAccount}
-     />
-       <button>보내버리기</button>
-       <button onClick={leaveRoom}>나가볼끼?</button>
-     </form>
-     <ul>
-     </ul>
-     </div>
-     메세지 나와라 뚝딲!
-        {messages.map((message, index) => {
+  <Container onDrop={onDrop} onDragOver={onDragOver}>
+      <Header>
+        <img src="" />
+        <span>{ChatRoom}</span>
+      </Header>
+      {/* <ChatList
+        scrollbarRef={scrollbarRef}
+        isReachingEnd={isReachingEnd}
+        isEmpty={isEmpty}
+        chatSections={chatSections}
+        // setSize={setSize}
+      /> */}
+      {/* <div id="smooth-scroll"> */}
+      <Scrollbars>
+       {messages.map((message, index) => {
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
           return (
@@ -124,8 +191,17 @@ if (returnFlag)
             </div>
           );
         })}
-      </div>
-    </div>
+        </Scrollbars>
+      {/* </div > */}
+      <ChatBox
+        onSubmitForm={onSubmitForm}
+        chat={chat}
+        onChangeChat={onChangeChat}
+        placeholder={`Message #${ChatRoom}`}
+        data={[{id:12 ,nickname:"방에있는 멤버들 정보 넣을곳"}]}
+      />
+      {dragOver && <DragOver>업로드!</DragOver>}
+    </Container>
   );
 }
 

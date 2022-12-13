@@ -9,18 +9,18 @@ interface Props {
   isReachingEnd?: boolean;
   isEmpty: boolean;
   chatSections: { [key: string]: (IDM | IChat)[] };
-  setSize: (f: (size: number) => number) => Promise<(IDM | IChat)[][] | undefined>;
+  // setSize: (f: (size: number) => number) => Promise<(IDM | IChat)[][] | undefined>;
 }
-const ChatList: FC<Props> = ({ scrollbarRef, isReachingEnd, isEmpty, chatSections, setSize }) => {
+const ChatList: FC<Props> = ({ scrollbarRef, isReachingEnd, isEmpty, chatSections,  }) => {
   const onScroll = useCallback(
     (values:any) => {
       if (values.scrollTop === 0 && !isReachingEnd && !isEmpty) {
-        setSize((size) => size + 1).then(() => {
+        // setSize((size) => size + 1).then(() => {
           scrollbarRef.current?.scrollTop(scrollbarRef.current?.getScrollHeight() - values.scrollHeight);
-        });
+        // });
       }
     },
-    [setSize, scrollbarRef, isReachingEnd, isEmpty],
+    [ scrollbarRef, isReachingEnd, isEmpty],
   );
 
   return (
