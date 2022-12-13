@@ -31,13 +31,13 @@ function createData(
   ];
 
 const Profile = () => {
-  const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
-  const onClickAddRoom = useCallback(() => {
-    setShowCreateRoomModal(true);
+  const [showCreateChannelModal, setShowProfileModal] = useState(false);
+  const onClickEditProfile = useCallback(() => {
+    setShowProfileModal(true);
   }, []);
 
   const onCloseModal = useCallback(() => {
-    setShowCreateRoomModal(false);
+    setShowProfileModal(false);
   }, []);
 
   return (
@@ -52,7 +52,7 @@ const Profile = () => {
                 <Avatar sx={{ width: 128, height: 128 }}/>
                 <b>JISOKANG</b>
                 <Tooltip title="수정하기" arrow>
-                    <IconButton aria-label="edit" onClick={onClickAddRoom}> {/* Link to Modal for edit */}
+                    <IconButton aria-label="edit" onClick={onClickEditProfile}> {/* Link to Modal for edit */}
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
@@ -97,7 +97,7 @@ const Profile = () => {
         <EditProfileModal
           show={showCreateChannelModal}
           onCloseModal={onCloseModal}
-          setShowCreateRoomModal={setShowCreateRoomModal}
+          setShowProfileModal={setShowProfileModal}
         />
     </Container>
 

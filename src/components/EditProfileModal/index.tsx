@@ -1,7 +1,7 @@
 import { CreateModal, CloseModalButton } from 'src/components/Modal/style';
 import React, { FC, PropsWithChildren, useCallback,useState } from 'react';
 import {Label, Input} from 'src/pages/SignUp/styles';
-import { Button } from '@mui/material';
+import { Avatar, Button, Divider } from '@mui/material';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"
 import axios from 'axios';
@@ -13,17 +13,16 @@ import { IChannel, IUser } from 'src/typings/db';
 import useSocket from 'src/hooks/useSocket';
 import { TextField } from '@mui/material';
 import { Stack } from '@mui/system';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface Props {
   show: boolean;
   onCloseModal: () => void;
-  setShowCreateRoomModal : (flag:boolean) => void
+  setShowProfileModal : (flag:boolean) => void
 }
-const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowCreateRoomModal }) => {
+const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
   //const {data: userData, error, mutate: mutate}  = useSWR<IUser | false>('api/users', fetcher);
   const[newRoom, onChangeNewRoom, setNewRoom] = useInput('');
-  const[pwCheck, onChangePWCheck, setPWCheck] = useInput(false);
-  const[pw, onChangePW, setPW] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
   const [socket] = useSocket(workspace);
@@ -32,23 +31,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
   const clearModal = useCallback(()=>{
     //mutate();
-    setNewRoom("");
-    setPW("");
-    setShowCreateRoomModal(false);
+    setShowProfileModal(false);
   },[]);
 
-  const changeHandler = (checked:any, id:any) => {
-    if (checked) {
-      setCheckedInputs([...checkedInputs, id]);
-      setPW((e)=>{return ''});
-      setPWCheck((c)=>{return !c})
-    } else {
-      // 체크 해제
-      setCheckedInputs(checkedInputs.filter((el) => el !== id));
-      setPW((e)=>{return ''});
-      setPWCheck((c)=>{return !c})
-    }
-  };
 
   const onCreateRoom = useCallback((e:any) => {
     e.preventDefault();
@@ -69,22 +54,38 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     <form onSubmit={onCreateRoom}>
       <Stack spacing={1}>
         <Label id="room-create">
-          <Stack spacing={1}>
-            <div>
-              <b>닉네임 수정</b>
-            </div>
-            <TextField
-              id="edit_nickname"
-              label="Unique Nickname"
-              value={newRoom}
-              onChange={onChangeNewRoom}
-              required={true}
-              inputProps={{ maxLength: 8 }}
-              helperText="닉네임은 최대 8글자까지만 가능해요."
-              />
+          <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
+            <h1>EDIT PROFILE</h1>
+            {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
+            <Stack>
+              <div>
+                <h4>아바타</h4>
+              </div>
+              <Avatar sx={{width: 56, height: 56}} />
+              <input type="file" accept="image/*" />
+              <Button variant='outlined'>아바타 업로드</Button>
+              <Button>아바타 제거</Button>
+            </Stack>
+            <Stack>
+              <div>
+                <h4>닉네임</h4>
+              </div>
+              <TextField
+                id="edit_nickname"
+                label="수정할 유니크한 닉네임"
+                value={newRoom}
+                onChange={onChangeNewRoom}
+                required={true}
+                inputProps={{ maxLength: 8 }}
+                helperText="닉네임은 최대 8글자까지만 가능해요."
+                />
+            </Stack>
           </Stack>
         </Label>
-        <Button type="submit" variant='outlined'>수정하기</Button>
+        <Button type="submit" variant='outlined'>
+          <EditIcon />
+          프로필 수정하기
+        </Button>
       </Stack>
     </form>
   </Modal>
