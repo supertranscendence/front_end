@@ -45,7 +45,8 @@ const ChatBox: FC<Props> = ({ onSubmitForm, chat, onChangeChat, placeholder, dat
       }
       return (
         <EachMention focus={focus}>
-          <img src={gravatar.url(data[index].email, { s: '20px', d: 'retro' })} alt={data[index].nickname} />
+          {/* <img src={gravatar.url(data[index].email, { s: '20px', d: 'retro' })} alt={data[index].nickname} /> */}
+          "이미지"
           <span>{highlightedDisplay}</span>
         </EachMention>
       );
@@ -68,7 +69,7 @@ const ChatBox: FC<Props> = ({ onSubmitForm, chat, onChangeChat, placeholder, dat
           <Mention
             appendSpaceOnAdd
             trigger="@"
-            data={data?.map((v) => ({ id: v.id, display: v.nickname })) || []}
+            data={[]}
             renderSuggestion={renderUserSuggestion}
           />
         </MentionsTextarea>
@@ -84,7 +85,8 @@ const ChatBox: FC<Props> = ({ onSubmitForm, chat, onChangeChat, placeholder, dat
             type="submit"
             disabled={!chat?.trim()}
           >
-            <i className="c-icon c-icon--paperplane-filled" aria-hidden="true" />
+          보내기
+            {/* <i className="c-icon c-icon--paperplane-filled" aria-hidden="true" /> */}
           </SendButton>
         </Toolbox>
       </Form>

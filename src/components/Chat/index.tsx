@@ -43,7 +43,8 @@ const Chat: FC<Props> = memo(({ data }) => {
   return (
     <ChatWrapper>
       <div className="chat-img">
-        <img src={gravatar.url(user.email, { s: '36px', d: 'retro' })} alt={user.nickname} />
+        {/* <img src={gravatar.url(user.email, { s: '36px', d: 'retro' })} alt={user.nickname} /> */}
+        "이미지"
       </div>
       <div className="chat-text">
         <div className="chat-user">
