@@ -80,7 +80,7 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
         }}
         checked={checkedInputs.includes("pwCheck") ? true : false}
       />
-      비밀번호<Input id="pw" value={pw} onChange={onChangePW} disabled={!pwCheck}/>
+      비밀번호<Input id="pw"  type="password"  value={pw} onChange={onChangePW} disabled={!pwCheck}/>
       </Label>
       <Button type="submit">생성</Button>
     </form>

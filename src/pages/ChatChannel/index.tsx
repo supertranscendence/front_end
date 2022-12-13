@@ -16,21 +16,30 @@ import authfetcher from "src/utils/authfetcher";
 import useSWR from "swr";
 import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import PWDModal from 'src/components/PWDModal';
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const ChatChannel = () => {
 const { workspace } = useParams<{ workspace?: string }>();
 const [socket] = useSocket(workspace);
 const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
+const [showPWDModal, setShowPWDModal] = useState(false);
 const [newRoomFlag, setNewRoomFlag] = useState(false);
 const [redirectRoom, setRedirectRoom] = useState('');
 const [joinedRoom, setJoinedRoom] = useState(false);
+const [roomInfo, setRoomInfo] = useState('');
 
 const onClickAddRoom = useCallback(() => {
   setShowCreateRoomModal(true);
 }, []);
 
+const onClickPWD = useCallback((e:any) => {
+  setRoomInfo((o)=> {return e.target.name});
+  setShowPWDModal(true);
+}, []);
+
 const onCloseModal = useCallback(() => {
+  setShowPWDModal(false);
   setShowCreateRoomModal(false);
 }, []);
 
@@ -41,11 +50,10 @@ const enterRoom =  useCallback( (e:any)=> {
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
   })
 },[])
-const checkPWD =  useCallback( (e:any)=> {
-  console.log ("chechchcehck?", e);
-  socket?.emit("checkPWD",{room:e.target.name, name:"userinfo"},()=>{
-  })
-},[])
+// const checkPWD =  useCallback( (e:any)=> {
+//   console.log ("chechchcehck?", e);
+ 
+// },[])
 
 const getJoinedRoom = useCallback((str:string)=>{
   const arr :string[] = str.split(" ");
@@ -80,8 +88,7 @@ useEffect(()=>{
           currCnt: eachObj.currNum,
           enterButton: eachObj.isPublic ?
           <Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> :
-          <Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={checkPWD}>Join</Button></Link>
-          
+          <Button name={eachObj.roomName} onClick={onClickPWD}>Join</Button>
       }})
       ])
       console.log("roomArr 배열", roomArr);
@@ -194,6 +201,13 @@ else
         onCloseModal={onCloseModal}
         setShowCreateRoomModal={setShowCreateRoomModal}
         />
+        <PWDModal
+        show={showPWDModal}
+        onCloseModal={onCloseModal}
+        setPWDModal={setShowPWDModal}
+        roomInfo={roomInfo}
+        />
+        
     </div>
   );
 }
