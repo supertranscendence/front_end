@@ -36,8 +36,8 @@ const onCloseModal = useCallback(() => {
 
 const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
 const {data} = useSWR("token", authfetcher);
-const enterRoom = useCallback( (e:any)=> {
-// console.log("roooooooomname :" ,e.target.name.value,e.target.name,e.target.name )
+const enterRoom = (isPublic: boolean) => useCallback( (e:any)=> {
+  console.log ("ispublic?", isPublic);
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
     // location.href = `/workspace/sleact/channel/Chat/${e.target.name}`;
     //<Redirect to= {`/workspace/sleact/channel/Chat/${e.target.name}`}/>
@@ -68,16 +68,14 @@ if (joinedRoom)
 }
 
 useEffect(()=>{
-  socket?.emit("getChatRoomInfo", {}, (publicRooms : [])=>{
-  console.log("publicRooms", publicRooms);
-  //socket.on("getExitRoomInfo, ");
-  //socket?.emit("ExitRoom",{room:target.name, name:"userinfo"},()=>{})
-  setRoomArr( [...publicRooms.map((_name)=>{
+  socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
+  console.log("publicRooms", publicRoomsArr);
+  setRoomArr( [...publicRoomsArr.map((eachObj)=>{
       return {
-          name: _name,
-          roomType:"public",
-          currCnt: 1,
-          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${_name}`}><Button name={_name} onClick={enterRoom}>Join</Button></Link>
+          name: eachObj.roomName,
+          roomType: eachObj.isPublic ? "public" : "private",
+          currCnt: eachObj.currNum,
+          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom(eachObj.isPublic)}>Join</Button></Link>
       }})
       ])
       console.log("roomArr 배열", roomArr);

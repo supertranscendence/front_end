@@ -24,7 +24,7 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   const [socket] = useSocket(workspace);  
   const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
-  const[roomInfo, onChangeRoomInfo, setRoomInfo] = useInput<{name:string, isPublic:boolean, pw?:string}>({name:'', isPublic:true});
+  const[roomInfo, onChangeRoomInfo, setRoomInfo] = useInput<{room:string, isPublic:boolean, pwd?:string}>({room:'', isPublic:true});
   
   const clearModal = useCallback(()=>{
     //mutate();
@@ -53,13 +53,13 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
     }
     if (pw)
     {
-      socket?.emit("create-room", {name: newRoom, isPublic: false, pw:pw}, clearModal);
-      console.log("createRoom!", {name: newRoom, isPublic: false, pw:pw} );
+      socket?.emit("create-room", {room: newRoom, isPublic: false, pwd:pw}, clearModal);
+      console.log("createRoom!", {room: newRoom, isPublic: false, pwd:pw} );
     }
     else
     {
-      socket?.emit("create-room", {name: newRoom, isPublic: true}, clearModal);
-      console.log("createRoom!", {name: newRoom, isPublic: true} );
+      socket?.emit("create-room", {room: newRoom, isPublic: true}, clearModal);
+      console.log("createRoom!", {room: newRoom, isPublic: true} );
     }
   }, [newRoom, pw]);
 
