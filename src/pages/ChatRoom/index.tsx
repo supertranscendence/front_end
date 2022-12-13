@@ -11,6 +11,9 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
 import { IChannel, IChat, IUser } from 'src/typings/db';
+import EachMsg from 'src/components/EachMsg'
+import { Email } from "@mui/icons-material";
+
 
 // import scrollbar from 'smooth-scrollbar';
 
@@ -93,6 +96,12 @@ const leaveRoom = useCallback(()=>{
   // }, [socket]);
 },[]);
 
+const addPW = useCallback(()=>{
+  // useEffect(() => {
+    socket?.emit("addPW", {room:ChatRoom},retrunChannel);
+  // }, [socket]);
+},[]);
+
 
 
 //////test////////
@@ -170,6 +179,8 @@ if (returnFlag)
       <Header>
         <img src="" />
         <span>{ChatRoom}</span>
+        <button onClick ={leaveRoom}>leaveRoom</button>
+        <button onClick ={addPW}>addPW</button>
       </Header>
       {/* <ChatList
         scrollbarRef={scrollbarRef}
@@ -180,15 +191,17 @@ if (returnFlag)
       /> */}
       {/* <div id="smooth-scroll"> */}
       <Scrollbars>
+        
        {messages.map((message, index) => {
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
           return (
-            <div key={index} className="d-flex flex-row">
-              {msg && <div className="message-user">{user}: </div>}
-              <div>{msg}</div>
-              {/* <div className="time">{message}</div> */}
-            </div>
+            // <div key={index} className="d-flex flex-row">
+            //   {msg && <div className="message-user">{user}: </div>}
+            //   <div>{msg}</div>
+            //   {/* <div className="time">{message}</div> */}
+            // </div>
+            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} ></EachMsg>
           );
         })}
         </Scrollbars>
