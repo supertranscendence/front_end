@@ -67,21 +67,21 @@ if (joinedRoom)
  console.log("EXIT in FRONT!");
 }
 
-// useEffect(()=>{
-//   socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
-//   console.log("publicRooms", publicRoomsArr);
-//   setRoomArr( [...publicRoomsArr.map((eachObj)=>{
-//       return {
-//           name: eachObj.roomName,
-//           roomType: eachObj.isPublic ? "public" : "private",
-//           currCnt: eachObj.currNum,
-//           enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom(eachObj.isPublic)}>Join</Button></Link>
-//       }})
-//       ])
-//       console.log("roomArr 배열", roomArr);
-// });
-// console.log("room arr:", roomArr);
-// }, [newRoomFlag, socket, joinedRoom]);
+useEffect(()=>{
+  socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
+  console.log("publicRooms", publicRoomsArr);
+  setRoomArr( [...publicRoomsArr.map((eachObj)=>{
+      return {
+          name: eachObj.roomName,
+          roomType: eachObj.isPublic ? "public" : "private",
+          currCnt: eachObj.currNum,
+          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom(eachObj.isPublic)}>Join</Button></Link>
+      }})
+      ])
+      console.log("roomArr 배열", roomArr);
+});
+console.log("room arr:", roomArr);
+}, [newRoomFlag, socket, joinedRoom]);
 
 useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
