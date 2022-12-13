@@ -39,9 +39,11 @@ const {data} = useSWR("token", authfetcher);
 const enterRoom =  useCallback( (e:any)=> {
   console.log ("ispublic?", e);
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
-    // location.href = `/workspace/sleact/channel/Chat/${e.target.name}`;
-    //<Redirect to= {`/workspace/sleact/channel/Chat/${e.target.name}`}/>
-    //TODO: 뒤로가기가 방으로 리다이렉트 되는 이유가 웬지 스테이트를 안바꿔서 그런것같은 예감 다시 초기화 시켜보자!
+  })
+},[])
+const checkPWD =  useCallback( (e:any)=> {
+  console.log ("chechchcehck?", e);
+  socket?.emit("checkPWD",{room:e.target.name, name:"userinfo"},()=>{
   })
 },[])
 
@@ -59,7 +61,7 @@ const getJoinedRoom = useCallback((str:string)=>{
 useEffect(()=>{
  socket?.emit("joinedRoom", getJoinedRoom)
 },[]);
-
+ 
 if (joinedRoom)
 {
  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
@@ -76,7 +78,10 @@ useEffect(()=>{
           name: eachObj.roomName,
           roomType: eachObj.isPublic ? "public" : "private",
           currCnt: eachObj.currNum,
-          enterButton:<Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link>
+          enterButton: eachObj.isPublic ?
+          <Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> :
+          <Link to={`/workspace/${workspace}/channel/Chat/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={checkPWD}>Join</Button></Link>
+          
       }})
       ])
       console.log("roomArr 배열", roomArr);
