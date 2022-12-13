@@ -22,11 +22,10 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
   const[pwCheck, onChangePWCheck, setPWCheck] = useInput(false);
   const[pw, onChangePW, setPW] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
-  const [socket] = useSocket(workspace);
-  
+  const [socket] = useSocket(workspace);  
   const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
-
+  const[roomInfo, onChangeRoomInfo, setRoomInfo] = useInput<{name:string, isPublic:boolean, pw?:string}>({name:'', isPublic:true});
+  
   const clearModal = useCallback(()=>{
     //mutate();
     setNewRoom("");
@@ -37,7 +36,7 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
   const changeHandler = (checked:any, id:any) => {
     if (checked) {
       setCheckedInputs([...checkedInputs, id]);
-      setPW((e)=>{return ''});
+      // setPW((e)=>{return ''});
       setPWCheck((c)=>{return !c})
     } else {
       // 체크 해제
@@ -52,11 +51,17 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
     if (!newRoom || !newRoom.trim()) {
       return;
     }
-    console.log("createRoom!",newRoom );
-    socket?.emit("create-room", newRoom, clearModal);
-    socket?.on("helloRoom", (str:string)=>console.log(str));
-    // return (<Redirect to= {`/workspace/sleact/channel/Chat/${newRoom}`}/>);
-  }, [newRoom]);
+    if (pw)
+    {
+      socket?.emit("create-room", {name: newRoom, isPublic: false, pw:pw}, clearModal);
+      console.log("createRoom!", {name: newRoom, isPublic: false, pw:pw} );
+    }
+    else
+    {
+      socket?.emit("create-room", {name: newRoom, isPublic: true}, clearModal);
+      console.log("createRoom!", {name: newRoom, isPublic: true} );
+    }
+  }, [newRoom, pw]);
 
   if (!show) {
     return null;
@@ -76,8 +81,8 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
         checked={checkedInputs.includes("pwCheck") ? true : false}
       />
       비밀번호<Input id="pw" value={pw} onChange={onChangePW} disabled={!pwCheck}/>
-    </Label>
-    <Button type="submit">생성</Button>
+      </Label>
+      <Button type="submit">생성</Button>
     </form>
   </Modal>
   );
