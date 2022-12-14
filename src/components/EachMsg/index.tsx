@@ -42,7 +42,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   },[socket, ])
   
   const kickUser = useCallback(()=>{
-    console.log("kickUser", {roomName:roomName , kickUser :msg.name} );
+    console.log("kickUser", {roomName:roomName , kickUser :msg.name} ,socket);
     socket?.emit("kickUser", {roomName:roomName , kickUser :msg.name}, (s :string)=>{console.log("done kick",s)} );
   },[socket, ])
   
