@@ -32,7 +32,10 @@ const PWDModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, 
   
   const routePWD = useCallback(( PWDCheck:boolean)=>{
     console.log("PWDCheck", PWDCheck);
-    setRedirectRoom(roomInfo);
+    if (PWDCheck)
+      setRedirectRoom(roomInfo);
+    else
+      clearModal();
   },[roomInfo])
   
   const onCheckPWD = useCallback((e:any) => {
