@@ -22,7 +22,7 @@ const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const ChatChannel = () => {
 const { workspace } = useParams<{ workspace?: string }>();
 const [socket] = useSocket(workspace);
-const [showCreateChannelModal, setShowCreateRoomModal] = useState(false);
+const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
 const [showPWDModal, setShowPWDModal] = useState(false);
 const [newRoomFlag, setNewRoomFlag] = useState(false);
 const [redirectRoom, setRedirectRoom] = useState('');
@@ -50,10 +50,6 @@ const enterRoom =  useCallback( (e:any)=> {
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
   })
 },[])
-// const checkPWD =  useCallback( (e:any)=> {
-//   console.log ("chechchcehck?", e);
- 
-// },[])
 
 const getJoinedRoom = useCallback((str:string)=>{
   const arr :string[] = str.split(" ");
@@ -131,7 +127,6 @@ const fetchch = useCallback(()=>{
   axios.get("https://server.gilee.click/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
-      // authorization: 'Bearer ' + data,
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
       accept: "*/*"
       }
@@ -197,7 +192,7 @@ else
         </Stack>
       </Container>
       <CreateChannelModal
-        show={showCreateChannelModal}
+        show={showCreateRoomModal}
         onCloseModal={onCloseModal}
         setShowCreateRoomModal={setShowCreateRoomModal}
         />
