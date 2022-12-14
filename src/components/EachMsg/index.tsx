@@ -1,6 +1,6 @@
 import { IUser } from 'src/typings/db';
 import fetcher from 'src/utils/fetcher';
-import React, { useEffect, VFC } from 'react';
+import React, { useCallback, useEffect, VFC } from 'react';
 import { useParams } from 'react-router';
 import { NavLink, useLocation, Redirect, Link } from 'react-router-dom';
 import useSWR from 'swr';
@@ -12,32 +12,19 @@ import { styled } from '@mui/material/styles';
 import PendingIcon from '@mui/icons-material/Pending';
 import { grey } from '@mui/material/colors';
 import { Stack } from '@mui/system';
+import useSocket from 'src/hooks/useSocket';
 
 const grey_color = grey[50];
 interface Props {
-  // msg: IUser;
-  // msg: {name:string,kg:number,email:string};
+  roomName: string
   msg : {name: string,msg :string, img:string}
   // isOnline: boolean;
 }
 
-const EachMsg: VFC<Props> = ({ msg }) => {
+const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const { workspace } = useParams<{ workspace?: string }>();
   const location = useLocation();
-  // const { data: userData } = useSWR<IUser>('api/users', fetcher, {
-  //   dedupingInterval: 2000, //x 2초
-  // });
-  // const date = localStorage.getItem(`${workspace}-${msg.kg}`) || 0;
-  // const { data: count, mutate } = useSWR<number>(
-  //   userData ? `api/workspaces/${workspace}/dms/${msg.kg}/unreads?after=${date}` : null,
-  //   fetcher,
-  // );
-
-  // useEffect(() => {
-  //   if (location.pathname === `/workspace/${workspace}/dm/${msg.kg}`) {
-  //     mutate(0);
-  //   }
-  // }, [mutate, location.pathname, workspace, msg]);
+  const [socket] = useSocket("sleact");
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -47,6 +34,21 @@ const EachMsg: VFC<Props> = ({ msg }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  
+  const setAdmin = useCallback(()=>{
+  console.log("setAdmn",{roomName:roomName , adminUser :msg.name} );
+    socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name});
+  },[])
+  
+  const kickUser = useCallback(()=>{
+    
+  },[])
+  const banUser = useCallback(()=>{
+    
+  },[])
+  const muteUser = useCallback(()=>{
+    
+  },[])
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -111,10 +113,10 @@ const EachMsg: VFC<Props> = ({ msg }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>프로필 보기</MenuItem>
+        <MenuItem onClick={setAdmin}>관리자 권한 주기</MenuItem>
         {/* <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${msg.kg}`}>DM 보내기</MenuItem> */}
-        <MenuItem onClick={handleClose}>친구 추가/삭제</MenuItem>
-        <MenuItem onClick={handleClose}>음소거하기</MenuItem>
+        {/* <MenuItem onClick={handleClose}>친구 추가/삭제</MenuItem>
+        <MenuItem onClick={handleClose}>음소거하기</MenuItem> */}
       </Menu>
     </List>
   );

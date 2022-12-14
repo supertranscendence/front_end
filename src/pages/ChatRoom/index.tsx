@@ -71,7 +71,7 @@ if (ChatRoom)
     // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
     console.log (e.target)
     socket?.emit("newMsg", {
-      user: "tester_hyopark",
+      user: "tester_hyopark",//백엔
       room: ChatRoom,
       msg: e.target.value,
   }, );
@@ -206,7 +206,7 @@ if (returnFlag)
             //   <div>{msg}</div>
             //   {/* <div className="time">{message}</div> */}
             // </div>
-            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} ></EachMsg>
+            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}
         </Scrollbars>
