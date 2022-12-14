@@ -35,7 +35,7 @@ const SetPWDModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const onSetPublic = useCallback((e:any) => {
     e.preventDefault();
     console.log("set publc!!");
-    socket?.emit("setPew", {roomName: roomInfo , pw: "" , gottaPublic: true} ,()=>{console.log("done")})
+    socket?.emit("setPWD", {roomName: roomInfo , pw: "" , gottaPublic: true} ,()=>{console.log("done")})
     clearModal()
   }, [pwd]);
   
@@ -44,7 +44,7 @@ const SetPWDModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     if (!pwd)
       return ;
     console.log("set pwd!!", pwd);
-    socket?.emit("setPew", {roomName: roomInfo , pw: pwd , gottaPublic: false},()=>{console.log("done")} )
+    socket?.emit("setPWD", {roomName: roomInfo , pw: pwd , gottaPublic: false},()=>{console.log("done")} )
     clearModal();
   }, [pwd]);
 
