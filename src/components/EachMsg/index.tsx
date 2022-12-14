@@ -39,22 +39,22 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const setAdmin = useCallback(()=>{
   console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
     socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name} , ()=>{console.log("done admin")} );
-  },[])
+  },[socket, ])
   
   const kickUser = useCallback(()=>{
     console.log("kickUser", {roomName:roomName , kickUser :msg.name} );
     socket?.emit("kickUser", {roomName:roomName , kickUser :msg.name}, ()=>{console.log("done kick")} );
-  },[])
+  },[socket, ])
   
   const banUser = useCallback(()=>{
     console.log("banUser", {roomName:roomName , banUser :msg.name} );
     socket?.emit("banUser", {roomName:roomName , banUser :msg.name}, ()=>{console.log("done banUser")} );
-  },[])
+  },[socket, ])
   
   const muteUser = useCallback(()=>{
     console.log("muteUser",{roomName:roomName , muteUser :msg.name} );
-    socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name}, ()=>{console.log("done mute")} );
-  },[])
+    socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name}, (arr : string[])=>{console.log("done mute arr:", arr)} );
+  },[socket, ])
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
