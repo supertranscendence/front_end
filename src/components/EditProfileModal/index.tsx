@@ -51,6 +51,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
   }
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
+              <input type="file" accept="image/*" />
     <form onSubmit={onCreateRoom}>
       <Stack spacing={1}>
         <Label id="room-create">
@@ -62,7 +63,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
                 <h4>아바타</h4>
               </div>
               <Avatar sx={{width: 56, height: 56}} />
-              <input type="file" accept="image/*" />
               <Button variant='outlined'>아바타 업로드</Button>
               <Button>아바타 제거</Button>
             </Stack>
