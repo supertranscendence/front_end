@@ -47,8 +47,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     
   },[])
   const muteUser = useCallback(()=>{
-    console.log("muteUser",{roomName:roomName , adminUser :msg.name} );
-    socket?.emit("muteUser", {roomName:roomName , adminUser :msg.name});
+    console.log("muteUser",{roomName:roomName , muteUser :msg.name} );
+    socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name});
   },[])
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
