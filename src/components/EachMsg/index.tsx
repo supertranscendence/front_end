@@ -36,7 +36,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   };
   
   const setAdmin = useCallback(()=>{
-  console.log("setAdmn",{roomName:roomName , adminUser :msg.name} );
+  console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
     socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name});
   },[])
   
@@ -47,7 +47,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     
   },[])
   const muteUser = useCallback(()=>{
-    
+    console.log("muteUser",{roomName:roomName , adminUser :msg.name} );
+    socket?.emit("muteUser", {roomName:roomName , adminUser :msg.name});
   },[])
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -114,6 +115,10 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         }}
       >
         <MenuItem onClick={setAdmin}>관리자 권한 주기</MenuItem>
+        <MenuItem onClick={muteUser}>음소거</MenuItem>
+        <MenuItem onClick={kickUser}>추방</MenuItem>
+        
+        {/* <MenuItem onClick={muteUser}>음소거</MenuItem> */}
         {/* <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${msg.kg}`}>DM 보내기</MenuItem> */}
         {/* <MenuItem onClick={handleClose}>친구 추가/삭제</MenuItem>
         <MenuItem onClick={handleClose}>음소거하기</MenuItem> */}
