@@ -82,11 +82,17 @@ if (ChatRoom)
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
+  
+  useEffect(() => {
+    // socket?.on("", ()=>{console.log("kicked")});
+    socket?.on("kicked", retrunChannel);
+  }, [socket]);
 
 
 const retrunChannel = useCallback(()=>{
   setReturnFlag((flag)=>true);
 },[])
+
 const leaveRoom = useCallback(()=>{
   // useEffect(() => {
     socket?.emit("leaveRoom", {room:ChatRoom},retrunChannel);

@@ -35,20 +35,25 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     setAnchorEl(null);
   };
   
+  
   const setAdmin = useCallback(()=>{
   console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
-    socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name});
+    socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name} , ()=>{console.log("done admin")} );
   },[])
   
   const kickUser = useCallback(()=>{
-    
+    console.log("kickUser", {roomName:roomName , kickUser :msg.name} );
+    socket?.emit("kickUser", {roomName:roomName , kickUser :msg.name}, ()=>{console.log("done kick")} );
   },[])
+  
   const banUser = useCallback(()=>{
-    
+    console.log("banUser", {roomName:roomName , banUser :msg.name} );
+    socket?.emit("banUser", {roomName:roomName , banUser :msg.name}, ()=>{console.log("done banUser")} );
   },[])
+  
   const muteUser = useCallback(()=>{
     console.log("muteUser",{roomName:roomName , muteUser :msg.name} );
-    socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name});
+    socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name}, ()=>{console.log("done mute")} );
   },[])
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -115,8 +120,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         }}
       >
         <MenuItem onClick={setAdmin}>관리자 권한 주기</MenuItem>
-        <MenuItem onClick={muteUser}>음소거</MenuItem>
+        <MenuItem onClick={muteUser}>음소거 설정 / 해제</MenuItem>
         <MenuItem onClick={kickUser}>추방</MenuItem>
+        <MenuItem onClick={banUser}>영원히 추방</MenuItem>
         
         {/* <MenuItem onClick={muteUser}>음소거</MenuItem> */}
         {/* <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${msg.kg}`}>DM 보내기</MenuItem> */}
