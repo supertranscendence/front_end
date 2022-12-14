@@ -13,6 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
+import axios, { Axios } from 'axios';
 
 function createData(
     player: string,
@@ -39,6 +40,20 @@ const Profile = () => {
   const onCloseModal = useCallback(() => {
     setShowProfileModal(false);
   }, []);
+
+  //axios.get("http://127.0.0.1:3000/api/users/jisokang", {
+  axios.get("https://server.gilee.click/api/users/jisokang", {
+    withCredentials:true,
+      headers:{
+        // authorization: 'Bearer ' + data,
+        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+        accept: "*/*"
+        }
+    })
+  .then((response) =>{
+    console.log(response);
+  })
+  .catch((err) => console.log(err));
 
   return (
     <Container maxWidth="lg">
