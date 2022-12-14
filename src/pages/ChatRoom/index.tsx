@@ -87,11 +87,11 @@ if (ChatRoom)
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
   
-  // useEffect(() => {
+  useEffect(() => {
     // socket?.on("", ()=>{console.log("kicked")});
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
-  // }, [socket, retrunChannel, returnFlag]);
+  }, [socket, retrunChannel, returnFlag]);
 
 
 
