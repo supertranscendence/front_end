@@ -5,14 +5,12 @@ import { ChatArea } from "@components/ChatBox/styles";
 import { userInfo } from "os";
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import { Header, Container, DragOver } from 'src/pages/ChatRoom/styles';
+import SetPWDModal from 'src/components/SetPWDModal';
 import ChatBox from 'src/components/ChatBox';
-import ChatList from 'src/components/ChatList';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
-import { IChannel, IChat, IUser } from 'src/typings/db';
 import EachMsg from 'src/components/EachMsg'
-import { Email } from "@mui/icons-material";
 
 
 // import scrollbar from 'smooth-scrollbar';
@@ -28,7 +26,6 @@ const ChatRoom = () => {
   const [messages, setMessages] = useState<{room: string, user: string, msg: string}[]>([]);
   const chatWindow:any = useRef(null);
   const moveScrollToReceiveMessage = useCallback(() => {
-
     if (chatWindow.current) {
       chatWindow.current.scrollTo({
         top: chatWindow.current.scrollHeight,
@@ -96,9 +93,11 @@ const leaveRoom = useCallback(()=>{
   // }, [socket]);
 },[]);
 
-const addPW = useCallback(()=>{
+const setPWD = useCallback(()=>{
+  setShowSetPWDModal(true);
   // useEffect(() => {
-    socket?.emit("addPW", {room:ChatRoom},retrunChannel);
+    // socket?.emit("setPWD", {room:ChatRoom},retrunChannel);
+    
   // }, [socket]);
 },[]);
 
@@ -111,6 +110,11 @@ const scrollbarRef = useRef<Scrollbars>(null);
 const isEmpty = messages?.length === 0;
 const isReachingEnd = isEmpty || (messages && messages?.length < 20);
 const [chat, onChangeChat, setChat] = useInput('');
+const [showSetPWDModal, setShowSetPWDModal] = useState(false);
+
+const onCloseModal = useCallback(() => {
+  setShowSetPWDModal(false);
+}, []);
 
 const chatData = messages;// socket?.emit("getRoomInfo")
 
@@ -175,12 +179,13 @@ if (returnFlag)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat`}/>);
 }   
   return (
+  <div>
   <Container onDrop={onDrop} onDragOver={onDragOver}>
       <Header>
         <img src="" />
         <span>{ChatRoom}</span>
         <button onClick ={leaveRoom}>leaveRoom</button>
-        <button onClick ={addPW}>addPW</button>
+        <button onClick ={setPWD}>setPWD</button>
       </Header>
       {/* <ChatList
         scrollbarRef={scrollbarRef}
@@ -215,7 +220,17 @@ if (returnFlag)
       />
       {dragOver && <DragOver>업로드!</DragOver>}
     </Container>
+    
+    <SetPWDModal
+      show={showSetPWDModal}
+      onCloseModal={onCloseModal}
+      setShowSetPWDModal={setShowSetPWDModal}
+      roomInfo={ChatRoom!}
+    />
+    </div>
   );
 }
+
+//setPew emit {roomName : string, pw:string ,gottaPublic: boolean }
 
 export default ChatRoom;
