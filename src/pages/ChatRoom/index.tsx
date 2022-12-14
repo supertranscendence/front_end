@@ -80,6 +80,7 @@ if (ChatRoom)
   },[socket]);
 
   const retrunChannel = useCallback(()=>{
+    console.log("on retrunChannel")
     setReturnFlag((flag)=>true);
   },[])
   
