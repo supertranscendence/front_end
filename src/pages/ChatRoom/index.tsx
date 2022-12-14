@@ -91,7 +91,7 @@ if (ChatRoom)
     // socket?.on("", ()=>{console.log("kicked")});
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
-  }, [socket, retrunChannel]);
+  }, [socket, retrunChannel, returnFlag]);
 
 
 
