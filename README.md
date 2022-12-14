@@ -7,3 +7,4 @@
 ``COOKIE_SECRET=cookienyamnyam``   
    ``MYSQL_PASSWORD=디비비번``
 야호!
+!
