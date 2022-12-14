@@ -79,19 +79,21 @@ if (ChatRoom)
   e.target.value = "";
   },[socket]);
 
+  const retrunChannel = useCallback(()=>{
+    setReturnFlag((flag)=>true);
+  },[])
+  
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
   
   useEffect(() => {
     // socket?.on("", ()=>{console.log("kicked")});
+    console.log("kicked!");
     socket?.on("kicked", retrunChannel);
-  }, [socket]);
+  }, [socket, retrunChannel]);
 
 
-const retrunChannel = useCallback(()=>{
-  setReturnFlag((flag)=>true);
-},[])
 
 const leaveRoom = useCallback(()=>{
   // useEffect(() => {
