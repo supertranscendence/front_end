@@ -54,8 +54,8 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   //   console.log("ok!!");
   //   clearModal();
   // }, []);
-  const goDm = ()=>{}
-  const noDm = ()=>{}
+  const goDm = ()=>{console.log("ok")}
+  const noDm = ()=>{console.log("no")}
   
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
