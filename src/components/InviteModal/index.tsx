@@ -25,40 +25,33 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const [socket] = useSocket(workspace);  
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const [inviteType, setInviteType] = useState('');
-  // const [inviteNum, setinviteNum] = useState(0);
   const [whoInvite, setWhoInvite] = useState('');
   const clearModal = useCallback(()=>{
     //mutate();
     setShowInviteModal(false);
   },[]);
   
-  const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
+  const modalUp = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string, type:string}) => {
     
     console.log("in getInvite",inviteObj );
-    console.log("ret1:", whoInvite);
-    // setinviteNum(1);}
-    // setinviteNum(1);
-    // inviteNum = 1;
-    console.log("ret2:",whoInvite);
     // setWhoInvite( inviteObj.sendIntraId );
     setWhoInvite(inviteObj.sendIntraId);
-    // whoInvite=inviteObj.sendIntraId;
-    console.log("ret3:",whoInvite);
+    setInviteType(inviteObj.type);
     setShowInviteModal(true);
-    console.log("ret4:",whoInvite);
   },
   []
 );
   
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> test(inviteObj));
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: "디엠"})=> modalUp(inviteObj));
+  }, [socket]);
+  
+  useEffect(() => {
+    console.log("shellWeGame!");
+    socket?.on("shellWeGame", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: "게임"})=> modalUp(inviteObj));
   }, [socket]);
 
-  
-  
-  // if (inviteNum === 1)
-  //   setInviteType((n)=>{return "DM"})
  
   if (!show) {
     return null;
