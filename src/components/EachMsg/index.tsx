@@ -55,6 +55,18 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     console.log("muteUser",{roomName:roomName , muteUser :msg.name} );
     socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name}, (arr : string[])=>{console.log("done mute arr:", arr)} );
   },[socket, ])
+  
+  const shellWeDm = useCallback(()=>{
+    console.log("shellWeDm",{roomName:roomName , goDM :msg.name} );
+    socket?.emit("shellWeDm", {roomName:roomName , shellWeDmUser:msg.name}, ()=>{console.log("shellWeDm done")} );
+  },[socket, ])
+  
+  const shellWeGame = useCallback(()=>{
+    console.log("shellWeGame",{roomName:roomName , goDM :msg.name} );
+    socket?.emit("shellWeGame", {roomName:roomName , shellWeGameUser:msg.name}, ()=>{console.log("shellWeGame done")} );
+  },[socket, ])
+  
+  
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -120,6 +132,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         }}
       >
         <MenuItem onClick={setAdmin}>관리자 권한 주기</MenuItem>
+        <MenuItem onClick={shellWeDm}>DM 초대</MenuItem>
+        <MenuItem onClick={shellWeGame}>Game 초대</MenuItem>
         <MenuItem onClick={muteUser}>음소거 설정 / 해제</MenuItem>
         <MenuItem onClick={kickUser}>추방</MenuItem>
         <MenuItem onClick={banUser}>영원히 추방</MenuItem>
