@@ -24,13 +24,13 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   const [socket] = useSocket(workspace);  
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
-  const [redirectRoom, setRedirectRoom] = useState('');
-  
+  const [inviteType, setInviteType] = useState('');
   const clearModal = useCallback(()=>{
     //mutate();
     setShowInviteModal(false);
   },[]);
-  
+  if (inviteNum === 1)
+    setInviteType((n)=>{return "DM"})
  
   
   const onSetPublic = useCallback((e:any) => {
@@ -56,7 +56,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
-      {whoInvite}님이 {(inviteNum == 1)?"DM에":1} 초대했습니다.
+      {whoInvite}님이 {inviteType}에 초대했습니다.
       <Button onClick={onOk}> 수락</Button>
       <Button onClick={onNo}> 거절</Button>
   </Modal>
