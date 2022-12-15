@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import axios, { Axios } from 'axios';
 import { TypeDataUser } from 'src/pages/Profile/type';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 function createData(
     player: string,
@@ -42,35 +43,51 @@ const Profile = () => {
     setShowProfileModal(false);
   }, []);
 
-  const [user, setUser] = useState<TypeDataUser>();
+  const [user, setUser] = useState<TypeDataUser>({
+    avatar:   null,
+    created:  null,
+    id:       0,
+	  intra:    "UNKNOWN",
+    level:    0,
+    nickname: "UNKNOWN",
+    updated:  null
+  });
 
   useEffect(() => {
-  axios
-  .get("https://server.gilee.click/api/users/jisokang", {
-  //.get("http://127.0.0.1:3000/api/users/jisokang", {
-    withCredentials:true,
-      headers:{
-        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-        accept: "*/*"
-        }
+    axios
+    .get("https://server.gilee.click/api/users/jisokang", {
+    //.get("http://127.0.0.1:3000/api/users/jisokang", {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log(response);
+      console.log("intra: ",response.data.intra)
+      setUser(response.data);
     })
-  .then((response) =>{
-    console.log(response);
-    console.log("intra: ",response.data.intra)
-    setUser(response.data);
-  })
-  .catch((err) => {
-    console.log("[ERROR] get /api/users/{id}")
-    console.log(err)
-  });
+    .catch((err) => {
+      console.log("[ERROR] get /api/users/{id}")
+      console.log(err)
+    });
   }, []);
 
+// isFriend()
+//
 
   return (
     <Container maxWidth="lg">
       <Stack spacing={1}>
         <Stack />
           <h1>PROFILE</h1>
+          if ({user.intra} != ) {
+
+          }
+          <Button variant='outlined' >
+            <PersonAddIcon /> 친구 추가
+          </Button>
         <Stack alignItems="center">
           <Avatar sx={{ width: 128, height: 128 }}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
