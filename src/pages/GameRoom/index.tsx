@@ -30,7 +30,7 @@ const GameRoom = () => {
 				<div>hyopark</div>
 				{/* observer list 출력 */}
 				<Divider variant="middle" />
-				<Button variant="outlined">GAME START</Button>
+				<Button variant="outlined" component={Link} to={`/workspace/${workspace}/channel/GameRoom/Pong`}>GAME START</Button>
 			</Stack>
 		</Container>
 	);
