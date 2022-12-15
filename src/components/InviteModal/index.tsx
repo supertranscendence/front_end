@@ -36,25 +36,31 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     return null;
   }
   
-  const onOk = useCallback(()=>{
-    console.log("ok");
-    setShowInviteModal(false);
-    clearModal();
-  },[]);
+  // const onOk = useCallback(()=>{
+  //   console.log("ok");
+  //   setShowInviteModal(false);
+  //   clearModal();
+  // },[]);
   
-  const onNo = useCallback(()=>{
-    console.log("no");
-    setShowInviteModal(false);
+  // const onNo = useCallback(()=>{
+  //   console.log("no");
+  //   setShowInviteModal(false);
+  //   clearModal();
+  // },[]);
+  const onOkay = useCallback((e:any) => {
+    e.preventDefault();
+    
+    console.log("ok!!");
     clearModal();
-  },[]);
+  }, []);
   
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
       <Label>{whoInvite}님이 {inviteType}에 초대했습니다.</Label>
-      <Button onClick={onOk}> 수락</Button>
-      <Button onClick={onNo}> 거절</Button>
-      <form onSubmit={onOk}>
-        <Button type="submit"> 변경</Button>
+      {/* <Button onClick={onOk}> 수락</Button>
+      <Button onClick={onNo}> 거절</Button> */}
+      <form onSubmit={onOkay}>
+        <Button type="submit"> 수락</Button>
       </form>
   </Modal>
   );
