@@ -6,6 +6,7 @@ import { userInfo } from "os";
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import { Header, Container, DragOver } from 'src/pages/ChatRoom/styles';
 import SetPWDModal from 'src/components/SetPWDModal';
+import InviteModal from 'src/components/InviteModal';
 import ChatBox from 'src/components/ChatBox';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import makeSection from 'src/utils/makeSection';
@@ -84,15 +85,26 @@ if (ChatRoom)
     setReturnFlag((flag)=>true);
   },[])
   
+  const getInvite = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string})=>{
+    setinviteNum((n)=>{return 1});
+    setWhoInvite((s)=>{return inviteObj.sendIntraId });
+    setShowInviteModal(true);
+  },[])
+  
+  
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
   
   useEffect(() => {
-    // socket?.on("", ()=>{console.log("kicked")});
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
   }, [socket, retrunChannel, returnFlag]);
+  
+  useEffect(() => {
+    console.log("shellWeDm!");
+    socket?.on("shellWeDm", getInvite );
+  }, [socket,]);
 
 
 
@@ -120,6 +132,9 @@ const isEmpty = messages?.length === 0;
 const isReachingEnd = isEmpty || (messages && messages?.length < 20);
 const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
+const [showInviteModal, setShowInviteModal] = useState(false);
+const [inviteNum, setinviteNum] = useState(0);
+const [whoInvite, setWhoInvite] = useState("");
 
 const onCloseModal = useCallback(() => {
   setShowSetPWDModal(false);
@@ -235,6 +250,14 @@ if (returnFlag)
       onCloseModal={onCloseModal}
       setShowSetPWDModal={setShowSetPWDModal}
       roomInfo={ChatRoom!}
+    />
+    <InviteModal
+      show={showInviteModal}
+      onCloseModal={onCloseModal}
+      setShowInviteModal={setShowInviteModal}
+      roomInfo={ChatRoom!}
+      isDm={inviteNum}
+      whoInvite={whoInvite}
     />
     </div>
   );
