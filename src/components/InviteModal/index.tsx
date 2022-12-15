@@ -57,8 +57,8 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
 
   
   
-  if (inviteNum === 1)
-    setInviteType((n)=>{return "DM"})
+  // if (inviteNum === 1)
+  //   setInviteType((n)=>{return "DM"})
  
   if (!show) {
     return null;
