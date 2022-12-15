@@ -205,6 +205,7 @@ export default class SoloGame extends React.Component<
   }
 
   keyDownInput = (e: KeyboardEvent) => {
+    console.log("y", this.state.paddleLeftY);
     if (e.key === this.MOVE_UP && this.state.gameStarted) {
       e.preventDefault();
       this.paddleDir = 1;
@@ -216,6 +217,7 @@ export default class SoloGame extends React.Component<
   };
 
   keyUpInput = (e: KeyboardEvent) => {
+    console.log("y", this.state.paddleLeftY);
     if (
       (e.key === this.MOVE_UP || e.key === this.MOVE_DOWN) &&
       this.state.gameStarted

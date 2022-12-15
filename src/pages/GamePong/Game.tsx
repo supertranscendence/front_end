@@ -157,6 +157,7 @@ class Paddle extends React.Component< PaddleProps, StatePaddle > {
 
     componentWillReceiveProps(props: PaddleProps) {
     this.setState({y: props.y});
+
       }
 
     render() {
