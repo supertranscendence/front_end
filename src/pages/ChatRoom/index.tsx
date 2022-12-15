@@ -34,8 +34,8 @@ const isReachingEnd = isEmpty || (messages && messages?.length < 20);
 const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
-const [inviteNum, setinviteNum] = useState(0);
-const [whoInvite, setWhoInvite] = useState("");
+const [inviteNum, setinviteNum] = useState<number>(0);
+const [whoInvite, setWhoInvite] = useState<string>('');
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
@@ -126,7 +126,7 @@ if (ChatRoom)
 
 const leaveRoom = useCallback(()=>{
   // useEffect(() => {
-    socket?.emit("leaveRoom", {room:ChatRoom},retrunChannel);
+    socket?.emit("leaveRoom", {room:ChatRoom}, retrunChannel);
   // }, [socket]);
 },[]);
 
