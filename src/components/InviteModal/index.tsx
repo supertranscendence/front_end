@@ -37,25 +37,19 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     return null;
   }
   
-  // const onOk = useCallback(()=>{
-  //   console.log("ok");
-  //   setShowInviteModal(false);
-  //   clearModal();
-  // },[]);
-  
-  // const onNo = useCallback(()=>{
-  //   console.log("no");
-  //   setShowInviteModal(false);
-  //   clearModal();
-  // },[]);
-  // const onOkay = useCallback((e:any) => {
-  //   e.preventDefault();
-    
-  //   console.log("ok!!");
-  //   clearModal();
-  // }, []);
-  const goDm = ()=>{console.log("ok")}
-  const noDm = ()=>{console.log("no")}
+
+  const goDm = (e:any)=>{
+    e.preventDefault();
+    console.log("ok")
+    console.log("goDm",{roomName:roomInfo , user:whoInvite})
+    socket?.emit("goDm",{roomName:roomInfo , user:whoInvite})
+    clearModal();
+    }
+  const noDm = (e:any)=>{
+    e.preventDefault();
+    console.log("no")
+    clearModal();
+    }
   
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
