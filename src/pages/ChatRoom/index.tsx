@@ -256,7 +256,7 @@ if (returnFlag)
       onCloseModal={onCloseModal}
       setShowInviteModal={setShowInviteModal}
       roomInfo={ChatRoom!}
-      isDm={inviteNum}
+      inviteNum={inviteNum}
       whoInvite={whoInvite}
     />
     </div>
