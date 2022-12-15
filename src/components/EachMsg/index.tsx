@@ -38,7 +38,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   
   const setAdmin = useCallback(()=>{
   console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
-    socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name} , ()=>{console.log("done admin")} );
+    socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name} ,(arr : string[])=>{console.log("done admin arr:", arr)} );
   },[socket, ])
   
   const kickUser = useCallback(()=>{
@@ -48,7 +48,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   
   const banUser = useCallback(()=>{
     console.log("banUser", {roomName:roomName , banUser :msg.name} );
-    socket?.emit("banUser", {roomName:roomName , banUser :msg.name}, ()=>{console.log("done banUser")} );
+    socket?.emit("banUser", {roomName:roomName , banUser :msg.name},(arr : string[])=>{console.log("done ban arr:", arr)});
   },[socket, ])
   
   const muteUser = useCallback(()=>{
