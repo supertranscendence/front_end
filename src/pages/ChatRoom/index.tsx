@@ -101,6 +101,7 @@ if (ChatRoom)
     setinviteNum((n)=>{return 1});
     setWhoInvite((s)=>{return inviteObj.sendIntraId });
     setShowInviteModal(true);
+    console.log("ret:", inviteNum, whoInvite);
   },[])
   
   

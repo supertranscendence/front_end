@@ -32,15 +32,6 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   if (inviteNum === 1)
     setInviteType((n)=>{return "DM"})
  
-  
-  const onSetPublic = useCallback((e:any) => {
-    e.preventDefault();
-    console.log("set publc!!");
-    socket?.emit("SetPWD", {roomName: roomInfo , pw: "" , gottaPublic: true} ,()=>{console.log("done")})
-    clearModal()
-  }, []);
-  
-
   if (!show) {
     return null;
   }
@@ -56,7 +47,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
-      {whoInvite}님이 {inviteType}에 초대했습니다.
+      <Label>{whoInvite}님이 {inviteType}에 초대했습니다.</Label>
       <Button onClick={onOk}> 수락</Button>
       <Button onClick={onNo}> 거절</Button>
   </Modal>
