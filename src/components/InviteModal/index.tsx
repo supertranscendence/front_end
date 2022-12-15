@@ -25,7 +25,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const [socket] = useSocket(workspace);  
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const [inviteType, setInviteType] = useState('');
-  const [inviteNum, setinviteNum] = useState(0);
+  // const [inviteNum, setinviteNum] = useState(0);
   const [whoInvite, setWhoInvite] = useState('');
   const clearModal = useCallback(()=>{
     //mutate();
@@ -35,17 +35,17 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
     
     console.log("in getInvite",inviteObj );
-    console.log("ret1:", inviteNum, whoInvite);
+    console.log("ret1:", whoInvite);
     // setinviteNum(1);}
-    setinviteNum(1);
+    // setinviteNum(1);
     // inviteNum = 1;
-    console.log("ret2:", inviteNum, whoInvite);
+    console.log("ret2:",whoInvite);
     // setWhoInvite( inviteObj.sendIntraId );
     setWhoInvite(inviteObj.sendIntraId);
     // whoInvite=inviteObj.sendIntraId;
-    console.log("ret3:", inviteNum, whoInvite);
+    console.log("ret3:",whoInvite);
     setShowInviteModal(true);
-    console.log("ret4:", inviteNum, whoInvite);
+    console.log("ret4:",whoInvite);
   },
   []
 );
