@@ -39,10 +39,13 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const onOk = useCallback(()=>{
     console.log("ok");
     setShowInviteModal(false);
+    clearModal();
   },[]);
+  
   const onNo = useCallback(()=>{
     console.log("no");
     setShowInviteModal(false);
+    clearModal();
   },[]);
   
   return (
