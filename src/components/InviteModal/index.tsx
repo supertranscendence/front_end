@@ -44,12 +44,12 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: "디엠"})=> modalUp(inviteObj));
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="디엠"; modalUp(inviteObj)});
   }, [socket]);
   
   useEffect(() => {
     console.log("shellWeGame!");
-    socket?.on("shellWeGame", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: "게임"})=> modalUp(inviteObj));
+    socket?.on("shellWeGame", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="게임"; modalUp(inviteObj)});
   }, [socket]);
 
  
@@ -58,27 +58,27 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   }
   
   
-  const goDm = (e:any)=>{
+  const goRoom = (e:any)=>{
     e.preventDefault();
     console.log("ok")
-    console.log("goDm",{roomName:roomInfo , user:whoInvite})
-    socket?.emit("goDm",{roomName:roomInfo , user:whoInvite})
+    console.log("goRoom",{roomName:roomInfo , user:whoInvite})
+    socket?.emit("goRoom",{roomName:roomInfo , user:whoInvite})
     clearModal();
     }
     
-  const noDm = (e:any)=>{
+  const noRoom = (e:any)=>{
     e.preventDefault();
-    console.log("no")
+    console.log("noRoom")
     clearModal();
     }
   
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
       <Label>{whoInvite}님이 {inviteType}에 초대했습니다.</Label>
-      <form onSubmit={goDm}>
+      <form onSubmit={goRoom}>
         <Button type="submit"> 수락</Button>
       </form>
-      <form onSubmit={noDm}>
+      <form onSubmit={noRoom}>
         <Button type="submit"> 거절</Button>
       </form>
   </Modal>
