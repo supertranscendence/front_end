@@ -73,6 +73,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               <TextField
                 id="edit_nickname"
                 label="수정할 유니크한 닉네임"
+                size='small'
                 value={newRoom}
                 onChange={onChangeNewRoom}
                 required={true}

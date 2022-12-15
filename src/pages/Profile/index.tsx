@@ -17,6 +17,7 @@ import axios, { Axios } from 'axios';
 import { TypeDataUser } from 'src/pages/Profile/type';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 function createData(
     player: string,
@@ -42,17 +43,25 @@ function createData(
       setShowProfileModal(false);
     }, []);
     // ============================================
-    const [user, setUser] = useState<TypeDataUser>();
     const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
       dedupingInterval: 2000, // 2초
     });
     const [isUserMe, setIsUserMe] = useState(false);
 
+  const [user, setUser] = useState<TypeDataUser>({
+    avatar:   null,
+    created:  null,
+    id:       0,
+	  intra:    "UNKNOWN",
+    level:    0,
+    nickname: "UNKNOWN",
+    updated:  null
+  });
 
   useEffect(() => {
     axios
-    //.get("http://127.0.0.1:3000/api/users/jisokang", {
     .get("https://server.gilee.click/api/users/jisokang", {
+    //.get("http://127.0.0.1:3000/api/users/jisokang", {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
