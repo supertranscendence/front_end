@@ -14,7 +14,7 @@ const Intro = () => {
 
   return (
     <Container maxWidth="lg">
-      <h1> Welcome {myUserData && myUserData.intra}! </h1>
+      <h1> Welcome {myUserData && myUserData.intra}!! </h1>
     </Container>
   );
 };
