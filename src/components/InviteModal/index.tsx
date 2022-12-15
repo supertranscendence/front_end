@@ -26,6 +26,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const [inviteType, setInviteType] = useState('');
   const [whoInvite, setWhoInvite] = useState('');
+  const [returnFlag, setReturnFlag] = useState('');
   const clearModal = useCallback(()=>{
     //mutate();
     setShowInviteModal(false);
@@ -44,25 +45,32 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="디엠"; modalUp(inviteObj)});
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="Dm"; modalUp(inviteObj)});
   }, [socket]);
   
   useEffect(() => {
     console.log("shellWeGame!");
-    socket?.on("shellWeGame", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="게임"; modalUp(inviteObj)});
+    socket?.on("shellWeGame", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="Game"; modalUp(inviteObj)});
   }, [socket]);
 
  
   if (!show) {
     return null;
   }
-  
+  const retrunRoom = useCallback((joinedRoom:string)=>{
+    console.log("on retrunRoom", joinedRoom)
+    if (inviteType == "Dm")
+      setReturnFlag((flag) => `/workspace/sleact/channel/Chat/${joinedRoom}`);
+    else if (inviteType == "Game")
+      setReturnFlag((flag) => `/workspace/sleact/channel/Game/${joinedRoom}`);
+  },[])
   
   const goRoom = (e:any)=>{
     e.preventDefault();
+    const eventName = "go" + inviteType;
     console.log("ok")
-    console.log("goRoom",{roomName:roomInfo , user:whoInvite})
-    socket?.emit("goRoom",{roomName:roomInfo , user:whoInvite})
+    console.log(eventName,{roomName:roomInfo , user:whoInvite})
+    socket?.emit(eventName,{roomName:roomInfo , user:whoInvite}, retrunRoom)
     clearModal();
     }
     
@@ -71,16 +79,20 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     console.log("noRoom")
     clearModal();
     }
-  
+
+  if (returnFlag)
+    return(
+      <Redirect to={returnFlag}/>
+    )
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
       <Label>{whoInvite}님이 {inviteType}에 초대했습니다.</Label>
-      <form onSubmit={goRoom}>
-        <Button type="submit"> 수락</Button>
-      </form>
-      <form onSubmit={noRoom}>
-        <Button type="submit"> 거절</Button>
-      </form>
+      {/* <form onSubmit={goRoom}> */}
+        <Button onClick={goRoom}>수락</Button>
+      {/* </form> */}
+      {/* <form onSubmit={noRoom}> */}
+        <Button onClick={noRoom}>거절</Button>
+      {/* </form> */}
   </Modal>
   );
 };
