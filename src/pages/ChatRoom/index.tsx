@@ -114,10 +114,10 @@ if (ChatRoom)
       console.log("in getInvite",inviteObj );
       console.log("ret1:", inviteNum, whoInvite);
       // setinviteNum((n)=>{return 1});
-      setinviteNum(1);
+      setinviteNum(()=>1);
       console.log("ret2:", inviteNum, whoInvite);
       // setWhoInvite((s)=>{return inviteObj.sendIntraId });
-      setWhoInvite(inviteObj.sendIntraId );
+      setWhoInvite(()=>inviteObj.sendIntraId );
       console.log("ret3:", inviteNum, whoInvite);
       setShowInviteModal(true);
       console.log("ret4:", inviteNum, whoInvite);
