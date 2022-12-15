@@ -123,12 +123,12 @@ if (ChatRoom)
   useEffect(() => {
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
-  }, [socket, retrunChannel, returnFlag]);
+  }, []);
   
   useEffect(() => {
     console.log("shellWeDm!");
     socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> getInvite(inviteObj));
-  }, [socket]);
+  }, []);
 
 
 
