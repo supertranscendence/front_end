@@ -57,6 +57,7 @@ const [whoInvite, setWhoInvite] = useState('');
     },
     [moveScrollToReceiveMessage ]
   );
+  
 
 const setMyMsg = (str:string) => {
 if (ChatRoom)
@@ -125,22 +126,45 @@ if (ChatRoom)
     socket?.on("kicked", retrunChannel);
   }, [socket, retrunChannel, returnFlag]);
   
+  // useEffect(() => {
+  //   console.log("shellWeDm!");
+  //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
+  //     console.log("in getInvite",inviteObj );
+  //     console.log("ret1:", inviteNum, whoInvite);
+  //     // setinviteNum(1);}
+  //     setinviteNum((n) => {return 1});
+  //     // inviteNum = 1;
+  //     console.log("ret2:", inviteNum, whoInvite);
+  //     // setWhoInvite( inviteObj.sendIntraId );
+  //     setWhoInvite((s) => {return inviteObj.sendIntraId });
+  //     // whoInvite=inviteObj.sendIntraId;
+  //     console.log("ret3:", inviteNum, whoInvite);
+  //     setShowInviteModal(true);
+  //     console.log("ret4:", inviteNum, whoInvite);
+  //   }});
+  // }, [socket]);
+  
+  const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
+    
+    console.log("in getInvite",inviteObj );
+    console.log("ret1:", inviteNum, whoInvite);
+    // setinviteNum(1);}
+    setinviteNum((n) => {return 1});
+    // inviteNum = 1;
+    console.log("ret2:", inviteNum, whoInvite);
+    // setWhoInvite( inviteObj.sendIntraId );
+    setWhoInvite((s) => {return inviteObj.sendIntraId });
+    // whoInvite=inviteObj.sendIntraId;
+    console.log("ret3:", inviteNum, whoInvite);
+    setShowInviteModal(true);
+    console.log("ret4:", inviteNum, whoInvite);
+},
+  [ ]
+);
+  
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
-      console.log("in getInvite",inviteObj );
-      console.log("ret1:", inviteNum, whoInvite);
-      // setinviteNum(1);}
-      setinviteNum((n) => {return 1});
-      // inviteNum = 1;
-      console.log("ret2:", inviteNum, whoInvite);
-      // setWhoInvite( inviteObj.sendIntraId );
-      setWhoInvite((s) => {return inviteObj.sendIntraId });
-      // whoInvite=inviteObj.sendIntraId;
-      console.log("ret3:", inviteNum, whoInvite);
-      setShowInviteModal(true);
-      console.log("ret4:", inviteNum, whoInvite);
-    }});
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> test(inviteObj));
   }, [socket]);
 
 
