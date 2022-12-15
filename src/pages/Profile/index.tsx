@@ -46,8 +46,8 @@ const Profile = () => {
 
   useEffect(() => {
   axios
-  .get("https://server.gilee.click/api/users/jisokang", {
   //.get("http://127.0.0.1:3000/api/users/jisokang", {
+  .get("https://server.gilee.click/api/users/jisokang", {
     withCredentials:true,
       headers:{
         authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

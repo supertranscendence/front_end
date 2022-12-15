@@ -1,8 +1,15 @@
 import axios from 'axios'
 import { report } from 'process';
 
-const fetcher = (url:string) => axios.get(url,{
+const fetcher = (url:string) =>
+axios
+.get(url,{
 	withCredentials:true,
-}).then((response) => response.data);
+	headers:{
+        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+        accept: "*/*"
+        }
+})
+.then((response) => response.data);
 
 export default fetcher;
