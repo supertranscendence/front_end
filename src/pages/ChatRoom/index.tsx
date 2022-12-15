@@ -105,7 +105,7 @@ if (ChatRoom)
     console.log("ret3:", inviteNum, whoInvite);
     setShowInviteModal(true);
     console.log("ret4:", inviteNum, whoInvite);
-  },[])
+  },[inviteNum,whoInvite,setShowInviteModal, setWhoInvite, setinviteNum])
   
   
   useEffect(() => {
