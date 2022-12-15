@@ -62,7 +62,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
       setReturnFlag(`/workspace/sleact/channel/Chat/${joinedRoom}`);
     else if (inviteType == "Game")
       setReturnFlag(`/workspace/sleact/channel/Game/${joinedRoom}`);
-  },[])
+  },[inviteType])
   
   const goRoom = useCallback ((e:any)=>{
     e.preventDefault();
@@ -71,7 +71,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     console.log(eventName,{roomName:roomInfo , user:whoInvite})
     socket?.emit(eventName,{roomName:roomInfo , user:whoInvite}, (str:string) => retrunRoom(str))
     clearModal();
-    },[])
+    },[whoInvite, inviteType ])
     
   const noRoom = (e:any)=>{
     e.preventDefault();
