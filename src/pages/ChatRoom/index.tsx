@@ -127,8 +127,21 @@ if (ChatRoom)
   
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {getInvite(inviteObj)});
-  }, [socket, getInvite]);
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
+      console.log("in getInvite",inviteObj );
+      console.log("ret1:", inviteNum, whoInvite);
+      // setinviteNum(1);
+      setinviteNum((n) => 1);
+      // inviteNum = 1;
+      console.log("ret2:", inviteNum, whoInvite);
+      // setWhoInvite( inviteObj.sendIntraId );
+      setWhoInvite(inviteObj.sendIntraId );
+      // whoInvite=inviteObj.sendIntraId;
+      console.log("ret3:", inviteNum, whoInvite);
+      setShowInviteModal(true);
+      console.log("ret4:", inviteNum, whoInvite);
+    }});
+  }, [socket]);
 
 
 
