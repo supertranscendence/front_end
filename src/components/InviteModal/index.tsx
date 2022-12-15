@@ -60,9 +60,9 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   const retrunRoom = useCallback((joinedRoom:string)=>{
     console.log("on retrunRoom", joinedRoom)
     if (inviteType == "Dm")
-      setReturnFlag((flag) => `/workspace/sleact/channel/Chat/${joinedRoom}`);
+      setReturnFlag(`/workspace/sleact/channel/Chat/${joinedRoom}`);
     else if (inviteType == "Game")
-      setReturnFlag((flag) => `/workspace/sleact/channel/Game/${joinedRoom}`);
+      setReturnFlag(`/workspace/sleact/channel/Game/${joinedRoom}`);
   },[])
   
   const goRoom = (e:any)=>{
