@@ -106,7 +106,7 @@ if (ChatRoom)
     // inviteNum = 1;
     console.log("ret2:", inviteNum, whoInvite);
     // setWhoInvite( inviteObj.sendIntraId );
-    setWhoInvite((s)=>inviteObj.sendIntraId );
+    setWhoInvite(inviteObj.sendIntraId );
     // whoInvite=inviteObj.sendIntraId;
     console.log("ret3:", inviteNum, whoInvite);
     setShowInviteModal(true);
@@ -123,12 +123,12 @@ if (ChatRoom)
   useEffect(() => {
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
-  }, []);
+  }, [socket, retrunChannel, returnFlag]);
   
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> getInvite(inviteObj));
-  }, []);
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {getInvite(inviteObj)});
+  }, [socket, getInvite]);
 
 
 
