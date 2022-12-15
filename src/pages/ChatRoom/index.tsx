@@ -97,26 +97,7 @@ if (ChatRoom)
     console.log("on retrunChannel")
     setReturnFlag((flag)=>true);
   },[])
-  
-  const getInvite = useCallback(
-  (inviteObj : {sendIntraId:string,  recvIntraId:string})=>{
-    console.log("in getInvite",inviteObj );
-    console.log("ret1:", inviteNum, whoInvite);
-    // setinviteNum(1);
-    setinviteNum((n) => 1);
-    // inviteNum = 1;
-    console.log("ret2:", inviteNum, whoInvite);
-    // setWhoInvite( inviteObj.sendIntraId );
-    setWhoInvite(inviteObj.sendIntraId );
-    // whoInvite=inviteObj.sendIntraId;
-    console.log("ret3:", inviteNum, whoInvite);
-    setShowInviteModal(true);
-    console.log("ret4:", inviteNum, whoInvite);
-  }
-  ,[])
-  
-  
-  
+    
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
