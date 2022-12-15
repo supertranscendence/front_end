@@ -34,9 +34,10 @@ const isReachingEnd = isEmpty || (messages && messages?.length < 20);
 const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
-const [inviteNum, setinviteNum] = useState<number>(0);
-const [whoInvite, setWhoInvite] = useState<string>('');
-
+// const [inviteNum, setinviteNum] = useState(0);
+// const [whoInvite, setWhoInvite] = useState('');
+let  inviteNum = 0;
+let  whoInvite = '';
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
       chatWindow.current.scrollTo({
@@ -100,14 +101,16 @@ if (ChatRoom)
   (inviteObj : {sendIntraId:string,  recvIntraId:string})=>{
     console.log("in getInvite",inviteObj );
     console.log("ret1:", inviteNum, whoInvite);
-    setinviteNum(1);
     // setinviteNum(1);
-    // console.log("ret2:", inviteNum, whoInvite);
-    setWhoInvite( inviteObj.sendIntraId );
+    // setinviteNum(1);
+    inviteNum = 1;
+    console.log("ret2:", inviteNum, whoInvite);
+    // setWhoInvite( inviteObj.sendIntraId );
     // setWhoInvite(inviteObj.sendIntraId );
-    // console.log("ret3:", inviteNum, whoInvite);
+    whoInvite=inviteObj.sendIntraId;
+    console.log("ret3:", inviteNum, whoInvite);
     setShowInviteModal(true);
-    // console.log("ret4:", inviteNum, whoInvite);
+    console.log("ret4:", inviteNum, whoInvite);
   }
   ,[])
   
