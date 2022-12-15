@@ -13,6 +13,7 @@ import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
 import EachMsg from 'src/components/EachMsg'
 import { consumeFilesChange } from "fork-ts-checker-webpack-plugin/lib/files-change";
+import { stringify } from "querystring";
 
 
 // import scrollbar from 'smooth-scrollbar';
@@ -25,6 +26,7 @@ const ChatRoom = () => {
   const { ChatRoom } = useParams<{ ChatRoom?: string }>();
   const [socket] = useSocket("sleact");
   const [returnFlag, setReturnFlag] = useState(false);
+  const [redirectFlag, setRedirectFlag] = useState('');
   const [messages, setMessages] = useState<{room: string, user: string, msg: string}[]>([]);
   const chatWindow:any = useRef(null);
   const [dragOver, setDragOver] = useState(false);
@@ -97,6 +99,14 @@ if (ChatRoom)
     console.log("on retrunChannel")
     setReturnFlag((flag)=>true);
   },[])
+  
+  const redirectChannel = useCallback((Obj:{roomName:string,roomType:string })=>{
+    console.log("on redirectChannel", Obj)
+    if (Obj.roomType == "Dm")
+      setRedirectFlag(`/workspace/sleact/channel/Chat/${Obj.roomName}`);
+    else if (Obj.roomType == "Game")
+      setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
+  },[])
     
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
@@ -106,6 +116,11 @@ if (ChatRoom)
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
   }, [socket, retrunChannel, returnFlag]);
+  
+  useEffect(() => {
+    console.log("joinedRoom!");
+    socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => {redirectChannel(Obj)});
+  }, [socket, redirectChannel, redirectFlag]);
   
   // useEffect(() => {
   //   console.log("shellWeDm!");
@@ -234,7 +249,12 @@ const onDragOver = useCallback((e:any) => {
 if (returnFlag)
 {
   return ( <Redirect to= {`/workspace/sleact/channel/Chat`}/>);
-}   
+}
+else if (redirectFlag)
+{
+  return ( <Redirect to= {redirectFlag}/>);
+}
+
   return (
   <div>
   <Container onDrop={onDrop} onDragOver={onDragOver}>
