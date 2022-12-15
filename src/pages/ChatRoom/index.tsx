@@ -130,12 +130,12 @@ if (ChatRoom)
     socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
       console.log("in getInvite",inviteObj );
       console.log("ret1:", inviteNum, whoInvite);
-      // setinviteNum(1);
-      setinviteNum(1);
+      // setinviteNum(1);}
+      setinviteNum((n) => {return 1});
       // inviteNum = 1;
       console.log("ret2:", inviteNum, whoInvite);
       // setWhoInvite( inviteObj.sendIntraId );
-      setWhoInvite(inviteObj.sendIntraId );
+      setWhoInvite((s) => {return inviteObj.sendIntraId });
       // whoInvite=inviteObj.sendIntraId;
       console.log("ret3:", inviteNum, whoInvite);
       setShowInviteModal(true);
