@@ -12,6 +12,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
 import EachMsg from 'src/components/EachMsg'
+import { consumeFilesChange } from "fork-ts-checker-webpack-plugin/lib/files-change";
 
 
 // import scrollbar from 'smooth-scrollbar';
@@ -26,6 +27,16 @@ const ChatRoom = () => {
   const [returnFlag, setReturnFlag] = useState(false);
   const [messages, setMessages] = useState<{room: string, user: string, msg: string}[]>([]);
   const chatWindow:any = useRef(null);
+  const [dragOver, setDragOver] = useState(false);
+const scrollbarRef = useRef<Scrollbars>(null);
+const isEmpty = messages?.length === 0;
+const isReachingEnd = isEmpty || (messages && messages?.length < 20);
+const [chat, onChangeChat, setChat] = useInput('');
+const [showSetPWDModal, setShowSetPWDModal] = useState(false);
+const [showInviteModal, setShowInviteModal] = useState(false);
+const [inviteNum, setinviteNum] = useState(0);
+const [whoInvite, setWhoInvite] = useState("");
+
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
       chatWindow.current.scrollTo({
@@ -86,6 +97,7 @@ if (ChatRoom)
   },[])
   
   const getInvite = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string})=>{
+    console.log("in getInvite",inviteObj );
     setinviteNum((n)=>{return 1});
     setWhoInvite((s)=>{return inviteObj.sendIntraId });
     setShowInviteModal(true);
@@ -104,7 +116,7 @@ if (ChatRoom)
   useEffect(() => {
     console.log("shellWeDm!");
     socket?.on("shellWeDm", getInvite );
-  }, [socket,]);
+  }, [socket, inviteNum, whoInvite]);
 
 
 
@@ -126,15 +138,6 @@ const setPWD = useCallback(()=>{
 
 //////test////////
 
-const [dragOver, setDragOver] = useState(false);
-const scrollbarRef = useRef<Scrollbars>(null);
-const isEmpty = messages?.length === 0;
-const isReachingEnd = isEmpty || (messages && messages?.length < 20);
-const [chat, onChangeChat, setChat] = useInput('');
-const [showSetPWDModal, setShowSetPWDModal] = useState(false);
-const [showInviteModal, setShowInviteModal] = useState(false);
-const [inviteNum, setinviteNum] = useState(0);
-const [whoInvite, setWhoInvite] = useState("");
 
 const onCloseModal = useCallback(() => {
   setShowSetPWDModal(false);
