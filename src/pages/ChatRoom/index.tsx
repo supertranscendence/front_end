@@ -96,16 +96,7 @@ if (ChatRoom)
     setReturnFlag((flag)=>true);
   },[])
   
-  const getInvite = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string})=>{
-    console.log("in getInvite",inviteObj );
-    console.log("ret1:", inviteNum, whoInvite);
-    setinviteNum((n)=>{return 1});
-    console.log("ret2:", inviteNum, whoInvite);
-    setWhoInvite((s)=>{return inviteObj.sendIntraId });
-    console.log("ret3:", inviteNum, whoInvite);
-    setShowInviteModal(true);
-    console.log("ret4:", inviteNum, whoInvite);
-  },[inviteNum,whoInvite,setShowInviteModal, setWhoInvite, setinviteNum])
+  // const getInvite = useCallback(,[inviteNum,whoInvite,setShowInviteModal, setWhoInvite, setinviteNum])
   
   
   useEffect(() => {
@@ -119,7 +110,16 @@ if (ChatRoom)
   
   useEffect(() => {
     console.log("shellWeDm!");
-    socket?.on("shellWeDm", getInvite );
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=>{
+      console.log("in getInvite",inviteObj );
+      console.log("ret1:", inviteNum, whoInvite);
+      setinviteNum((n)=>{return 1});
+      console.log("ret2:", inviteNum, whoInvite);
+      setWhoInvite((s)=>{return inviteObj.sendIntraId });
+      console.log("ret3:", inviteNum, whoInvite);
+      setShowInviteModal(true);
+      console.log("ret4:", inviteNum, whoInvite);
+    } );
   }, [socket, inviteNum, whoInvite]);
 
 
