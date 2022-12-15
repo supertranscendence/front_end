@@ -131,7 +131,7 @@ if (ChatRoom)
       console.log("in getInvite",inviteObj );
       console.log("ret1:", inviteNum, whoInvite);
       // setinviteNum(1);
-      setinviteNum((n) => 1);
+      setinviteNum(1);
       // inviteNum = 1;
       console.log("ret2:", inviteNum, whoInvite);
       // setWhoInvite( inviteObj.sendIntraId );
