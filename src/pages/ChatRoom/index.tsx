@@ -109,7 +109,7 @@ if (ChatRoom)
     setShowInviteModal(true);
     // console.log("ret4:", inviteNum, whoInvite);
   }
-  ,[setShowInviteModal, setWhoInvite, setinviteNum])
+  ,[])
   
   
   
