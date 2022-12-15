@@ -125,7 +125,7 @@ if (ChatRoom)
   useEffect(() => {
     console.log("shellWeDm!");
     socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> getInvite(inviteObj));
-  }, [socket, inviteNum, whoInvite]);
+  }, [socket, getInvite]);
 
 
 
