@@ -75,7 +75,7 @@ if (joinedRoom)
 
 useEffect(()=>{
   
-  socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number, member:string[]}[])=>{
+  socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
   console.log("publicRooms", publicRoomsArr);
   setRoomArr( [...publicRoomsArr.map((eachObj)=>{
       return {
