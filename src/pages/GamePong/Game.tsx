@@ -1,3 +1,5 @@
+import useSocket from '@hooks/useSocket';
+import Workspace from '@layouts/Workspace';
 import React from 'react';
 import { io, Socket } from "socket.io-client";
 import "./Game.css";
@@ -9,7 +11,7 @@ import SoloGame from './SoloGame';
 //import { Navigate } from 'react-router-dom';
 //import Navigate from 'react-router-dom';
 //import { NotifCxt } from '../App';
-
+import { useParams } from 'react-router';
 class Settings extends React.Component <SettingsProps, SettingsState> {
 
   constructor(props: SettingsProps){
@@ -179,21 +181,23 @@ class Paddle extends React.Component< PaddleProps, StatePaddle > {
        }
     }
 
+
+    //const socket = io(`${process.env.REACT_APP_BACKEND_SOCKET}`, socketOptions);
 export default class GamePong extends React.Component<PropsPong, StatePong> {
-  //static contextType = NotifCxt
-  //context!: React.ContextType<typeof NotifCxt>
+    //static contextType = NotifCxt
+    //context!: React.ContextType<typeof NotifCxt>
 
-  socketOptions = {
-    transportOptions: {
-      polling: {
-        extraHeaders: {
-          Token: localStorage.getItem("userToken"),
+      socketOptions = {
+        transportOptions: {
+          polling: {
+            extraHeaders: {
+              Token: localStorage.getItem("userToken"),
+            },
+          },
         },
-      },
-    },
-  };
+      };
 
-  //socket: Socket;
+  socket: Socket;
 
   MOVE_UP = "ArrowUp";
   MOVE_DOWN = "ArrowDown";
@@ -226,11 +230,18 @@ export default class GamePong extends React.Component<PropsPong, StatePong> {
       redirectChat: false,
     };
     //if (this.props.pvtGame === false)
-    //  this.socket = io(`${process.env.REACT_APP_BACKEND_SOCKET}`, this.socketOptions);
+      //this.socket = io(`${process.env.REACT_APP_BACKEND_SOCKET}`, this.socketOptions);
     //else
-      //this.socket = chatSocket;
-    this.onSettingsKeyDown = this.onSettingsKeyDown.bind(this);
-    this.onSettingsClickClose = this.onSettingsClickClose.bind(this);
+    //const { workspace } = useParams<{ workspace?: string }>();
+
+
+    /**
+     * 여기 소켓 뫠 이따위로 받음?
+     *   */
+
+    this.socket = io(`${process.env.NODE_ENV}`, this.socketOptions);
+    //this.onSettingsKeyDown = this.onSettingsKeyDown.bind(this);
+    //this.onSettingsClickClose = this.onSettingsClickClose.bind(this);
     this.quitSoloMode = this.quitSoloMode.bind(this);
   }
 
@@ -238,11 +249,12 @@ export default class GamePong extends React.Component<PropsPong, StatePong> {
   componentDidMount() {
     document.onkeydown = this.keyDownInput;
     document.onkeyup = this.keyUpInput;
-    //this.socket.on("game_started", () => {
-    //  this.setState({ gameStarted: true, showStartButton: false });
-    //  this.avatarsFetched = false;
-    //  this.socket.off("rejected");
-    //});
+    //================== GAME START ==================//
+    this.socket.on("game_started", () => {
+      this.setState({ gameStarted: true, showStartButton: false });
+      this.avatarsFetched = false;
+      this.socket.off("rejected");
+    });
     //this.socket.on("update", (info: Game_data) => {
     //  this.setState({
     //    ballX: info.xBall,
@@ -279,25 +291,25 @@ export default class GamePong extends React.Component<PropsPong, StatePong> {
     //      })
     //);
 
-    if (this.props.pvtGame && localStorage.getItem("playernb") === "1") {
-      let RoomId = Number(localStorage.getItem("roomid")!);
-      this.setState({roomId: RoomId});
-      this.setState({playerNumber: 1, msgType: 4, buttonState: "Cancel"});
-      //this.socket.on("rejected", (targetName: string) => {
-      //  this.setState({roomId: 0, playerNumber: 0, msgType: 0, buttonState: "Start"})
-      //  this.setState({redirectChat: true})
-      //  console.log(targetName + ' rejected')
-      //  this.context?.setNotifText(targetName + ' rejected the game');
-      //  this.context?.setNotifShow(true);
-      //}
+    //if (this.props.pvtGame && localStorage.getItem("playernb") === "1") {
+    //  let RoomId = Number(localStorage.getItem("roomid")!);
+    //  this.setState({roomId: RoomId});
+    //  this.setState({playerNumber: 1, msgType: 4, buttonState: "Cancel"});
+    //  this.socket.on("rejected", (targetName: string) => {
+    //    this.setState({roomId: 0, playerNumber: 0, msgType: 0, buttonState: "Start"})
+    //    this.setState({redirectChat: true})
+    //    console.log(targetName + ' rejected')
+    //    //this.context?.setNotifText(targetName + ' rejected the game');
+    //    //this.context?.setNotifShow(true);
+    //  }
 
-      //);
-    }
+    //  );
+    //}
 
-    if (this.props.pvtGame && localStorage.getItem("playernb") === "2") {
-      let RoomId = Number(localStorage.getItem("roomid")!);
-      this.setState({roomId: RoomId, playerNumber: 2, msgType: 0, gameStarted: true, showStartButton: false});
-    }
+    //if (this.props.pvtGame && localStorage.getItem("playernb") === "2") {
+    //  let RoomId = Number(localStorage.getItem("roomid")!);
+    //  this.setState({roomId: RoomId, playerNumber: 2, msgType: 0, gameStarted: true, showStartButton: false});
+    //}
   }
 
 
@@ -313,7 +325,7 @@ export default class GamePong extends React.Component<PropsPong, StatePong> {
     if (!this.state.showStartButton) return;
     if (this.state.buttonState === "Cancel") {
       //this.socket.disconnect();
-      //this.socket.connect();s
+      //this.socket.connect();
       this.setState({
         gameStarted: false,
         showStartButton: true,
@@ -322,20 +334,20 @@ export default class GamePong extends React.Component<PropsPong, StatePong> {
       return;
     }
     this.setState({ buttonState: "Cancel" });
-    //this.socket.emit("start", {}, (player: Player) =>
-    //{
-    //  if (player.playerNb === 3)
-    //  {
-    //    this.setState({
-    //      msgType: 5,});
-    //      return;
-    //  }
-    //  this.setState({
-    //    roomId: player.roomId,
-    //    playerNumber: player.playerNb,
-    //    msgType: 1,
-    //  })
-    //});
+    this.socket.emit("start", {}, (player: Player) =>
+    {
+      if (player.playerNb === 3)
+      {
+        this.setState({
+          msgType: 5,});
+          return;
+      }
+      this.setState({
+        roomId: player.roomId,
+        playerNumber: player.playerNb,
+        msgType: 1,
+      })
+    });
   };
 
   soloButtonHandler = () => this.setState({ soloGame: true });

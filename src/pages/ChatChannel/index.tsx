@@ -65,7 +65,7 @@ const getJoinedRoom = useCallback((str:string)=>{
 useEffect(()=>{
  socket?.emit("joinedRoom", getJoinedRoom)
 },[]);
- 
+
 if (joinedRoom)
 {
  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
@@ -74,7 +74,7 @@ if (joinedRoom)
 }
 
 useEffect(()=>{
-  
+
   socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
   console.log("publicRooms", publicRoomsArr);
   setRoomArr( [...publicRoomsArr.map((eachObj)=>{
@@ -202,7 +202,7 @@ else
         setPWDModal={setShowPWDModal}
         roomInfo={roomInfo}
         />
-        
+
     </div>
   );
 }
