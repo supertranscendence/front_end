@@ -70,7 +70,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     const eventName = "go" + inviteType;
     console.log("ok")
     console.log(eventName,{roomName:roomInfo , user:whoInvite})
-    socket?.emit(eventName,{roomName:roomInfo , user:whoInvite}, retrunRoom)
+    socket?.emit(eventName,{roomName:roomInfo , user:whoInvite}, (str:string) => retrunRoom(str))
     clearModal();
     }
     
