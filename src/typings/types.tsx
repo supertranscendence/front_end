@@ -1,9 +1,9 @@
 export type TypeDataUser = {
-	avatar: string | null;
-	created: Date | null;
+	avatar: string;
+	created: Date;
     id: number;
 	intra: string;
     level: number;
     nickname: string;
-	updated: Date | null;
+	updated: Date;
 }

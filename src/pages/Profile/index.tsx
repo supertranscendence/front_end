@@ -15,6 +15,9 @@ import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import axios, { Axios } from 'axios';
 import { TypeDataUser } from 'src/pages/Profile/type';
+import useSWR from 'swr';
+import fetcher from 'src/utils/fetcher';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 function createData(
     player: string,
@@ -27,42 +30,67 @@ function createData(
   const rows = [
     createData('jisokang VS hypark', 15, '2021-01-01'),
     createData('jisokang VS hypark', 15, '2021-01-01'),
-    createData('jisokang VS hypark', 15, '2021-01-01'),
-    createData('jisokang VS hypark', 15, '2021-01-01'),
-    createData('jisokang VS hypark', 15, '2021-01-01'),
   ];
 
-const Profile = () => {
-  const [showCreateChannelModal, setShowProfileModal] = useState(false);
-  const onClickEditProfile = useCallback(() => {
-    setShowProfileModal(true);
-  }, []);
+  const Profile = () => {
 
-  const onCloseModal = useCallback(() => {
-    setShowProfileModal(false);
-  }, []);
+    // Modal=======================================
+    const [showCreateChannelModal, setShowProfileModal] = useState(false);
+    const onClickEditProfile = useCallback(() => {
+      setShowProfileModal(true);
+    }, []);
+    const onCloseModal = useCallback(() => {
+      setShowProfileModal(false);
+    }, []);
+    // ============================================
+    //const { data:myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
+    const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+      dedupingInterval: 2000, // 2초
+    });
+    const [isUserMe, setIsUserMe] = useState(false);
 
-  const [user, setUser] = useState<TypeDataUser>();
+  const [user, setUser] = useState<TypeDataUser>({
+    avatar:   null,
+    created:  null,
+    id:       0,
+	  intra:    "UNKNOWN",
+    level:    0,
+    nickname: "UNKNOWN",
+    updated:  null
+  });
+  useEffect(() => {
+    console.log("Check isMyUser");
+    console.log("user?.intra: ", user?.intra);
+    console.log("myUserData?.intra: ", myUserData?.intra);
+    if (user?.intra === myUserData?.intra){
+      setIsUserMe(true);
+    }
+    else{
+      setIsUserMe(false);
+    }
+    console.log("isUserMe:", isUserMe);
+
+  }, [user, myUserData]);
 
   useEffect(() => {
-  axios
-  .get("https://server.gilee.click/api/users/jisokang", {
-  //.get("http://127.0.0.1:3000/api/users/jisokang", {
-    withCredentials:true,
-      headers:{
-        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-        accept: "*/*"
-        }
+    axios
+    .get("https://server.gilee.click/api/users/jisokang", {
+    //.get("http://127.0.0.1:3000/api/users/jisokang", {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log(response);
+      console.log("intra: ",response.data.intra)
+      setUser(response.data);
     })
-  .then((response) =>{
-    console.log(response);
-    console.log("intra: ",response.data.intra)
-    setUser(response.data);
-  })
-  .catch((err) => {
-    console.log("[ERROR] get /api/users/{id}")
-    console.log(err)
-  });
+    .catch((err) => {
+      console.log("[ERROR] get /api/users/{id}")
+      console.log(err)
+    });
   }, []);
 
 
@@ -70,7 +98,14 @@ const Profile = () => {
     <Container maxWidth="lg">
       <Stack spacing={1}>
         <Stack />
-          <h1>PROFILE</h1>
+          {isUserMe === true ?(
+            <h1>MY PROFILE</h1>
+            ) : (
+            <div>
+              <h1>OTHER PROFILE</h1>
+              <Button variant='outlined'>친구 추가</Button>
+            </div>
+          )}
         <Stack alignItems="center">
           <Avatar sx={{ width: 128, height: 128 }}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
@@ -78,7 +113,7 @@ const Profile = () => {
           <b>Created Date:</b><>{ user && user.created }</>
           <b>Updated Date:</b><>{ user && user.updated }</>
           <Tooltip title="수정하기" arrow>
-            <IconButton aria-label="edit" onClick={onClickEditProfile}> {/* Link to Modal for edit */}
+            <IconButton aria-label="edit" onClick={onClickEditProfile}>
               <EditIcon />
             </IconButton>
           </Tooltip>
