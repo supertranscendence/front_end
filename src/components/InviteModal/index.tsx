@@ -39,6 +39,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     setWhoInvite(inviteObj.sendIntraId);
     setInviteType(inviteObj.type);
     setShowInviteModal(true);
+    console.log("in getInvite end" );
   },
   []
 );
@@ -54,9 +55,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   }, [socket]);
 
  
-  if (!show) {
-    return null;
-  }
+  
   const retrunRoom = useCallback((joinedRoom:string)=>{
     console.log("on retrunRoom", joinedRoom)
     if (inviteType == "Dm")
@@ -65,21 +64,23 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
       setReturnFlag(`/workspace/sleact/channel/Game/${joinedRoom}`);
   },[])
   
-  const goRoom = (e:any)=>{
+  const goRoom = useCallback ((e:any)=>{
     e.preventDefault();
     const eventName = "go" + inviteType;
     console.log("ok")
     console.log(eventName,{roomName:roomInfo , user:whoInvite})
     socket?.emit(eventName,{roomName:roomInfo , user:whoInvite}, (str:string) => retrunRoom(str))
     clearModal();
-    }
+    },[])
     
   const noRoom = (e:any)=>{
     e.preventDefault();
     console.log("noRoom")
     clearModal();
     }
-
+  if (!show) {
+    return null;
+  }
   if (returnFlag)
     return(
       <Redirect to={returnFlag}/>
