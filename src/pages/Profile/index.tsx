@@ -43,6 +43,7 @@ function createData(
       setShowProfileModal(false);
     }, []);
     // ============================================
+    //const { data:myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
     const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
       dedupingInterval: 2000, // 2초
     });
@@ -57,6 +58,19 @@ function createData(
     nickname: "UNKNOWN",
     updated:  null
   });
+  useEffect(() => {
+    console.log("Check isMyUser");
+    console.log("user?.intra: ", user?.intra);
+    console.log("myUserData?.intra: ", myUserData?.intra);
+    if (user?.intra === myUserData?.intra){
+      setIsUserMe(true);
+    }
+    else{
+      setIsUserMe(false);
+    }
+    console.log("isUserMe:", isUserMe);
+
+  }, [user, myUserData]);
 
   useEffect(() => {
     axios
@@ -78,22 +92,20 @@ function createData(
       console.log(err)
     });
   }, []);
-  useEffect(() => {
-    if (user?.intra === myUserData?.intra)
-      setIsUserMe(true);
-  }, [isUserMe]);
+
 
   return (
     <Container maxWidth="lg">
       <Stack spacing={1}>
         <Stack />
-          {isUserMe === true ?
-            (
-              <h1>MY PROFILE</h1>
-              ) : (
+          {isUserMe === true ?(
+            <h1>MY PROFILE</h1>
+            ) : (
+            <div>
               <h1>OTHER PROFILE</h1>
-            )}
-
+              <Button variant='outlined'>친구 추가</Button>
+            </div>
+          )}
         <Stack alignItems="center">
           <Avatar sx={{ width: 128, height: 128 }}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
@@ -101,7 +113,7 @@ function createData(
           <b>Created Date:</b><>{ user && user.created }</>
           <b>Updated Date:</b><>{ user && user.updated }</>
           <Tooltip title="수정하기" arrow>
-            <IconButton aria-label="edit" onClick={onClickEditProfile}> {/* Link to Modal for edit */}
+            <IconButton aria-label="edit" onClick={onClickEditProfile}>
               <EditIcon />
             </IconButton>
           </Tooltip>
