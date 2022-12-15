@@ -1,5 +1,5 @@
 import { CreateModal, CloseModalButton } from 'src/components/Modal/style';
-import React, { FC, PropsWithChildren, useCallback,useState } from 'react';
+import React, {useEffect, FC, PropsWithChildren, useCallback,useState } from 'react';
 import {Label, Input, Button} from 'src/pages/SignUp/styles';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"
@@ -16,19 +16,46 @@ interface Props {
   onCloseModal: () => void;
   setShowInviteModal : (flag:boolean) => void
   roomInfo : string
-  inviteNum : number
-  whoInvite : string
+  // inviteNum : number
+  // whoInvite : string
 }
 
-const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowInviteModal ,roomInfo , inviteNum , whoInvite}) => {
+const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowInviteModal ,roomInfo }) => {
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   const [socket] = useSocket(workspace);  
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const [inviteType, setInviteType] = useState('');
+  const [inviteNum, setinviteNum] = useState(0);
+  const [whoInvite, setWhoInvite] = useState('');
   const clearModal = useCallback(()=>{
     //mutate();
     setShowInviteModal(false);
   },[]);
+  
+  const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
+    
+    console.log("in getInvite",inviteObj );
+    console.log("ret1:", inviteNum, whoInvite);
+    // setinviteNum(1);}
+    setinviteNum((n) => {return 1});
+    // inviteNum = 1;
+    console.log("ret2:", inviteNum, whoInvite);
+    // setWhoInvite( inviteObj.sendIntraId );
+    setWhoInvite((s) => {return inviteObj.sendIntraId });
+    // whoInvite=inviteObj.sendIntraId;
+    console.log("ret3:", inviteNum, whoInvite);
+    setShowInviteModal(true);
+    console.log("ret4:", inviteNum, whoInvite);
+  },
+  []
+);
+  
+  useEffect(() => {
+    console.log("shellWeDm!");
+    socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> test(inviteObj));
+  }, [socket]);
+
+  
   
   if (inviteNum === 1)
     setInviteType((n)=>{return "DM"})
@@ -37,7 +64,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     return null;
   }
   
-
+  
   const goDm = (e:any)=>{
     e.preventDefault();
     console.log("ok")
@@ -45,6 +72,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     socket?.emit("goDm",{roomName:roomInfo , user:whoInvite})
     clearModal();
     }
+    
   const noDm = (e:any)=>{
     e.preventDefault();
     console.log("no")
