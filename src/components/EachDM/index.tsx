@@ -1,6 +1,6 @@
 import { IUser } from 'src/typings/db';
 import fetcher from 'src/utils/fetcher';
-import React, { useEffect, VFC } from 'react';
+import React, { useEffect, useCallback, useState ,VFC } from 'react';
 import { useParams } from 'react-router';
 import { NavLink, useLocation, Redirect, Link } from 'react-router-dom';
 import useSWR from 'swr';
@@ -12,6 +12,8 @@ import { styled } from '@mui/material/styles';
 import PendingIcon from '@mui/icons-material/Pending';
 import { grey } from '@mui/material/colors';
 import { Stack } from '@mui/system';
+import { dataUser } from '@typings/types';
+import useSocket from 'src/hooks/useSocket';
 
 const grey_color = grey[50];
 interface Props {
@@ -21,9 +23,10 @@ interface Props {
 }
 
 const EachDM: VFC<Props> = ({ member, isOnline }) => {
+  const [socket] = useSocket("sleact");
   const { workspace } = useParams<{ workspace?: string }>();
   const location = useLocation();
-  const { data: userData } = useSWR<IUser>('api/users', fetcher, {
+  const { data: userData } = useSWR<dataUser>('api/users', fetcher, {
     dedupingInterval: 2000, //x 2초
   });
   const date = localStorage.getItem(`${workspace}-${member.kg}`) || 0;
@@ -46,6 +49,12 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [returnURL, setReturnURL] = useState("");
+
+  const showProfile = useCallback(()=>{
+    console.log("showProfile" );
+    setReturnURL(`/workspace/sleact/profile/${userData?.intra}`);
+  },[socket, ])
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -75,7 +84,10 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
       },
     },
   }));
-
+  if (returnURL)
+  {
+    return (<Redirect to = {returnURL}/>)
+  }
 
   return (
     <List>
@@ -110,10 +122,10 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>프로필 보기</MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile/${userData?.intra}`}>프로필 보기</MenuItem>
         <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${member.kg}`}>DM 보내기</MenuItem>
-        <MenuItem onClick={handleClose}>친구 추가/삭제</MenuItem>
-        <MenuItem onClick={handleClose}>음소거하기</MenuItem>
+        <MenuItem onClick={handleClose}>게임 신청하기</MenuItem>
+        {/*게임 신청하기! */}
       </Menu>
     </List>
   );

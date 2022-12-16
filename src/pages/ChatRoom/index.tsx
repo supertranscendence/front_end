@@ -1,4 +1,6 @@
-
+import { dataUser } from 'src/pages/Profile/type';
+import useSWR from 'swr';
+import fetcher from 'src/utils/fetcher';
 import React,{ useState, useCallback, useEffect, useContext, useRef } from "react";
 import useSocket from 'src/hooks/useSocket';
 import { ChatArea } from "@components/ChatBox/styles";
@@ -12,14 +14,6 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
 import EachMsg from 'src/components/EachMsg'
-import { consumeFilesChange } from "fork-ts-checker-webpack-plugin/lib/files-change";
-import { stringify } from "querystring";
-import {IUser2} from 'src/typings/db'
-
-// import scrollbar from 'smooth-scrollbar';
-
-// smooth scroll 설정
-
 
 const ChatRoom = () => {
 
@@ -36,25 +30,29 @@ const isReachingEnd = isEmpty || (messages && messages?.length < 20);
 const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
-const [inviteNum, setinviteNum] = useState(0);
-const [whoInvite, setWhoInvite] = useState('');
+
+// const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+//   dedupingInterval: 2000, // 2초
+// });
+
 const [users, setUsers] = useState<string[]>([]);
-// let  inviteNum = 0;
-// let  whoInvite = '';
-const updateUsers = useCallback((arr:Map<string,IUser2>)=>{
-    console.log("users map ",arr);
-    let tempArr:string[] = []
-    arr.forEach((ele:any) =>{
-      tempArr.push(ele.intra);
-      //TODO인트라 -> 닉넴
-    })
-    setUsers((ele)=>tempArr);
-    
-},[socket,setUsers])
+// const [users, setUsers] = useState<string[]>([myUserData?.intra!]);
+
+const updateUsers = useCallback((userArr:string[])=>{
+  console.log("users map ",userArr);
+  setUsers((arr)=>[...userArr.map((str)=>{
+    return str})]);
+  },[socket,setUsers])
 
 useEffect(()=>{
-  socket?.on("roomInfo", (arr:Map<string,IUser2>) => updateUsers(arr))
-},[socket])
+  socket?.emit("roomInfo", {roomName:ChatRoom}, (userArr : string[]) =>updateUsers(userArr))
+},[])
+
+
+useEffect(()=>{
+  socket?.on("roomInfo", (userArr:string[]) => updateUsers(userArr))
+},[socket, users ])
+
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
       chatWindow.current.scrollTo({
@@ -74,7 +72,7 @@ useEffect(()=>{
     },
     [moveScrollToReceiveMessage ]
   );
-  
+
 
 const setMyMsg = (str:string) => {
 if (ChatRoom)
@@ -114,7 +112,7 @@ if (ChatRoom)
     console.log("on retrunChannel")
     setReturnFlag((flag)=>true);
   },[])
-  
+
   const redirectChannel = useCallback((Obj:{roomName:string,roomType:string })=>{
     console.log("on redirectChannel", Obj)
     if (Obj.roomType == "Dm")
@@ -122,16 +120,16 @@ if (ChatRoom)
     else if (Obj.roomType == "Game")
       setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
   },[setRedirectFlag])
-    
+
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
-  
+
   useEffect(() => {
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
   }, [socket, retrunChannel, returnFlag]);
-  
+
   useEffect(() => {
     console.log("joinedRoom!");
     socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => {
@@ -142,7 +140,7 @@ if (ChatRoom)
       setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
     });
   }, [socket, redirectChannel, redirectFlag]);
-  
+
   // useEffect(() => {
   //   console.log("shellWeDm!");
   //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
@@ -160,9 +158,9 @@ if (ChatRoom)
   //     console.log("ret4:", inviteNum, whoInvite);
   //   }});
   // }, [socket]);
-  
+
 //   const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
-    
+
 //     console.log("in getInvite",inviteObj );
 //     console.log("ret1:", inviteNum, whoInvite);
 //     // setinviteNum(1);}
@@ -178,7 +176,7 @@ if (ChatRoom)
 // },
 //   [ ]
 // );
-  
+
   // useEffect(() => {
   //   console.log("shellWeDm!");
   //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> test(inviteObj));
@@ -196,7 +194,7 @@ const setPWD = useCallback(()=>{
   setShowSetPWDModal(true);
   // useEffect(() => {
     // socket?.emit("setPWD", {room:ChatRoom},retrunChannel);
-    
+
   // }, [socket]);
 },[]);
 
@@ -281,12 +279,16 @@ else if (redirectFlag)
   <Container onDrop={onDrop} onDragOver={onDragOver}>
       <Header>
         <img src="" />
-        <span>{ChatRoom}</span>
+        <span>{ChatRoom} 방 </span>
+        <>
         {users.map((user, index) => {
           return (
-            <EachMsg key={ChatRoom!} msg={{msg: '', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            <>
+            <EachMsg key={user} msg={{msg: '', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            </>
           );
         })}
+        </>
         <button onClick ={leaveRoom}>leaveRoom</button>
         <button onClick ={setPWD}>setPWD</button>
       </Header>
@@ -299,7 +301,7 @@ else if (redirectFlag)
       /> */}
       {/* <div id="smooth-scroll"> */}
       <Scrollbars>
-        
+
        {messages.map((message, index) => {
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
@@ -318,7 +320,7 @@ else if (redirectFlag)
       />
       {dragOver && <DragOver>업로드!</DragOver>}
     </Container>
-    
+
     <SetPWDModal
       show={showSetPWDModal}
       onCloseModal={onCloseModal}
