@@ -14,12 +14,28 @@ import useInput from 'src/hooks/useInput';
 import EachMsg from 'src/components/EachMsg'
 import { consumeFilesChange } from "fork-ts-checker-webpack-plugin/lib/files-change";
 import { stringify } from "querystring";
-import {IUser2} from 'src/typings/db'
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
+import { Client } from "socket.io/dist/client";
+// import {IUser2} from 'src/typings/db'
 
 // import scrollbar from 'smooth-scrollbar';
 
 // smooth scroll 설정
+export enum UserStatus {
+  me,
+  login,
+  logout,
+  ingame,
+}
 
+export interface IUser {
+  client: Client<DefaultEventsMap, DefaultEventsMap,DefaultEventsMap, any>;
+  client_id: string;
+  intra: string;
+  nickname?: string;
+  avatar?: string;
+  status?: UserStatus;
+}
 
 const ChatRoom = () => {
 
@@ -41,7 +57,7 @@ const [whoInvite, setWhoInvite] = useState('');
 const [users, setUsers] = useState<string[]>([]);
 // let  inviteNum = 0;
 // let  whoInvite = '';
-const updateUsers = useCallback((arr:Map<string,IUser2>)=>{
+const updateUsers = useCallback((arr:Map<string,IUser>)=>{
     console.log("users map ",arr);
     let tempArr:string[] = []
     arr.forEach((ele:any) =>{
@@ -53,8 +69,9 @@ const updateUsers = useCallback((arr:Map<string,IUser2>)=>{
 },[socket,setUsers])
 
 useEffect(()=>{
-  socket?.on("roomInfo", (arr:Map<string,IUser2>) => updateUsers(arr))
+  socket?.on("roomInfo", (arr:Map<string,IUser>) => updateUsers(arr))
 },[socket])
+
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
       chatWindow.current.scrollTo({
