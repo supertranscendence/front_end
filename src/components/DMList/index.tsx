@@ -31,7 +31,7 @@ const DMList = () => {
     console.log("[frineds map]: ",userArr);
     setFriendData((arr)=>[...userArr.map((str)=>{
       return str})]);
-    },[socket,setFriendData])
+    },[socket, setFriendData])
 
   useEffect(() => {
     socket?.on('friends-list', (userArr: string[]) => {
@@ -39,9 +39,6 @@ const DMList = () => {
     });
   }, [socket, ]);
 
-  useEffect(() => {
-
-  }, [socket]);
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);

@@ -22,7 +22,7 @@ interface Props {
 }
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
   //const {data: userData, error, mutate: mutate}  = useSWR<IUser | false>('api/users', fetcher);
-  const[newRoom, onChangeNewRoom, setNewRoom] = useInput('');
+  const[newNick, onChangeNewNick, setNewNick] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
   const [socket] = useSocket(workspace);
@@ -35,16 +35,13 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
   },[]);
 
 
-  const onCreateRoom = useCallback((e:any) => {
+  const onEditNickname = useCallback((e:any) => {
     e.preventDefault();
-    if (!newRoom || !newRoom.trim()) {
-      return;
-    }
-    console.log("createRoom!",newRoom );
-    socket?.emit("create-room", newRoom, clearModal);
-    socket?.on("helloRoom", (str:string)=>console.log(str));
-    // return (<Redirect to= {`/workspace/sleact/channel/Chat/${newRoom}`}/>);
-  }, [newRoom]);
+    console.log("NewNick!",newNick );
+    socket?.emit("edit-new-nickname", newNick, clearModal);
+    //socket?.on("helloRoom", (str:string)=>console.log(str));
+    // return (<Redirect to= {`/workspace/sleact/channel/Chat/${newNick}`}/>);
+  }, [newNick]);
 
   if (!show) {
     return null;
@@ -52,7 +49,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
               <input type="file" accept="image/*" />
-    <form onSubmit={onCreateRoom}>
+    <form onSubmit={onEditNickname}>
       <Stack spacing={1}>
         <Label id="room-create">
           <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
@@ -74,11 +71,11 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
                 id="edit_nickname"
                 label="수정할 유니크한 닉네임"
                 size='small'
-                value={newRoom}
-                onChange={onChangeNewRoom}
+                value={newNick}
+                onChange={onChangeNewNick}
                 required={true}
-                inputProps={{ maxLength: 8 }}
-                helperText="닉네임은 최대 8글자까지만 가능해요."
+                inputProps={{ maxLength: 16 }}
+                helperText="닉네임은 최대 16글자까지만 가능해요."
                 />
             </Stack>
           </Stack>
