@@ -97,7 +97,7 @@ const Workspace:FC<Props> = ({children}) =>
 
     return(
       <div>
-      <AppBar position="static">
+      <AppBar position="static" color='primary'>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1 }}>

@@ -14,10 +14,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import axios, { Axios } from 'axios';
-import { TypeDataUser } from 'src/pages/Profile/type';
+import { TypeDataUser } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+
 
 function createData(
     player: string,
@@ -44,7 +45,7 @@ function createData(
     }, []);
     // ============================================
     //const { data:myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-    const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+        const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
       dedupingInterval: 2000, // 2초
     });
     const [isUserMe, setIsUserMe] = useState(false);
@@ -56,7 +57,9 @@ function createData(
 	  intra:    "UNKNOWN",
     level:    0,
     nickname: "UNKNOWN",
-    updated:  null
+    updated:  null,
+    friends:  [],
+    achive:   ["🤞Achive Lv1", "🤞Achive Lv2", "🤞Achive Lv3"]
   });
   useEffect(() => {
     console.log("Check isMyUser");
@@ -74,8 +77,8 @@ function createData(
 
   useEffect(() => {
     axios
-    .get("https://server.gilee.click/api/users/jisokang", {
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
+      .get("https://server.gilee.click/api/users/jisokang", {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -92,7 +95,25 @@ function createData(
       console.log(err)
     });
   }, []);
-
+  const handleClickAddFriend = () => {
+    const value = user.intra;
+    axios
+      //.post("https://server.gilee.click/api/friends", value, {
+      .post("http://127.0.0.1:3000/api/friends", value, {
+        withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          accept: "*/*"
+          }
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log("[ERROR] handleClickAddFriend");
+        console.log(error);
+      });
+  }
 
   return (
     <Container maxWidth="lg">
@@ -103,7 +124,7 @@ function createData(
             ) : (
             <div>
               <h1>OTHER PROFILE</h1>
-              <Button variant='outlined'>친구 추가</Button>
+              <Button variant='outlined' onClick={handleClickAddFriend}>친구 추가</Button>
             </div>
           )}
         <Stack alignItems="center">
@@ -124,8 +145,11 @@ function createData(
           spacing={1}
           direction="row"
         >
-          <Chip label="🔥 3연승" variant="outlined" />
-          <Chip label="🔥 10연승" variant="outlined" />
+          {/*<Chip label={user && user.achive[0]} variant="outlined" />*/}
+          {/*<Chip label={user && user.achive[1]} variant="outlined" />*/}
+            {user && user.achive.map((i) => (
+              <Chip label={i} variant="outlined" />
+            ))}
         </Stack>
         {/* observer list 출력 */}
         <Divider variant="middle" />

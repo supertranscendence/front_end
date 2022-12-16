@@ -6,4 +6,5 @@ export type TypeDataUser = {
     level: number;
     nickname: string;
 	updated: Date | null;
+	friends: Array<TypeDataUser >;
 }
