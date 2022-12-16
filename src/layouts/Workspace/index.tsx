@@ -82,11 +82,13 @@ const Workspace:FC<Props> = ({children}) =>
 	{
     console.log("onLogout 들어감!")
 		localStorage.removeItem(" refreshToken");
-		mutate(null);
+		localStorage.removeItem("accessToken");
+		// mutate(null);
 		deleteCookie("refreshToken");
 		deleteCookie("accessToken");
 
-		console.log("data", data,"tokken",localStorage.getItem(" refreshToken"));
+		console.log("re tokken",localStorage.getItem(" refreshToken"));
+		console.log("ac tokken",localStorage.getItem("accessToken"));
 		//setShowUserMenu(ShowUserMenu => false);
 		//return <Redirect to="/"/>;
 	}, [localStorage]);
