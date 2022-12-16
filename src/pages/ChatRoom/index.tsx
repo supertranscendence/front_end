@@ -60,10 +60,13 @@ const [users, setUsers] = useState<string[]>([]);
 const updateUsers = useCallback((arr:Map<string,IUser>)=>{
     console.log("users map ",arr);
     let tempArr:string[] = []
-    arr.forEach((ele:any) =>{
-      tempArr.push(ele.intra);
-      //TODO인트라 -> 닉넴
-    })
+    if (arr.size < 1)
+    {
+      arr.forEach((ele) =>{
+        tempArr.push(ele.intra);
+        //TODO인트라 -> 닉넴
+      })
+    }
     setUsers((ele)=>tempArr);
     
 },[socket,setUsers])
