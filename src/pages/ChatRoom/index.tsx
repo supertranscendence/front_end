@@ -61,7 +61,7 @@ const updateUsers = useCallback((arr:string[])=>{
     console.log("users map ",arr);
     setUsers((arr)=>[...arr.map((str)=>{
       return str})]);
-},[socket,setUsers])
+},[socket,setUsers, users])
 
 useEffect(()=>{
   socket?.on("roomInfo", (arr:string[]) => updateUsers(arr))
@@ -296,7 +296,7 @@ else if (redirectFlag)
         <span>{ChatRoom}</span>
         {users.map((user, index) => {
           return (
-            <EachMsg key={ChatRoom!} msg={{msg: '', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            <EachMsg key={ChatRoom!} msg={{msg: ' ', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}
         <button onClick ={leaveRoom}>leaveRoom</button>
