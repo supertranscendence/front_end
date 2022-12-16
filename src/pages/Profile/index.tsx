@@ -1,7 +1,6 @@
 import { IconButton, Tooltip, Divider, Button, Avatar, Chip } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import React, { useCallback, useState, useEffect } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
 import { Link, useParams } from 'react-router-dom';
 
 
@@ -17,7 +16,8 @@ import axios, { Axios } from 'axios';
 import { TypeDataUser } from 'src/pages/Profile/type';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import EditIcon from '@mui/icons-material/Edit';
 
 function createData(
     player: string,
@@ -100,11 +100,14 @@ const Profile = () => {
       <Stack spacing={1}>
         <Stack />
           {isUserMe === true ?(
-            <h1>MY PROFILE</h1>
+            <div>
+              <h1>MY PROFILE</h1>
+                <Button aria-label="edit" onClick={onClickEditProfile} startIcon={<EditIcon />} color='info'> 수정하기 </Button>
+            </div>
             ) : (
             <div>
-              <h1>OTHER PROFILE</h1>
-              <Button variant='outlined'>친구 추가</Button>
+              <h1>{ user && user.nickname } PROFILE</h1>
+              <Button variant='outlined' startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
             </div>
           )}
         <Stack alignItems="center">
@@ -113,11 +116,6 @@ const Profile = () => {
           <b>Intra:</b><>{ user && user.intra }</>
           <b>Created Date:</b><>{ user && user.created }</>
           <b>Updated Date:</b><>{ user && user.updated }</>
-          <Tooltip title="수정하기" arrow>
-            <IconButton aria-label="edit" onClick={onClickEditProfile}>
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
         </Stack>
         <Divider variant="middle" />
         <h2>Achivment</h2>
