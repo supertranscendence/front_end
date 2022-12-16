@@ -294,16 +294,22 @@ else if (redirectFlag)
       <Header>
         <img src="" />
         <span>{ChatRoom} 방 </span>
+        <>
         {users.map((user, index) => {
           return (
+            <>
             <EachMsg key={user} msg={{msg: 'asdasdasd', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            </>
           );
         })}
         {users.map((user, index) => {
           return (
-            <button> user </button>
+          <>
+            <button> {user} </button>
+            </>
           );
         })}
+        </>
         <button onClick ={leaveRoom}>leaveRoom</button>
         <button onClick ={setPWD}>setPWD</button>
       </Header>
