@@ -1,6 +1,6 @@
 import { IUser } from 'src/typings/db';
 import fetcher from 'src/utils/fetcher';
-import React, { useCallback, useEffect, VFC } from 'react';
+import React, {useState, useCallback, useEffect, VFC } from 'react';
 import { useParams } from 'react-router';
 import { NavLink, useLocation, Redirect, Link } from 'react-router-dom';
 import useSWR from 'swr';
@@ -26,6 +26,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const location = useLocation();
   const [socket] = useSocket("sleact");
 
+  const [returnURL, setReturnURL] = useState("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event:any) => {
@@ -66,6 +67,11 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     socket?.emit("shellWeGame", {roomName:roomName , shellWeGameUser:msg.name}, ()=>{console.log("shellWeGame done")} );
   },[socket, ])
   
+  const showProfile = useCallback(()=>{
+    console.log("showProfile",{roomName:roomName , goDM :msg.name} );
+    setReturnURL(`/workspace/:workspace/profile/${msg.name}`);
+  },[socket, ])
+  
   
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -97,6 +103,11 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     },
   }));
 
+
+if (returnURL)
+{
+  return (<Redirect to = {returnURL}/>)
+}
 
   return (
     <List>
@@ -131,6 +142,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
           'aria-labelledby': 'basic-button',
         }}
       >
+        <MenuItem onClick={showProfile}>프로필 보기</MenuItem>
         <MenuItem onClick={setAdmin}>관리자 권한 주기</MenuItem>
         <MenuItem onClick={shellWeDm}>DM 초대</MenuItem>
         <MenuItem onClick={shellWeGame}>Game 초대</MenuItem>
