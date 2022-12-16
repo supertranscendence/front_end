@@ -90,11 +90,11 @@ useEffect(()=>{
       console.log("roomArr 배열", roomArr);
 });
 console.log("room arr:", roomArr);
-}, [newRoomFlag, socket, joinedRoom]);
+}, [ socket, joinedRoom]);
 
 useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
-    setNewRoomFlag(newRoomFlag => true);
+    setNewRoomFlag(true);//
     console.log("new-room-created: ");
     console.log(`/workspace/sleact/channel/Chat/${room}`);
     setRedirectRoom((s)=>room);
@@ -133,16 +133,21 @@ const fetchch = useCallback(()=>{
   }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 
+
+useEffect(()=>{
+  if (!newRoomFlag)
+  {
+    console.log("crearRoom call");
+    socket?.emit("clearRoom");
+    // setNewRoomFlag(false);
+  }
+  },[socket])
+
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 else
 {
 //TODO : 클리어 룸 버그가 너무 많음 고쳐야함
-//  if (!newRoomFlag)
-//   {
-//     console.log("crearRoom call");
-//     socket?.emit("clearRoom");
-//   }
   return (
     <div>
       {/*<Table columns={columns} data={roomArr} />*/}
