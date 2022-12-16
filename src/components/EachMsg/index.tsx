@@ -70,7 +70,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   
   const showProfile = useCallback(()=>{
     console.log("showProfile",{roomName:roomName , goDM :msg.name} );
-    setReturnURL(`/workspace/:workspace/profile/${msg.name}`);
+    setReturnURL(`/workspace/sleact/profile/${msg.name}`);
   },[socket, ])
   
   
