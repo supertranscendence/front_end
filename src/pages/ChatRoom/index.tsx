@@ -293,10 +293,10 @@ else if (redirectFlag)
   <Container onDrop={onDrop} onDragOver={onDragOver}>
       <Header>
         <img src="" />
-        <span>{ChatRoom}</span>
+        <span>{ChatRoom} 방 </span>
         {users.map((user, index) => {
           return (
-            <EachMsg key={ChatRoom!} msg={{msg: ' ', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            <EachMsg key={user} msg={{msg: 'asdasdasd', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}
         <button onClick ={leaveRoom}>leaveRoom</button>
