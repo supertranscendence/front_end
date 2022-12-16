@@ -64,7 +64,10 @@ const Intro = () => {
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.intra}!! </h1>
       <h3> Your Friends</h3>
-      <div>
+      {myUserData?.friends?.map((i) => (
+        <div>{i.friend}</div>
+      ))}
+      {/*<div>
         {(myUserData?.friends === undefined)
         ? (
           <div>No Friends 🥲</div>
@@ -73,7 +76,7 @@ const Intro = () => {
             <div>{i.friend}</div>
           ))
         )}
-      </div>
+      </div>*/}
     </Container>
   );
 };

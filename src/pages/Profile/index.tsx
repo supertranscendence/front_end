@@ -108,13 +108,13 @@ const Profile = () => {
       })
     .then((response) =>{
       console.log(response);
-      setUser(response.data);
+      //setUser(response.data);
     })
     .catch((err) => {
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
-  }, []);
+  }, [user, ]);
 
   return (
     <Container maxWidth="lg">
