@@ -119,7 +119,7 @@ if (ChatRoom)
   
   useEffect(() => {
     console.log("joinedRoom!");
-    socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => {redirectChannel(Obj)});
+    socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => redirectChannel(Obj));
   }, [socket, redirectChannel, redirectFlag]);
   
   // useEffect(() => {
