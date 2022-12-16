@@ -6,6 +6,8 @@ import fetcher from 'src/utils/fetcher';
 import React, { FC, useCallback, useState } from 'react';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
+import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface Props {
   channelData?: IChannel[];
@@ -25,7 +27,7 @@ const ChannelList: FC<Props> = () => {
 
   const chat:IChannel  = {name:"Chat", WorkspaceId:-1, id:-1, private:false};
   const game:IChannel  = {name:"Game", WorkspaceId:-1, id:-1, private:false};
-   const gameroom:IChannel  = {name:"GameRoom", WorkspaceId:-1, id:-1, private:false};
+  const gameroom:IChannel  = {name:"GameRoom", WorkspaceId:-1, id:-1, private:false};
   return (
     <>
       <h2>
@@ -41,6 +43,7 @@ const ChannelList: FC<Props> = () => {
       <div>
           {!channelCollapse && (
           <>
+            <Button variant='outlined' color='info' component={Link} to={`/workspace/sleact/intro`}>Main</Button>
             <EachChannel channel={chat}></EachChannel>
             <EachChannel channel={game}></EachChannel>
             <EachChannel channel={gameroom}></EachChannel>
