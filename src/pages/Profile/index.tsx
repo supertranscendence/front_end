@@ -184,7 +184,8 @@ const Profile = () => {
         </TableContainer>
       </Stack>
       <EditProfileModal
-        show={showCreateChannelModal}
+        //show={showCreateChannelModal}
+        show={true}
         onCloseModal={onCloseModal}
         setShowProfileModal={setShowProfileModal}
       />

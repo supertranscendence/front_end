@@ -24,8 +24,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
   //const {data: userData, error, mutate: mutate}  = useSWR<IUser | false>('api/users', fetcher);
   const[newNick, onChangeNewNick, setNewNick] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  // const {data: channelData, mutate: mutateChannel} = useSWR<IChannel[]>(userData ? `api/workspaces/${workspace}/channels` : null,fetcher);
-  const [socket] = useSocket(workspace);
 
   const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
 
@@ -34,58 +32,93 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     setShowProfileModal(false);
   },[]);
 
+  const [tempAvatar, setTempAvatar] = useState('');
+
+  const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+    console.log(e.target.files[0].name);
+    setTempAvatar(e.target.files[0].name);
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+
+    axios
+      .put(`https://server.gilee.click/api/users/avatar`, formData, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        console.log(response);
+        //setUser(response.data);
+      })
+      .catch((err) => {
+        console.log("[ERROR] post /api/users/avatar")
+        console.log(err)
+      });
+
+  }, [tempAvatar])
 
   const onEditNickname = useCallback((e:any) => {
     e.preventDefault();
     console.log("NewNick!",newNick );
-    socket?.emit("edit-new-nickname", newNick, clearModal);
-    //socket?.on("helloRoom", (str:string)=>console.log(str));
-    // return (<Redirect to= {`/workspace/sleact/channel/Chat/${newNick}`}/>);
-  }, [newNick]);
+    axios
+      .post(`https://server.gilee.click/api/users/nickname`, newNick, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log(response);
+      //setUser(response.data);
+    })
+    .catch((err) => {
+      console.log("[ERROR] post /api/users/nickname")
+      console.log(err)
+    });
+  }, [newNick, ]);
 
   if (!show) {
     return null;
   }
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
-              <input type="file" accept="image/*" />
-    <form onSubmit={onEditNickname}>
       <Stack spacing={1}>
-        <Label id="room-create">
-          <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
-            <h1>EDIT PROFILE</h1>
-            {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
-            <Stack>
-              <div>
-                <h4>아바타</h4>
-              </div>
-              <Avatar sx={{width: 56, height: 56}} />
-              <Button variant='outlined'>아바타 업로드</Button>
-              <Button>아바타 제거</Button>
-            </Stack>
-            <Stack>
-              <div>
-                <h4>닉네임</h4>
-              </div>
-              <TextField
-                id="edit_nickname"
-                label="수정할 유니크한 닉네임"
-                size='small'
-                value={newNick}
-                onChange={onChangeNewNick}
-                required={true}
-                inputProps={{ maxLength: 16 }}
-                helperText="닉네임은 최대 16글자까지만 가능해요."
-                />
-            </Stack>
+        <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
+          <h1>EDIT PROFILE</h1>
+          {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
+          <Stack>
+              <h4>아바타</h4>
+            <Avatar sx={{width: 56, height: 56}} src={tempAvatar} />
+              <input type="file" accept="image/*" onChange={onUploadAvatar}/>
+            <Button type='submit' variant='outlined'>아바타 업로드</Button>
+            <Button>아바타 제거</Button>
+          </Stack>
+      <form onSubmit={onEditNickname}>
+        <Label id="edit-nickname">
+          <Stack>
+            <h4>닉네임</h4>
+            <TextField
+              id="edit_nickname"
+              label="수정할 유니크한 닉네임"
+              size='small'
+              value={newNick}
+              onChange={onChangeNewNick}
+              required={true}
+              inputProps={{ maxLength: 16 }}
+              helperText="닉네임은 최대 16글자까지만 가능해요."
+              />
+            <Button type="submit" variant='outlined'><EditIcon /> 프로필 수정하기</Button>
           </Stack>
         </Label>
-        <Button type="submit" variant='outlined'>
-          <EditIcon />
-          프로필 수정하기
-        </Button>
+      </form>
       </Stack>
-    </form>
+    </Stack>
   </Modal>
   );
 };
