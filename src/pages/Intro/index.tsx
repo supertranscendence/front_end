@@ -18,7 +18,7 @@ const Intro = () => {
           }
       })
     .then((response) =>{
-      console.log(response);
+      console.log("[response]: ", response);
       //console.log("friends: ", response.data);
       console.log("[친구]: ",response.data)
     })
