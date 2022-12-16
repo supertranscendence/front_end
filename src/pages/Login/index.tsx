@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react';
 import authfetcher from 'src/utils/authfetcher';
 import { Avatar, Button, Container } from '@mui/material';
 import { Box, Stack } from '@mui/system';
+import axios from 'axios'
 
 const LogIn = () => {
 
@@ -13,10 +14,27 @@ const LogIn = () => {
   });
   // let data  = '';
   // console.log("data", data);
-  if (localStorage.getItem(" refreshToken") && localStorage.getItem("accessToken") ){//파싱 제대로 못해서 띄어쓰기 포함임 추후 변경예정
-    console.log("already have ref token");
-    return <Redirect to="/workspace/sleact/intro"/>
+  if (localStorage.getItem(" refreshToken") ){
+    if (localStorage.getItem("accessToken") ){
+      console.log("already have ref and acc token");
+      return <Redirect to="/workspace/sleact/intro"/>
+    }
+    else{
+        axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+        withCredentials:true,
+        headers:{
+        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+        accept: "*/*"
+        }
+      }).then((response) =>{ 
+        console.log(response);
+        console.log("data",response.data);
+        localStorage.setItem("accessToken",response.data.act);
+      })
+      .catch((err) => console.log(err));
+    }
   }
+  
   // // 로그인 판단을 일단 로컬스토리지 리프레시 토큰으로 남겨놨습니다.
   // if (data){
   //   console.log("already have acc token");

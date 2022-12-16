@@ -93,7 +93,7 @@ const Workspace:FC<Props> = ({children}) =>
   
     // 반목문 순회하면서 쿠키 전체 삭제
     if (!document.cookie) {
-      alert('삭제할 쿠키가 없습니다.');
+      console.log('삭제할 쿠키가 없습니다.');
     } else {
       for (let i:any = 0; i < cookies.length; i++) {
         // const uname = cookies[i].split('=')[0];
@@ -101,7 +101,7 @@ const Workspace:FC<Props> = ({children}) =>
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration;
         // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
       }
-      alert('쿠키 전부 삭제완료!!');
+      console.log('쿠키 전부 삭제완료!!');
     }
   };
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
@@ -117,6 +117,7 @@ const Workspace:FC<Props> = ({children}) =>
 
 		console.log("re tokken",localStorage.getItem(" refreshToken"));
 		console.log("ac tokken",localStorage.getItem("accessToken"));
+		location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
 		
 	}, [localStorage]);

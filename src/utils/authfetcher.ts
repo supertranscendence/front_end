@@ -15,7 +15,7 @@ var deleteCookie = function(name:string){
   
     // 반목문 순회하면서 쿠키 전체 삭제
     if (!document.cookie) {
-      alert('삭제할 쿠키가 없습니다.');
+      console.log('삭제할 쿠키가 없습니다.');
     } else {
       for (let i:any = 0; i < cookies.length; i++) {
         // const uname = cookies[i].split('=')[0];
@@ -23,10 +23,9 @@ var deleteCookie = function(name:string){
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration;
         // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
       }
-      alert('쿠키 전부 삭제완료!!');
+      console.log('쿠키 전부 삭제완료!!');
     }
   };
-  
   
  const authfetcher = (url:string) => {
 	const returnArr:string[][] = [];
