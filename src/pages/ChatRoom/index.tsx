@@ -14,7 +14,7 @@ import useInput from 'src/hooks/useInput';
 import EachMsg from 'src/components/EachMsg'
 import { consumeFilesChange } from "fork-ts-checker-webpack-plugin/lib/files-change";
 import { stringify } from "querystring";
-
+import {IUser2} from 'src/typings/db'
 
 // import scrollbar from 'smooth-scrollbar';
 
@@ -38,8 +38,23 @@ const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
 const [inviteNum, setinviteNum] = useState(0);
 const [whoInvite, setWhoInvite] = useState('');
+const [users, setUsers] = useState<string[]>([]);
 // let  inviteNum = 0;
 // let  whoInvite = '';
+const updateUsers = useCallback((arr:Map<string,IUser2>)=>{
+    console.log("users map ",arr);
+    let tempArr:string[] = []
+    arr.forEach((ele:any) =>{
+      tempArr.push(ele.intra);
+      //TODO인트라 -> 닉넴
+    })
+    setUsers((ele)=>tempArr);
+    
+},[])
+
+useEffect(()=>{
+  socket?.on("roomInfo", (arr:Map<string,IUser2>) => updateUsers(arr))
+},[socket])
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
       chatWindow.current.scrollTo({
@@ -267,6 +282,11 @@ else if (redirectFlag)
       <Header>
         <img src="" />
         <span>{ChatRoom}</span>
+        {users.map((user, index) => {
+          return (
+            <EachMsg key={ChatRoom!} msg={{msg: '', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+          );
+        })}
         <button onClick ={leaveRoom}>leaveRoom</button>
         <button onClick ={setPWD}>setPWD</button>
       </Header>
@@ -284,11 +304,6 @@ else if (redirectFlag)
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
           return (
-            // <div key={index} className="d-flex flex-row">
-            //   {msg && <div className="message-user">{user}: </div>}
-            //   <div>{msg}</div>
-            //   {/* <div className="time">{message}</div> */}
-            // </div>
             <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}

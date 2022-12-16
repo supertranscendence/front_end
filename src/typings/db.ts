@@ -1,9 +1,29 @@
+import { Client } from "socket.io/dist/client";
+import { DefaultEventsMap } from "socket.io/dist/typed-events";
+
 export interface IUser {
   id: number;
   nickname: string;
   // email: string;
   // Workspaces: IWorkspace[];
 }
+
+export enum UserStatus {
+  me,
+  login,
+  logout,
+  ingame,
+}
+
+export interface IUser2 {
+  client: Client<DefaultEventsMap, DefaultEventsMap,DefaultEventsMap, any>;
+  client_id: string;
+  intra: string;
+  nickname?: string;
+  avatar?: string;
+  status?: UserStatus;
+}
+
 
 export interface IUserWithOnline extends IUser {
   online: boolean;
