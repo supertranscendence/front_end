@@ -66,10 +66,19 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   
   const goRoom = useCallback ((e:any)=>{
     e.preventDefault();
-    const eventName = "go" + inviteType;
-    console.log("ok")
-    console.log(eventName,{roomName:roomInfo , user:whoInvite})
-    socket?.emit(eventName,{roomName:roomInfo , user:whoInvite}, (str:string) => retrunRoom(str))
+    // const eventName = "go" + inviteType;
+    console.log("go room ok")
+    
+    if (inviteType === "Dm")
+    {
+      console.log("goDm",{roomName:roomInfo , user:whoInvite})
+      socket?.emit("goDm",{roomName:roomInfo , user:whoInvite}, (str:string) => retrunRoom(str))
+    }
+    else if (inviteType === "Game")
+    {
+      console.log("goGame",{roomName:roomInfo , user:whoInvite})
+      socket?.emit("goGame",{roomName:roomInfo , user:whoInvite}, (str:string) => retrunRoom(str))
+    }
     clearModal();
     },[whoInvite, inviteType ])
     
