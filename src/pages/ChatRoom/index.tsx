@@ -46,7 +46,7 @@ const updateUsers = useCallback((userArr:string[])=>{
   
 useEffect(()=>{
   socket?.emit("roomInfo", {roomName:ChatRoom}, (userArr : string[]) =>updateUsers(userArr))
-},[socket, users ])
+},[])
   
   
 useEffect(()=>{
