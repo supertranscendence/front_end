@@ -145,7 +145,7 @@ else
     socket?.emit("clearRoom");
     // setNewRoomFlag(false);
   }
-  },[])
+  },[socket])
   return (
     <div>
       {/*<Table columns={columns} data={roomArr} />*/}
