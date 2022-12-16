@@ -174,7 +174,7 @@ const Workspace:FC<Props> = ({children}) =>
               <Route path = "/workspace/:workspace/profile" component={Profile}/>
               {/*<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>*/}
               <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
-              <Route path = "/workspace/:workspace/channel/DM/:DMRoom/" component={DmRoom}/>
+              <Route path = "/workspace/:workspace/channel/DM/:DmRoom/" component={DmRoom}/>
               <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
               <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
