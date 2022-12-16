@@ -81,6 +81,29 @@ const Workspace:FC<Props> = ({children}) =>
 		location.href ="http://gilee.click/";
 		// return <Redirect to="/"/>;
 	}
+	
+	const allDelCookies = (domain?:any, path?:any) => {
+    // const doc = document;
+    domain = domain || document.domain;
+    path = path || '/';
+  
+    const cookies = document.cookie.split('; '); // 배열로 반환
+    console.log(cookies);
+    const expiration = 'Sat, 01 Jan 1972 00:00:00 GMT';
+  
+    // 반목문 순회하면서 쿠키 전체 삭제
+    if (!document.cookie) {
+      alert('삭제할 쿠키가 없습니다.');
+    } else {
+      for (let i:any = 0; i < cookies.length; i++) {
+        // const uname = cookies[i].split('=')[0];
+        // document.cookie = `${uname}=; expires=${expiration}`;
+        document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration;
+        // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
+      }
+      alert('쿠키 전부 삭제완료!!');
+    }
+  };
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
 	const onLogout = useCallback(()=>
 	{
@@ -88,13 +111,14 @@ const Workspace:FC<Props> = ({children}) =>
 		localStorage.removeItem(" refreshToken");
 		localStorage.removeItem("accessToken");
 		// mutate(null);
-		deleteCookie("refreshToken");
-		deleteCookie("accessToken");
+		// deleteCookie("refreshToken");
+		// deleteCookie("accessToken");
+    allDelCookies();
 
 		console.log("re tokken",localStorage.getItem(" refreshToken"));
 		console.log("ac tokken",localStorage.getItem("accessToken"));
 		//setShowUserMenu(ShowUserMenu => false);
-		//return <Redirect to="/"/>;
+		
 	}, [localStorage]);
 
     return(
