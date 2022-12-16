@@ -84,7 +84,8 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     
   const noRoom = (e:any)=>{
     e.preventDefault();
-    console.log("noRoom")
+    console.log("noRoom");
+    socket?.emit("reJoin", roomInfo);
     clearModal();
     }
   if (!show) {
