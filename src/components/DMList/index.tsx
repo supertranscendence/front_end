@@ -11,7 +11,7 @@ import { dataUser } from '@typings/types';
 
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
-   const { data: userData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
+   const { data: myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my/friends', fetcher, {
      dedupingInterval: 2000, // 2초
    });
   // const { data: memberData } = useSWR<IUserWithOnline[]>(
@@ -21,18 +21,27 @@ const DMList = () => {
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  const [memberData, setmemberData] = useState([]);
+  const [friendData, setFriendData] = useState<string[]>([]);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    socket?.on('users', (data: []) => {
-      setmemberData(()=>data);
-    });
-  }, [socket]);
+  const updateFriends = useCallback((userArr:string[])=>{
+    console.log("[frineds map]: ",userArr);
+    setFriendData((arr)=>[...userArr.map((str)=>{
+      return str})]);
+    },[socket,setFriendData])
 
+  useEffect(() => {
+    socket?.on('friends-list', (userArr: string[]) => {
+      updateFriends(userArr);
+    });
+  }, [socket, ]);
+
+  useEffect(() => {
+
+  }, [socket]);
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);
@@ -54,20 +63,15 @@ const DMList = () => {
     <>
       <h2>
         <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-          {/*<i
-            className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
-            data-qa="channel-section-collapse"
-            aria-hidden="true"
-          />*/}
           📎
         </CollapseButton>
         <span>My firends</span>
       </h2>
       <div>
         {!channelCollapse &&
-          memberData?.map((member:{name:string,kg:number,email:string}) => {
-            const isOnline = onlineList.includes(member.kg);
-            return <EachDM key={member.kg} member={member} isOnline={isOnline} />;
+          friendData?.map((i) => {
+            return <EachDM member={i} />;
+            //return <EachDM key={i} member={member} isOnline={isOnline} />;
           })
           }
       </div>

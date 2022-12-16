@@ -18,25 +18,24 @@ import useSocket from 'src/hooks/useSocket';
 const grey_color = grey[50];
 interface Props {
   // member: IUser;
-  member: {name:string,kg:number,email:string};
-  isOnline: boolean;
+  member: string;
 }
 
-const EachDM: VFC<Props> = ({ member, isOnline }) => {
+const EachDM: VFC<Props> = ({ member }) => {
   const [socket] = useSocket("sleact");
   const { workspace } = useParams<{ workspace?: string }>();
   const location = useLocation();
   const { data: userData } = useSWR<dataUser>('api/users', fetcher, {
     dedupingInterval: 2000, //x 2초
   });
-  const date = localStorage.getItem(`${workspace}-${member.kg}`) || 0;
+  const date = localStorage.getItem(`${workspace}-${member}`) || 0;
   const { data: count, mutate } = useSWR<number>(
-    userData ? `api/workspaces/${workspace}/dms/${member.kg}/unreads?after=${date}` : null,
+    userData ? `api/workspaces/${workspace}/dms/${member}/unreads?after=${date}` : null,
     fetcher,
   );
 
   useEffect(() => {
-    if (location.pathname === `/workspace/${workspace}/dm/${member.kg}`) {
+    if (location.pathname === `/workspace/${workspace}/dm/${member}`) {
       mutate(0);
     }
   }, [mutate, location.pathname, workspace, member]);
@@ -108,8 +107,7 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
           </StyledBadge>
         </ListItemAvatar>
           {/*<NavLink key={member.id} activeClassName="selected" to={`/workspace/${workspace}/dm/${member.id}`}>*/}
-          <ListItemText className={count && count > 0 ? 'bold' : undefined}>{member.name}</ListItemText>
-          {member.kg === userData?.id && <span> (나)</span>}
+          <ListItemText className={count && count > 0 ? 'bold' : undefined}>{member}</ListItemText>
           {(count && count > 0 && <span className="count">{count}</span>) || null}
           {/*</NavLink>*/}
       </ListItemButton>
@@ -123,7 +121,7 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
         }}
       >
         <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile/${userData?.intra}`}>프로필 보기</MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${member.kg}`}>DM 보내기</MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${member}`}>DM 보내기</MenuItem>
         <MenuItem onClick={handleClose}>게임 신청하기</MenuItem>
         {/*게임 신청하기! */}
       </Menu>
