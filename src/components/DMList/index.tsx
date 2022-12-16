@@ -7,12 +7,13 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
+import { dataUser } from '@typings/types';
 
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
-  // const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
-  //   dedupingInterval: 2000, // 2초
-  // });
+   const { data: userData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
+     dedupingInterval: 2000, // 2초
+   });
   // const { data: memberData } = useSWR<IUserWithOnline[]>(
   //   userData ? `/api/workspaces/${workspace}/members` : null,
   //   fetcher,
@@ -31,7 +32,7 @@ const DMList = () => {
       setmemberData(()=>data);
     });
   }, [socket]);
-  
+
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);
