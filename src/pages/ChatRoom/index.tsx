@@ -1,4 +1,6 @@
-
+import { TypeDataUser } from 'src/pages/Profile/type';
+import useSWR from 'swr';
+import fetcher from 'src/utils/fetcher';
 import React,{ useState, useCallback, useEffect, useContext, useRef } from "react";
 import useSocket from 'src/hooks/useSocket';
 import { ChatArea } from "@components/ChatBox/styles";
@@ -12,30 +14,6 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import makeSection from 'src/utils/makeSection';
 import useInput from 'src/hooks/useInput';
 import EachMsg from 'src/components/EachMsg'
-import { consumeFilesChange } from "fork-ts-checker-webpack-plugin/lib/files-change";
-import { stringify } from "querystring";
-import { DefaultEventsMap } from "socket.io/dist/typed-events";
-import { Client } from "socket.io/dist/client";
-// import {IUser2} from 'src/typings/db'
-
-// import scrollbar from 'smooth-scrollbar';
-
-// smooth scroll 설정
-export enum UserStatus {
-  me,
-  login,
-  logout,
-  ingame,
-}
-
-export interface IUser {
-  client: Client<DefaultEventsMap, DefaultEventsMap,DefaultEventsMap, any>;
-  client_id: string;
-  intra: string;
-  nickname?: string;
-  avatar?: string;
-  status?: UserStatus;
-}
 
 const ChatRoom = () => {
 
@@ -52,17 +30,16 @@ const isReachingEnd = isEmpty || (messages && messages?.length < 20);
 const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
-const [inviteNum, setinviteNum] = useState(0);
-const [whoInvite, setWhoInvite] = useState('');
-const [users, setUsers] = useState<string[]>([]);
-// let  inviteNum = 0;
-// let  whoInvite = '';
-const updateUsers = useCallback((userArr:string[])=>{
-    console.log("users map ",userArr);
-    setUsers((arr)=>[...userArr.map((str)=>{
-      return str})]);
-},[socket,setUsers])
 
+const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  dedupingInterval: 2000, // 2초
+});
+const [users, setUsers] = useState<string[]>([myUserData?.intra!]);
+const updateUsers = useCallback((userArr:string[])=>{
+  console.log("users map ",userArr);
+  setUsers((arr)=>[...userArr.map((str)=>{
+    return str})]);
+  },[socket,setUsers])
 useEffect(()=>{
   socket?.on("roomInfo", (userArr:string[]) => updateUsers(userArr))
 },[socket, users])
