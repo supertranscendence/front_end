@@ -43,7 +43,7 @@ const Profile = () => {
   }, []);
   // ============================================
   //const { data:myUserData } = useSWR<dataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);

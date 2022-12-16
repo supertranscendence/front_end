@@ -26,7 +26,7 @@ const Intro = () => {
       console.log(err)
     });
   }, []);
-  const { data: myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  const { data: myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   console.log("myUserData:", myUserData);
@@ -65,7 +65,10 @@ const Intro = () => {
       <h1> Welcome {myUserData && myUserData.intra}!! </h1>
       <h3> Your Friends</h3>
       {myUserData?.friends?.map((i) => (
-        <div>{i.friend}</div>
+        <div>
+          <div>{i.friend}</div>
+          <div>님</div>
+        </div>
       ))}
       {/*<div>
         {(myUserData?.friends === undefined)
