@@ -4,7 +4,7 @@ import useSocket from 'src/hooks/useSocket';
 import { ChatArea } from "@components/ChatBox/styles";
 import { userInfo } from "os";
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
-import { Header, Container, DragOver } from '@pages/DmRoom/styles';
+import { Header, Container, DragOver } from 'src/pages/DmRoom/styles';
 import SetPWDModal from 'src/components/SetPWDModal';
 import InviteModal from 'src/components/InviteModal';
 import ChatBox from 'src/components/ChatBox';
