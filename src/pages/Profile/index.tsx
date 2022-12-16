@@ -102,7 +102,15 @@ const Profile = () => {
           {isUserMe === true ?(
             <div>
               <h1>MY PROFILE</h1>
-                <Button aria-label="edit" onClick={onClickEditProfile} startIcon={<EditIcon />} color='info'> 수정하기 </Button>
+                <Button
+                  aria-label="edit"
+                  variant='outlined'
+                  onClick={onClickEditProfile}
+                  startIcon={<EditIcon />}
+                  color='info'
+                  >
+                  수정하기
+                </Button>
             </div>
             ) : (
             <div>
