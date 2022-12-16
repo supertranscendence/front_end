@@ -10,7 +10,7 @@ const Intro = () => {
   useEffect(() => {
     axios
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
-      .get("https://server.gilee.click/api/users/friends", {
+      .get("https://server.gilee.click/api/users/my/friends", {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
