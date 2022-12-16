@@ -97,7 +97,7 @@ const Profile = () => {
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
-    console.log("user.intra", value);
+    console.log("[ADD FRIEND]user.intra", value);
     axios
       .post(`https://server.gilee.click/api/users/`, value, {
       withCredentials:true,
@@ -114,7 +114,7 @@ const Profile = () => {
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
-  }, [user, ]);
+  }, []);
 
   return (
     <Container maxWidth="lg">
