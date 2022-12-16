@@ -119,7 +119,13 @@ if (ChatRoom)
   
   useEffect(() => {
     console.log("joinedRoom!");
-    socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => redirectChannel(Obj));
+    socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => {
+      console.log("on redirectChannel", Obj)
+    if (Obj.roomType == "Dm")
+      setRedirectFlag(`/workspace/sleact/channel/Chat/${Obj.roomName}`);
+    else if (Obj.roomType == "Game")
+      setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
+    });
   }, [socket, redirectChannel, redirectFlag]);
   
   // useEffect(() => {
