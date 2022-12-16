@@ -97,8 +97,7 @@ const Workspace:FC<Props> = ({children}) =>
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration;
         // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
       }
-      console.log('쿠키 전부 삭제완료!!');
-    }
+      console.log('쿠키 전부 삭제완료!![',document.cookie,"]");    }
   };
 	const [ShowUserMenu,setShowUserMenu] = useState(false);
 	const onLogout = useCallback(()=>
