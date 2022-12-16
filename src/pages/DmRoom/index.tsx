@@ -85,7 +85,12 @@ if (DmRoom)
     // }
     // )
     // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
-    console.log (e.target)
+    console.log (e.target , {
+      user: "tester_hyopark",//백엔
+      room: DmRoom,
+      msg: e.target.value,
+  }),
+  
     socket?.emit("newMsg", {
       user: "tester_hyopark",//백엔
       room: DmRoom,
@@ -209,6 +214,7 @@ const onSubmitForm = useCallback(
           user: "tester_hyopark",
           room: DmRoom,
           msg: chat,
+          msgType :"Dm"
       }, );
       setMyMsg(chat);
         setChat('');
