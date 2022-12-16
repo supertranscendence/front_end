@@ -299,6 +299,11 @@ else if (redirectFlag)
             <EachMsg key={user} msg={{msg: 'asdasdasd', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}
+        {users.map((user, index) => {
+          return (
+            <button> user </button>
+          );
+        })}
         <button onClick ={leaveRoom}>leaveRoom</button>
         <button onClick ={setPWD}>setPWD</button>
       </Header>
