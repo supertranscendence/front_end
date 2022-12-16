@@ -13,16 +13,16 @@ const LogIn = () => {
   });
   // let data  = '';
   // console.log("data", data);
-  if (localStorage.getItem(" refreshToken") ){//파싱 제대로 못해서 띄어쓰기 포함임 추후 변경예정
+  if (localStorage.getItem(" refreshToken") && localStorage.getItem("accessToken") ){//파싱 제대로 못해서 띄어쓰기 포함임 추후 변경예정
     console.log("already have ref token");
     return <Redirect to="/workspace/sleact/intro"/>
   }
-  // 로그인 판단을 일단 로컬스토리지 리프레시 토큰으로 남겨놨습니다.
-  if (data){
-    console.log("already have acc token");
-    return <Redirect to="/workspace/sleact/intro"/>
-    // location.href=("/");
-  }
+  // // 로그인 판단을 일단 로컬스토리지 리프레시 토큰으로 남겨놨습니다.
+  // if (data){
+  //   console.log("already have acc token");
+  //   return <Redirect to="/workspace/sleact/intro"/>
+  //   // location.href=("/");
+  // }
 
   return (
     <Container maxWidth="sm">
