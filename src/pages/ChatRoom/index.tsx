@@ -106,7 +106,7 @@ if (ChatRoom)
       setRedirectFlag(`/workspace/sleact/channel/Chat/${Obj.roomName}`);
     else if (Obj.roomType == "Game")
       setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
-  },[])
+  },[setRedirectFlag])
     
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
