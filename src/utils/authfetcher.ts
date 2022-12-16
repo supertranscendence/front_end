@@ -20,7 +20,7 @@ var deleteCookie = function(name:string){
       for (let i:any = 0; i < cookies.length; i++) {
         // const uname = cookies[i].split('=')[0];
         // document.cookie = `${uname}=; expires=${expiration}`;
-        document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration;
+		document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=.gilee.click;";
         // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
       }
       console.log('쿠키 전부 삭제완료!![',document.cookie,"]");
