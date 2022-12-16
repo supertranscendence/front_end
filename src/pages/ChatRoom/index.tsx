@@ -61,11 +61,11 @@ const updateUsers = useCallback((arr:string[])=>{
     console.log("users map ",arr);
     setUsers((arr)=>[...arr.map((str)=>{
       return str})]);
-},[socket,setUsers, users])
+},[socket,setUsers])
 
 useEffect(()=>{
   socket?.on("roomInfo", (arr:string[]) => updateUsers(arr))
-},[socket])
+},[socket, users])
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
