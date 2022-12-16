@@ -31,16 +31,23 @@ const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
 
-const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
-  dedupingInterval: 2000, // 2초
-});
-const [users, setUsers] = useState<string[]>([myUserData?.intra!]);
+// const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+//   dedupingInterval: 2000, // 2초
+// });
+
+const [users, setUsers] = useState<string[]>([]);
+// const [users, setUsers] = useState<string[]>([myUserData?.intra!]);
 
 const updateUsers = useCallback((userArr:string[])=>{
   console.log("users map ",userArr);
   setUsers((arr)=>[...userArr.map((str)=>{
     return str})]);
   },[socket,setUsers])
+  
+useEffect(()=>{
+  socket?.emit("roomInfo", {roomName:ChatRoom}, (userArr : string[]) =>updateUsers(userArr))
+},[socket, users ])
+  
   
 useEffect(()=>{
   socket?.on("roomInfo", (userArr:string[]) => updateUsers(userArr))
