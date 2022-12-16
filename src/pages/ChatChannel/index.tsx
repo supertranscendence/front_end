@@ -133,12 +133,8 @@ const fetchch = useCallback(()=>{
   }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
 },[])
 
-if (redirectRoom)
-  return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
-else
-{
-//TODO : 클리어 룸 버그가 너무 많음 고쳐야함
-  useEffect(()=>{
+
+useEffect(()=>{
   if (!newRoomFlag)
   {
     console.log("crearRoom call");
@@ -146,6 +142,12 @@ else
     // setNewRoomFlag(false);
   }
   },[socket])
+
+if (redirectRoom)
+  return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
+else
+{
+//TODO : 클리어 룸 버그가 너무 많음 고쳐야함
   return (
     <div>
       {/*<Table columns={columns} data={roomArr} />*/}
