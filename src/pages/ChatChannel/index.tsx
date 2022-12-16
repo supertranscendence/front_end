@@ -142,7 +142,7 @@ else
   {
     console.log("crearRoom call");
     socket?.emit("clearRoom");
-    setNewRoomFlag(false);
+    // setNewRoomFlag(false);
   }
   return (
     <div>
