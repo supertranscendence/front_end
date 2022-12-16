@@ -47,6 +47,7 @@ const Chat = loadable(() => import ('src/pages/ChatChannel') );
 const Game = loadable(() => import ('src/pages/GameChannel') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
+const DmRoom = loadable(() => import ('src/pages/DmRoom') );
 
 var deleteCookie = function(name:string){
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
@@ -173,7 +174,7 @@ const Workspace:FC<Props> = ({children}) =>
               <Route path = "/workspace/:workspace/profile" component={Profile}/>
               {/*<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>*/}
               <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
-              <Route path = "/workspace/:workspace/channel/DM/:DMRoom/" component={ChatRoom}/>
+              <Route path = "/workspace/:workspace/channel/DM/:DMRoom/" component={DmRoom}/>
               <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
               <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
