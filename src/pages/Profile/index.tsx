@@ -84,7 +84,7 @@ function createData(
       })
     .then((response) =>{
       console.log(response);
-      console.log("friends: ", response);
+      console.log("friends: ", response.data);
       //console.log("intra: ",response.data.intra)
       //setUser(response.data);
     })
