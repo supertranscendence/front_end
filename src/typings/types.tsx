@@ -1,4 +1,4 @@
-export type TypeDataUser = {
+export type dataUser = {
 	avatar: string;
 	created: Date;
     id: number;

@@ -1,7 +1,7 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Container } from '@mui/system';
-import { TypeDataUser } from 'src/typings/types';
+import { dataUser } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -27,8 +27,8 @@ const Intro = () => {
       console.log(err)
     });
   }, []);
-  //const { data: myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-  const { data: myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  //const { data: myUserData } = useSWR<dataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
+  const { data: myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   console.log("myUserData:", myUserData);

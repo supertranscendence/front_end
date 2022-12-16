@@ -19,7 +19,7 @@ import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
 // import useSocket from 'src/hooks/useSocket';
 import authfetcher from 'src/utils/authfetcher';
-import { TypeDataUser } from 'src/typings/types';
+import { dataUser } from 'src/typings/types';
 // import Intro from '@pages/Intro';
 
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
@@ -63,7 +63,7 @@ interface Props {
   }
 const Workspace:FC<Props> = ({children}) =>
 {
-  const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my', fetcher, {
       dedupingInterval: 2000, // 2초
     });
 	const {workspace} = useParams<{workspace:string}>();

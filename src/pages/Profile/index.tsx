@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import axios, { Axios } from 'axios';
-import { TypeDataUser } from 'src/pages/Profile/type';
+import { dataUser } from 'src/pages/Profile/type';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -42,15 +42,15 @@ const Profile = () => {
     setShowProfileModal(false);
   }, []);
   // ============================================
-  //const { data:myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-  const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  //const { data:myUserData } = useSWR<dataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
   //const { intraId } = useParams<{ workspace?: string }>();
 
   const { intra } = useParams<{ intra: string }>();
-  const [user, setUser] = useState<TypeDataUser>({
+  const [user, setUser] = useState<dataUser>({
     avatar:   null,
     created:  null,
     id:       0,
