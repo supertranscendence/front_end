@@ -57,22 +57,14 @@ const [whoInvite, setWhoInvite] = useState('');
 const [users, setUsers] = useState<string[]>([]);
 // let  inviteNum = 0;
 // let  whoInvite = '';
-const updateUsers = useCallback((arr:Map<string,IUser>)=>{
+const updateUsers = useCallback((arr:string[])=>{
     console.log("users map ",arr);
-    let tempArr:string[] = []
-    if (arr.size < 1)
-    {
-      arr.forEach((ele) =>{
-        tempArr.push(ele.intra);
-        //TODO인트라 -> 닉넴
-      })
-    }
-    setUsers((ele)=>tempArr);
-    
+    setUsers((arr)=>[...arr.map((str)=>{
+      return str})]);
 },[socket,setUsers])
 
 useEffect(()=>{
-  socket?.on("roomInfo", (arr:Map<string,IUser>) => updateUsers(arr))
+  socket?.on("roomInfo", (arr:string[]) => updateUsers(arr))
 },[socket])
 
   const moveScrollToReceiveMessage = useCallback(() => {
