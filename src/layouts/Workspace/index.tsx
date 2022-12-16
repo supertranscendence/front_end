@@ -20,7 +20,10 @@ import ChannelList from 'src/components/ChannelList';
 // import useSocket from 'src/hooks/useSocket';
 import authfetcher from 'src/utils/authfetcher';
 import { TypeDataUser } from 'src/typings/types';
+// const  {PongGame} = require('src/components/PongGame');
+// const  {Pong} = require('src/components/PongGame');
 // import Intro from '@pages/Intro';
+// import {Pong} from "src/components/PongGame"
 
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
@@ -53,6 +56,8 @@ const GamePong = loadable(() => import ('src/pages/GamePong/Game') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const DmRoom = loadable(() => import ('src/pages/DmRoom') );
+// const Pong = loadable(() => import ('src/components/PongGame') );
+const PongGame = loadable(() => import ('src/pages/PongGame') );
 
 var deleteCookie = function(name:string){
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
@@ -171,7 +176,7 @@ const Workspace:FC<Props> = ({children}) =>
               <Route path = "/workspace/:workspace/channel/DM/:DmRoom/" component={DmRoom}/>
               <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
-              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={GamePong}/>
+              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={PongGame}/>
               <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
             </Switch>
           </Chats>
