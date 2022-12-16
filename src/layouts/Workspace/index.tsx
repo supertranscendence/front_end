@@ -19,6 +19,7 @@ import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
 // import useSocket from 'src/hooks/useSocket';
 import authfetcher from 'src/utils/authfetcher';
+import { TypeDataUser } from 'src/typings/types';
 // import Intro from '@pages/Intro';
 
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
@@ -62,6 +63,9 @@ interface Props {
   }
 const Workspace:FC<Props> = ({children}) =>
 {
+  const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+      dedupingInterval: 2000, // 2초
+    });
 	const {workspace} = useParams<{workspace:string}>();
 	const {data, mutate} = useSWR('token', authfetcher);
 
@@ -82,16 +86,16 @@ const Workspace:FC<Props> = ({children}) =>
 		location.href ="http://gilee.click/";
 		// return <Redirect to="/"/>;
 	}
-	
+
 	const allDelCookies = (domain?:any, path?:any) => {
     // const doc = document;
     domain = domain || document.domain;
     path = path || '/';
-  
+
     const cookies = document.cookie.split('; '); // 배열로 반환
     console.log(cookies);
     const expiration = 'Sat, 01 Jan 1972 00:00:00 GMT';
-  
+
     // 반목문 순회하면서 쿠키 전체 삭제
     if (!document.cookie) {
       console.log('삭제할 쿠키가 없습니다.');
@@ -120,7 +124,7 @@ const Workspace:FC<Props> = ({children}) =>
 		console.log("ac tokken",localStorage.getItem("accessToken"));
 		location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
-		
+
 	}, [localStorage]);
 
     return(
@@ -144,7 +148,7 @@ const Workspace:FC<Props> = ({children}) =>
                   'aria-labelledby': 'basic-button',
                 }}
                 >
-                <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile`}>Profile</MenuItem>
+                <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile/${myUserData?.intra}`}>My Profile</MenuItem>
                 <MenuItem onClick={onLogout} >Logout</MenuItem>
               </Menu>
             </Box>
@@ -161,7 +165,7 @@ const Workspace:FC<Props> = ({children}) =>
           <Chats>
             <Switch>
               <Route path = "/workspace/:workspace/intro" component={Intro}/>
-              <Route path = "/workspace/:workspace/profile" component={Profile}/>
+              <Route path = "/workspace/:workspace/profile/:intra" component={Profile}/>
               {/*<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>*/}
               <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
               <Route path = "/workspace/:workspace/channel/DM/:DmRoom/" component={DmRoom}/>
