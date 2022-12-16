@@ -138,12 +138,14 @@ if (redirectRoom)
 else
 {
 //TODO : 클리어 룸 버그가 너무 많음 고쳐야함
- if (!newRoomFlag)
+  useEffect(()=>{
+  if (!newRoomFlag)
   {
     console.log("crearRoom call");
     socket?.emit("clearRoom");
-    setNewRoomFlag(false);
+    // setNewRoomFlag(false);
   }
+  },[socket])
   return (
     <div>
       {/*<Table columns={columns} data={roomArr} />*/}
