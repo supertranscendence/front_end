@@ -74,7 +74,7 @@ function createData(
 
   useEffect(() => {
     axios
-    .get("https://server.gilee.click/api/users/jisokang", {
+    .get("https://server.gilee.click/api/users/friends", {
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
       withCredentials:true,
         headers:{
@@ -84,8 +84,9 @@ function createData(
       })
     .then((response) =>{
       console.log(response);
-      console.log("intra: ",response.data.intra)
-      setUser(response.data);
+      console.log("friends: ", response);
+      //console.log("intra: ",response.data.intra)
+      //setUser(response.data);
     })
     .catch((err) => {
       console.log("[ERROR] get /api/users/{id}")
