@@ -50,7 +50,7 @@ const updateUsers = useCallback((arr:Map<string,IUser2>)=>{
     })
     setUsers((ele)=>tempArr);
     
-},[])
+},[socket,setUsers])
 
 useEffect(()=>{
   socket?.on("roomInfo", (arr:Map<string,IUser2>) => updateUsers(arr))
