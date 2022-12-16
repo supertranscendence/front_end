@@ -4,7 +4,7 @@ import useSocket from 'src/hooks/useSocket';
 import { ChatArea } from "@components/ChatBox/styles";
 import { userInfo } from "os";
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
-import { Header, Container, DragOver } from 'src/pages/DmRoom/styles';
+import { Header, Container, DragOver } from 'src/pages/ChatRoom/styles';
 import SetPWDModal from 'src/components/SetPWDModal';
 import InviteModal from 'src/components/InviteModal';
 import ChatBox from 'src/components/ChatBox';
@@ -21,9 +21,9 @@ import { stringify } from "querystring";
 // smooth scroll 설정
 
 
-const DMRoom = () => {
+const ChatRoom = () => {
 
-  const { DMRoom } = useParams<{ DMRoom?: string }>();
+  const { ChatRoom } = useParams<{ ChatRoom?: string }>();
   const [socket] = useSocket("sleact");
   const [returnFlag, setReturnFlag] = useState(false);
   const [redirectFlag, setRedirectFlag] = useState('');
@@ -62,11 +62,11 @@ const [whoInvite, setWhoInvite] = useState('');
   
 
 const setMyMsg = (str:string) => {
-if (DMRoom)
+if (ChatRoom)
   setMessages((msg)=>[...msg.map((str)=>{
     return str}),
     {
-      room : DMRoom,
+      room : ChatRoom,
       user: "it's me",
       msg : str
     }
@@ -76,11 +76,11 @@ if (DMRoom)
   const sendMsg = useCallback((e:any)=>{
     e.preventDefault();
     console.log(e.target.value,"send");
-    // console.log(DMRoom,"send");
+    // console.log(ChatRoom,"send");
     // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
     // setMsgInfo({
     //     user: "hyopark",
-    //     room: DMRoom,
+    //     room: ChatRoom,
     //     msg: e.target.msg.value,
     // }
     // )
@@ -88,7 +88,7 @@ if (DMRoom)
     console.log (e.target)
     socket?.emit("newMsg", {
       user: "tester_hyopark",//백엔
-      room: DMRoom,
+      room: ChatRoom,
       msg: e.target.value,
   }, );
   setMyMsg(e.target.value);
@@ -122,7 +122,7 @@ if (DMRoom)
     socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => {
       console.log("on redirectChannel", Obj)
     if (Obj.roomType == "Dm")
-      setRedirectFlag(`/workspace/sleact/channel/DM/${Obj.roomName}`);
+      setRedirectFlag(`/workspace/sleact/channel/Dm/${Obj.roomName}`);
     else if (Obj.roomType == "Game")
       setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
     });
@@ -173,14 +173,14 @@ if (DMRoom)
 
 const leaveRoom = useCallback(()=>{
   // useEffect(() => {
-    socket?.emit("leaveRoom", {room:DMRoom}, retrunChannel);
+    socket?.emit("leaveRoom", {room:ChatRoom}, retrunChannel);
   // }, [socket]);
 },[]);
 
 const setPWD = useCallback(()=>{
   setShowSetPWDModal(true);
   // useEffect(() => {
-    // socket?.emit("setPWD", {room:DMRoom},retrunChannel);
+    // socket?.emit("setPWD", {room:ChatRoom},retrunChannel);
     
   // }, [socket]);
 },[]);
@@ -207,7 +207,7 @@ const onSubmitForm = useCallback(
         console.log ("chat!!!!!", chat);
         socket?.emit("newMsg", {
           user: "tester_hyopark",
-          room: DMRoom,
+          room: ChatRoom,
           msg: chat,
       }, );
       setMyMsg(chat);
@@ -266,7 +266,7 @@ else if (redirectFlag)
   <Container onDrop={onDrop} onDragOver={onDragOver}>
       <Header>
         <img src="" />
-        <span>{DMRoom}</span>
+        <span>{ChatRoom}</span>
         <button onClick ={leaveRoom}>leaveRoom</button>
         <button onClick ={setPWD}>setPWD</button>
       </Header>
@@ -289,7 +289,7 @@ else if (redirectFlag)
             //   <div>{msg}</div>
             //   {/* <div className="time">{message}</div> */}
             // </div>
-            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} roomName={DMRoom!} ></EachMsg>
+            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}
         </Scrollbars>
@@ -298,7 +298,7 @@ else if (redirectFlag)
         onSubmitForm={onSubmitForm}
         chat={chat}
         onChangeChat={onChangeChat}
-        placeholder={`Message #${DMRoom}`}
+        placeholder={`Message #${ChatRoom}`}
         data={[{id:12 ,nickname:"방에있는 멤버들 정보 넣을곳"}]}
       />
       {dragOver && <DragOver>업로드!</DragOver>}
@@ -308,13 +308,13 @@ else if (redirectFlag)
       show={showSetPWDModal}
       onCloseModal={onCloseModal}
       setShowSetPWDModal={setShowSetPWDModal}
-      roomInfo={DMRoom!}
+      roomInfo={ChatRoom!}
     />
     <InviteModal
       show={showInviteModal}
       onCloseModal={onCloseModal}
       setShowInviteModal={setShowInviteModal}
-      roomInfo={DMRoom!}
+      roomInfo={ChatRoom!}
       // inviteNum={0}
       // whoInvite={""}
     />
@@ -324,4 +324,4 @@ else if (redirectFlag)
 
 //setPew emit {roomName : string, pw:string ,gottaPublic: boolean }
 
-export default DMRoom;
+export default ChatRoom;
