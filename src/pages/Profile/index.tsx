@@ -32,23 +32,24 @@ function createData(
     createData('jisokang VS hypark', 15, '2021-01-01'),
   ];
 
-  const Profile = () => {
+const Profile = () => {
+  // Modal=======================================
+  const [showCreateChannelModal, setShowProfileModal] = useState(false);
+  const onClickEditProfile = useCallback(() => {
+    setShowProfileModal(true);
+  }, []);
+  const onCloseModal = useCallback(() => {
+    setShowProfileModal(false);
+  }, []);
+  // ============================================
+  //const { data:myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
+  const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+    dedupingInterval: 2000, // 2초
+  });
+  const [isUserMe, setIsUserMe] = useState(false);
+  //const { intraId } = useParams<{ workspace?: string }>();
 
-    // Modal=======================================
-    const [showCreateChannelModal, setShowProfileModal] = useState(false);
-    const onClickEditProfile = useCallback(() => {
-      setShowProfileModal(true);
-    }, []);
-    const onCloseModal = useCallback(() => {
-      setShowProfileModal(false);
-    }, []);
-    // ============================================
-    //const { data:myUserData } = useSWR<TypeDataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-    const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
-      dedupingInterval: 2000, // 2초
-    });
-    const [isUserMe, setIsUserMe] = useState(false);
-
+  const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<TypeDataUser>({
     avatar:   null,
     created:  null,
@@ -75,7 +76,7 @@ function createData(
   useEffect(() => {
     axios
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
-      .get("https://server.gilee.click/api/users/friends", {
+      .get(`https://server.gilee.click/api/users/${intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
