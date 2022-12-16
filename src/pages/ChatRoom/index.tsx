@@ -35,14 +35,16 @@ const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api
   dedupingInterval: 2000, // 2초
 });
 const [users, setUsers] = useState<string[]>([myUserData?.intra!]);
+
 const updateUsers = useCallback((userArr:string[])=>{
   console.log("users map ",userArr);
   setUsers((arr)=>[...userArr.map((str)=>{
     return str})]);
   },[socket,setUsers])
+  
 useEffect(()=>{
   socket?.on("roomInfo", (userArr:string[]) => updateUsers(userArr))
-},[socket, users])
+},[socket, users, updateUsers ])
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
@@ -275,14 +277,7 @@ else if (redirectFlag)
         {users.map((user, index) => {
           return (
             <>
-            <EachMsg key={user} msg={{msg: 'asdasdasd', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
-            </>
-          );
-        })}
-        {users.map((user, index) => {
-          return (
-          <>
-            <button> {user} </button>
+            <EachMsg key={user} msg={{msg: '', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
             </>
           );
         })}
