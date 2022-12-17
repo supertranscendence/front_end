@@ -10,7 +10,7 @@ import theme from 'src/theme';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
-  process.env.NODE_ENV === 'production' ? 'https://server.gilee.click' : 'http://127.0.0.1/';
+  process.env.NODE_ENV === 'production' ? 'https://server.gilee.click' : 'http://127.0.0.1:3000/';
 
 render(
   <BrowserRouter>
