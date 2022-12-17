@@ -48,7 +48,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
 
   //const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-  const onUploadAvatar = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
@@ -59,7 +59,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
-    await axios
+    axios
       .put(`/api/users/avatar/${uuidKey}`, {
         withCredentials:true,
           headers:{
