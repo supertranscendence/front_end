@@ -1,5 +1,5 @@
 export type dataUser = {
-	avatar: string | null;
+	avatar: string | undefined;
 	created: Date | null;
     id: number;
 	intra: string;

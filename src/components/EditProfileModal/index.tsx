@@ -54,7 +54,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     }
     const file = e.target.files[0];
     console.log(e.target.files[0].name);
-    setTempAvatar(e.target.files[0].name);
     const formData = new FormData();
     formData.append('image', e.target.files[0]);
     const uuidKey = uuid();
@@ -71,6 +70,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       .then((response) =>{
         console.log(response);
         //setUser(response.data);
+        setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
       })
       .catch((err) => {
         console.log("[ERROR] post /api/users/avatar")

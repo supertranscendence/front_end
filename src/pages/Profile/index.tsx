@@ -43,7 +43,7 @@ const Profile = () => {
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>({
-    avatar:   null,
+    avatar:   "default",
     created:  null,
     id:       0,
 	  intra:    "UNKNOWN",
@@ -131,8 +131,9 @@ const Profile = () => {
               <Button variant='outlined' onClick={handleAddFriend} startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
             </div>
           )}
+          {/*img src: https://server.gilee.click/avatar/${uuid}.png*/}
         <Stack alignItems="center">
-          <Avatar sx={{ width: 128, height: 128 }}/>
+          <Avatar sx={{ width: 128, height: 128 }} src={user.avatar}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
           <b>Intra:</b><>{ user && user.intra }</>
           <b>Created Date:</b><>{ user && user.created }</>
