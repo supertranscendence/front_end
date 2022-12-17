@@ -87,13 +87,13 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     console.log("accessToken: ", localStorage.getItem("accessToken"));
     console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
     axios
-      .put(`/api/users/avatar/${uuidKey}`, {
-        withCredentials:true,
-          headers:{
-            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-            accept: "*/*"
-            }
-        })
+    .put(`/api/users/avatar/`,{avatar: uuidKey}, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          accept: "*/*"
+          }
+      })
       .then((response) =>{
         console.log("[RESPONSE] put /api/users/avatar")
         console.log(response);
