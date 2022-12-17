@@ -63,12 +63,13 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       .put(`/api/users/avatar/${uuidKey}`, {
         withCredentials:true,
           headers:{
-            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
             accept: "*/*"
             }
         })
       .then((response) =>{
         console.log(response);
+
         //setUser(response.data);
         setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
       })
