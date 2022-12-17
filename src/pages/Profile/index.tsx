@@ -83,6 +83,9 @@ const Profile = () => {
       console.log("[ERROR] get /api/users/{id}")
       console.log(err)
     });
+  })
+
+  useEffect(() => {
     if (user?.intra === undefined)
       setUser(
         {
@@ -122,8 +125,6 @@ const Profile = () => {
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
-
-
   }, []);
 
   return (
