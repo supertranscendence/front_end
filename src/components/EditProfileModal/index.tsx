@@ -66,7 +66,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     e.preventDefault();
     console.log("NewNick!",newNick );
     axios
-      .post(`https://server.gilee.click/api/users/nickname`, newNick, {
+      .put(`https://server.gilee.click/api/users/`, newNick, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
