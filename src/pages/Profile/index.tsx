@@ -42,26 +42,30 @@ const Profile = () => {
   });
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
-  const [user, setUser] = useState<dataUser>();
-  //const [user, setUser] = useState<dataUser>({
-  //  avatar:   "default",
-  //  created:  null,
-  //  id:       0,
-	//  intra:    "UNKNOWN",
-  //  level:    0,
-  //  nickname: "UNKNOWN",
-  //  updated:  null,
-  //  friends:  []
-  //});
+  //const [user, setUser] = useState<dataUser>();
+  const [user, setUser] = useState<dataUser>({
+    avatar:   "default",
+    created:  null,
+    id:       0,
+	  intra:    "UNKNOWN",
+    level:    0,
+    nickname: "UNKNOWN",
+    updated:  null,
+    friends:  []
+  });
 
-
-  //useEffect(() => {
-  //  console.log("Check isMyUser");
-  //  console.log("user?.intra: ", user?.intra);
-  //  console.log("myUserData?.intra: ", myUserData?.intra);
-
-  //  console.log("isUserMe:", isUserMe);
-  //}, [user, myUserData]);
+  useEffect(() => {
+    console.log("Check isMyUser");
+    console.log("user?.intra: ", user?.intra);
+    console.log("myUserData?.intra: ", myUserData?.intra);
+    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
+      setIsUserMe(true);
+    }
+    else{
+      setIsUserMe(false);
+    }
+    console.log("isUserMe:", isUserMe);
+  }, [user, myUserData]);
 
   useEffect(() => {
     axios
@@ -83,32 +87,10 @@ const Profile = () => {
       console.log("[ERROR] get /api/users/{id}")
       console.log(err)
     });
-  })
-
-  useEffect(() => {
-    if (user?.intra === undefined)
-      setUser(
-        {
-            avatar:   "default",
-            created:  null,
-            id:       0,
-            intra:    "UNKNOWN",
-            level:    0,
-            nickname: "UNKNOWN",
-            updated:  null,
-            friends:  []
-          }
-      );
-    if (user?.intra === myUserData?.intra){
-      setIsUserMe(true);
-    }
-    else{
-      setIsUserMe(false);
-    }
-  }, [user, myUserData]);
+  }, []);
 
   const handleAddFriend = useCallback(() => {
-    const value = {intra: user?.intra};
+    const value = {intra: user.intra};
     axios
       .post(`/api/users/`, value, {
       withCredentials:true,
@@ -125,7 +107,27 @@ const Profile = () => {
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
-  }, []);
+  }, [user, ]);
+
+  //const handleAddFriend = useCallback(() => {
+  //  const value = {intra: user?.intra};
+  //  axios
+  //    .post(`/api/users/`, value, {
+  //    withCredentials:true,
+  //      headers:{
+  //        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+  //        accept: "*/*"
+  //        }
+  //    })
+  //  .then((response) =>{
+  //    console.log(response);
+  //    //setUser(response.data);
+  //  })
+  //  .catch((err) => {
+  //    console.log("[ERROR] post /api/users/ for adduser")
+  //    console.log(err)
+  //  });
+  //}, []);
 
   return (
     <Container maxWidth="lg">
