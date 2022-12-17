@@ -44,7 +44,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     formData.append('image', e.target.files[0]);
 
     axios
-      .put(`https://server.gilee.click/api/users/avatar`, formData, {
+      .put(`/api/users/avatar`, formData, {
         withCredentials:true,
           headers:{
             authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -66,7 +66,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     e.preventDefault();
     console.log("NewNick!",newNick );
     axios
-      .post(`https://server.gilee.click/api/users/nickname`, newNick, {
+      .post(`/api/users/nickname`, newNick, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

@@ -11,7 +11,7 @@ import { dataUser } from '@typings/types';
 
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
-   const { data: myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my/friends', fetcher, {
+   const { data: myUserData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
      dedupingInterval: 2000, // 2초
    });
   // const { data: memberData } = useSWR<IUserWithOnline[]>(

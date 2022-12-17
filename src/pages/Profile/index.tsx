@@ -33,7 +33,6 @@ function createData(
   ];
 
 const Profile = () => {
-  // Modal=======================================
   const [showCreateChannelModal, setShowProfileModal] = useState(false);
   const onClickEditProfile = useCallback(() => {
     setShowProfileModal(true);
@@ -41,9 +40,7 @@ const Profile = () => {
   const onCloseModal = useCallback(() => {
     setShowProfileModal(false);
   }, []);
-  // ============================================
-  //const { data:myUserData } = useSWR<dataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my/friends', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
@@ -76,7 +73,7 @@ const Profile = () => {
   useEffect(() => {
     axios
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
-      .get(`https://server.gilee.click/api/users/${intra}`, {
+      .get(`/api/users/${intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -99,7 +96,7 @@ const Profile = () => {
     const value = {intra: user.intra};
     console.log("[ADD FRIEND]user.intra", value);
     axios
-      .post(`https://server.gilee.click/api/users/`, value, {
+      .post(`/api/users/`, value, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

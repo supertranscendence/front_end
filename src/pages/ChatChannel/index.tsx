@@ -65,7 +65,7 @@ const getJoinedRoom = useCallback((str:string)=>{
 useEffect(()=>{
  socket?.emit("joinedRoom", getJoinedRoom)
 },[]);
- 
+
 if (joinedRoom)
 {
  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
@@ -74,7 +74,7 @@ if (joinedRoom)
 }
 
 useEffect(()=>{
-  
+
   socket?.emit("getChatRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
   console.log("publicRooms", publicRoomsArr);
   setRoomArr( [...publicRoomsArr.map((eachObj)=>{
@@ -124,7 +124,7 @@ const columns = useMemo(
 );
 
 const fetchch = useCallback(()=>{
-  axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+  axios.get("/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -207,7 +207,7 @@ else
         setPWDModal={setShowPWDModal}
         roomInfo={roomInfo}
         />
-        
+
     </div>
   );
 }
