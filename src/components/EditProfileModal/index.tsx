@@ -16,6 +16,7 @@ import { Stack } from '@mui/system';
 import EditIcon from '@mui/icons-material/Edit';
 import AWS from "aws-sdk";
 import { dataUser } from 'src/pages/Profile/type';
+import uuid from 'react-uuid'
 
 interface Props {
   show: boolean;
@@ -56,11 +57,11 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     setTempAvatar(e.target.files[0].name);
     const formData = new FormData();
     formData.append('image', e.target.files[0]);
+    const uuidKey = uuid();
+    console.log("UUID Key: ", uuidKey);
 
     await axios
-      .put(`/api/users/avatar`, {
-        image: myUserData?.intra,
-      }, {
+      .put(`/api/users/avatar/${uuidKey}`, {
         withCredentials:true,
           headers:{
             authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -79,7 +80,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       const upload = new AWS.S3.ManagedUpload({
         params: {
             Bucket: bucket, // 버킷 이름
-            Key: myUserData?.intra + ".png", // 유저 아이디
+            Key: uuidKey + ".png", // 유저 아이디
             Body: file, // 파일 객체
           },
       });
@@ -94,6 +95,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           },
           function (err) {
               // 이미지 업로드 실패
+              console.log("[ERROR] 이미지 업로드 에러!", err)
           }
       );
     //await axios

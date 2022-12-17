@@ -41,6 +41,7 @@
     "react-scripts": "^5.0.1",
     "react-table": "^7.8.0",
     "react-toastify": "^9.1.1",
+    "react-uuid": "^2.0.0",
     "regexify-string": "^1.0.19",
     "socket.io": "^4.5.4",
     "socket.io-client": "^3.1.3",
