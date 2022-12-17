@@ -20,13 +20,13 @@ const LogIn = () => {
       return <Redirect to="/workspace/sleact/intro"/>
     }
     else{
-        axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+        axios.get("/api/auth/ft/refresh", {
         withCredentials:true,
         headers:{
         authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
         accept: "*/*"
         }
-      }).then((response) =>{ 
+      }).then((response) =>{
         console.log(response);
         console.log("data",response.data);
         localStorage.setItem("accessToken",response.data.act);
@@ -34,7 +34,7 @@ const LogIn = () => {
       .catch((err) => console.log(err));
     }
   }
-  
+
   // // 로그인 판단을 일단 로컬스토리지 리프레시 토큰으로 남겨놨습니다.
   // if (data){
   //   console.log("already have acc token");
@@ -58,7 +58,7 @@ const LogIn = () => {
           <Button
               variant='outlined'
               onClick={()=>{
-                window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+                window.location.href = "/api/auth/ft/redirect";
             }}>기리네로 로그인</Button>
           <Button
               variant='outlined'

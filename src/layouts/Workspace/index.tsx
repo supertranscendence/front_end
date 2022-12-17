@@ -63,7 +63,7 @@ interface Props {
   }
 const Workspace:FC<Props> = ({children}) =>
 {
-  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>('/api/users/my', fetcher, {
       dedupingInterval: 2000, // 2초
     });
 	const {workspace} = useParams<{workspace:string}>();

@@ -19,6 +19,7 @@ import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 
+
 function createData(
     player: string,
     score: number,
@@ -33,22 +34,13 @@ function createData(
   ];
 
 const Profile = () => {
-  // Modal=======================================
   const [showCreateChannelModal, setShowProfileModal] = useState(false);
-  const onClickEditProfile = useCallback(() => {
-    setShowProfileModal(true);
-  }, []);
-  const onCloseModal = useCallback(() => {
-    setShowProfileModal(false);
-  }, []);
-  // ============================================
-  //const { data:myUserData } = useSWR<dataUser>('http://127.0.0.1:3000/api/users/my', fetcher, {
-  const { data:myUserData } = useSWR<dataUser>('https://server.gilee.click/api/users/my/friends', fetcher, {
+  const onClickEditProfile = useCallback(() => { setShowProfileModal(true); }, []);
+  const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
+  const { data:myUserData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
-  //const { intraId } = useParams<{ workspace?: string }>();
-
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>({
     avatar:   null,
@@ -59,6 +51,8 @@ const Profile = () => {
     nickname: "UNKNOWN",
     updated:  null
   });
+
+
   useEffect(() => {
     console.log("Check isMyUser");
     console.log("user?.intra: ", user?.intra);
@@ -76,7 +70,7 @@ const Profile = () => {
   useEffect(() => {
     axios
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
-      .get(`https://server.gilee.click/api/users/${intra}`, {
+      .get(`/api/users/${intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -97,9 +91,8 @@ const Profile = () => {
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
-    console.log("[ADD FRIEND]user.intra", value);
     axios
-      .post(`https://server.gilee.click/api/users/`, value, {
+      .post(`/api/users/`, value, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

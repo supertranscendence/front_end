@@ -31,7 +31,7 @@ const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
 
-// const { data:myUserData } = useSWR<TypeDataUser>('https://server.gilee.click/api/users/my', fetcher, {
+// const { data:myUserData } = useSWR<TypeDataUser>('/api/users/my', fetcher, {
 //   dedupingInterval: 2000, // 2초
 // });
 
