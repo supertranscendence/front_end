@@ -49,6 +49,30 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
   //const onUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     //const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const onUpUuid = useCallback(() => {
+      const uuidKey = uuid();
+      console.log("UUID Key: ", uuidKey);
+      axios
+      .put(`/api/users/avatar/${uuidKey}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        console.log("[RESPONSE] put /api/users/avatar")
+        console.log(response);
+
+        //setUser(response.data);
+        //setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
+      })
+      .catch((err) => {
+        console.log("[ERROR] put /api/users/avatar")
+        console.log(err)
+      });
+    },[]);
+
     const onUploadAvatar = useCallback((e: any) => {
     if (!e.target.files) {
       return;
@@ -137,6 +161,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
         <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
           <h1>EDIT PROFILE</h1>
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
+          <Button onClick={onUpUuid}>UUID</Button>
           <Stack>
               <h4>아바타</h4>
               <input type="file" accept="image/*" onClick={onUploadAvatar} />
