@@ -42,17 +42,17 @@ const Profile = () => {
   });
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
-  //const [user, setUser] = useState<dataUser>();
-  const [user, setUser] = useState<dataUser>({
-    avatar:   "default",
-    created:  null,
-    id:       0,
-	  intra:    "UNKNOWN",
-    level:    0,
-    nickname: "UNKNOWN",
-    updated:  null,
-    friends:  []
-  });
+  const [user, setUser] = useState<dataUser>();
+  //const [user, setUser] = useState<dataUser>({
+  //  avatar:   "default",
+  //  created:  null,
+  //  id:       0,
+	//  intra:    "UNKNOWN",
+  //  level:    0,
+  //  nickname: "UNKNOWN",
+  //  updated:  null,
+  //  friends:  []
+  //});
 
 
   //useEffect(() => {
@@ -83,10 +83,29 @@ const Profile = () => {
       console.log("[ERROR] get /api/users/{id}")
       console.log(err)
     });
+    if (user?.intra === undefined)
+      setUser(
+        {
+            avatar:   "default",
+            created:  null,
+            id:       0,
+            intra:    "UNKNOWN",
+            level:    0,
+            nickname: "UNKNOWN",
+            updated:  null,
+            friends:  []
+          }
+      );
+    if (user?.intra === myUserData?.intra){
+      setIsUserMe(true);
+    }
+    else{
+      setIsUserMe(false);
+    }
   }, [myUserData]);
 
   const handleAddFriend = useCallback(() => {
-    const value = {intra: user.intra};
+    const value = {intra: user?.intra};
     axios
       .post(`/api/users/`, value, {
       withCredentials:true,
@@ -104,13 +123,8 @@ const Profile = () => {
       console.log(err)
     });
 
-    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
-      setIsUserMe(true);
-    }
-    else{
-      setIsUserMe(false);
-    }
-  }, [user, myUserData]);
+
+  }, []);
 
   return (
     <Container maxWidth="lg">
