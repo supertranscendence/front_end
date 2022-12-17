@@ -36,6 +36,11 @@ jobs:
 #           REACT_APP_SUGGESTION: ${{ secrets.REACT_APP_SUGGESTION }}
 #           REACT_APP_GA_ID: ${{ secrets.REACT_APP_GA_ID }}
 #           PORT: ${{ secrets.PORT }}
+      - name: make env2
+        run: |
+            echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
+            REACT_APP_AWS_ACCESS_KEY_ID=${{ secrets.REACT_APP_AWS_ACCESS_KEY_ID }}
+            REACT_APP_AWS_SECRET_ACCESS_KEY=${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}" > .env
       - name: Install Dependencies # node module install
         run: npm install
 
