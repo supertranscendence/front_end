@@ -102,7 +102,7 @@ const Profile = () => {
     else{
       setIsUserMe(false);
     }
-  }, [myUserData]);
+  }, [user, myUserData]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user?.intra};
