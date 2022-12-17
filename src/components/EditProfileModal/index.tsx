@@ -35,7 +35,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
   /*************************************** for AWS ***************************************/
   const region = "ap-northeast-2";
-  const bucket = "elice-boardgame-project";
+  const bucket = "ts-f-dp";
 
   AWS.config.update({
     region: region,
