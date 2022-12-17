@@ -19,6 +19,7 @@ import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 
+
 function createData(
     player: string,
     score: number,
@@ -34,18 +35,12 @@ function createData(
 
 const Profile = () => {
   const [showCreateChannelModal, setShowProfileModal] = useState(false);
-  const onClickEditProfile = useCallback(() => {
-    setShowProfileModal(true);
-  }, []);
-  const onCloseModal = useCallback(() => {
-    setShowProfileModal(false);
-  }, []);
+  const onClickEditProfile = useCallback(() => { setShowProfileModal(true); }, []);
+  const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
   const { data:myUserData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
-  //const { intraId } = useParams<{ workspace?: string }>();
-
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>({
     avatar:   null,
@@ -56,6 +51,8 @@ const Profile = () => {
     nickname: "UNKNOWN",
     updated:  null
   });
+
+
   useEffect(() => {
     console.log("Check isMyUser");
     console.log("user?.intra: ", user?.intra);
@@ -94,7 +91,6 @@ const Profile = () => {
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
-    console.log("[ADD FRIEND]user.intra", value);
     axios
       .post(`/api/users/`, value, {
       withCredentials:true,
