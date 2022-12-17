@@ -57,14 +57,13 @@ const Profile = () => {
     console.log("Check isMyUser");
     console.log("user?.intra: ", user?.intra);
     console.log("myUserData?.intra: ", myUserData?.intra);
-    if (user?.intra === myUserData?.intra){
+    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
       setIsUserMe(true);
     }
     else{
       setIsUserMe(false);
     }
     console.log("isUserMe:", isUserMe);
-
   }, [user, myUserData]);
 
   useEffect(() => {
@@ -87,7 +86,7 @@ const Profile = () => {
       console.log("[ERROR] get /api/users/{id}")
       console.log(err)
     });
-  }, []);
+  }, [user]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
