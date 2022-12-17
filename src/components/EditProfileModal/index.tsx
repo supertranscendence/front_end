@@ -48,7 +48,8 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
 
   //const onUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    //const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const onUploadAvatar = useCallback((e: any) => {
     if (!e.target.files) {
       return;
     }
@@ -70,13 +71,14 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
             }
         })
       .then((response) =>{
+        console.log("[RESPONSE] put /api/users/avatar")
         console.log(response);
 
         //setUser(response.data);
-        setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
+        //setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
       })
       .catch((err) => {
-        console.log("[ERROR] post /api/users/avatar")
+        console.log("[ERROR] put /api/users/avatar")
         console.log(err)
       });
 
@@ -137,10 +139,12 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
           <Stack>
               <h4>아바타</h4>
-            <Avatar sx={{width: 56, height: 56}} src={tempAvatar} />
-              <input type="file" accept="image/*" onChange={onUploadAvatar}/>
-            <Button type='submit' variant='outlined'>아바타 업로드</Button>
-            <Button>아바타 제거</Button>
+              <input type="file" accept="image/*" onClick={onUploadAvatar} />
+            {/*<form onSubmit={onUploadAvatar}>*/}
+              <Avatar sx={{width: 56, height: 56}} />
+              {/*<Button type='submit' variant='outlined'>아바타 업로드</Button>*/}
+            {/*</form>*/}
+            {/*<Button>아바타 제거</Button>*/}
           </Stack>
       <form onSubmit={onEditNickname}>
         <Label id="edit-nickname">
