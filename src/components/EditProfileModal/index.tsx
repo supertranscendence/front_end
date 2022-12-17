@@ -65,7 +65,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
         console.log(response);
 
         //setUser(response.data);
-        //setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
+        //setTempAvatar("https://server.gilee.click/" + response.data + ".png");
       })
       .catch((err) => {
         console.log("[ERROR] put /api/users/avatar")
@@ -164,9 +164,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           <Button onClick={onUpUuid}>UUID</Button>
           <Stack>
               <h4>아바타</h4>
-              <input type="file" accept="image/*" onClick={onUploadAvatar} />
+              <input type="file" accept="image/*" onChange={onUploadAvatar} />
+              <Avatar sx={{width: 56, height: 56}}/>
             {/*<form onSubmit={onUploadAvatar}>*/}
-              <Avatar sx={{width: 56, height: 56}} />
               {/*<Button type='submit' variant='outlined'>아바타 업로드</Button>*/}
             {/*</form>*/}
             {/*<Button>아바타 제거</Button>*/}

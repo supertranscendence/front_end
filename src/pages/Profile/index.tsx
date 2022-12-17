@@ -154,7 +154,8 @@ const Profile = () => {
           )}
           {/*img src: https://server.gilee.click/avatar/${uuid}.png*/}
         <Stack alignItems="center">
-          <Avatar sx={{ width: 128, height: 128 }} src={user && user.avatar}/>
+          {/*<Avatar sx={{ width: 128, height: 128 }} src={user && user.avatar}/>*/}
+          <Avatar sx={{ width: 128, height: 128 }} src={"https://gilee.click/" + user.avatar + ".png"}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
           <b>Intra:</b><>{ user && user.intra }</>
           <b>Created Date:</b><>{ user && user.created }</>
