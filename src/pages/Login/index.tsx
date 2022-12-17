@@ -58,7 +58,7 @@ const LogIn = () => {
           <Button
               variant='outlined'
               onClick={()=>{
-                window.location.href = "/api/auth/ft/redirect";
+                window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
             }}>기리네로 로그인</Button>
           <Button
               variant='outlined'
