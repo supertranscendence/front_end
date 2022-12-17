@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import axios, { Axios } from 'axios';
-import { dataUser } from 'src/pages/Profile/type';
+import { dataUser } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -42,6 +42,7 @@ const Profile = () => {
   });
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
+  //const [user, setUser] = useState<dataUser>();
   const [user, setUser] = useState<dataUser>({
     avatar:   "default",
     created:  null,
@@ -49,22 +50,18 @@ const Profile = () => {
 	  intra:    "UNKNOWN",
     level:    0,
     nickname: "UNKNOWN",
-    updated:  null
+    updated:  null,
+    friends:  []
   });
 
 
-  useEffect(() => {
-    console.log("Check isMyUser");
-    console.log("user?.intra: ", user?.intra);
-    console.log("myUserData?.intra: ", myUserData?.intra);
-    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
-      setIsUserMe(true);
-    }
-    else{
-      setIsUserMe(false);
-    }
-    console.log("isUserMe:", isUserMe);
-  }, [user, myUserData]);
+  //useEffect(() => {
+  //  console.log("Check isMyUser");
+  //  console.log("user?.intra: ", user?.intra);
+  //  console.log("myUserData?.intra: ", myUserData?.intra);
+
+  //  console.log("isUserMe:", isUserMe);
+  //}, [user, myUserData]);
 
   useEffect(() => {
     axios
@@ -86,7 +83,7 @@ const Profile = () => {
       console.log("[ERROR] get /api/users/{id}")
       console.log(err)
     });
-  }, []);
+  }, [myUserData]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
@@ -106,7 +103,14 @@ const Profile = () => {
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
-  }, [user, ]);
+
+    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
+      setIsUserMe(true);
+    }
+    else{
+      setIsUserMe(false);
+    }
+  }, [user, myUserData]);
 
   return (
     <Container maxWidth="lg">
@@ -133,7 +137,7 @@ const Profile = () => {
           )}
           {/*img src: https://server.gilee.click/avatar/${uuid}.png*/}
         <Stack alignItems="center">
-          <Avatar sx={{ width: 128, height: 128 }} src={user.avatar}/>
+          <Avatar sx={{ width: 128, height: 128 }} src={user && user.avatar}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
           <b>Intra:</b><>{ user && user.intra }</>
           <b>Created Date:</b><>{ user && user.created }</>
