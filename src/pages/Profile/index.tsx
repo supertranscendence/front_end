@@ -86,7 +86,7 @@ const Profile = () => {
       console.log("[ERROR] get /api/users/{id}")
       console.log(err)
     });
-  }, [user]);
+  }, []);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
