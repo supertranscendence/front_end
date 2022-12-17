@@ -47,15 +47,15 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
   /*************************************** ******* ***************************************/
 
 
-  //const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-  const onUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //const onUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
     const file = e.target.files[0];
     console.log(e.target.files[0].name);
-    const formData = new FormData();
-    formData.append('image', e.target.files[0]);
+    //const formData = new FormData();
+    //formData.append('image', e.target.files[0]);
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
@@ -101,24 +101,8 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               console.log("[ERROR] 이미지 업로드 에러!", err)
           }
       );
-    //await axios
-    //  .put(`/api/users/avatar`, formData, {
-    //    withCredentials:true,
-    //      headers:{
-    //        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-    //        accept: "*/*"
-    //        }
-    //    })
-    //  .then((response) =>{
-    //    console.log(response);
-    //    //setUser(response.data);
-    //  })
-    //  .catch((err) => {
-    //    console.log("[ERROR] post /api/users/avatar")
-    //    console.log(err)
-    //  });
 
-  };
+    }, []);
 
   const onEditNickname = useCallback((e:any) => {
     console.log("onEditNickname called!!")
