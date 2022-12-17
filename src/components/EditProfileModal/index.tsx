@@ -63,8 +63,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
   }, [tempAvatar])
 
   const onEditNickname = useCallback((e:any) => {
+    console.log("onEditNickname called!!")
     e.preventDefault();
-    console.log("NewNick!",newNick );
+    console.log("새로운 닉네임:", newNick );
     axios
       .put(`https://server.gilee.click/api/users/`, newNick, {
       withCredentials:true,
@@ -78,7 +79,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       //setUser(response.data);
     })
     .catch((err) => {
-      console.log("[ERROR] post /api/users/nickname")
+      console.log("[ERROR] post /api/users for nickname")
       console.log(err)
     });
   }, [newNick, ]);
