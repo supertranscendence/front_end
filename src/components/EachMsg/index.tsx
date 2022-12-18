@@ -35,7 +35,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const [socket] = useSocket("sleact");
   const [returnURL, setReturnURL] = useState("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my', fetcher, {
+    dedupingInterval: 2000, // 2초
+  });
   const [user, setUser] = useState<dataUser>();
   const open = Boolean(anchorEl);
   const handleClick = (event:any) => {
@@ -72,7 +74,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       });
     }
     else{
-      console.log("setUser(myUserData)");
+      console.log("myUser.intra", myUserData?.intra);
       console.log("myUser.avatar:", myUserData?.avatar)
       setUser(myUserData);
     }
