@@ -32,6 +32,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
       }
       )
       .then((response) =>{
+        document.location.href = "/";
         alert("then response");
         console.log(response.status);
         if (response.status == 200)
