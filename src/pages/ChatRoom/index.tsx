@@ -51,7 +51,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   socket?.on("roomInfo", (userArr:string[]) => updateUsers(userArr))
-},[socket, users ])
+},[socket ])
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
