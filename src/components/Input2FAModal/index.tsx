@@ -42,24 +42,26 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
             }
       })
       .then((response) =>{
-        location.href = "/";
-        alert("then response");
-        console.log(response.status);
-        if (response.status == 200)
-        {
-          alert("response 200!");
-          console.log("response 200!");
+        //location.href = "/";
+        setReturnURL('/');
+
+        //alert("then response");
+        //console.log(response.status);
+        //if (response.status == 200)
+        //{
+          //alert("response 200!");
+          //console.log("response 200!");
           //window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
           //location.href=(`https://server.gilee.click/api/auth/ft/redirect`);
           //alert("location.href=(`https://server.gilee.click/api/auth/ft/redirect`)");
-          setReturnURL(()=>`/`);
+          //setReturnURL('/');
           //alert("setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`)");
-        }
-        else
-        {
-          alert("no! something wrong!");
-          console.log("no! something wrong!");
-        }
+        //}
+        //else
+        //{
+        //  alert("no! something wrong!");
+        //  console.log("no! something wrong!");
+        //}
       })
       .catch((err) => {
         alert("then response");
@@ -70,6 +72,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
 
   if (returnURL)
   {
+    location.href = "/";
     return (<Redirect to = {returnURL}/>)
   }
   if (!show) {
