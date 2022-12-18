@@ -35,8 +35,9 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         if (response.status == 200)
         {
           console.log("response 200!");
-          location.href=(`/workspace/sleact/intro`);
-          setReturnURL(`/workspace/sleact/intro`);
+          //window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+          location.href=(`https://server.gilee.click/api/auth/ft/redirect`);
+          setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`);
         }
         else
           console.log("no! something wrong!");
