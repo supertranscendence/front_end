@@ -7,6 +7,8 @@ export type dataUser = {
     nickname: string;
 	updated: Date | null;
 	friends: Array<dataFriend> | undefined;
+	//is2fa: boolean;
+	//isFirst: boolean;
 }
 
 export type dataFriend = {
