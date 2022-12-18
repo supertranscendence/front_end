@@ -10,6 +10,7 @@ interface CanvasProps {
   height: number;
   userAScore: number;
   userBScore: number;
+  mode: boolean;
 }
 
 interface Coordinate {
@@ -17,7 +18,7 @@ interface Coordinate {
   y: number;
 };
 
-const PongGame = ({ width, height,userAScore, userBScore  }: CanvasProps) =>{
+const PongGame = ({ width, height,userAScore, userBScore, mode  }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
 
@@ -183,12 +184,12 @@ const update =()=>{
         userB.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom});//
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom, mode:mode});//
     }else if( ball.x + ball.radius > canvas.width){
       userA.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom});
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom, mode:mode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
 

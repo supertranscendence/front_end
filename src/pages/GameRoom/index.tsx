@@ -16,6 +16,7 @@ const GameRoom = () => {
 	const [start, setStart]  = useState(false);
 	const [socket] = useSocket("sleact");
 	const [returnFlag, setReturnFlag] = useState(false);
+	const [modeFlag, setModeFlag] = useState(false);
 	
 	const GameRoomName = GameRoom.split("=")[0];
 	const isOBS = GameRoom.split("=")[1];
@@ -35,7 +36,7 @@ const GameRoom = () => {
 	
 	useEffect(()=>{
 		console.log("game set?" );
-		socket?.emit("gameSet",(obj:{userA:number, userB:number} )=> {setuserA(userA); setuserB(userB)});
+		socket?.emit("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {setuserA(userA); setuserB(userB), setModeFlag(true)});
 	}, [socket]);
 	
 	const isStart = useCallback((b:boolean)=>{
@@ -70,6 +71,12 @@ const GameRoom = () => {
 		socket?.emit("gameStart", GameRoomName );
 	},[socket]);
 	
+	const modeGameStart = useCallback(()=>{
+		console.log("on gameStart", GameRoomName );
+		socket?.emit("gameStart", GameRoomName );
+		setModeFlag(true);
+	},[socket]);
+	
 	if (returnFlag)
 	{
 		return ( <Redirect to= {`/workspace/sleact/channel/Game`}/>);
@@ -85,7 +92,7 @@ const GameRoom = () => {
 	if (isOBS === undefined)
 	{
 	if (start)
-		return (<PongGame userAScore ={0} userBScore={0}/>)
+		return (<PongGame userAScore ={0} userBScore={0} mode={modeFlag}/>)
 	else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
 		return(
 			<Container maxWidth="lg">
@@ -112,6 +119,7 @@ const GameRoom = () => {
 					{/* observer list 출력 */}
 					<Divider variant="middle" />
 					<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
+					<Button variant="outlined"  onClick={modeGameStart}>MODE GAME START</Button>
 				</Stack>
 					{/* <>{warn?{warn}:""}</> */}
 			</Container>
@@ -120,7 +128,7 @@ const GameRoom = () => {
 	else
 	{
 		if (gameSet)
-			return (<PongGame  userAScore={userA} userBScore={userB} />)
+			return (<PongGame  userAScore={userA} userBScore={userB} mode={modeFlag} />)
 		else 
 			return (<div><h1>게임 대기 중</h1>
 				<button onClick={leaveRoom}>나가기</button></div>)

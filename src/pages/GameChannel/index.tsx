@@ -27,6 +27,7 @@ const Channel = () => {
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
   const [newRoomFlag, setNewRoomFlag] = useState(false);
   const [redirectRoom, setRedirectRoom] = useState('');
+  const [readyMach, setReadyMach] = useState(false);
   // const [roomInfo, setRoomInfo] = useState('');
   
   const onClickAddRoom = useCallback(() => {
@@ -49,6 +50,7 @@ const Channel = () => {
     socket?.emit("enterGameRoomOBS",e.target.name,()=>{
     })
   },[])
+  
   
 
   useEffect(()=>{
@@ -79,6 +81,18 @@ const Channel = () => {
     });
   },[socket,setNewRoomFlag]);
   
+  useEffect(()=>{
+    socket?.on("findMach", (room:string)=>{
+      setRedirectRoom((s)=>room);
+    });
+  },[socket]);
+  
+  const findMach = useCallback(()=>{
+    //대기열 등록
+    console.log("on findMach")
+    socket?.emit("findMach", ()=>setReadyMach(true));
+    // setReadyMach(true)
+  },[]);
   
   useEffect(()=>{
     if (!newRoomFlag)
@@ -91,6 +105,10 @@ const Channel = () => {
   
   if (redirectRoom)
     return ( <Redirect to= {`/workspace/sleact/channel/Game/${redirectRoom}`}/>);
+  else if (readyMach)
+    {
+      return (<div> 매칭 중..</div>)
+    }
   else
   {
   //TODO : 클리어 룸 버그가 너무 많음 고쳐야함
@@ -108,7 +126,7 @@ const Channel = () => {
               spacing={1}
             >
               <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Game</Button>
-              <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Find Match</Button>
+              <Button variant="outlined"  onClick={findMach} startIcon={<EmojiEventsIcon  />}>Find Match</Button>
             </Stack>
             <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
