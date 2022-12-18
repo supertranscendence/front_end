@@ -115,8 +115,8 @@ const Profile = () => {
     <Container maxWidth="lg">
       <Stack spacing={1}>
         <Stack />
-          {/*{isUserMe === true ?(*/}
-          {isUserMe != true ?(
+          {/*{isUserMe != true ?(*/}
+          {isUserMe === true ?(
             <Stack spacing={0}>
               <h1>MY PROFILE</h1>
               <Stack spacing={1} direction="row">
