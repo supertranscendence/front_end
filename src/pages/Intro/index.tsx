@@ -62,12 +62,11 @@ const Intro = () => {
 
   return (
     <Container maxWidth="lg">
-      <h1> Welcome {myUserData && myUserData.intra}!! </h1>
+      <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
       <h3> Your Friends</h3>
       {myUserData?.friends?.map((i) => (
         <div>
           <div>{i.friend}</div>
-          <div>님</div>
         </div>
       ))}
       {/*<div>

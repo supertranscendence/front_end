@@ -6,7 +6,7 @@ import { NavLink, useLocation, Redirect, Link } from 'react-router-dom';
 import useSWR from 'swr';
 import {ProfileImg} from 'src/layouts/Workspace/style'
 import gravatar from "gravatar";
-import { Modal, Avatar, Badge, Button, IconButton, Menu, MenuItem, List, Container, ListItem, ListItemAvatar, ListItemText, ListItemButton } from '@mui/material';
+import { Modal, Badge, Button, IconButton, Menu, MenuItem, List, Container, ListItem, ListItemAvatar, ListItemText, ListItemButton } from '@mui/material';
 import ListSubheader from '@mui/material/ListSubheader';
 import { styled } from '@mui/material/styles';
 import PendingIcon from '@mui/icons-material/Pending';
@@ -14,6 +14,7 @@ import { grey } from '@mui/material/colors';
 import { Stack } from '@mui/system';
 import { dataUser } from '@typings/types';
 import useSocket from 'src/hooks/useSocket';
+import FtAvatar from 'src/components/FtAvatar';
 
 const grey_color = grey[50];
 interface Props {
@@ -103,7 +104,7 @@ const EachDM: VFC<Props> = ({ member }) => {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-              <Avatar sx={{ width: 32, height: 32 }}/>
+              <FtAvatar userAvatar='' size={32}/>
           </StyledBadge>
         </ListItemAvatar>
           {/*<NavLink key={member.id} activeClassName="selected" to={`/workspace/${workspace}/dm/${member.id}`}>*/}

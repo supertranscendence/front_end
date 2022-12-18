@@ -18,6 +18,7 @@ import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
+import FtAvatar from 'src/components/FtAvatar';
 
 
 function createData(
@@ -154,10 +155,10 @@ const Profile = () => {
           )}
           {/*img src: https://server.gilee.click/avatar/${uuid}.png*/}
         <Stack alignItems="center">
-          {/*<Avatar sx={{ width: 128, height: 128 }} src={user && user.avatar}/>*/}
-          <Avatar sx={{ width: 128, height: 128 }} src={"https://gilee.click/" + user.avatar + ".png"}/>
+          <FtAvatar userAvatar={user.avatar} size={128}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
           <b>Intra:</b><>{ user && user.intra }</>
+          <b>Level:</b><>{ user && user.level }</>
           <b>Created Date:</b><>{ user && user.created }</>
           <b>Updated Date:</b><>{ user && user.updated }</>
         </Stack>
