@@ -259,6 +259,7 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
+
     update();
     render();
  
