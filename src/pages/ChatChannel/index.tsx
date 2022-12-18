@@ -126,7 +126,6 @@ if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
 else
 {
-//TODO : 클리어 룸 버그가 너무 많음 고쳐야함
   return (
     <div>
       {/*<Table columns={columns} data={roomArr} />*/}
