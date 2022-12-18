@@ -50,6 +50,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
 
 
   useEffect(() => {
+    console.log("[!!!!]msg.name: ", msg.name);
     if(msg.name != "it's me"){
       axios
         .get(process.env.REACT_APP_API_URL + `/api/users/${msg.name}`, {
@@ -71,6 +72,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       });
     }
     else{
+      console.log("setUser(myUserData)");
       setUser(myUserData);
     }
     }, []);
