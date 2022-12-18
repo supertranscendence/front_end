@@ -46,16 +46,7 @@ const Profile = () => {
   });
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
-  const [user, setUser] = useState<dataUser>({
-    avatar:   "default",
-    created:  null,
-    id:       0,
-	  intra:    "UNKNOWN",
-    level:    0,
-    nickname: "UNKNOWN",
-    updated:  null,
-    friends:  []
-  });
+  const [user, setUser] = useState<dataUser>();
 
   useEffect(() => {
     console.log("Check isMyUser");
@@ -92,7 +83,7 @@ const Profile = () => {
   }, []);
 
   const handleAddFriend = useCallback(() => {
-    const value = {intra: user.intra};
+    const value = {intra: user?.intra};
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
       withCredentials:true,
@@ -147,7 +138,7 @@ const Profile = () => {
             </div>
           )}
         <Stack alignItems="center">
-          <FtAvatar userAvatar={user.avatar} size={128}/>
+          <FtAvatar userAvatar={user?.avatar} size={128}/>
           <b>Nickname:</b><>{ user && user.nickname }</>
           <b>Intra:</b><>{ user && user.intra }</>
           <b>Level:</b><>{ user && user.level }</>

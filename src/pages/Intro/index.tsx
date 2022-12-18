@@ -31,34 +31,34 @@ const Intro = () => {
   });
   console.log("myUserData:", myUserData);
 
-  const dFriends:Array<dataFriend> = [
-    {
-      id: 1,
-      intra: "jisokang",
-      friend: "jjimmy",
-      block: false,
-      created: null,
-      updated: null
-    },
-    {
-      id: 2,
-      intra: "jisokang",
-      friend: "gilmmy",
-      block: false,
-      created: null,
-      updated: null
-    }
-  ];
-  const dummy:dataUser = {
-    avatar: "",
-	  created: null,
-	  id: 123,
-	  intra: "dummy",
-	  level: 42,
-	  nickname: "dummy",
-	  updated: null,
-	  friends: dFriends,
-  };
+  //const dFriends:Array<dataFriend> = [
+  //  {
+  //    id: 1,
+  //    intra: "jisokang",
+  //    friend: "jjimmy",
+  //    block: false,
+  //    created: null,
+  //    updated: null
+  //  },
+  //  {
+  //    id: 2,
+  //    intra: "jisokang",
+  //    friend: "gilmmy",
+  //    block: false,
+  //    created: null,
+  //    updated: null
+  //  }
+  //];
+  //const dummy:dataUser = {
+  //  avatar: "",
+	//  created: null,
+	//  id: 123,
+	//  intra: "dummy",
+	//  level: 42,
+	//  nickname: "dummy",
+	//  updated: null,
+	//  friends: dFriends,
+  //};
 
   return (
     <Container maxWidth="lg">

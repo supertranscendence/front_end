@@ -19,21 +19,19 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [isDone2FA, setIsDone2FA] = useState(false);
   const onSubmit2FAcode = useCallback((e:any) => {
     console.log("onEditNickname called!!")
-    e.preventDefault();
+    //e.preventDefault();
     axios
-      .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-          accept: "*/*"
-          }
-      })
+      .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code},
+      //{
+      //withCredentials:true,
+      //  headers:{
+      //    authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      //    accept: "*/*"
+      //    }
+      //}
+      )
       .then((response) =>{
-        console.log(response.data);
-        if(response.data.done === true)
-          return <Redirect to={`/`}/>;
-        else{
-        }
+        console.log(response.status);
       })
       .catch((err) => {
         console.log("[ERROR] post /api/auth/ft/email for 2FA")

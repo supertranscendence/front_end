@@ -1,4 +1,4 @@
-import { dataUser } from 'src/pages/Profile/type';
+import { dataUser } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import React,{ useState, useCallback, useEffect, useContext, useRef } from "react";
@@ -244,8 +244,6 @@ else if (redirectFlag)
       onCloseModal={onCloseModal}
       setShowInviteModal={setShowInviteModal}
       roomInfo={ChatRoom!}
-      // inviteNum={0}
-      // whoInvite={""}
     />
     </div>
   );

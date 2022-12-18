@@ -8,6 +8,8 @@ import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import { dataUser } from '@typings/types';
+import { dataFriend, UserStatus, FriendList } from '@typings/types';
+
 
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
@@ -34,9 +36,15 @@ const DMList = () => {
     },[socket, setFriendData])
 
   useEffect(() => {
-    socket?.on('friends-list', (userArr: string[]) => {
-      updateFriends(userArr);
-    });
+    console.log('Get myFriend! ');
+    socket?.emit('myFriend', function(data:FriendList[]){
+    console.log('Message from Server: ', data);
+    console.log('data[0].friend: ', data[0].friend);
+    console.log('data[0].status: ', data[0].status);
+    })
+    //socket?.on('myFriend', (userArr: string[]) => {
+    //  updateFriends(userArr);
+    //});
   }, [socket, ]);
 
   useEffect(() => {
@@ -65,8 +73,7 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
-        {!channelCollapse &&
-          friendData?.map((i) => {
+        {friendData?.map((i) => {
             return <EachDM member={i} />;
             //return <EachDM key={i} member={member} isOnline={isOnline} />;
           })
