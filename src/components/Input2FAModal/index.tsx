@@ -32,7 +32,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
       )
       .then((response) =>{
         console.log(response.status);
-        if (response.status == 204)
+        if (response.status == 200)
         {
           console.log("response 204!");
           location.href=(`/workspace/sleact/intro`);
