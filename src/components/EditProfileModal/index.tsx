@@ -107,7 +107,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
   const onEditNickname = useCallback((e:any) => {
     console.log("onEditNickname called!!")
-    e.preventDefault();
     console.log("새로운 닉네임:", newNick );
     axios
       .put(process.env.REACT_APP_API_URL + `/api/users/`, {nick: newNick}, {
@@ -149,7 +148,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
             <Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>
           </Stack>
       <form onSubmit={onEditNickname}>
-        <Label id="edit-nickname">
           <Stack>
             <h4>닉네임</h4>
             <TextField
@@ -164,7 +162,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               />
             <Button type="submit" variant='outlined'><EditIcon /> 프로필 수정하기</Button>
           </Stack>
-        </Label>
       </form>
       </Stack>
     </Stack>
