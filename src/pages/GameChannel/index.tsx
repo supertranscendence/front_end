@@ -19,6 +19,7 @@ import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import PWDModal from 'src/components/PWDModal';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 //const PAGE_SIZE = 20;
 const Channel = () => {
@@ -91,9 +92,11 @@ const Channel = () => {
   const findMatch = useCallback(()=>{
     //대기열 등록
     console.log("on findMatch")
-    socket?.emit("findMatch", ()=>setReadyMach(true));
+    socket?.emit("findMatch", (size:number)=>{
+      console.log("size",size);
+    setReadyMach(true)});
     // setReadyMach(true)
-  },[]);
+  },[setReadyMach]);
   
   useEffect(()=>{
     if (!newRoomFlag)
