@@ -34,7 +34,7 @@ const DMList = () => {
     },[socket, setFriendData])
 
   useEffect(() => {
-    socket?.on('friends-list', (userArr: string[]) => {
+    socket?.on('MyFriend', (userArr: string[]) => {
       updateFriends(userArr);
     });
   }, [socket, ]);
