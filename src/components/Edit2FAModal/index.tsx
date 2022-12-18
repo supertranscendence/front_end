@@ -15,7 +15,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
 
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
 
-  const onSubmitSet2FA = useCallback((e:any) => {
+  const onSubmitEmail = useCallback((e:any) => {
     console.log("onEditNickname called!!")
     e.preventDefault();
     axios
@@ -39,9 +39,9 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
   if (!show) {
     return null;
     }
-  return(
+    return(
   <Modal show={show} onCloseModal={onClose2FAModal}>
-  <form onSubmit={onSubmitSet2FA}>
+  <form onSubmit={onSubmitEmail}>
     <Stack spacing={1}>
       <h1>2FA 설정</h1>
       <TextField
