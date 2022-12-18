@@ -145,9 +145,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
                 name='avatar'
                 ref={inputRef}
                 onChange={onUploadAvatar}
-                style={{display: 'none'}}
+                //style={{display: 'none'}}
               />
-              <Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>
+              {/*<Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>*/}
           </Stack>
       <form onSubmit={onEditNickname}>
         <Label id="edit-nickname">
