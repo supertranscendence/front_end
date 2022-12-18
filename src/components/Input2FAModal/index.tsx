@@ -19,8 +19,9 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [isDone2FA, setIsDone2FA] = useState(false);
   const [returnURL, setReturnURL] = useState("");
   const onSubmit2FAcode = useCallback((e:any) => {
-    console.log("onEditNickname called!!")
+    console.log("onSubmit2FAcode called!!")
     //e.preventDefault();
+    alert("onSubmit2FAcode ale");
     axios
       .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
         withCredentials:true,
@@ -31,6 +32,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
       }
       )
       .then((response) =>{
+        alert("then response");
         console.log(response.status);
         if (response.status == 200)
         {
@@ -49,6 +51,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         }
       })
       .catch((err) => {
+        alert("then response");
         console.log("[ERROR] post /api/auth/ft/email for 2FA")
         console.log(err)
     });
