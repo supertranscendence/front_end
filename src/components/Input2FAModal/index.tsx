@@ -39,10 +39,10 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
           alert("response 200!");
           console.log("response 200!");
           //window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
-          location.href=(`https://server.gilee.click/api/auth/ft/redirect`);
-          alert("location.href=(`https://server.gilee.click/api/auth/ft/redirect`)");
-          setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`);
-          alert("setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`)");
+          //location.href=(`https://server.gilee.click/api/auth/ft/redirect`);
+          //alert("location.href=(`https://server.gilee.click/api/auth/ft/redirect`)");
+          setReturnURL(()=>`/`);
+          //alert("setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`)");
         }
         else
         {
@@ -55,7 +55,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         console.log("[ERROR] post /api/auth/ft/email for 2FA")
         console.log(err)
     });
-  }, [code, ]);
+  }, [code,setReturnURL ]);
 
   if (returnURL)
   {
