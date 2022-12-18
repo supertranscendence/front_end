@@ -47,16 +47,6 @@ const Profile = () => {
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
-  //const [user, setUser] = useState<dataUser>({
-  //  avatar:   "default",
-  //  created:  null,
-  //  id:       0,
-	//  intra:    "UNKNOWN",
-  //  level:    0,
-  //  nickname: "UNKNOWN",
-  //  updated:  null,
-  //  friends:  []
-  //});
 
   useEffect(() => {
     console.log("Check isMyUser");
