@@ -26,7 +26,6 @@ const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
 const [showPWDModal, setShowPWDModal] = useState(false);
 const [newRoomFlag, setNewRoomFlag] = useState(false);
 const [redirectRoom, setRedirectRoom] = useState('');
-const [joinedRoom, setJoinedRoom] = useState(false);
 const [roomInfo, setRoomInfo] = useState('');
 
 const onClickAddRoom = useCallback(() => {
@@ -44,34 +43,41 @@ const onCloseModal = useCallback(() => {
 }, []);
 
 const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
-const {data} = useSWR("token", authfetcher);
 const enterRoom =  useCallback( (e:any)=> {
   console.log ("ispublic?", e);
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
   })
 },[])
 
-const getJoinedRoom = useCallback((str:string)=>{
-  const arr :string[] = str.split(" ");
-  console.log("arr",arr);
-  console.log("arr.length",arr.length);
-  console.log("arr.length",arr.length);
-  if (arr.length > 1){
-    // setJoinedRoom((f)=>true);
-    return ;
-  }
-},[]);
-
 useEffect(()=>{
- socket?.emit("joinedRoom", getJoinedRoom)
-},[]);
+  if (!newRoomFlag)
+  {
+    console.log("crearRoom call");
+    socket?.emit("clearRoom");
+    // setNewRoomFlag(false);
+  }
+  },[socket])
 
-if (joinedRoom)
-{
- socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
- setJoinedRoom((f)=>false);
- console.log("EXIT in FRONT!");
-}
+// const getJoinedRoom = useCallback((str:string)=>{
+//   const arr :string[] = str.split(" ");
+//   console.log("arr",arr);
+//   console.log("arr.length",arr.length);
+//   if (arr.length > 1){
+//     // setJoinedRoom((f)=>true);
+//     return ;
+//   }
+// },[]);
+
+// useEffect(()=>{
+//  socket?.emit("joinedRoom", getJoinedRoom)
+// },[]);
+
+// if (joinedRoom)
+// {
+//  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
+//  setJoinedRoom((f)=>false);
+//  console.log("EXIT in FRONT!");
+// }
 
 useEffect(()=>{
 
@@ -90,7 +96,7 @@ useEffect(()=>{
       console.log("roomArr 배열", roomArr);
 });
 console.log("room arr:", roomArr);
-}, [ socket, joinedRoom]);
+}, [ socket]);
 
 useEffect(()=>{
   socket?.on("new-room-created", (room:string)=>{
@@ -101,27 +107,6 @@ useEffect(()=>{
   });
 },[socket,setNewRoomFlag]);
 
-const columns = useMemo(
-  () => [
-    {
-      accessor: "name",
-      Header: "Name",
-    },
-    {
-      accessor: "roomType",
-      Header: "RoomType",
-    },
-    {
-      accessor: "currCnt",
-      Header: "CurrCnt",
-    },
-    {
-      accessor: "enterButton",
-      Header: <button onClick={onClickAddRoom}>생성 버튼</button>,
-    }
-    ,],
-  []
-);
 
 const fetchch = useCallback(()=>{
   axios.get(process.env.REACT_APP_API_URL +  "/api/auth/ft/refresh", {
@@ -134,14 +119,7 @@ const fetchch = useCallback(()=>{
 },[])
 
 
-useEffect(()=>{
-  if (!newRoomFlag)
-  {
-    console.log("crearRoom call");
-    socket?.emit("clearRoom");
-    // setNewRoomFlag(false);
-  }
-  },[socket])
+
 
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
