@@ -34,8 +34,8 @@ const CreateGameRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onC
     if (!newRoom || !newRoom.trim()) {
       return;
     }
-      socket?.emit("createGameRoom", {room: newRoom, isPublic: true}, clearModal);
-      console.log("createRoom!", {room: newRoom, isPublic: true} );
+      socket?.emit("createGameRoom",  newRoom, clearModal);
+      console.log("createRoom!", {room: newRoom} );
   }, [newRoom]);
 
   if (!show) {

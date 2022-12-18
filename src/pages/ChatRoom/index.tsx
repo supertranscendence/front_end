@@ -31,12 +31,8 @@ const [chat, onChangeChat, setChat] = useInput('');
 const [showSetPWDModal, setShowSetPWDModal] = useState(false);
 const [showInviteModal, setShowInviteModal] = useState(false);
 
-// const { data:myUserData } = useSWR<TypeDataUser>('/api/users/my', fetcher, {
-//   dedupingInterval: 2000, // 2초
-// });
 
 const [users, setUsers] = useState<string[]>([]);
-// const [users, setUsers] = useState<string[]>([myUserData?.intra!]);
 
 const updateUsers = useCallback((userArr:string[])=>{
   console.log("users map ",userArr);
@@ -51,7 +47,7 @@ useEffect(()=>{
 
 useEffect(()=>{
   socket?.on("roomInfo", (userArr:string[]) => updateUsers(userArr))
-},[socket, users ])
+},[socket])
 
   const moveScrollToReceiveMessage = useCallback(() => {
     if (chatWindow.current) {
@@ -86,28 +82,6 @@ if (ChatRoom)
     ]);
   }
 
-  const sendMsg = useCallback((e:any)=>{
-    e.preventDefault();
-    console.log(e.target.value,"send");
-    // console.log(ChatRoom,"send");
-    // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
-    // setMsgInfo({
-    //     user: "hyopark",
-    //     room: ChatRoom,
-    //     msg: e.target.msg.value,
-    // }
-    // )
-    // console.log(msgInfo.msg,msgInfo.room, msgInfo.user);
-    console.log (e.target)
-    socket?.emit("newMsg", {
-      user: "tester_hyopark",//백엔
-      room: ChatRoom,
-      msg: e.target.value,
-  }, );
-  setMyMsg(e.target.value);
-  e.target.value = "";
-  },[socket]);
-
   const retrunChannel = useCallback(()=>{
     console.log("on retrunChannel")
     setReturnFlag((flag)=>true);
@@ -141,49 +115,6 @@ if (ChatRoom)
     });
   }, [socket, redirectChannel, redirectFlag]);
 
-  // useEffect(() => {
-  //   console.log("shellWeDm!");
-  //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
-  //     console.log("in getInvite",inviteObj );
-  //     console.log("ret1:", inviteNum, whoInvite);
-  //     // setinviteNum(1);}
-  //     setinviteNum((n) => {return 1});
-  //     // inviteNum = 1;
-  //     console.log("ret2:", inviteNum, whoInvite);
-  //     // setWhoInvite( inviteObj.sendIntraId );
-  //     setWhoInvite((s) => {return inviteObj.sendIntraId });
-  //     // whoInvite=inviteObj.sendIntraId;
-  //     console.log("ret3:", inviteNum, whoInvite);
-  //     setShowInviteModal(true);
-  //     console.log("ret4:", inviteNum, whoInvite);
-  //   }});
-  // }, [socket]);
-
-//   const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
-
-//     console.log("in getInvite",inviteObj );
-//     console.log("ret1:", inviteNum, whoInvite);
-//     // setinviteNum(1);}
-//     setinviteNum((n) => {return 1});
-//     // inviteNum = 1;
-//     console.log("ret2:", inviteNum, whoInvite);
-//     // setWhoInvite( inviteObj.sendIntraId );
-//     setWhoInvite((s) => {return inviteObj.sendIntraId });
-//     // whoInvite=inviteObj.sendIntraId;
-//     console.log("ret3:", inviteNum, whoInvite);
-//     setShowInviteModal(true);
-//     console.log("ret4:", inviteNum, whoInvite);
-// },
-//   [ ]
-// );
-
-  // useEffect(() => {
-  //   console.log("shellWeDm!");
-  //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> test(inviteObj));
-  // }, [socket]);
-
-
-
 const leaveRoom = useCallback(()=>{
   // useEffect(() => {
     socket?.emit("leaveRoom", {room:ChatRoom}, retrunChannel);
@@ -192,16 +123,7 @@ const leaveRoom = useCallback(()=>{
 
 const setPWD = useCallback(()=>{
   setShowSetPWDModal(true);
-  // useEffect(() => {
-    // socket?.emit("setPWD", {room:ChatRoom},retrunChannel);
-
-  // }, [socket]);
 },[]);
-
-
-
-//////test////////
-
 
 const onCloseModal = useCallback(() => {
   setShowSetPWDModal(false);
@@ -292,16 +214,7 @@ else if (redirectFlag)
         <button onClick ={leaveRoom}>leaveRoom</button>
         <button onClick ={setPWD}>setPWD</button>
       </Header>
-      {/* <ChatList
-        scrollbarRef={scrollbarRef}
-        isReachingEnd={isReachingEnd}
-        isEmpty={isEmpty}
-        chatSections={chatSections}
-        // setSize={setSize}
-      /> */}
-      {/* <div id="smooth-scroll"> */}
       <Scrollbars>
-
        {messages.map((message, index) => {
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
@@ -310,7 +223,6 @@ else if (redirectFlag)
           );
         })}
         </Scrollbars>
-      {/* </div > */}
       <ChatBox
         onSubmitForm={onSubmitForm}
         chat={chat}
@@ -338,7 +250,5 @@ else if (redirectFlag)
     </div>
   );
 }
-
-//setPew emit {roomName : string, pw:string ,gottaPublic: boolean }
 
 export default ChatRoom;

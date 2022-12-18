@@ -1,5 +1,6 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 // import './App.css';
+import useSocket from "src/hooks/useSocket"
 
 
 interface CanvasProps {
@@ -12,7 +13,7 @@ interface Coordinate {
   y: number;
 };
 
-const PongGameCom = ({ width, height }: CanvasProps) =>{
+const PongGameuserB = ({ width, height }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
 
@@ -28,7 +29,7 @@ const ball = {
 }
 
 // User Paddle
-const user = {
+const userA = {
     x : 0, // left side of canvas
     y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
     width : 10,
@@ -37,10 +38,19 @@ const user = {
     color : "WHITE"
 }
 
-// COM Paddle
-const com = {
-    x : canvas?canvas.width:0 - 10, // - width of paddle
-    y : (canvas?canvas.height:0 - 100)/2, // -100 the height of paddle
+// const userB = {
+//     x : 790, // left side of canvas
+//     y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
+//     width : 10,
+//     height : 100,
+//     score : 0,
+//     color : "WHITE"
+// }
+
+// userB Paddle
+const userB = {
+    x : canvas? canvas.width - 10  : 790, // - width of paddle
+    y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
     width : 10,
     height : 100,
     score : 0,
@@ -93,7 +103,7 @@ const drawArc = (x:any, y:any, r:any, color:any)=>{
 
 
 
-// when COM or USER scores, we reset the ball
+// when userB or USER scores, we reset the ball
 const resetBall = () =>{
 	if (!canvasRef.current) {
 		return;
@@ -111,7 +121,8 @@ const resetUser = () =>{
 		return;
 	  }
 	  const canvas: HTMLCanvasElement = canvasRef.current;
-    user.y = 250;
+    userA.y = 250;
+    userB.y = 250;
 }
 
 // draw the net
@@ -163,13 +174,13 @@ const update =()=>{
 		return;
 	  }
 	  const canvas: HTMLCanvasElement = canvasRef.current;
-    // change the score of players, if the ball goes to the left "ball.x<0" computer win, else if "ball.x > canvas.width" the user win
+    // change the score of players, if the ball goes to the left "ball.x<0" userBputer win, else if "ball.x > canvas.width" the user win
     if( ball.x - ball.radius < 0 ){
-        com.score++;
+        userB.score++;
         resetBall();
         resetUser();
     }else if( ball.x + ball.radius > canvas.width){
-        user.score++;
+      userA.score++;
         resetBall();
         resetUser();
     }
@@ -178,17 +189,17 @@ const update =()=>{
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
     
-    // computer plays for itself, and we must be able to beat it
+    // userBputer plays for itself, and we must be able to beat it
     // simple AI
-    com.y += ((ball.y - (com.y + com.height/2)))*0.1;
+    // userB.y += ((ball.y - (userB.y + userB.height/2)))*0.1;
     
     // when the ball collides with bottom and top walls we inverse the y velocity.
     if(ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){
         ball.velocityY = -ball.velocityY;
     }
     
-    // we check if the paddle hit the user or the com paddle
-    let player = (ball.x + ball.radius < canvas.width/2) ? user : com;
+    // we check if the paddle hit the user or the userB paddle
+    let player = (ball.x + ball.radius < canvas.width/2) ? userA : userB;
     
     // if the ball hits a paddle
     if(collision(ball,player)){
@@ -226,19 +237,21 @@ const render= ()=>{
     drawRect(0, 0, canvas.width, canvas.height, "#000");
     
     // draw the user score to the left
-    drawText(user.score,canvas.width/4,canvas.height/5);
+    drawText(userA.score,canvas.width/4,canvas.height/5);
     
-    // draw the COM score to the right
-    drawText(com.score,3*canvas.width/4,canvas.height/5);
+    // draw the userB score to the right
+    drawText(userB.score,3*canvas.width/4,canvas.height/5);
     
     // draw the net
     drawNet();
     
     // draw the user's paddle
-    drawRect(user.x, user.y, user.width, user.height, user.color);
+    drawRect(userA.x, userA.y, userA.width, userA.height, userA.color);
     
-    // draw the COM's paddle
-    drawRect(com.x, com.y, com.width, com.height, com.color);
+    drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
+    
+    // draw the userB's paddle
+    drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
     
     // draw the ball
     drawArc(ball.x, ball.y, ball.radius, ball.color);
@@ -249,10 +262,10 @@ const game = () =>{
  
 }
 // number of frames per second
-let framePerSecond = 60;
+let framePerSecond = 50;
 
 //call the game const 50 times every 1 Sec
-// let loop = setInterval(game,1000/framePerSecond);
+let loop = setInterval(game,1000/framePerSecond);
 ////////////////
 const startGo = ()=>{
 console.log("gogo");
@@ -266,7 +279,7 @@ const getMousePos = (evt:any) =>{
 	  const canvas: HTMLCanvasElement = canvasRef.current;
     let rect = canvas.getBoundingClientRect();
     
-    user.y = evt.clientY - rect.top - user.height/2;
+    userA.y = evt.clientY - rect.top - userA.height/2;
 }
 
 const getKeyEvent = (evt:any) =>{
@@ -282,22 +295,21 @@ const getKeyEvent = (evt:any) =>{
     // console.log("3",evt.key);
     if (evt.key === "s")
     {
-        user.y =  user.y  + 30;
-        if (user.y >=500)
-	    		user.y =500;
+        socket?.emit("down" );
+        if (userA.y >=500)
+        {
+	    	  userA.y =500;
+        }
 	}
     else if (evt.key === "w")
 	{
-        user.y =  user.y -30;
-        if (user.y <=0)
-			    user.y =0;
+    socket?.emit("up");
+    if (userA.y <=0)
+      userA.y =0;
 	}
-    // console.log( user.y, evt.clientY, rect.top, user.height/2)
-    // user.y = evt.clientY - rect.top - user.height/2;
+    // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
+    // userA.y = evt.clientY - rect.top - userA.height/2;
 }
-
-
-
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -305,6 +317,19 @@ const getKeyEvent = (evt:any) =>{
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
 	
+	  socket?.on("down", (isA : boolean) => {
+	    if (isA)
+	      userA.y += 30
+	    else
+	      userB.y +=30
+	  })
+	
+	  socket?.on("up", (isA : boolean) => {
+      if (isA)
+	      userA.y -= 30
+	    else
+	      userB.y -=30
+	  })
     // canvas.addEventListener('mousedown', startPaint);
     // canvas.addEventListener('mousemove', paint);
     // canvas.addEventListener('mouseup', exitPaint);
@@ -326,9 +351,12 @@ const getKeyEvent = (evt:any) =>{
     };
 //   }, [startPaint, paint, exitPaint]);
   }, [getKeyEvent, canvasRef]);
+  const [socket] = useSocket("sleact");
+  
+
   return (
   <>
-      <button onClick={startGo}> 고 </button>
+      {/* <button onClick={startGo}> 고 </button> */}
 	  <div className="App">
       <canvas ref={canvasRef} height={height} width={width} className="canvas"/>
     </div>
@@ -342,9 +370,9 @@ const getKeyEvent = (evt:any) =>{
 //   </div>
 // }
 
-PongGameCom.defaultProps = {
+PongGameuserB.defaultProps = {
   width: 800,
   height: 600
 };
 
-export default PongGameCom;
+export default PongGameuserB;
