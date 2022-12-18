@@ -20,7 +20,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [returnURL, setReturnURL] = useState("");
   const onSubmit2FAcode = useCallback((e:any) => {
     console.log("onEditNickname called!!")
-    e.preventDefault();
+    //e.preventDefault();
     axios
       .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
         withCredentials:true,
@@ -34,7 +34,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         console.log(response.status);
         if (response.status == 200)
         {
-          console.log("response 204!");
+          console.log("response 200!");
           location.href=(`/workspace/sleact/intro`);
           setReturnURL(`/workspace/sleact/intro`);
         }
