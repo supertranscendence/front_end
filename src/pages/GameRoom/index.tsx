@@ -9,27 +9,36 @@ import useSocket from "src/hooks/useSocket"
 const GameRoom = () => {
 	const { workspace, GameRoom } = useParams<{ workspace: string; GameRoom: string }>();
 	const [isPlaying, setIsPlaying]  = useState(false);
-	const [warn, setWarn]  = useState('');
 	const [socket] = useSocket("sleact");
 	// 
 	useEffect(()=>{
 		console.log("isPlaying?" );
 		socket?.emit("isPlaying", GameRoom ,(b:boolean)=> {setIsPlaying(b)});
-	}, []);
+	}, [socket]);
+	
+	const isStart = useCallback((b:boolean)=>{
+		if (b) 
+		{
+			console.log("true" ,b);
+			setIsPlaying((b)=>true)
+		}
+		else 
+		{   
+			console.log("false" ,b);
+		}
+	},[]);
+	
 	
 	useEffect(()=>{
 		console.log("start" );
-		socket?.on("gameStart", (b:boolean)=>{
-		if (b) 
-			setIsPlaying(true)
-		else 
-			setWarn("방 주인만 시작할 수 있읍니다.")
-		});
-	}, []);
+		socket?.on("gameStart", (b:any)=> isStart(b));
+		
+	}, [socket]);
 	
 	const gameStart = useCallback(()=>{
+		console.log("on gameStart", GameRoom );
 		socket?.emit("gameStart", GameRoom );
-	},[]);
+	},[socket]);
 	
 	if (isPlaying)//혹은 프롭스 넘겨주면서 리다이렉트 -> 옵저버 설정이 좀 애매해짐
 		return (
