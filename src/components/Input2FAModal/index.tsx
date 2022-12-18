@@ -34,13 +34,19 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         console.log(response.status);
         if (response.status == 200)
         {
+          alert("response 200!");
           console.log("response 200!");
           //window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
           location.href=(`https://server.gilee.click/api/auth/ft/redirect`);
+          alert("location.href=(`https://server.gilee.click/api/auth/ft/redirect`)");
           setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`);
+          alert("setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`)");
         }
         else
+        {
+          alert("no! something wrong!");
           console.log("no! something wrong!");
+        }
       })
       .catch((err) => {
         console.log("[ERROR] post /api/auth/ft/email for 2FA")
