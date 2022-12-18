@@ -24,16 +24,16 @@ interface Props {
   setShowProfileModal : (flag:boolean) => void
 }
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
-  const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
+  //const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
   //const [fileName, setFileName] = useInput('');
-  const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
-  const clearModal = useCallback(()=>{
-    //mutate();
-    setShowProfileModal(false);
-  },[]);
-  const [tempAvatar, setTempAvatar] = useState('');
+  //const {workspace, channel}=useParams<{workspace : string , channel:string}>();
+  //const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
+  //const clearModal = useCallback(()=>{
+  //  mutate();
+  //  setShowProfileModal(false);
+  //},[]);
+  //const [tempAvatar, setTempAvatar] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
   const onUploadImageButtonClick = useCallback(() => {
     if (!inputRef.current) {
@@ -60,7 +60,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     }
     const file = e.target.files[0];
     console.log(e.target.files[0].name);
-    //setFileName(e.target.files[0].name);
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
