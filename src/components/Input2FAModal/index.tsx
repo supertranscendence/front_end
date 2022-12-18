@@ -64,6 +64,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         //}
       })
       .catch((err) => {
+        setReturnURL('/');
         alert("then response");
         console.log("[ERROR] post /api/auth/ft/email for 2FA")
         console.log(err)
