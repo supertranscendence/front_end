@@ -16,8 +16,9 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
 
   const onSubmitEmail = useCallback((e:any) => {
-    console.log("onEditNickname called!!")
     e.preventDefault();
+    console.log("onSubmitEmail called!!")
+    console.log("newEmail: ",newEmail);
     axios
       .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {email: newEmail}, {
       withCredentials:true,
