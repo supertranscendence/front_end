@@ -54,7 +54,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
         onChange={onChangeNewEmail}
         required={true}
         />
-        <Button type="submit" variant='outlined'>인증 보내기</Button>
+        <Button type="submit" variant='outlined'>인증 메일 설정하기</Button>
     </Stack>
   </form>
   </Modal>
