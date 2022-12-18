@@ -73,6 +73,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     }
     else{
       console.log("setUser(myUserData)");
+      console.log("myUser.avatar:", myUserData?.avatar)
       setUser(myUserData);
     }
     }, []);
