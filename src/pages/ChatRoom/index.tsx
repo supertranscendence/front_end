@@ -244,8 +244,6 @@ else if (redirectFlag)
       onCloseModal={onCloseModal}
       setShowInviteModal={setShowInviteModal}
       roomInfo={ChatRoom!}
-      // inviteNum={0}
-      // whoInvite={""}
     />
     </div>
   );

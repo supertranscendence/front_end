@@ -10,17 +10,24 @@ import { Modal, Avatar, Badge, Button, IconButton, Menu, MenuItem, List, Contain
 import ListSubheader from '@mui/material/ListSubheader';
 import { styled } from '@mui/material/styles';
 import PendingIcon from '@mui/icons-material/Pending';
-import { grey } from '@mui/material/colors';
+
 import { Stack } from '@mui/system';
 import useSocket from 'src/hooks/useSocket';
+import axios from 'axios';
+import { dataUser } from 'src/typings/types';
+import FtAvatar from 'src/components/FtAvatar';
 
-
-const grey_color = grey[50];
 interface Props {
   roomName: string
-  msg : {name: string,msg :string, img:string}
+  msg : {
+    name: string,
+    msg :string,
+    img:string
+  }
   // isOnline: boolean;
 }
+
+
 
 const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const { workspace } = useParams<{ workspace?: string }>();
@@ -29,6 +36,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
 
   const [returnURL, setReturnURL] = useState("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [user, setUser] = useState<dataUser>();
   const open = Boolean(anchorEl);
   const handleClick = (event:any) => {
     setAnchorEl(event.currentTarget);
@@ -36,6 +44,34 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+
+
+
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + `/api/users/${msg.name}`, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log(response);
+      //console.log("friends: ", response.data);
+      console.log("intra: ",response.data.intra)
+      setUser(response.data);
+    })
+    .catch((err) => {
+      console.log("[ERROR] get /api/users/{id}")
+      console.log(err)
+    });
+  }, []);
+
+
+
 
 
   const setAdmin = useCallback(()=>{
@@ -125,7 +161,8 @@ if (returnURL)
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-              <Avatar sx={{ width: 32, height: 32 }}/>
+            <FtAvatar userAvatar={user?.avatar}/>
+              {/*<Avatar sx={{ width: 32, height: 32 }}/>*/}
           </StyledBadge>
           {msg.name}
         </ListItemAvatar>

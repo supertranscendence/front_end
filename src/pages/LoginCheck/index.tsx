@@ -9,6 +9,8 @@ import Input2FAModal from 'src/components/Input2FAModal';
 import { dataUser } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 
+
+
 const LoginCheck = () => {
   const [showInput2FAModal, setShowInput2FAModal] = useState(true);
   const onCloseModal = useCallback(() => { setShowInput2FAModal(false); }, []);
