@@ -67,7 +67,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
     }
   return(
   <Modal show={show}>
-  <form onSubmit={onSubmit2FAcode}>
+  {/*<form onSubmit={onSubmit2FAcode}>*/}
     <Stack spacing={1}>
       <h1>인증 코드 입력</h1>
       <TextField
@@ -82,8 +82,9 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         helperText='email로 받은 인증코드를 입력해주세요.'
         />
       <Button type="submit" variant='outlined'>인증 보내기</Button>
+      <Button variant='outlined' onClick={onSubmit2FAcode}>인증 보내기2</Button>
     </Stack>
-  </form>
+  {/*</form>*/}
   </Modal>
   );
 };
