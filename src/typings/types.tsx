@@ -12,10 +12,23 @@ export type dataUser = {
 }
 
 export type dataFriend = {
-    id: number;
+	tid: number;
 	intra: string;
 	friend: string;
 	block: boolean;
 	created: Date | null;
 	updated: Date | null;
+    id: number;
 }
+
+export enum UserStatus {
+	me,
+	login,
+	logout,
+	ingame,
+  }
+
+  export type FriendList = {
+	friend: dataFriend;
+	status: UserStatus;
+  }

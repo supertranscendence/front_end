@@ -8,6 +8,8 @@ import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import { dataUser } from '@typings/types';
+import { dataFriend, UserStatus, FriendList } from '@typings/types';
+
 
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
@@ -35,8 +37,8 @@ const DMList = () => {
 
   useEffect(() => {
     console.log('Get myFriend! ');
-    socket?.emit('myFriend', function(Friends:any, State:any){
-      console.log('Message from Server: ', Friends, State);
+    socket?.emit('myFriend', function(data:FriendList[])
+    {console.log('Message from Server: ', data);
     })
     //socket?.on('myFriend', (userArr: string[]) => {
     //  updateFriends(userArr);
