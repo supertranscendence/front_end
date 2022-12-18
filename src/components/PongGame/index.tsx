@@ -1,6 +1,8 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
 // import './App.css';
 import useSocket from "src/hooks/useSocket"
+import { useParams } from 'react-router';
+
 
 
 interface CanvasProps {
@@ -295,7 +297,7 @@ const getKeyEvent = (evt:any) =>{
     // console.log("3",evt.key);
     if (evt.key === "s")
     {
-        socket?.emit("down" );
+        socket?.emit("down",GameRoom);
         if (userA.y >=500)
         {
 	    	  userA.y =500;
@@ -303,7 +305,7 @@ const getKeyEvent = (evt:any) =>{
 	}
     else if (evt.key === "w")
 	{
-    socket?.emit("up");
+    socket?.emit("up", GameRoom);
     if (userA.y <=0)
       userA.y =0;
 	}
@@ -352,7 +354,7 @@ const getKeyEvent = (evt:any) =>{
 //   }, [startPaint, paint, exitPaint]);
   }, [getKeyEvent, canvasRef]);
   const [socket] = useSocket("sleact");
-  
+  const { GameRoom } = useParams<{ GameRoom?: string }>();
 
   return (
   <>
