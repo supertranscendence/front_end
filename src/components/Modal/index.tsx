@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 
 interface Props {
   show: boolean;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
 }
 
 const Modal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal }) => {
@@ -19,9 +19,14 @@ const Modal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal }) =
   return (
     <CreateModal onClick={onCloseModal}>
       <div onClick={stopPropagation}>
-        <IconButton aria-label="cancle" onClick={onCloseModal}
-          sx={{position: 'absolute', right: '10px', top: '10px', border: 'none'}}><CancelIcon /></IconButton>
-        {/*<CloseModalButton onClick={onCloseModal}></CloseModalButton>*/}
+        {onCloseModal != undefined
+        &&<IconButton
+          onClick={onCloseModal}
+          aria-label="cancle"
+          sx={{position: 'absolute', right: '10px', top: '10px', border: 'none'}}
+          >
+            <CancelIcon />
+        </IconButton>}
         {children}
       </div>
     </CreateModal>

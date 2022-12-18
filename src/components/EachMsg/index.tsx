@@ -36,44 +36,44 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
-  
+
+
   const setAdmin = useCallback(()=>{
   console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
     socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name} ,(arr : string[])=>{console.log("done admin arr:", arr)} );
   },[socket, ])
-  
+
   const kickUser = useCallback(()=>{
     console.log("kickUser", {roomName:roomName , kickUser :msg.name} ,socket);
     socket?.emit("kickUser", {roomName:roomName , kickUser :msg.name}, (s :string)=>{console.log("done kick",s)} );
   },[socket, ])
-  
+
   const banUser = useCallback(()=>{
     console.log("banUser", {roomName:roomName , banUser :msg.name} );
     socket?.emit("banUser", {roomName:roomName , banUser :msg.name},(arr : string[])=>{console.log("done ban arr:", arr)});
   },[socket, ])
-  
+
   const muteUser = useCallback(()=>{
     console.log("muteUser",{roomName:roomName , muteUser :msg.name} );
     socket?.emit("muteUser", {roomName:roomName , muteUser :msg.name}, (arr : string[])=>{console.log("done mute arr:", arr)} );
   },[socket, ])
-  
+
   const shellWeDm = useCallback(()=>{
     console.log("shellWeDm",{roomName:roomName , goDM :msg.name} );
     socket?.emit("shellWeDm", {roomName:roomName , shellWeDmUser:msg.name}, ()=>{console.log("shellWeDm done")} );
   },[socket, ])
-  
+
   const shellWeGame = useCallback(()=>{
     console.log("shellWeGame",{roomName:roomName , goDM :msg.name} );
     socket?.emit("shellWeGame", {roomName:roomName , shellWeGameUser:msg.name}, ()=>{console.log("shellWeGame done")} );
   },[socket, ])
-  
+
   const showProfile = useCallback(()=>{
     console.log("showProfile",{roomName:roomName , goDM :msg.name} );
     setReturnURL(`/workspace/sleact/profile/${msg.name}`);
   },[socket, ])
-  
-  
+
+
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -129,7 +129,7 @@ if (returnURL)
           </StyledBadge>
           {msg.name}
         </ListItemAvatar>
-         
+
          <ListItemText ></ListItemText>
           {/* {msg.kg === userData?.id && <span> (나)</span>} */}
           {<span className="count"> {msg.msg}</span> || null}
@@ -150,11 +150,7 @@ if (returnURL)
         <MenuItem onClick={muteUser}>음소거 설정 / 해제</MenuItem>
         <MenuItem onClick={kickUser}>추방</MenuItem>
         <MenuItem onClick={banUser}>영원히 추방</MenuItem>
-        
-        {/* <MenuItem onClick={muteUser}>음소거</MenuItem> */}
-        {/* <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${msg.kg}`}>DM 보내기</MenuItem> */}
-        {/* <MenuItem onClick={handleClose}>친구 추가/삭제</MenuItem>
-        <MenuItem onClick={handleClose}>음소거하기</MenuItem> */}
+
       </Menu>
     </List>
   );
