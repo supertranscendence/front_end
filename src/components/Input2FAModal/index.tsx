@@ -42,7 +42,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
             }
       })
       .then((response) =>{
-        document.location.href = "/";
+        location.href = "/";
         alert("then response");
         console.log(response.status);
         if (response.status == 200)
@@ -77,7 +77,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
     }
   return(
   <Modal show={show}>
-  {/*<form onSubmit={onSubmit2FAcode}>*/}
+  <form onSubmit={onSubmit2FAcode}>
     <Stack spacing={1}>
       <h1>인증 코드 입력</h1>
       <TextField
@@ -94,7 +94,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
       <Button type="submit" variant='outlined'>인증 보내기</Button>
       <Button variant='outlined' onClick={onSubmit2FAcode}>인증 보내기2</Button>
     </Stack>
-  {/*</form>*/}
+  </form>
   </Modal>
   );
 };
