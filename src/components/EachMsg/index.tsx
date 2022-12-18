@@ -33,9 +33,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const { workspace } = useParams<{ workspace?: string }>();
   const location = useLocation();
   const [socket] = useSocket("sleact");
-
   const [returnURL, setReturnURL] = useState("");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
   const [user, setUser] = useState<dataUser>();
   const open = Boolean(anchorEl);
   const handleClick = (event:any) => {
@@ -50,25 +50,30 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
 
 
   useEffect(() => {
-    axios
-      .get(process.env.REACT_APP_API_URL + `/api/users/${msg.name}`, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-          accept: "*/*"
-          }
+    if(msg.name != "it's me"){
+      axios
+        .get(process.env.REACT_APP_API_URL + `/api/users/${msg.name}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        console.log(response);
+        //console.log("friends: ", response.data);
+        console.log("intra: ",response.data.intra)
+        setUser(response.data);
       })
-    .then((response) =>{
-      console.log(response);
-      //console.log("friends: ", response.data);
-      console.log("intra: ",response.data.intra)
-      setUser(response.data);
-    })
-    .catch((err) => {
-      console.log("[ERROR] get /api/users/{id}")
-      console.log(err)
-    });
-  }, []);
+      .catch((err) => {
+        console.log("[ERROR] get /api/users/{id}")
+        console.log(err)
+      });
+    }
+    else{
+      setUser(myUserData);
+    }
+    }, []);
 
 
 
@@ -162,7 +167,6 @@ if (returnURL)
             variant="dot"
           >
             <FtAvatar userAvatar={user?.avatar}/>
-              {/*<Avatar sx={{ width: 32, height: 32 }}/>*/}
           </StyledBadge>
           {msg.name}
         </ListItemAvatar>
