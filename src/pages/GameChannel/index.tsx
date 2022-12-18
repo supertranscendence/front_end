@@ -82,15 +82,16 @@ const Channel = () => {
   },[socket,setNewRoomFlag]);
   
   useEffect(()=>{
-    socket?.on("findMach", (room:string)=>{
+    socket?.on("findMatch", (room:string)=>{
       setRedirectRoom((s)=>room);
+      setReadyMach(()=>false);
     });
   },[socket]);
   
-  const findMach = useCallback(()=>{
+  const findMatch = useCallback(()=>{
     //대기열 등록
-    console.log("on findMach")
-    socket?.emit("findMach", ()=>setReadyMach(true));
+    console.log("on findMatch")
+    socket?.emit("findMatch", ()=>setReadyMach(true));
     // setReadyMach(true)
   },[]);
   
@@ -126,7 +127,7 @@ const Channel = () => {
               spacing={1}
             >
               <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Game</Button>
-              <Button variant="outlined"  onClick={findMach} startIcon={<EmojiEventsIcon  />}>Find Match</Button>
+              <Button variant="outlined"  onClick={findMatch} startIcon={<EmojiEventsIcon  />}>Find Match</Button>
             </Stack>
             <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
