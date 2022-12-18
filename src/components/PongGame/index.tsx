@@ -26,7 +26,7 @@ const PongGame = ({ width, height,userAScore, userBScore, mode  }: CanvasProps) 
 const ball = {
     x : canvas?canvas.width/2 : 300,
     y : canvas?canvas.height/2 : 250,
-    radius : 10,
+    radius : mode?30:10,
     velocityX : 5,
     velocityY : 5,
     speed : 5,
