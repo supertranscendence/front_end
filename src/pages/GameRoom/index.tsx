@@ -30,7 +30,7 @@ const GameRoom = () => {
 	}, [socket]);
 	
 	useEffect(()=>{
-		console.log("game set?" );
+		console.log("kickAll!" );
 		socket?.on("kickAll",(obj:{userA:number, userB:number} )=> {setGameSet(true);setuserA(userA); setuserB(userB)});
 	}, [socket]);
 	
