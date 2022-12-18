@@ -1,5 +1,5 @@
 import { CreateModal, CloseModalButton } from 'src/components/Modal/style';
-import React, { FC, PropsWithChildren, useCallback,useState } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useState, useRef } from 'react';
 import {Label, Input} from 'src/pages/SignUp/styles';
 import { Avatar, Button, Divider } from '@mui/material';
 import useInput from "src/hooks/useInput"
@@ -33,6 +33,13 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     setShowProfileModal(false);
   },[]);
   const [tempAvatar, setTempAvatar] = useState('');
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const onUploadImageButtonClick = useCallback(() => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
+  }, []);
 
   /*************************************** for AWS ***************************************/
   const region = "ap-northeast-2";
@@ -46,41 +53,12 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
 
   /*************************************** ******* ***************************************/
 
-
-  //const onUploadAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const onUpUuid = useCallback(() => {
-      const uuidKey = uuid();
-      console.log("UUID Key: ", uuidKey);
-      axios
-      .put(`/api/users/avatar/`,{avatar: uuidKey}, {
-        withCredentials:true,
-          headers:{
-            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-            accept: "*/*"
-            }
-        })
-      .then((response) =>{
-        console.log("[RESPONSE] put /api/users/avatar")
-        console.log(response);
-
-        //setUser(response.data);
-        //setTempAvatar("https://server.gilee.click/" + response.data + ".png");
-      })
-      .catch((err) => {
-        console.log("[ERROR] put /api/users/avatar")
-        console.log(err)
-      });
-    },[]);
-
-    const onUploadAvatar = useCallback((e: any) => {
+    const onUploadAvatar = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
     }
     const file = e.target.files[0];
     console.log(e.target.files[0].name);
-    //const formData = new FormData();
-    //formData.append('image', e.target.files[0]);
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
@@ -97,9 +75,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       .then((response) =>{
         console.log("[RESPONSE] put /api/users/avatar")
         console.log(response);
-
-        //setUser(response.data);
-        //setTempAvatar("https://server.gilee.click/avatar/" + response.data + ".png");
       })
       .catch((err) => {
         console.log("[ERROR] put /api/users/avatar")
@@ -127,7 +102,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               console.log("[ERROR] 이미지 업로드 에러!", err)
           }
       );
-
     }, []);
 
   const onEditNickname = useCallback((e:any) => {
@@ -156,20 +130,23 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     return null;
   }
   return (
-    <Modal show = {show} onCloseModal={onCloseModal}>
+    <Modal show={show} onCloseModal={onCloseModal}>
       <Stack spacing={1}>
         <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
           <h1>EDIT PROFILE</h1>
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
-          <Button onClick={onUpUuid}>UUID</Button>
           <Stack>
               <h4>아바타</h4>
-              <input type="file" accept="image/*" onChange={onUploadAvatar} />
               <Avatar sx={{width: 56, height: 56}}/>
-            {/*<form onSubmit={onUploadAvatar}>*/}
-              {/*<Button type='submit' variant='outlined'>아바타 업로드</Button>*/}
-            {/*</form>*/}
-            {/*<Button>아바타 제거</Button>*/}
+              <input
+                type="file"
+                accept="image/*"
+                name='avatar'
+                ref={inputRef}
+                onChange={onUploadAvatar}
+                style={{display: 'none'}}
+              />
+              <Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>
           </Stack>
       <form onSubmit={onEditNickname}>
         <Label id="edit-nickname">
