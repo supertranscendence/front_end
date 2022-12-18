@@ -18,7 +18,17 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [code, onChangeCode, setCode] = useInput('');
   const [isDone2FA, setIsDone2FA] = useState(false);
   const [returnURL, setReturnURL] = useState("");
-  const onSubmit2FAcode = useCallback((e:any) => {
+  //const onSubmit2FAcode = useCallback((e:any) => {
+  const onSubmit2FAcode = useCallback(() => {
+    /**
+     * code는 잘 들어가고 있음
+     * 왜 axios 가운데에서는
+     *  - alert이나
+     *  - location.herf도 안됨.
+     * form submit안에서 리다이렉션 일어나는거 같아서 지웠는데 이것도 아님
+     * e.preventDefault가 영향을 주는 것도 아님 - on/off 해도 안됨
+     *
+     *    */
     console.log("code: ", code);
     console.log("onSubmit2FAcode called!!");
     //e.preventDefault();
@@ -30,8 +40,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
             authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
             accept: "*/*"
             }
-      }
-      )
+      })
       .then((response) =>{
         document.location.href = "/";
         alert("then response");
