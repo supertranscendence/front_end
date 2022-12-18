@@ -37,7 +37,7 @@ const Channel = () => {
     setShowCreateRoomModal(false);
   }, []);
   
-  const [roomArr, setRoomArr] = useState<{name:string, playerA:string, enterButton: JSX.Element , obEnterButton: JSX.Element }[]>([]);
+  const [roomArr, setRoomArr] = useState<{name:string, userAname:string, enterButton: JSX.Element , obEnterButton: JSX.Element }[]>([]);
   const enterRoom =  useCallback( (e:any)=> {
     console.log ("enterGameRoom?", e);
     socket?.emit("enterGameRoom",e.target.name,()=>{
@@ -47,12 +47,12 @@ const Channel = () => {
 
   useEffect(()=>{
   
-    socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , playerA : string}[])=>{
+    socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , userAname : string}[])=>{
     console.log("publicRooms", publicRoomsArr);
     setRoomArr( [...publicRoomsArr.map((eachObj)=>{
         return {
           name: eachObj.roomName,
-          playerA: eachObj.playerA,
+          userAname: eachObj.userAname,
           enterButton: 
             <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> ,
           obEnterButton: 
@@ -124,7 +124,7 @@ const Channel = () => {
                     {row.name}
                     {/*{isGamePrivate(row.isprivate)}*/}
                   </TableCell>
-                  <TableCell align="right">{row.playerA}</TableCell>
+                  <TableCell align="right">{row.userAname}</TableCell>
                   <TableCell align="right">
                     {row.enterButton}
                   </TableCell>
