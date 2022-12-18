@@ -19,7 +19,8 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [isDone2FA, setIsDone2FA] = useState(false);
   const [returnURL, setReturnURL] = useState("");
   const onSubmit2FAcode = useCallback((e:any) => {
-    console.log("onSubmit2FAcode called!!")
+    console.log("code: ", code);
+    console.log("onSubmit2FAcode called!!");
     //e.preventDefault();
     alert("onSubmit2FAcode ale");
     axios
