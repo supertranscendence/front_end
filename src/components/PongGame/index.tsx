@@ -8,6 +8,8 @@ import { useParams } from 'react-router';
 interface CanvasProps {
   width: number;
   height: number;
+  userAScore: number;
+  userBScore: number;
 }
 
 interface Coordinate {
@@ -15,18 +17,18 @@ interface Coordinate {
   y: number;
 };
 
-const PongGameuserB = ({ width, height }: CanvasProps) =>{
+const PongGame = ({ width, height,userAScore, userBScore  }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
 
   
 const ball = {
-    x : canvas?canvas.width/2 : 0,
-    y : canvas?canvas.height/2 : 0,
+    x : canvas?canvas.width/2 : 300,
+    y : canvas?canvas.height/2 : 250,
     radius : 10,
     velocityX : 5,
     velocityY : 5,
-    speed : 7,
+    speed : 5,
     color : "WHITE"
 }
 
@@ -36,7 +38,7 @@ const userA = {
     y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
     width : 10,
     height : 100,
-    score : 0,
+    score : userAScore?userAScore:0,
     color : "WHITE"
 }
 
@@ -55,7 +57,7 @@ const userB = {
     y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
     width : 10,
     height : 100,
-    score : 0,
+    score : userBScore? userBScore: 0,
     color : "WHITE"
 }
 
@@ -114,7 +116,7 @@ const resetBall = () =>{
 
     ball.x = canvas.width/2;
     ball.y = canvas.height/2;
-    ball.velocityX = -ball.velocityX;
+    // ball.velocityX = -ball.velocityX;
     ball.speed = 7;
 }
 
@@ -181,12 +183,16 @@ const update =()=>{
         userB.score++;
         resetBall();
         resetUser();
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom});//
     }else if( ball.x + ball.radius > canvas.width){
       userA.score++;
         resetBall();
         resetUser();
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom});
+        //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
-    
+
+      
     // the ball has a velocity
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
@@ -219,6 +225,7 @@ const update =()=>{
         
         // change the X and Y velocity direction
         let direction = (ball.x + ball.radius < canvas.width/2) ? 1 : -1;
+        // let direction = 1;
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
         
@@ -259,13 +266,11 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-
     update();
     render();
- 
 }
 // number of frames per second
-let framePerSecond = 50;
+let framePerSecond = 60;
 
 //call the game const 50 times every 1 Sec
 let loop = setInterval(game,1000/framePerSecond);
@@ -307,13 +312,15 @@ const getKeyEvent = (evt:any) =>{
     else if (evt.key === "w")
 	{
     socket?.emit("up", GameRoom);
+    
     if (userA.y <=0)
       userA.y =0;
 	}
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
-
+const [socket] = useSocket("sleact");
+const { GameRoom } = useParams<{ GameRoom?: string }>();
   useEffect(() => {
     if (!canvasRef.current) {
       return;
@@ -322,16 +329,41 @@ const getKeyEvent = (evt:any) =>{
 	
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
-	      userA.y += 30
+	    {
+	      userA.y +=  40
+        if (userA.y >=500)
+        {
+	    	  userA.y =500;
+        }
+      }
 	    else
-	      userB.y +=30
+	    {
+        if (userB.y >=500)
+        {
+	    	  userB.y =500;
+        }
+	      userB.y +=  40
+      }
+	    
 	  })
 	
 	  socket?.on("up", (isA : boolean) => {
       if (isA)
-	      userA.y -= 30
+      {
+        if (userA.y <= 0)
+        {
+	    	  userA.y =0;
+        }
+	      userA.y -=  40
+      }
 	    else
-	      userB.y -=30
+	    {
+	      if (userB.y <= 0)
+	      {
+	    	  userB.y =0;
+        }
+	      userB.y -= 40
+      }
 	  })
 
     window.addEventListener("keydown", getKeyEvent);
@@ -339,12 +371,11 @@ const getKeyEvent = (evt:any) =>{
     // canvas.addEventListener("mousemove", getMousePos);
 
     return () => {
-      window.addEventListener("keydown", getKeyEvent);
+      // window.addEventListener("keydown", getKeyEvent);
+      window.removeEventListener("keydown",getKeyEvent);
     };
 //   }, [startPaint, paint, exitPaint]);
   }, [getKeyEvent, canvasRef]);
-  const [socket] = useSocket("sleact");
-  const { GameRoom } = useParams<{ GameRoom?: string }>();
 
   return (
   <>
@@ -362,9 +393,9 @@ const getKeyEvent = (evt:any) =>{
 //   </div>
 // }
 
-PongGameuserB.defaultProps = {
+PongGame.defaultProps = {
   width: 800,
   height: 600
 };
 
-export default PongGameuserB;
+export default PongGame;

@@ -1,5 +1,5 @@
 import React, { useState,useCallback, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect,useParams } from "react-router-dom";
 import { Container, Stack, Button, IconButton, Divider, Tooltip, Box } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
 import PrintHostVsPlayer from "src/components/PrintHostVsPlayer";
@@ -8,43 +8,85 @@ import useSocket from "src/hooks/useSocket"
 ///TODO:  어딜가나 조인 풀리게 clearRoom달아놓기
 const GameRoom = () => {
 	const { workspace, GameRoom } = useParams<{ workspace: string; GameRoom: string }>();
-	const [isPlaying, setIsPlaying]  = useState(false);
+	// const [alreadyStart, setAlreadyStart]  = useState(false);
+	const [gameSet, setGameSet]  = useState(false);
+	const [gameDone, setGameDone]  = useState('');
+	const [userA, setuserA]  = useState(0);
+	const [userB, setuserB]  = useState(0);
+	const [start, setStart]  = useState(false);
 	const [socket] = useSocket("sleact");
-	// 
+	const [returnFlag, setReturnFlag] = useState(false);
+	
+	const GameRoomName = GameRoom.split("=")[0];
+	const isOBS = GameRoom.split("=")[1];
+	
+	
+	//gameSet 
+	//gameDone
 	useEffect(()=>{
-		console.log("isPlaying?" );
-		socket?.emit("isPlaying", GameRoom ,(b:boolean)=> {setIsPlaying(b)});
+		console.log("game done?" );
+		socket?.on("gameDone",(winner:string)=> {setGameDone(winner)});
+	}, [socket]);
+	
+	useEffect(()=>{
+		console.log("game set?" );
+		socket?.on("kickAll",(obj:{userA:number, userB:number} )=> {setGameSet(true);setuserA(userA); setuserB(userB)});
+	}, [socket]);
+	
+	useEffect(()=>{
+		console.log("game set?" );
+		socket?.emit("gameSet",(obj:{userA:number, userB:number} )=> {setuserA(userA); setuserB(userB)});
 	}, [socket]);
 	
 	const isStart = useCallback((b:boolean)=>{
 		if (b) 
 		{
 			console.log("true" ,b);
-			setIsPlaying((b)=>true)
+			setStart((b)=>true)
 		}
 		else 
 		{   
 			console.log("false" ,b);
 		}
 	},[]);
-	
+	const retrunChannel = useCallback(()=>{
+		console.log("on retrunChannel")
+		setReturnFlag((flag)=>true);
+	  },[])
+	  
+	const leaveRoom = useCallback(()=>{
+		  socket?.emit("leaveGameRoom", {room:GameRoomName}, retrunChannel);
+	  },[]);
+	  
 	
 	useEffect(()=>{
 		console.log("start" );
-		socket?.on("gameStart", (b:any)=> isStart(b));
-		
+		socket?.on("gameStart", (b:boolean)=> isStart(b));
 	}, [socket]);
 	
 	const gameStart = useCallback(()=>{
-		console.log("on gameStart", GameRoom );
-		socket?.emit("gameStart", GameRoom );
+		// setGameSet(true);
+		console.log("on gameStart", GameRoomName );
+		socket?.emit("gameStart", GameRoomName );
 	},[socket]);
 	
-	if (isPlaying)//혹은 프롭스 넘겨주면서 리다이렉트 -> 옵저버 설정이 좀 애매해짐
-		return (
-			<PongGame/>
+	if (returnFlag)
+	{
+		return ( <Redirect to= {`/workspace/sleact/channel/Game`}/>);
+	}
+	if (gameDone)
+	{
+		return (<div><h1>{gameDone}님이 이겼네요 호호</h1>
+			<button onClick={leaveRoom}>나가기</button>
+			</div>
 		)
-	else
+	}
+	
+	if (isOBS === undefined)
+	{
+	if (start)
+		return (<PongGame userAScore ={0} userBScore={0}/>)
+	else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
 		return(
 			<Container maxWidth="lg">
 				<Stack spacing={1}>
@@ -56,7 +98,7 @@ const GameRoom = () => {
 					>
 						<h1>GAME ROOM</h1>{/* game_room_name */}
 						<Tooltip title="나가기" arrow>
-							<IconButton aria-label="cancle" component={Link} to={`/workspace/${workspace}/channel/Game/`}>
+							<IconButton aria-label="cancle" onClick={leaveRoom}>
 								<CancelIcon />
 							</IconButton>
 						</Tooltip>
@@ -74,6 +116,15 @@ const GameRoom = () => {
 					{/* <>{warn?{warn}:""}</> */}
 			</Container>
 		);
+	}
+	else
+	{
+		if (gameSet)
+			return (<PongGame  userAScore={userA} userBScore={userB} />)
+		else 
+			return (<div><h1>게임 대기 중</h1>
+				<button onClick={leaveRoom}>나가기</button></div>)
+	}
 };
 export default GameRoom;
 // 

@@ -44,6 +44,12 @@ const Channel = () => {
     })
   },[])
   
+  const enterRoomOBS =  useCallback( (e:any)=> {
+    console.log ("enterGameRoomOBS?", e);
+    socket?.emit("enterGameRoomOBS",e.target.name,()=>{
+    })
+  },[])
+  
 
   useEffect(()=>{
   
@@ -56,7 +62,7 @@ const Channel = () => {
           enterButton: 
             <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> ,
           obEnterButton: 
-            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Obs Join</Button></Link> 
+            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}=OBS`}><Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button></Link> 
         }})
         ])
         console.log("roomArr 배열", roomArr);
