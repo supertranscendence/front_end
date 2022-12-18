@@ -34,6 +34,7 @@ const DMList = () => {
     },[socket, setFriendData])
 
   useEffect(() => {
+    console.log('Get myFriend! ');
     socket?.on('myFriend', function(data:any){
       console.log('Message from Client: ', data);
     })
