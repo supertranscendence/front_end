@@ -34,10 +34,10 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
   const onSubmitEmail = useCallback((e:any) => {
     console.log("onSubmitEmail called!!")
     console.log("newEmail: ",newEmail);
-    if(checked === false)
-      setNewEmail("");
+    //if(checked === false)
+    //  setNewEmail("");
     axios
-      .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {email: newEmail, tf: checked}, {
+      .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -49,7 +49,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
       //setUser(response.data);
       })
       .catch((err) => {
-        console.log("[ERROR] post /api/auth/ft/email for 2FA")
+        console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
     });
   }, [newEmail, ]);

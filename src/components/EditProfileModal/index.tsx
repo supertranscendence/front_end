@@ -95,7 +95,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           function () {
               // 이미지 업로드 성공
               window.setTimeout(function () {
-                  //location.reload();
+                  location.reload();
               }, 2000);
           },
           function (err) {
