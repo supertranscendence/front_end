@@ -110,7 +110,7 @@ const Channel = () => {
                 <TableRow>
                   <TableCell><b>Room Name</b></TableCell>
                   <TableCell align="right"><b>Player</b></TableCell>
-                  <TableCell align="right"><b>Slot</b></TableCell>
+                  <TableCell align="right"></TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
               </TableHead>
