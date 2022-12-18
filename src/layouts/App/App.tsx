@@ -4,6 +4,7 @@ import {Switch, Route, Redirect } from 'react-router-dom';
 import Profile from '@pages/Profile';
 
 const Login = loadable(() => import ('src/pages/Login') );
+const LoginCheck = loadable(() => import ('src/pages/LoginCheck') );
 //const SignUp = loadable(() => import ('src/pages/SignUp') );
 const Workspaces = loadable(() => import ('src/layouts/Workspace/index') );
 
@@ -13,6 +14,7 @@ const App = () => {
   <Switch>
     <Redirect exact path = "/" to ="/Login"/>
     <Route path = "/login" component={Login}/>
+    <Route path = "/logincheck" component={LoginCheck}/>
     {/*<Route path = "/signup" component={SignUp}/>*/}
     {/* <Route path = "/workspace/channel" component={Channel}/>
     <Route path = "/workspace/dm" component={DirectMessage}/> */}
