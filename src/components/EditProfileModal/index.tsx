@@ -137,16 +137,16 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           <h1>EDIT PROFILE</h1>
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
           <Stack>
-              <h4>아바타 업로드</h4>
-              <input
-                type="file"
-                accept="image/*"
-                name='avatar'
-                ref={inputRef}
-                onChange={onUploadAvatar}
-                style={{display: 'none'}}
-              />
-              <Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>
+            <h4>아바타 업로드</h4>
+            <input
+              type="file"
+              accept="image/*"
+              name='avatar'
+              ref={inputRef}
+              onChange={onUploadAvatar}
+              style={{display: 'none'}}
+            />
+            <Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>
           </Stack>
       <form onSubmit={onEditNickname}>
         <Label id="edit-nickname">
