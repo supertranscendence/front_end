@@ -53,6 +53,7 @@ const GamePong = loadable(() => import ('src/pages/GamePong/Game') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const DmRoom = loadable(() => import ('src/pages/DmRoom') );
+const Pong = loadable(() => import ('src/pages/Pong') );
 
 var deleteCookie = function(name:string){
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
@@ -171,7 +172,8 @@ const Workspace:FC<Props> = ({children}) =>
               <Route path = "/workspace/:workspace/channel/DM/:DmRoom/" component={DmRoom}/>
               <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
-              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={GamePong}/>
+              {/* <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={GamePong}/> */}
+              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={Pong}/>
               <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/>
             </Switch>
           </Chats>

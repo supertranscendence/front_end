@@ -1,47 +1,157 @@
-import ChatBox from 'src/components/ChatBox';
-import ChatList from 'src/components/ChatList';
-//import InviteChannelModal from 'src/components/InviteChannelModal';
-import useInput from 'src/hooks/useInput';
+//import Table from "src/components/Table";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import useSocket from 'src/hooks/useSocket';
-import { Header, DragOver } from 'src/pages/Channel/styles';
-import { IChannel, IChat, IUser } from 'src/typings/db';
-import fetcher from 'src/utils/fetcher';
-import makeSection from 'src/utils/makeSection';
-import axios from 'axios';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Scrollbars } from 'react-custom-scrollbars-2';
-import { useParams } from 'react-router';
-import { Redirect } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import useSWR from 'swr';
-import useSWRInfinite from 'swr/infinite';
+import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react';
+import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
+import loadable from '@loadable/component';
+import CreateChannelModal from 'src/components/CreateRoomModal'
+import CreateGameRoomModal from 'src/components/CreateGameRoomModal'
+import axios from "axios";
+import authfetcher from "src/utils/authfetcher";
+import useSWR from "swr";
 import { Button, Container, Grid, Stack, Divider } from '@mui/material';
-import GameTable from 'src/components/GameTable';
+import PWDModal from 'src/components/PWDModal';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
+
+
 //const PAGE_SIZE = 20;
 const Channel = () => {
-return(
-  <div>
-    <Container maxWidth="lg">
-      <Stack spacing={2}>
-        <Stack />
-        <h1>GAME LOBBY</h1>
-        <Stack
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          spacing={1}
-        >
-          <Button variant="outlined" startIcon={<AddIcon />}>New Game</Button>
-          <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Find Match</Button>
-        </Stack>
-        <GameTable />
-      </Stack>
-    </Container>
-  </div>
-);
+  const { workspace } = useParams<{ workspace?: string }>();
+  const [socket] = useSocket(workspace);
+  const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
+  const [showPWDModal, setShowPWDModal] = useState(false);
+  const [newRoomFlag, setNewRoomFlag] = useState(false);
+  const [redirectRoom, setRedirectRoom] = useState('');
+  // const [roomInfo, setRoomInfo] = useState('');
+  
+  const onClickAddRoom = useCallback(() => {
+    setShowCreateRoomModal(true);
+  }, []);
+  
+  // const onClickPWD = useCallback((e:any) => {
+  //   setRoomInfo((o)=> {return e.target.name});
+  //   setShowPWDModal(true);
+  // }, []);
+  
+  const onCloseModal = useCallback(() => {
+    setShowPWDModal(false);
+    setShowCreateRoomModal(false);
+  }, []);
+  
+  const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
+  const enterRoom =  useCallback( (e:any)=> {
+    console.log ("ispublic?", e);
+    socket?.emit("enterGameRoom",{room:e.target.name, name:"userinfo"},()=>{
+    })
+  },[])
+  
+
+  useEffect(()=>{
+  
+    socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
+    console.log("publicRooms", publicRoomsArr);
+    setRoomArr( [...publicRoomsArr.map((eachObj)=>{
+        return {
+            name: eachObj.roomName,
+            roomType: eachObj.isPublic ? "public" : "private",
+            currCnt: eachObj.currNum,
+            enterButton: 
+            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> 
+        }})
+        ])
+        console.log("roomArr 배열", roomArr);
+  });
+  console.log("room arr:", roomArr);
+  }, [ socket]);
+  
+  useEffect(()=>{
+    socket?.on("newGameRoomCreated", (room:string)=>{
+      setNewRoomFlag(true);//
+      console.log("newGameRoomCreated: ");
+      console.log(`/workspace/sleact/channel/Game/${room}`);
+      setRedirectRoom((s)=>room);
+    });
+  },[socket,setNewRoomFlag]);
+  
+  
+  useEffect(()=>{
+    if (!newRoomFlag)
+    {
+      console.log("clearGameRoom call");
+      socket?.emit("clearGameRoom");
+      // setNewRoomFlag(false);
+    }
+    },[socket])
+  
+  if (redirectRoom)
+    return ( <Redirect to= {`/workspace/sleact/channel/Game/${redirectRoom}`}/>);
+  else
+  {
+  //TODO : 클리어 룸 버그가 너무 많음 고쳐야함
+    return (
+      <div>
+        {/*<Table columns={columns} data={roomArr} />*/}
+        <Container maxWidth="lg">
+          <Stack spacing={2}>
+            <Stack/>
+            <h1>GAME LOBBY</h1>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              spacing={1}
+            >
+              <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Game</Button>
+              <Button variant="outlined" startIcon={<EmojiEventsIcon />}>Find Match</Button>
+            </Stack>
+            <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell><b>Room Name</b></TableCell>
+                  <TableCell align="right"><b>Room Type</b></TableCell>
+                  <TableCell align="right"><b>Slot</b></TableCell>
+                  <TableCell align="right"></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              {roomArr.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                    {/*{isGamePrivate(row.isprivate)}*/}
+                  </TableCell>
+                  <TableCell align="right">{row.roomType}</TableCell>
+                  <TableCell align="right">{row.currCnt}/{4}</TableCell>
+                  <TableCell align="right">
+                    {row.enterButton}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            </Table>
+            </TableContainer>
+          </Stack>
+        </Container>
+        <CreateGameRoomModal
+          show={showCreateRoomModal}
+          onCloseModal={onCloseModal}
+          setShowCreateRoomModal={setShowCreateRoomModal}
+          />
+      </div>
+    );
+  }
 
 };
 
