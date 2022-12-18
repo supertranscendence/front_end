@@ -9,6 +9,7 @@ import useSocket from "src/hooks/useSocket"
 const GameRoom = () => {
 	const { workspace, GameRoom } = useParams<{ workspace: string; GameRoom: string }>();
 	const [isPlaying, setIsPlaying]  = useState(false);
+	const [warn, setWarn]  = useState('');
 	const [socket] = useSocket("sleact");
 	// 
 	useEffect(()=>{
@@ -16,11 +17,18 @@ const GameRoom = () => {
 		socket?.emit("isPlaying", GameRoom ,(b:boolean)=> {setIsPlaying(b)});
 	}, []);
 	
+	useEffect(()=>{
+		console.log("start" );
+		socket?.on("gameStart", (b:boolean)=>{
+		if (b) 
+			setIsPlaying(true)
+		else 
+			setWarn("방 주인만 시작할 수 있읍니다.")
+		});
+	}, []);
+	
 	const gameStart = useCallback(()=>{
-		console.log(" on gameStart" );
-		// socket?.emit("start", GameRoom , ()=>{setIsPlaying(true);})
-		setIsPlaying(true);
-		//to={`/workspace/${workspace}/channel/GameRoom/Pong`
+		socket?.emit("gameStart", GameRoom );
 	},[]);
 	
 	if (isPlaying)//혹은 프롭스 넘겨주면서 리다이렉트 -> 옵저버 설정이 좀 애매해짐
@@ -54,6 +62,7 @@ const GameRoom = () => {
 					<Divider variant="middle" />
 					<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
 				</Stack>
+					<>{warn?{warn}:""}</>
 			</Container>
 		);
 };

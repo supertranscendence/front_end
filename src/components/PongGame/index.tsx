@@ -332,24 +332,13 @@ const getKeyEvent = (evt:any) =>{
 	    else
 	      userB.y -=30
 	  })
-    // canvas.addEventListener('mousedown', startPaint);
-    // canvas.addEventListener('mousemove', paint);
-    // canvas.addEventListener('mouseup', exitPaint);
-    // canvas.addEventListener('mouseleave', exitPaint);
-    // canvas.addEventListener("keydown", getKeyEvent);
-    // canvas.addEventListener("keyup", getKeyEvent);
+
     window.addEventListener("keydown", getKeyEvent);
     
     // canvas.addEventListener("mousemove", getMousePos);
 
     return () => {
       window.addEventListener("keydown", getKeyEvent);
-		// window.removeEventListener("keypress", ()=>{console.log("d")});
-		// canvas.removeEventListener("keypress", getKeyEvent);
-    //   canvas.removeEventListener('mousedown', startPaint);
-    //   canvas.removeEventListener('mousemove', paint);
-    //   canvas.removeEventListener('mouseup', exitPaint);
-    //   canvas.removeEventListener('mouseleave', exitPaint);
     };
 //   }, [startPaint, paint, exitPaint]);
   }, [getKeyEvent, canvasRef]);
