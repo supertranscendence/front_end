@@ -62,7 +62,7 @@ const GameRoom = () => {
 					<Divider variant="middle" />
 					<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
 				</Stack>
-					<>{warn?{warn}:""}</>
+					{/* <>{warn?{warn}:""}</> */}
 			</Container>
 		);
 };
