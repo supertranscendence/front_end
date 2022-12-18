@@ -17,32 +17,7 @@ const PongGameCom = ({ width, height }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
 
-  const [mousePosition, setMousePosition] = useState<Coordinate | undefined>(undefined);
-  const [isPainting, setIsPainting] = useState(false);
-///
-//   if (canvasRef.current) 
-//   {
-
-
-////////////////
-
-
-
-// load sounds
-
-
-// Ball object
-
-
-// 	return<div className="App">
-// 	<canvas ref={canvasRef} height={height} width={width} className="canvas"/>
-//   </div>)
   
-//   const canvas: HTMLCanvasElement = canvasRef.current;
-
-// if (canvasRef.current)
-// {
-// const canvas = canvaRe
 const ball = {
     x : canvas?canvas.width/2 : 0,
     y : canvas?canvas.height/2 : 0,
@@ -260,8 +235,6 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-
-
     update();
     render();
  
