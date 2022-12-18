@@ -7,7 +7,7 @@ export type dataUser = {
     nickname: string;
 	updated: Date | null;
 	friends: Array<dataFriend> | undefined;
-	//is2fa: boolean;
+	tf: boolean;
 	//isFirst: boolean;
 }
 

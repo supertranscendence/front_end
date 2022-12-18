@@ -26,6 +26,7 @@ interface Props {
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
   //const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
+
   //const [fileName, setFileName] = useInput('');
   //const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   //const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
@@ -133,8 +134,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     <Modal show={show} onCloseModal={onCloseModal}>
       <Stack spacing={1}>
         <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
-          <h1>EDIT PROFILE</h1>
+          <h1>SET MY PROFILE</h1>
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
+			<form onSubmit={onEditNickname}>
           <Stack>
             <h4>아바타 업로드</h4>
             <input
@@ -143,11 +145,10 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               name='avatar'
               ref={inputRef}
               onChange={onUploadAvatar}
-              style={{display: 'none'}}
+            //  style={{display: 'none'}}
             />
-            <Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>
+            {/*<Button variant='outlined' onClick={onUploadImageButtonClick}>아바타 업로드</Button>*/}
           </Stack>
-            <form onSubmit={onEditNickname}>
           <Stack>
             <h4>닉네임</h4>
             <TextField

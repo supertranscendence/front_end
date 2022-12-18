@@ -39,7 +39,7 @@ const DMList = () => {
     console.log('Get myFriend! ');
     socket?.emit('myFriend', function(data:FriendList[]){
     console.log('Message from Server: ', data);
-    console.log('data[0].friend.intra: ', data[0].friend.intra);
+    console.log('data[0].friend: ', data[0].friend);
     console.log('data[0].status: ', data[0].status);
     })
     //socket?.on('myFriend', (userArr: string[]) => {
@@ -73,8 +73,7 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
-        {!channelCollapse &&
-          friendData?.map((i) => {
+        {friendData?.map((i) => {
             return <EachDM member={i} />;
             //return <EachDM key={i} member={member} isOnline={isOnline} />;
           })
