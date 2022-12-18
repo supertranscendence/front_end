@@ -26,6 +26,7 @@ interface Props {
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
   const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
+  const [fileName, setFileName] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
   const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const clearModal = useCallback(()=>{
@@ -59,6 +60,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     }
     const file = e.target.files[0];
     console.log(e.target.files[0].name);
+    setFileName(e.target.files[0].name);
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
@@ -136,8 +138,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           <h1>EDIT PROFILE</h1>
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
           <Stack>
-              <h4>아바타</h4>
-              <Avatar sx={{width: 56, height: 56}}/>
+              <h4>아바타 업로드</h4>
               <input
                 type="file"
                 accept="image/*"

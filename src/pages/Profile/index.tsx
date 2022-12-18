@@ -18,7 +18,7 @@ import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
-import FtAvatar from '@components/FtAvatar';
+import FtAvatar from 'src/components/FtAvatar';
 
 
 function createData(
