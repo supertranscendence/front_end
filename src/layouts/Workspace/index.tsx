@@ -21,7 +21,7 @@ import ChannelList from 'src/components/ChannelList';
 import authfetcher from 'src/utils/authfetcher';
 import { dataUser } from 'src/typings/types';
 // import Intro from '@pages/Intro';
-
+import FtAvatar from 'src/components/FtAvatar';
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Box, Stack, width } from '@mui/system';
@@ -137,7 +137,7 @@ const Workspace:FC<Props> = ({children}) =>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenProfileMenu} sx={{ p: 0 }}>
-                <Avatar />
+                <FtAvatar userAvatar={myUserData?.avatar}/>
               </IconButton>
               <Menu
                 id="menu-profile"
