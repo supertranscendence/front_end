@@ -9,7 +9,7 @@ import axios from 'axios';
 const Intro = () => {
   useEffect(() => {
     axios
-      .get("/api/users/my/friends", {
+      .get(process.env.REACT_APP_API_URL + "/api/users/my/friends", {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -26,7 +26,7 @@ const Intro = () => {
       console.log(err)
     });
   }, []);
-  const { data: myUserData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
+  const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   console.log("myUserData:", myUserData);

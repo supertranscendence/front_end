@@ -124,7 +124,7 @@ const columns = useMemo(
 );
 
 const fetchch = useCallback(()=>{
-  axios.get("/api/auth/ft/refresh", {
+  axios.get(process.env.REACT_APP_API_URL +  "/api/auth/ft/refresh", {
   withCredentials:true,
     headers:{
       authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

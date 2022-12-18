@@ -38,7 +38,7 @@ const Profile = () => {
   const [showCreateChannelModal, setShowProfileModal] = useState(false);
   const onClickEditProfile = useCallback(() => { setShowProfileModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
-  const { data:myUserData } = useSWR<dataUser>('/api/users/my/friends', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
@@ -71,7 +71,7 @@ const Profile = () => {
   useEffect(() => {
     axios
     //.get("http://127.0.0.1:3000/api/users/jisokang", {
-      .get(`/api/users/${intra}`, {
+      .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -93,7 +93,7 @@ const Profile = () => {
   const handleAddFriend = useCallback(() => {
     const value = {intra: user.intra};
     axios
-      .post(`/api/users/`, value, {
+      .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

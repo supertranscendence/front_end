@@ -66,7 +66,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     console.log("accessToken: ", localStorage.getItem("accessToken"));
     console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
     axios
-    .put(`/api/users/avatar/`,{avatar: uuidKey}, {
+    .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
@@ -110,7 +110,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     e.preventDefault();
     console.log("새로운 닉네임:", newNick );
     axios
-      .put(`https://server.gilee.click/api/users/`, {nick: newNick}, {
+      .put(process.env.REACT_APP_API_URL + `/api/users/`, {nick: newNick}, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
