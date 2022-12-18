@@ -8,7 +8,7 @@ import App from './layouts/App/App';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from 'src/theme';
 
-//axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
   process.env.NODE_ENV === 'production' ? 'https://gilee.click' : 'http://127.0.0.1:3000/';
   //process.env.NODE_ENV === 'production' ? 'https://server.gilee.click/' : 'http://127.0.0.1:3000/';

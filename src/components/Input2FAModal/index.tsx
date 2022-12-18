@@ -21,17 +21,23 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
     console.log("onEditNickname called!!")
     //e.preventDefault();
     axios
-      .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}
-      //{
-      //withCredentials:true,
-      //  headers:{
-      //    authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      //    accept: "*/*"
-      //    }
-      //}
+      .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            accept: "*/*"
+            }
+      }
       )
       .then((response) =>{
         console.log(response.status);
+        if (response.status == 204)
+        {
+          console.log("response 204!");
+          location.href=(`/workspace/sleact/intro`);
+        }
+        else
+          console.log("no! something wrong!");
       })
       .catch((err) => {
         console.log("[ERROR] post /api/auth/ft/email for 2FA")
