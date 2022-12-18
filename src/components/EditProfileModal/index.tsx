@@ -15,7 +15,7 @@ import { TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 import EditIcon from '@mui/icons-material/Edit';
 import AWS from "aws-sdk";
-import { dataUser } from 'src/pages/Profile/type';
+import { dataUser } from 'src/typings/types';
 import uuid from 'react-uuid'
 
 interface Props {
