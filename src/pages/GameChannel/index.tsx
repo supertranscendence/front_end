@@ -20,14 +20,11 @@ import PWDModal from 'src/components/PWDModal';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
-
-
 //const PAGE_SIZE = 20;
 const Channel = () => {
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
-  const [showPWDModal, setShowPWDModal] = useState(false);
   const [newRoomFlag, setNewRoomFlag] = useState(false);
   const [redirectRoom, setRedirectRoom] = useState('');
   // const [roomInfo, setRoomInfo] = useState('');
@@ -36,35 +33,30 @@ const Channel = () => {
     setShowCreateRoomModal(true);
   }, []);
   
-  // const onClickPWD = useCallback((e:any) => {
-  //   setRoomInfo((o)=> {return e.target.name});
-  //   setShowPWDModal(true);
-  // }, []);
-  
   const onCloseModal = useCallback(() => {
-    setShowPWDModal(false);
     setShowCreateRoomModal(false);
   }, []);
   
-  const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
+  const [roomArr, setRoomArr] = useState<{name:string, playerA:string, enterButton: JSX.Element , obEnterButton: JSX.Element }[]>([]);
   const enterRoom =  useCallback( (e:any)=> {
-    console.log ("ispublic?", e);
-    socket?.emit("enterGameRoom",{room:e.target.name, name:"userinfo"},()=>{
+    console.log ("enterGameRoom?", e);
+    socket?.emit("enterGameRoom",e.target.name,()=>{
     })
   },[])
   
 
   useEffect(()=>{
   
-    socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , isPublic:boolean, currNum: number}[])=>{
+    socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , playerA : string}[])=>{
     console.log("publicRooms", publicRoomsArr);
     setRoomArr( [...publicRoomsArr.map((eachObj)=>{
         return {
-            name: eachObj.roomName,
-            roomType: eachObj.isPublic ? "public" : "private",
-            currCnt: eachObj.currNum,
-            enterButton: 
-            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> 
+          name: eachObj.roomName,
+          playerA: eachObj.playerA,
+          enterButton: 
+            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> ,
+          obEnterButton: 
+            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Obs Join</Button></Link> 
         }})
         ])
         console.log("roomArr 배열", roomArr);
@@ -117,7 +109,7 @@ const Channel = () => {
               <TableHead>
                 <TableRow>
                   <TableCell><b>Room Name</b></TableCell>
-                  <TableCell align="right"><b>Room Type</b></TableCell>
+                  <TableCell align="right"><b>Player</b></TableCell>
                   <TableCell align="right"><b>Slot</b></TableCell>
                   <TableCell align="right"></TableCell>
                 </TableRow>
@@ -132,10 +124,12 @@ const Channel = () => {
                     {row.name}
                     {/*{isGamePrivate(row.isprivate)}*/}
                   </TableCell>
-                  <TableCell align="right">{row.roomType}</TableCell>
-                  <TableCell align="right">{row.currCnt}/{4}</TableCell>
+                  <TableCell align="right">{row.playerA}</TableCell>
                   <TableCell align="right">
                     {row.enterButton}
+                  </TableCell>
+                  <TableCell align="right">
+                    {row.obEnterButton}
                   </TableCell>
                 </TableRow>
               ))}
