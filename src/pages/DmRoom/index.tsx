@@ -59,7 +59,7 @@ const [whoInvite, setWhoInvite] = useState('');
     },
     [moveScrollToReceiveMessage ]
   );
-  
+
 
 const setMyMsg = (str:string) => {
 if (DmRoom)
@@ -90,7 +90,7 @@ if (DmRoom)
       room: DmRoom,
       msg: e.target.value,
   }),
-  
+
     socket?.emit("newMsg", {
       user: "tester_hyopark",//백엔
       room: DmRoom,
@@ -104,7 +104,7 @@ if (DmRoom)
     console.log("on retrunChannel")
     setReturnFlag((flag)=>true);
   },[])
-  
+
   const redirectChannel = useCallback((Obj:{roomName:string,roomType:string })=>{
     console.log("on redirectChannel", Obj)
     if (Obj.roomType == "Dm")
@@ -112,16 +112,16 @@ if (DmRoom)
     else if (Obj.roomType == "Game")
       setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
   },[setRedirectFlag])
-    
+
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
   }, [socket, handleReceiveMessage]);
-  
+
   useEffect(() => {
     console.log("kicked!");
     socket?.on("kicked", retrunChannel);
   }, [socket, retrunChannel, returnFlag]);
-  
+
   useEffect(() => {
     console.log("joinedRoom!");
     socket?.on("joinedRoom", (Obj:{roomName:string,roomType:string }) => {
@@ -132,7 +132,7 @@ if (DmRoom)
       setRedirectFlag(`/workspace/sleact/channel/Game/${Obj.roomName}`);
     });
   }, [socket, redirectChannel, redirectFlag]);
-  
+
   // useEffect(() => {
   //   console.log("shellWeDm!");
   //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> {{
@@ -150,9 +150,9 @@ if (DmRoom)
   //     console.log("ret4:", inviteNum, whoInvite);
   //   }});
   // }, [socket]);
-  
+
 //   const test = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string}) => {
-    
+
 //     console.log("in getInvite",inviteObj );
 //     console.log("ret1:", inviteNum, whoInvite);
 //     // setinviteNum(1);}
@@ -168,7 +168,7 @@ if (DmRoom)
 // },
 //   [ ]
 // );
-  
+
   // useEffect(() => {
   //   console.log("shellWeDm!");
   //   socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string})=> test(inviteObj));
@@ -186,7 +186,7 @@ const setPWD = useCallback(()=>{
   setShowSetPWDModal(true);
   // useEffect(() => {
     // socket?.emit("setPWD", {room:DmRoom},retrunChannel);
-    
+
   // }, [socket]);
 },[]);
 
@@ -285,7 +285,7 @@ else if (redirectFlag)
       /> */}
       {/* <div id="smooth-scroll"> */}
       <Scrollbars>
-        
+
        {messages.map((message, index) => {
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
@@ -309,7 +309,7 @@ else if (redirectFlag)
       />
       {dragOver && <DragOver>업로드!</DragOver>}
     </Container>
-    
+
     <SetPWDModal
       show={showSetPWDModal}
       onCloseModal={onCloseModal}

@@ -19,7 +19,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [isDone2FA, setIsDone2FA] = useState(false);
   const [returnURL, setReturnURL] = useState("");
   //const onSubmit2FAcode = useCallback((e:any) => {
-  const onSubmit2FAcode = useCallback(() => {
+  const onSubmit2FAcode = useCallback((e:any) => {
     /**
      * code는 잘 들어가고 있음
      * 왜 axios 가운데에서는
@@ -95,10 +95,10 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         //inputProps={{ maxLength: }}
         helperText='email로 받은 인증코드를 입력해주세요.'
         />
-      <Button type="submit" variant='outlined'>인증 보내기</Button>
-      <Button variant='outlined' onClick={onSubmit2FAcode}>인증 보내기2</Button>
     </Stack>
   </form>
+      <Button type="submit" variant='outlined'>인증 보내기</Button>
+      <Button variant='outlined' onClick={onSubmit2FAcode}>인증 보내기2</Button>
   </Modal>
   );
 };

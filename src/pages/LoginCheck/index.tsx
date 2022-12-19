@@ -13,15 +13,19 @@ import useInput from "src/hooks/useInput"
 
 
 const LoginCheck = () => {
-  const [code, onChangeCode] = useState('');
+  const [code, onChangeCode, setCode] = useInput('');
   const [returnURL, setReturnURL] = useState("");
-  const onSubmit2FAcode = useCallback(() => {
+
+  const onSubmit2FAcode = useCallback((e:any) => {
+    e.preventDefault();
     console.log("code:", code);
+
+   if(code) {
     axios
     .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
     })
@@ -32,35 +36,31 @@ const LoginCheck = () => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
       setReturnURL('/');
       console.log(err)
-  });
+  });}
 
-  }, []);
+  }, [code, returnURL]);
 
-  if (returnURL)
-  {
-    return (<Redirect to = {returnURL}/>);
+  if (returnURL){
+    //need
+    return <Redirect to="/workspace/sleact/intro"/>
   }
 
   return (
-    //<Input2FAModal
-    //  show={showInput2FAModal}
-    //  onClose2FAModal={onCloseModal}
-    //  setShow2FAModal={setShowInput2FAModal}
-    ///>
     <Stack spacing={1}>
       <h1>인증 코드 입력</h1>
+      <form onSubmit={onSubmit2FAcode}>
       <TextField
         id="2FA_input"
         label="인증 코드 입력"
         size='small'
         type='text'
         value={code}
-        //onChange={onChangeCode}
+        onChange={onChangeCode}
         required={true}
         helperText='email로 받은 인증코드를 입력해주세요.'
         />
       <Button type="submit" variant='outlined'>인증 보내기</Button>
-      <Button variant='outlined' onClick={onSubmit2FAcode}>인증 보내기2</Button>
+      </form>
     </Stack>
 
   );
