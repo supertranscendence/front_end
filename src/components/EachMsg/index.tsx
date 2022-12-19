@@ -58,7 +58,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         .get(process.env.REACT_APP_API_URL + `/api/users/${msg.name}`, {
         withCredentials:true,
           headers:{
-            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            //authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
             accept: "*/*"
             }
         })

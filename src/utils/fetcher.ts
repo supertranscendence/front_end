@@ -7,7 +7,8 @@ axios
 {
   withCredentials:true,
   headers:{
-    authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+    authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+    //authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
     accept: "*/*"
   }
 })

@@ -20,9 +20,21 @@ import uuid from 'react-uuid'
 
 interface Props {
   show: boolean;
-  onCloseModal: () => void;
+  onCloseModal?: () => void;
   setShowProfileModal : (flag:boolean) => void
 }
+
+
+/**
+ * 인자 하나 더 받아아야함
+ * user 객체에 isFirst 필요함 : Login 몇번 째 인지
+ * modal show 조건을 /intro에서 걸고
+ * cancle 버튼 인자 빼서 onClose 안되게하고
+ * jwt 맞게 refresh 토큰으로 된 것들 access로 다 수정해주기
+ *
+ *  */
+
+
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
   //const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
@@ -64,13 +76,11 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
-    console.log("accessToken: ", localStorage.getItem("accessToken"));
-    console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
     axios
     .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
@@ -113,7 +123,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       .put(process.env.REACT_APP_API_URL + `/api/users/`, {nick: newNick}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem(" accessToken"),
           accept: "*/*"
           }
       })
@@ -135,8 +145,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       <Stack spacing={1}>
         <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
           <h1>SET MY PROFILE</h1>
-          {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
-			<form onSubmit={onEditNickname}>
+			    <form onSubmit={onEditNickname}>
           <Stack>
             <h4>아바타 업로드</h4>
             <input
@@ -161,7 +170,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               inputProps={{ maxLength: 16 }}
               helperText="닉네임은 최대 16글자까지만 가능해요."
               />
-            <Button type="submit" variant='outlined'><EditIcon /> 프로필 수정하기</Button>
+            <Button type="submit" variant='outlined'><EditIcon /> 프로필 설정하기</Button>
           </Stack>
       </form>
       </Stack>

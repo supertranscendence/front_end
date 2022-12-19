@@ -79,7 +79,8 @@ const Workspace:FC<Props> = ({children}) =>
     setAnchorEl(null);
   };
 
-  console.log("workspace",localStorage.getItem(" refreshToken"))
+  //console.log("workspace",localStorage.getItem(" refreshToken"))
+  console.log("workspace",localStorage.getItem("accessToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
     console.log("if문 들어감!")

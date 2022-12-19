@@ -12,7 +12,8 @@ const Intro = () => {
       .get(process.env.REACT_APP_API_URL + "/api/users/my/friends", {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          //authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })

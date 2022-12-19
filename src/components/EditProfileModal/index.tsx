@@ -62,14 +62,12 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     console.log(e.target.files[0].name);
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
-
-    console.log("accessToken: ", localStorage.getItem("accessToken"));
-    console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
     axios
     .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          //authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
@@ -112,7 +110,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       .put(process.env.REACT_APP_API_URL + `/api/users/`, {nick: newNick}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
