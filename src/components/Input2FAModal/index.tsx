@@ -37,7 +37,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
       .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
         withCredentials:true,
           headers:{
-            authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+            authorization: 'Bearer ' + localStorage.getItem(" accessToken"),
             accept: "*/*"
             }
       })
