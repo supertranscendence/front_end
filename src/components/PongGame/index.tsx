@@ -323,17 +323,18 @@ const getKeyEvent = (evt:any) =>{
 }
 const [socket] = useSocket("sleact");
 const { GameRoom } = useParams<{ GameRoom?: string }>();
+
+    socket?.on("collision", (isA : boolean, x: number, y: number, xv: number, yv: number) => {
+        ball.x = x;
+        ball.y = y;
+        ball.velocityX = xv;
+        ball.velocityY = yv;
+    })
   useEffect(() => {
     if (!canvasRef.current) {
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
-      socket?.on("collision", (isA : boolean, x: number, y: number, xv: number, yv: number) => {
-          ball.x = x;
-          ball.y = y;
-          ball.velocityX = xv;
-          ball.velocityY = yv;
-      })
 
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
