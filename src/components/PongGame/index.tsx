@@ -158,7 +158,7 @@ const drawText=(text:any,x:any,y:any)=>
 
 // collision detection
 const collision = (b:any,p:any)=>{
-
+    socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
     p.top = p.y;
     p.bottom = p.y + p.height;
     p.left = p.x;
@@ -313,8 +313,7 @@ const getKeyEvent = (evt:any) =>{
     else if (evt.key === "w")
 	{
     socket?.emit("up", GameRoom);
-    socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
-    
+
     if (userA.y <=0)
       userA.y =0;
 	}
