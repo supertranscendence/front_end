@@ -10,7 +10,7 @@ import useSWR from 'swr';
 import { dataUser } from '@typings/types';
 import { dataFriend, UserStatus, FriendList } from '@typings/types';
 
-
+//
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
    const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
