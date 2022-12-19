@@ -192,7 +192,10 @@ const update =()=>{
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom, mode:mode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
-
+    socket?.on("collision", (isA : boolean, x: number, y: number) => {
+        ball.x = x;
+        ball.y = y;
+    })
       
     // the ball has a velocity
     ball.x += ball.velocityX;
@@ -330,10 +333,7 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
 
-      socket?.on("collision", (isA : boolean, x: number, y: number) => {
-          ball.x = x;
-          ball.y = y;
-      })
+
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
 	    {
