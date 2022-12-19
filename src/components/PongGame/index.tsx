@@ -192,11 +192,13 @@ const update =()=>{
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom, mode:mode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
-    socket?.on("collision", (isA : boolean, x: number, y: number) => {
+    socket?.on("collision", (isA : boolean, x: number, y: number, xv: number, yv: number) => {
         ball.x = x;
         ball.y = y;
+        ball.velocityX = xv;
+        ball.velocityY = yv;
     })
-      
+
     // the ball has a velocity
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
@@ -215,7 +217,7 @@ const update =()=>{
     
     // if the ball hits a paddle
     if(collision(ball,player)){
-        socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
+        console.log('collision');
 
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
@@ -234,7 +236,8 @@ const update =()=>{
         // let direction = 1;
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
-        
+        socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y, xv: ball.velocityX, yv: ball.velocityY})
+
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
     }
