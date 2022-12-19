@@ -213,10 +213,7 @@ const update =()=>{
     // if the ball hits a paddle
     if(collision(ball,player)){
         socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
-        socket?.on("collision", (isA : boolean, x: number, y: number) => {
-            ball.x = x;
-            ball.y = y;
-        })
+
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
         // normalize the value of collidePoint, we need to get numbers between -1 and 1.
@@ -333,7 +330,10 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
 
-	
+      socket?.on("collision", (isA : boolean, x: number, y: number) => {
+          ball.x = x;
+          ball.y = y;
+      })
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
 	    {
