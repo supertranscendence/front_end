@@ -158,11 +158,7 @@ const drawText=(text:any,x:any,y:any)=>
 
 // collision detection
 const collision = (b:any,p:any)=>{
-    socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
-    socket?.on("collision", (isA : boolean, x: number, y: number) => {
-        ball.x = x;
-        ball.y = y;
-    })
+
     p.top = p.y;
     p.bottom = p.y + p.height;
     p.left = p.x;
@@ -216,6 +212,11 @@ const update =()=>{
     
     // if the ball hits a paddle
     if(collision(ball,player)){
+        socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
+        socket?.on("collision", (isA : boolean, x: number, y: number) => {
+            ball.x = x;
+            ball.y = y;
+        })
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
         // normalize the value of collidePoint, we need to get numbers between -1 and 1.
