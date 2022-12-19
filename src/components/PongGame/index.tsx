@@ -192,12 +192,7 @@ const update =()=>{
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom, mode:mode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
-    socket?.on("collision", (isA : boolean, x: number, y: number, xv: number, yv: number) => {
-        ball.x = x;
-        ball.y = y;
-        ball.velocityX = xv;
-        ball.velocityY = yv;
-    })
+
 
     // the ball has a velocity
     ball.x += ball.velocityX;
@@ -217,7 +212,7 @@ const update =()=>{
     
     // if the ball hits a paddle
     if(collision(ball,player)){
-        console.log('collision');
+        console.log('before collision emit');
 
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
@@ -237,7 +232,7 @@ const update =()=>{
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
         socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y, xv: ball.velocityX, yv: ball.velocityY})
-
+        console.log('after collision emit');
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
     }
@@ -335,7 +330,12 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
-
+      socket?.on("collision", (isA : boolean, x: number, y: number, xv: number, yv: number) => {
+          ball.x = x;
+          ball.y = y;
+          ball.velocityX = xv;
+          ball.velocityY = yv;
+      })
 
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
