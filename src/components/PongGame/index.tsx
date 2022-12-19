@@ -232,8 +232,8 @@ const update =()=>{
         ball.velocityY = ball.speed * Math.sin(angleRad);
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
+        socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y, xv: ball.velocityX, yv: ball.velocityY})
     }
-    socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y, xv: ball.velocityX, yv: ball.velocityY})
 }
 
 // render const, the const that does al the drawing
