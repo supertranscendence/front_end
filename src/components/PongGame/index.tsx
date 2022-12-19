@@ -159,6 +159,10 @@ const drawText=(text:any,x:any,y:any)=>
 // collision detection
 const collision = (b:any,p:any)=>{
     socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
+    socket?.on("collision", (isA : boolean, x: number, y: number) => {
+        ball.x = x;
+        ball.y = y;
+    })
     p.top = p.y;
     p.bottom = p.y + p.height;
     p.left = p.x;
@@ -327,10 +331,7 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
-      socket?.on("collision", (isA : boolean, x: number, y: number) => {
-          ball.x = x;
-          ball.y = y;
-      })
+
 	
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
