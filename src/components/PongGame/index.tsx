@@ -313,6 +313,7 @@ const getKeyEvent = (evt:any) =>{
     else if (evt.key === "w")
 	{
     socket?.emit("up", GameRoom);
+    socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y})
     
     if (userA.y <=0)
       userA.y =0;
@@ -327,6 +328,10 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
+      socket?.on("collision", (isA : boolean, x: number, y: number) => {
+          ball.x = x;
+          ball.y = y;
+      })
 	
 	  socket?.on("down", (isA : boolean) => {
 	    if (isA)
