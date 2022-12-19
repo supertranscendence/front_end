@@ -280,7 +280,7 @@ let loop = setInterval(game,1000/framePerSecond);
 ////////////////
 const startGo = ()=>{
 console.log("gogo");
-	setInterval(game,1000/framePerSecond);
+	//setInterval(game,1000/framePerSecond);
 }
 const getMousePos = (evt:any) =>{
 	console.log("1",evt);
