@@ -260,7 +260,7 @@ const render= ()=>{
     // draw the user's paddle
     drawRect(userA.x, userA.y, userA.width, userA.height, userA.color);
     
-    drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
+    //drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
     
     // draw the userB's paddle
     drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
@@ -306,7 +306,7 @@ const getKeyEvent = (evt:any) =>{
     // console.log("3",evt.key);
     if (evt.key === "s")
     {
-        socket?.emit("down",GameRoom);
+        socket?.emit("down", {gameRoom: GameRoom, x: ball.x, y: ball.y});
         if (userA.y >=500)
         {
 	    	  userA.y =500;
@@ -314,7 +314,7 @@ const getKeyEvent = (evt:any) =>{
 	}
     else if (evt.key === "w")
 	{
-    socket?.emit("up", GameRoom);
+    socket?.emit("up", {gameRoom: GameRoom, x: ball.x, y: ball.y});
 
     if (userA.y <=0)
       userA.y =0;
@@ -337,7 +337,9 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
 
-	  socket?.on("down", (isA : boolean) => {
+	  socket?.on("down", (isA : boolean, x: number, y: number) => {
+          ball.x = x;
+          ball.y = y;
 	    if (isA)
 	    {
 	      userA.y +=  40
@@ -357,7 +359,9 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
 	    
 	  })
 	
-	  socket?.on("up", (isA : boolean) => {
+	  socket?.on("up", (isA : boolean, x: number, y: number) => {
+          ball.x = x;
+          ball.y = y;
       if (isA)
       {
         if (userA.y <= 0)
