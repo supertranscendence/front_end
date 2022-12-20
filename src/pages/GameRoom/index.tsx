@@ -11,8 +11,10 @@ const GameRoom = () => {
 	// const [alreadyStart, setAlreadyStart]  = useState(false);
 	const [gameSet, setGameSet]  = useState(false);
 	const [gameDone, setGameDone]  = useState('');
-	const [userA, setuserA]  = useState(0);
-	const [userB, setuserB]  = useState(0);
+	const [userA, setUserA]  = useState(0);//score
+	const [userB, setUserB]  = useState(0);//score
+	const [userNameB, setUserNameB]  = useState('');//score
+	const [userNameA, setUserNameA]  = useState('');//score
 	const [start, setStart]  = useState(false);
 	const [socket] = useSocket("sleact");
 	const [returnFlag, setReturnFlag] = useState(false);
@@ -24,20 +26,30 @@ const GameRoom = () => {
 	
 	//gameSet 
 	//gameDone
+	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
+	useEffect(()=>{
+		socket?.emit("roomInfo", {roomName:GameRoomName}, (obj:{userA:string,userB:string}) =>{setUserNameA(obj.userA),setUserNameB(obj.userB) })
+	  },[socket])
+	  
+	//게임이 끝났을때 다른 페이지를 렌더할 이벤트
 	useEffect(()=>{
 		console.log("game done?" );
 		socket?.on("gameDone",(winner:string)=> {setGameDone(winner)});
 	}, [socket]);
 	
+	//킥 올 이벤트를 받아서 리턴 시킬 이벤트
 	useEffect(()=>{
 		console.log("kickAll!" );
-		socket?.on("kickAll",(obj:{userA:number, userB:number} )=> {setGameSet(true);setuserA(userA); setuserB(userB)});
+		socket?.on("kickAll",()=>setReturnFlag(true) );
 	}, [socket]);
 	
+	
+	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
 	useEffect(()=>{
 		console.log("game set?" );
-		socket?.emit("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {setuserA(userA); setuserB(userB), setModeFlag(true)});
+		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {setGameSet(true);setUserA(userA); setUserB(userB), setModeFlag(true)});
 	}, [socket]);
+	
 	
 	const isStart = useCallback((b:boolean)=>{
 		if (b) 
@@ -111,9 +123,7 @@ const GameRoom = () => {
 						</Tooltip>
 					</Stack>
 					<Divider variant="middle" />
-					<PrintHostVsPlayer />  
-					{/* playerA = {} playerB = {}/> */}
-					{/* nickname 불러와서 출력해줘야함 */}
+					<PrintHostVsPlayer userNameA={userNameA} userNameB={userNameB} />  
 					<h2>observer list</h2>
 					<div>hyopark</div>
 					{/* observer list 출력 */}

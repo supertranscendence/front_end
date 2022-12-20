@@ -1,11 +1,17 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState,PropsWithChildren } from "react";
 import { Avatar, Stack } from "@mui/material";
 import gravatar from 'gravatar';
 import { IUser } from "src/typings/db";
 import fetcher from 'src/utils/fetcher';
 import useSWR from "swr";
 
-const PrintHostVsPlayer = () => {
+
+interface Props {
+	userNameA:string;
+	userNameB:string;
+  }
+  
+const PrintHostVsPlayer :FC<PropsWithChildren<Props>> = ({userNameA,userNameB}) => {
 	//const { data: member } = useSWR<IUser>('api/users', fetcher, {
     //	dedupingInterval: 2000, // 2초
   	//});
@@ -13,13 +19,13 @@ const PrintHostVsPlayer = () => {
 		<Stack direction="row" justifyContent="space-between">
 			<div>
 				<Avatar/>
-				<b>jisokang</b>
+				<b>{userNameA}</b>
 			</div>
 			<h3> VS </h3>
 			<div>
 				<Avatar/>
 				{/*<b>{member?.nickname}</b>*/}
-				<b>namename</b>
+				<b>{userNameB}</b>
 			</div>
 		</Stack>
 	);
