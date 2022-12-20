@@ -32,21 +32,20 @@ const LoginCheck = () => {
 
       if(response.status === 200){
         console.log("200!", response.status);
+        setIsError(false);
         setDone2FA(true);
+        window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
       }
     })
     .catch((err) => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
-      setDone2FA(false);
       console.log(err)
     });}
 
+  if(done2FA === false)
+      setIsError(true);
   }, [code, isError, done2FA]);
 
-  if(done2FA === true && isError === false)
-    window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
-  if(done2FA === false)
-    setIsError(true);
   return (
     //코드 입력하자 마자 error떠서 수정해야함!
     <Stack spacing={1}>
