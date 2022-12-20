@@ -21,9 +21,14 @@ const LoginCheck = () => {
     console.log("code:", code);
 
    if(code) {
+
+    //post
+    //200
+    //로그인 버튼
+
     axios
-    .get(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`,
-      {params: {code: code}, withCredentials: false},
+    .post(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`, {code: code}
+      //{params: {code: code}, withCredentials: false},
       //{ withCredentials: true }
     )
       //{code: code})
@@ -38,6 +43,13 @@ const LoginCheck = () => {
     .then((response) =>{
       console.log("2FA Response all", response);
       console.log("STATUS", response.status);
+
+      if(response.status === 200)
+      {
+        console.log("200!", response.status);
+        window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+      }
+
       //setReturnURL("/workspace/sleact/intro");
       //if (status가 맞으면)
         //그냥 넘어가기
@@ -46,7 +58,6 @@ const LoginCheck = () => {
     })
     .catch((err) => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
-      //setReturnURL('/');
       console.log(err)
   });}
 
