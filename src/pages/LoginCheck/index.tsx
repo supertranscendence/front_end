@@ -22,13 +22,19 @@ const LoginCheck = () => {
 
    if(code) {
     axios
-    .post(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`, {code: code}, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-          accept: "*/*"
-          }
-    })
+    .get(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`,
+      {params: {code: code}},
+      //{ withCredentials: true }
+    )
+      //{code: code})
+    // {
+    //  withCredentials:true,
+    //    headers:{
+    //      authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+    //      accept: "*/*"
+    //      }
+    //}
+
     .then((response) =>{
       console.log("2FA Response all", response);
       console.log("STATUS", response.status);
