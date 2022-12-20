@@ -40,11 +40,12 @@ const LoginCheck = () => {
     .catch((err) => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
       console.log(err)
-  });}
+    });}
+
+    if(done2FA === false)
+      setIsError(true);
 }, [code, isError, done2FA]);
 
-  if(done2FA === false)
-    setIsError(true);
 
   return (
     //코드 입력하자 마자 error떠서 수정해야함!

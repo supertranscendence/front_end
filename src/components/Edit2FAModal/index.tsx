@@ -20,10 +20,10 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
     dedupingInterval: 2000, // 2초
   });
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
+  //const [tmpChecked, setTmpChecked] = useState(myUserData?.tf);
   const [checked, setChecked] = useState(myUserData?.tf);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    //setChecked(e.target.checked);
     console.log("myUserData?.tf: ",myUserData?.tf);
     console.log("2FA Checked(e.target): ", event.target.checked);
     console.log("2FA Checked(checked): ",  checked);
@@ -33,8 +33,8 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
   const onSubmitEmail = useCallback((event: any) => {
     console.log("onSubmitEmail called!!")
     console.log("newEmail: ",newEmail);
-    console.log("2FA Checked Box(e.target): ", event.target.checked);
-    setChecked(event.target.checked);
+    //console.log("2FA Checked Box(e.target): ", event.target.checked);
+    //setChecked(checked);
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
@@ -45,7 +45,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
       })
       .then((response) =>{
         console.log(response);
-      //setUser(response.data);
+        setChecked(checked);
       })
       .catch((err) => {
         console.log("[ERROR] post /api/users/email for 2FA")
