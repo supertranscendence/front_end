@@ -23,19 +23,13 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
   const [checked, setChecked] = useState(myUserData?.tf);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
+    console.log("2FA Checked(e.target): ", event.target.checked);
+    console.log("2FA Checked(checked): ", event.target.checked);
   };
 
-  /**
-   * 체크 표시로 2FA 설정 할 수 있도록
-   * 체크하면 입력창 활성화 그 전까지는 비활성화
-   * 보낼 때 tf로 보내기
-   * -> 유저
-   *   */
   const onSubmitEmail = useCallback((e:any) => {
     console.log("onSubmitEmail called!!")
     console.log("newEmail: ",newEmail);
-    //if(checked === false)
-    //  setNewEmail("");
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
@@ -52,7 +46,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
         console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
     });
-  }, [newEmail, ]);
+  }, [newEmail, checked ]);
 
   if (!show) {
     return null;
