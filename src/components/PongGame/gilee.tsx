@@ -184,16 +184,16 @@ const update =()=>{
         userB.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom!, mode:mode});//
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom, mode:mode});//
     }else if( ball.x + ball.radius > canvas.width){
       userA.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom!, mode:mode});
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom, mode:mode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
 
-      
+
     // the ball has a velocity
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
@@ -212,6 +212,7 @@ const update =()=>{
     
     // if the ball hits a paddle
     if(collision(ball,player)){
+        console.log('start collision');
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
         // normalize the value of collidePoint, we need to get numbers between -1 and 1.
@@ -229,9 +230,10 @@ const update =()=>{
         // let direction = 1;
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
-        
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
+        //socket?.emit("collision", {gameRoom: GameRoom, x: ball.x, y: ball.y, xv: ball.velocityX, yv: ball.velocityY})
+        console.log('end collision');
     }
 }
 
@@ -258,7 +260,7 @@ const render= ()=>{
     // draw the user's paddle
     drawRect(userA.x, userA.y, userA.width, userA.height, userA.color);
     
-    drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
+    //drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
     
     // draw the userB's paddle
     drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
@@ -304,37 +306,46 @@ const getKeyEvent = (evt:any) =>{
     // console.log("3",evt.key);
     if (evt.key === "s")
     {
-        socket?.emit("down",GameRoom);
-        if (userA.y >=500)
-        {
-	    	  userA.y =500;
-        }
+        socket?.emit("down", {gameRoom: GameRoom, x: ball.x, y: ball.y});
+        // if (userA.y >=500)
+        // {
+	    	//   userA.y =500;
+        // }
 	}
     else if (evt.key === "w")
 	{
-    socket?.emit("up", GameRoom);
-    
-    if (userA.y <=0)
-      userA.y =0;
+    socket?.emit("up", {gameRoom: GameRoom, x: ball.x, y: ball.y});
+
+    // if (userA.y <=0)
+    //   userA.y =0;
 	}
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
 const [socket] = useSocket("sleact");
 const { GameRoom } = useParams<{ GameRoom?: string }>();
+
+    socket?.on("collision", (isA : boolean, x: number, y: number, xv: number, yv: number) => {
+        ball.x = x;
+        ball.y = y;
+        ball.velocityX = xv;
+        ball.velocityY = yv;
+    })
   useEffect(() => {
     if (!canvasRef.current) {
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
-	
-	  socket?.on("down", (isA : boolean) => {
+
+	  socket?.on("down", (isA : boolean, x: number, y: number) => {
+          ball.x = x;
+          ball.y = y;
 	    if (isA)
 	    {
 	      userA.y +=  50
         if (userA.y >=500)
         {
-	    	  userA.y =500;
+	    	  userA.y = 500;
         }
       }
 	    else
@@ -343,12 +354,14 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
         {
 	    	  userB.y =500;
         }
-	      userB.y +=  50
+	      userB.y += 50
       }
 	    
 	  })
 	
-	  socket?.on("up", (isA : boolean) => {
+	  socket?.on("up", (isA : boolean, x: number, y: number) => {
+          ball.x = x;
+          ball.y = y;
       if (isA)
       {
         if (userA.y <= 0)
@@ -394,6 +407,7 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
 //   </div>
 // }
 
+//TODO:퐁게임 수치는 모두 하드로 되어있음 -> 반응형이나 변수나 써서 하고싶긴함
 PongGame.defaultProps = {
   width: 800,
   height: 600

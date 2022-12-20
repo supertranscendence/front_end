@@ -22,6 +22,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { ConstructionOutlined } from '@mui/icons-material';
 
 //const PAGE_SIZE = 20;
+///TODO:  어딜가나 조인 풀리게 clearRoom달아놓기 -> 했는데 백엔드에서 게임룸 조인도 풀어달라하기
+
 const Channel = () => {
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
@@ -30,6 +32,13 @@ const Channel = () => {
   const [redirectRoom, setRedirectRoom] = useState('');
   const [readyMach, setReadyMach] = useState(false);
   // const [roomInfo, setRoomInfo] = useState('');
+  useEffect(()=>{
+    if (!newRoomFlag)
+    {
+      console.log("crearRoom call");
+      socket?.emit("clearRoom");
+    }
+    },[socket])
   
   const onClickAddRoom = useCallback(() => {
     setShowCreateRoomModal(true);
@@ -42,18 +51,14 @@ const Channel = () => {
   const [roomArr, setRoomArr] = useState<{name:string, userAname:string, enterButton: JSX.Element , obEnterButton: JSX.Element }[]>([]);
   const enterRoom =  useCallback( (e:any)=> {
     console.log ("enterGameRoom?", e);
-    socket?.emit("enterGameRoom",e.target.name,()=>{
-    })
+    socket?.emit("enterGameRoom",e.target.name, (b:boolean)=>{console.log(b,e.target.name);if(!b)setRedirectRoom(e.target.name)} )
   },[])
   
   const enterRoomOBS =  useCallback( (e:any)=> {
     console.log ("enterGameRoomOBS?", e);
-    socket?.emit("enterGameRoomOBS",e.target.name,()=>{
-    })
-  },[])
+    socket?.emit("enterGameRoomOBS",e.target.name,(b:boolean)=>{console.log(b,e.target.name);if(!b)setRedirectRoom(e.target.name+"=OBS")})
+  },[])  
   
-  
-
   useEffect(()=>{
   
     socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , userAname : string}[])=>{
@@ -62,10 +67,12 @@ const Channel = () => {
         return {
           name: eachObj.roomName,
           userAname: eachObj.userAname,
-          enterButton: 
-            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> ,
+          enterButton:
+            // <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> ,
+            <Button name={eachObj.roomName} onClick={enterRoom} >Join</Button>,
           obEnterButton: 
-            <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}=OBS`}><Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button></Link> 
+            // <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}=OBS`}><Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button></Link> 
+            <Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button>
         }})
         ])
         console.log("roomArr 배열", roomArr);
