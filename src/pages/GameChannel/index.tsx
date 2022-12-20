@@ -48,16 +48,23 @@ const Channel = () => {
     setShowCreateRoomModal(false);
   }, []);
   
+  const onEnterRoom = useCallback( (b:boolean, roomName :string)=>{
+    console.log("result",b,roomName);
+    if(!b)
+      setRedirectRoom((s)=>roomName)
+  },[])
+  
   const [roomArr, setRoomArr] = useState<{name:string, userAname:string, enterButton: JSX.Element , obEnterButton: JSX.Element }[]>([]);
   const enterRoom =  useCallback( (e:any)=> {
     console.log ("enterGameRoom?", e);
-    socket?.emit("enterGameRoom",e.target.name, (b:boolean)=>{console.log(b,e.target.name);if(!b)setRedirectRoom(e.target.name)} )
-  },[])
+    socket?.emit("enterGameRoom",e.target.name, (b:boolean) =>onEnterRoom(b,e.target.name))
+  },[socket])
   
   const enterRoomOBS =  useCallback( (e:any)=> {
     console.log ("enterGameRoomOBS?", e);
-    socket?.emit("enterGameRoomOBS",e.target.name,(b:boolean)=>{console.log(b,e.target.name);if(!b)setRedirectRoom(e.target.name+"=OBS")})
-  },[])  
+    socket?.emit("enterGameRoomOBS");
+    setRedirectRoom((s)=>e.target.name)
+  },[socket])  
   
   useEffect(()=>{
   

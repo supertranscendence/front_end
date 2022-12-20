@@ -11,6 +11,7 @@ interface CanvasProps {
   userAScore: number;
   userBScore: number;
   mode: boolean;
+  isA?:boolean;
 }
 
 interface Coordinate {
@@ -18,7 +19,7 @@ interface Coordinate {
   y: number;
 };
 
-const PongGame = ({ width, height,userAScore, userBScore, mode  }: CanvasProps) =>{
+const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
 
@@ -184,7 +185,7 @@ const update =()=>{
         userB.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom!, mode:mode});//
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom!, mode:mode});
     }else if( ball.x + ball.radius > canvas.width){
       userA.score++;
         resetBall();
@@ -276,20 +277,20 @@ let framePerSecond = 60;
 //call the game const 50 times every 1 Sec
 let loop = setInterval(game,1000/framePerSecond);
 ////////////////
-const startGo = ()=>{
-console.log("gogo");
-	setInterval(game,1000/framePerSecond);
-}
-const getMousePos = (evt:any) =>{
-	console.log("1",evt);
-	if (!canvasRef.current) {
-		return;
-	  }
-	  const canvas: HTMLCanvasElement = canvasRef.current;
-    let rect = canvas.getBoundingClientRect();
+// const startGo = ()=>{
+// console.log("gogo");
+// 	setInterval(game,1000/framePerSecond);
+// }
+// const getMousePos = (evt:any) =>{
+// 	console.log("1",evt);
+// 	if (!canvasRef.current) {
+// 		return;
+// 	  }
+// 	  const canvas: HTMLCanvasElement = canvasRef.current;
+//     let rect = canvas.getBoundingClientRect();
     
-    userA.y = evt.clientY - rect.top - userA.height/2;
-}
+//     userA.y = evt.clientY - rect.top - userA.height/2;
+// }
 
 const getKeyEvent = (evt:any) =>{
 	// evt.preventDefaultevt();
@@ -303,20 +304,9 @@ const getKeyEvent = (evt:any) =>{
     let rect = canvas.getBoundingClientRect();
     // console.log("3",evt.key);
     if (evt.key === "s")
-    {
-        socket?.emit("down",GameRoom);
-        if (userA.y >=500)
-        {
-	    	  userA.y =500;
-        }
-	}
+        socket?.emit("down",GameRoom, isA);
     else if (evt.key === "w")
-	{
-    socket?.emit("up", GameRoom);
-    
-    if (userA.y <=0)
-      userA.y =0;
-	}
+      socket?.emit("up", GameRoom, isA);
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
@@ -333,39 +323,30 @@ const { GameRoom } = useParams<{ GameRoom?: string }>();
 	    {
 	      userA.y +=  50
         if (userA.y >=500)
-        {
 	    	  userA.y =500;
-        }
       }
 	    else
 	    {
+        userB.y +=  50
         if (userB.y >=500)
-        {
 	    	  userB.y =500;
-        }
-	      userB.y +=  50
       }
-	    
 	  })
 	
 	  socket?.on("up", (isA : boolean) => {
       if (isA)
       {
+        userA.y -=  50
         if (userA.y <= 0)
-        {
 	    	  userA.y =0;
-        }
-	      userA.y -=  50
       }
 	    else
 	    {
+        userB.y -= 50
 	      if (userB.y <= 0)
-	      {
 	    	  userB.y =0;
-        }
-	      userB.y -= 50
       }
-	  })
+    	})
 
     window.addEventListener("keydown", getKeyEvent);
     
