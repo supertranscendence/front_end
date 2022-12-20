@@ -24,7 +24,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
     console.log("2FA Checked(e.target): ", event.target.checked);
-    console.log("2FA Checked(checked): ", event.target.checked);
+    console.log("2FA Checked(checked): ",  checked);
   };
 
   const onSubmitEmail = useCallback((e:any) => {
