@@ -5,7 +5,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import PrintHostVsPlayer from "src/components/PrintHostVsPlayer";
 import PongGame from "src/components/PongGame";
 import useSocket from "src/hooks/useSocket"
-///TODO:  어딜가나 조인 풀리게 clearRoom달아놓기
 const GameRoom = () => {
 	const { workspace, GameRoom } = useParams<{ workspace: string; GameRoom: string }>();
 	// const [alreadyStart, setAlreadyStart]  = useState(false);
@@ -29,7 +28,7 @@ const GameRoom = () => {
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
 		console.log("gameRoomInfo emit")
-		socket?.emit("gameRoomInfo", {roomName:GameRoomName}, (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
+		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
 	  },[socket])
 	  
 	useEffect(()=>{
@@ -37,7 +36,8 @@ const GameRoom = () => {
 		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
 	  },[socket])
 	  
-	//게임이 끝났을때 다른 페이지를 렌더할 이벤트
+	//게임이 끝났을때 다른 페이지를 렌더할 이벤트 
+	//TODO 룸에서 모두 내쫗기 -> 방이 남아있더라
 	useEffect(()=>{
 		console.log("game done?" );
 		socket?.on("gameDone",(winner:string)=> {setGameDone(winner)});
@@ -46,7 +46,7 @@ const GameRoom = () => {
 	//킥 올 이벤트를 받아서 리턴 시킬 이벤트
 	useEffect(()=>{
 		console.log("kickAll!" );
-		socket?.on("kickAll",()=>setReturnFlag(true) );
+		socket?.on("kickAll",()=>{setReturnFlag(true)} );
 	}, [socket]);
 	
 	
@@ -130,8 +130,8 @@ const GameRoom = () => {
 					</Stack>
 					<Divider variant="middle" />
 					<PrintHostVsPlayer userNameA={userNameA} userNameB={userNameB} />  
-					<h2>observer list</h2>
-					<div>hyopark</div>
+					{/* <h2>observer list</h2>
+					<div>hyopark</div> */}
 					{/* observer list 출력 */}
 					<Divider variant="middle" />
 					<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
