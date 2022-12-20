@@ -15,14 +15,14 @@ import useInput from "src/hooks/useInput"
 const LoginCheck = () => {
   const [code, onChangeCode, setCode] = useInput('');
   const [isError, setIsError] = useState(false);
-  const [done2FA, setDone2FA] = useState(false);
+  //const [done2FA, setDone2FA] = useState(false);
 
   const onSubmit2FAcode = useCallback((e:any) => {
     e.preventDefault();
     console.log("code:", code);
 
    if(code) {
-    axios
+   axios
     .post(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`, {code: code}
     )
 
@@ -32,9 +32,10 @@ const LoginCheck = () => {
 
       if(response.status === 200){
         console.log("200!", response.status);
-        setIsError(false);
-        setDone2FA(true);
+        //setIsError(false);
         window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+      } else {
+        setIsError(true);
       }
     })
     .catch((err) => {
@@ -42,14 +43,12 @@ const LoginCheck = () => {
       console.log(err)
     });
 
-    if(done2FA === false)
-        setIsError(true);
   }
 
-  }, [code, isError, done2FA]);
+  }, [code, isError]);
 
   return (
-    //코드 입력하자 마자 error떠서 수정해야함!
+    //code 입력하자 마자 error떠서 수정해야함!
     <Stack spacing={1}>
       <h1>인증 코드 입력</h1>
       <form onSubmit={onSubmit2FAcode}>
