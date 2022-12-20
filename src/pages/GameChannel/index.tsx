@@ -37,6 +37,7 @@ const Channel = () => {
     {
       console.log("crearRoom call");
       socket?.emit("clearRoom");
+      socket?.emit("clearGameRoom");
     }
     },[socket])
   
@@ -63,7 +64,7 @@ const Channel = () => {
   const enterRoomOBS =  useCallback( (e:any)=> {
     console.log ("enterGameRoomOBS?", e);
     socket?.emit("enterGameRoomOBS");
-    setRedirectRoom((s)=>e.target.name)
+    setRedirectRoom((s)=>e.target.name +"=OBS")
   },[socket])  
   
   useEffect(()=>{
