@@ -30,20 +30,22 @@ const LoginCheck = () => {
           }
     })
     .then((response) =>{
-      setReturnURL("/workspace/sleact/intro");
+      console.log("2FA Response all", response);
+      console.log("STATUS", response.status);
+      //setReturnURL("/workspace/sleact/intro");
     })
     .catch((err) => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
-      setReturnURL('/');
+      //setReturnURL('/');
       console.log(err)
   });}
 
   }, [code, returnURL]);
 
-  if (returnURL){
-    //need
-    return <Redirect to="/workspace/sleact/intro"/>
-  }
+  //if (returnURL){
+  //  //need
+  //  return <Redirect to="/workspace/sleact/intro"/>
+  //}
 
   return (
     <Stack spacing={1}>
