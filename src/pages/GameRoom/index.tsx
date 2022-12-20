@@ -28,7 +28,13 @@ const GameRoom = () => {
 	//gameDone
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
-		socket?.emit("roomInfo", {roomName:GameRoomName}, (obj:{userA:string,userB:string}) =>{setUserNameA(obj.userA),setUserNameB(obj.userB) })
+		console.log("gameRoomInfo emit")
+		socket?.emit("gameRoomInfo", {roomName:GameRoomName}, (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
+	  },[socket])
+	  
+	useEffect(()=>{
+		console.log("gameRoomInfo on")
+		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
 	  },[socket])
 	  
 	//게임이 끝났을때 다른 페이지를 렌더할 이벤트

@@ -137,9 +137,9 @@ const Channel = () => {
               <TableHead>
                 <TableRow>
                   <TableCell><b>Room Name</b></TableCell>
-                  <TableCell align="right"><b>Player</b></TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell align="right"><b>상대선수</b></TableCell>
+                  <TableCell align="right">플레이어로 입장</TableCell>
+                  <TableCell align="right">옵저버로 입장</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
