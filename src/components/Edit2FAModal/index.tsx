@@ -10,7 +10,7 @@ import fetcher from 'src/utils/fetcher';
 import { dataUser } from '@typings/types';
 interface Props {
   show: boolean;
-  onClose2FAModal: () => void;
+  //onClose2FAModal: () => void;
   setShow2FAModal : (flag:boolean) => void
   }
 
@@ -54,7 +54,8 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
     return null;
     }
     return(
-  <Modal show={show} onCloseModal={onClose2FAModal}>
+  //<Modal show={show} onCloseModal={onClose2FAModal}>
+  <Modal show={show} >
   <form onSubmit={onSubmitEmail}>
     <Stack spacing={1}>
       <h1>2FA 설정</h1>
@@ -62,7 +63,6 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
         checked={checked}
         onChange={handleChange}
         inputProps={{ 'aria-label': 'controlled' }}
-        //onChange={handleChange}
         />
         <>설정 켜기</>
       <TextField
