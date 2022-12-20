@@ -12,6 +12,7 @@ const GameRoom = () => {
 	const [gameDone, setGameDone]  = useState('');
 	const [userA, setUserA]  = useState(0);//score
 	const [userB, setUserB]  = useState(0);//score
+	const [isA, setIsA]  = useState(false);
 	const [userNameB, setUserNameB]  = useState('');//score
 	const [userNameA, setUserNameA]  = useState('');//score
 	const [start, setStart]  = useState(false);
@@ -28,12 +29,12 @@ const GameRoom = () => {
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
 		console.log("gameRoomInfo emit")
-		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
+		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string , isA:boolean}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB), setIsA(isA) })
 	  },[socket])
 	  
 	useEffect(()=>{
 		console.log("gameRoomInfo on")
-		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
+		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string, isA:boolean}) =>{console.log("obj", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB),setIsA(isA) })
 	  },[socket])
 	  
 	//게임이 끝났을때 다른 페이지를 렌더할 이벤트 
@@ -110,7 +111,7 @@ const GameRoom = () => {
 	if (isOBS === undefined)
 	{
 	if (start)
-		return (<PongGame userAScore ={0} userBScore={0} mode={modeFlag}/>)
+		return (<PongGame userAScore ={0} userBScore={0} mode={modeFlag} isA={isA}/>)
 	else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
 		return(
 			<Container maxWidth="lg">
@@ -144,7 +145,7 @@ const GameRoom = () => {
 	else
 	{
 		if (gameSet)
-			return (<PongGame  userAScore={userA} userBScore={userB} mode={modeFlag} />)
+			return (<PongGame  userAScore={userA} userBScore={userB} mode={modeFlag } />)
 		else 
 			return (<div><h1>게임 대기 중</h1>
 				<button onClick={leaveRoom}>나가기</button></div>)
