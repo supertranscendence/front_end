@@ -22,7 +22,7 @@ const LoginCheck = () => {
 
    if(code) {
     axios
-    .post(process.env.REACT_APP_API_URL + `/api/auth/ft/email`, {code: code}, {
+    .post(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`, {code: code}, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem("accessToken"),
@@ -33,6 +33,10 @@ const LoginCheck = () => {
       console.log("2FA Response all", response);
       console.log("STATUS", response.status);
       //setReturnURL("/workspace/sleact/intro");
+      //if (status가 맞으면)
+        //그냥 넘어가기
+      //
+
     })
     .catch((err) => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
