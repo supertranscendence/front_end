@@ -44,7 +44,7 @@ const LoginCheck = () => {
   }, [code, isError, done2FA]);
 
   if(done2FA === true && isError === false)
-    return window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+    window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
   if(done2FA === false)
     setIsError(true);
   return (
