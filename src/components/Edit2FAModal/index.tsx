@@ -23,6 +23,8 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
   const [checked, setChecked] = useState(myUserData?.tf);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
+    //setChecked(event.target.checked);
+    console.log("myUserData?.tf: ",myUserData?.tf);
     console.log("2FA Checked(e.target): ", event.target.checked);
     console.log("2FA Checked(checked): ",  checked);
   };
