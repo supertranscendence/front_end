@@ -134,7 +134,7 @@ const Workspace:FC<Props> = ({children}) =>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Box sx={{ flexGrow: 1 }}>
-              <h2> Jjiransendence! </h2>
+              <h1 >Jjiransendence! </h1>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenProfileMenu} sx={{ p: 0 }}>

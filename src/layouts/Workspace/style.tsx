@@ -180,6 +180,27 @@ export const WorkspaceName = styled.button`
   cursor: pointer;
 `;
 
+export const Button = styled.button`
+  height: 64px;
+  line-height: 64px;
+  border: none;
+  width: 100%;
+  text-align: left;
+  border-top: 1px solid rgb(82, 38, 83);
+  border-bottom: 1px solid rgb(82, 38, 83);
+  font-weight: 900;
+  font-size: 24px;
+  background: transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0;
+  padding-left: 16px;
+  margin: 0;
+  color: white;
+  cursor: pointer;
+`;
+
 export const MenuScroll = styled.div`
   height: calc(100vh - 102px);
   overflow-y: auto;
