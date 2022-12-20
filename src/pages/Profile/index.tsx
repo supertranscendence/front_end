@@ -189,7 +189,7 @@ const Profile = () => {
       />
       <Edit2FAModal
         show={show2FAModal}
-        onClose2FAModal={onClose2FAModal}
+        //onClose2FAModal={onClose2FAModal}
         setShow2FAModal={setShow2FAModal}
       />
     </Container>

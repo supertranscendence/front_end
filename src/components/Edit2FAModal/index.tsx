@@ -10,26 +10,31 @@ import fetcher from 'src/utils/fetcher';
 import { dataUser } from '@typings/types';
 interface Props {
   show: boolean;
-  onClose2FAModal: () => void;
+  //onClose2FAModal: () => void;
   setShow2FAModal : (flag:boolean) => void
   }
 
-const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FAModal, setShow2FAModal }) => {
+const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
+  //const [tmpChecked, setTmpChecked] = useState(myUserData?.tf);
   const [checked, setChecked] = useState(myUserData?.tf);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
+    console.log("myUserData?.tf: ",myUserData?.tf);
     console.log("2FA Checked(e.target): ", event.target.checked);
     console.log("2FA Checked(checked): ",  checked);
   };
 
-  const onSubmitEmail = useCallback((e:any) => {
+  //const onSubmitEmail = useCallback((e:any) => {
+  const onSubmitEmail = useCallback((event: any) => {
     console.log("onSubmitEmail called!!")
     console.log("newEmail: ",newEmail);
+    //console.log("2FA Checked Box(e.target): ", event.target.checked);
+    //setChecked(checked);
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
@@ -40,7 +45,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
       })
       .then((response) =>{
         console.log(response);
-      //setUser(response.data);
+        setChecked(checked);
       })
       .catch((err) => {
         console.log("[ERROR] post /api/users/email for 2FA")
@@ -52,7 +57,8 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
     return null;
     }
     return(
-  <Modal show={show} onCloseModal={onClose2FAModal}>
+  //<Modal show={show} onCloseModal={onClose2FAModal}>
+  <Modal show={show} >
   <form onSubmit={onSubmitEmail}>
     <Stack spacing={1}>
       <h1>2FA 설정</h1>
@@ -60,7 +66,6 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FA
         checked={checked}
         onChange={handleChange}
         inputProps={{ 'aria-label': 'controlled' }}
-        //onChange={handleChange}
         />
         <>설정 켜기</>
       <TextField
