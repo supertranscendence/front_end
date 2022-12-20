@@ -43,10 +43,11 @@ const ChannelList: FC<Props> = () => {
       <div>
           {!channelCollapse && (
           <>
-            <Button variant='outlined' color='info' component={Link} to={`/workspace/sleact/intro`}>Main</Button>
+            <a href={`/workspace/sleact/intro`}>Main</a>
+
             <EachChannel channel={chat}></EachChannel>
             <EachChannel channel={game}></EachChannel>
-            <EachChannel channel={gameroom}></EachChannel>
+            {/*<EachChannel channel={gameroom}></EachChannel>*/}
           </>
           )}
       </div>
