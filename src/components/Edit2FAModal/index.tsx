@@ -14,7 +14,7 @@ interface Props {
   setShow2FAModal : (flag:boolean) => void
   }
 
-const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2FAModal, setShow2FAModal }) => {
+const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my', fetcher, {
     dedupingInterval: 2000, // 2초
