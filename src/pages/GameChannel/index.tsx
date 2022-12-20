@@ -37,6 +37,7 @@ const Channel = () => {
     {
       console.log("crearRoom call");
       socket?.emit("clearRoom");
+      socket?.emit("clearGameRoom");
     }
     },[socket])
   

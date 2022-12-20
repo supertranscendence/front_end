@@ -55,6 +55,7 @@ useEffect(()=>{
   {
     console.log("crearRoom call");
     socket?.emit("clearRoom");
+    socket?.emit("clearGameRoom");
     // setNewRoomFlag(false);
   }
   },[socket])
