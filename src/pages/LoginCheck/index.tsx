@@ -23,7 +23,7 @@ const LoginCheck = () => {
    if(code) {
     axios
     .get(process.env.REACT_APP_API_URL + `/api/auth/ft/verify_email`,
-      {params: {code: code}, withCredentials: true},
+      {params: {code: code}, withCredentials: false},
       //{ withCredentials: true }
     )
       //{code: code})
