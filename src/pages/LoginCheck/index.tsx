@@ -14,7 +14,7 @@ import useInput from "src/hooks/useInput"
 
 const LoginCheck = () => {
   const [code, onChangeCode, setCode] = useInput('');
-  const [returnURL, setReturnURL] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const onSubmit2FAcode = useCallback((e:any) => {
     e.preventDefault();
@@ -44,11 +44,12 @@ const LoginCheck = () => {
       console.log("2FA Response all", response);
       console.log("STATUS", response.status);
 
-      if(response.status === 200)
-      {
+      if(response.status === 200){
         console.log("200!", response.status);
         window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
       }
+      else
+        setIsError(true);
 
       //setReturnURL("/workspace/sleact/intro");
       //if (status가 맞으면)
@@ -61,7 +62,7 @@ const LoginCheck = () => {
       console.log(err)
   });}
 
-  }, [code, returnURL]);
+  }, [code, isError]);
 
   //if (returnURL){
   //  //need
@@ -73,6 +74,7 @@ const LoginCheck = () => {
       <h1>인증 코드 입력</h1>
       <form onSubmit={onSubmit2FAcode}>
       <TextField
+        error={isError}
         id="2FA_input"
         label="인증 코드 입력"
         size='small'
