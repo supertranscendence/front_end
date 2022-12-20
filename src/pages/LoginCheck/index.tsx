@@ -48,9 +48,6 @@ const LoginCheck = () => {
         console.log("200!", response.status);
         window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
       }
-      else
-        setIsError(true);
-
       //setReturnURL("/workspace/sleact/intro");
       //if (status가 맞으면)
         //그냥 넘어가기
@@ -61,7 +58,7 @@ const LoginCheck = () => {
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
       console.log(err)
   });}
-
+  setIsError(true);
   }, [code, isError]);
 
   //if (returnURL){
