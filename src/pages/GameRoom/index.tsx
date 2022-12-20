@@ -75,7 +75,8 @@ const GameRoom = () => {
 	  },[])
 	  
 	const leaveRoom = useCallback(()=>{
-		  socket?.emit("leaveGameRoom", {room:GameRoomName}, retrunChannel);
+		console.log("on leave", GameRoomName)
+		socket?.emit("leaveGameRoom", {room:GameRoomName}, retrunChannel);
 	  },[]);
 	  
 	
