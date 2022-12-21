@@ -126,7 +126,11 @@ const Channel = () => {
     return ( <Redirect to= {`/workspace/sleact/channel/Game/${redirectRoom}`}/>);
   else if (readyMatch)
     {
-      return (<div> 매칭 중..</div>)
+      return (<><div> 매칭 중..</div>
+        <button>매칭 나가기(아직안만듬</button>
+          </>
+      )//버튼
+      
     }
   else
   {
