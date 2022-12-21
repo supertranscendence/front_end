@@ -19,7 +19,10 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 import KeyIcon from '@mui/icons-material/Key';
 import FtAvatar from 'src/components/FtAvatar';
+import { Socket } from 'dgram';
+import useSocket from "src/hooks/useSocket";
 import { useHistory } from 'react-router-dom';
+
 
 
 function createData(
@@ -48,6 +51,8 @@ const Profile = () => {
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
+  const { workspace } = useParams<{ workspace?: string }>();
+  const [socket] = useSocket(workspace);
   const history = useHistory();
 
   useEffect(() => {
@@ -121,6 +126,11 @@ const Profile = () => {
     });
   }, [user, ]);
 
+  const handleBlockUser = useCallback(() => {
+    console.log("on handler Block");
+    socket?.emit("Block",intra);
+  }, [socket]);
+
   return (
     <Container maxWidth="lg">
       <Stack spacing={1}>
@@ -154,6 +164,7 @@ const Profile = () => {
             <div>
               <h1>{ user && user.nickname } PROFILE</h1>
               <Button variant='outlined' onClick={handleAddFriend} startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
+              <Button variant='outlined' onClick={handleBlockUser} startIcon={<PersonAddAlt1Icon />}>블락 설정/해제</Button>
             </div>
           )}
         <Stack alignItems="center">
