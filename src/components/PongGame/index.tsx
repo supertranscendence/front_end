@@ -101,7 +101,7 @@ const getKeyEvent = (evt:any) =>{
 }
 
 
-// useEffect(() => {
+useEffect(() => {
 //   if (!canvasRef.current) {
 //     return;
 //   }
@@ -138,7 +138,7 @@ const getKeyEvent = (evt:any) =>{
 //     // window.addEventListener("keydown", getKeyEvent);
 //     window.removeEventListener("keydown",getKeyEvent);
 //   };
-// }, [getKeyEvent, canvasRef]);
+}, [getKeyEvent, canvasRef]);
 
 
 
@@ -302,6 +302,7 @@ const update =()=>{
         
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
+        console.log ("collllllison!");
     }
 }
 
@@ -344,15 +345,9 @@ const game = () =>{
       window.removeEventListener("keydown",getKeyEvent);
     }
 }
-
-
-
-  
-
-  
   
 // number of frames per second
-let framePerSecond = 60;
+let framePerSecond = 20;
 //call the game const 50 times every 1 Sec
 let loop = setInterval(game,1000/framePerSecond);
 
