@@ -378,6 +378,13 @@ let loop = setInterval(game,1000/framePerSecond);
 	  <div className="App">
       <canvas ref={canvasRef} height={height} width={width} className="canvas"/>
     </div>
+    <div>
+      <h1>최고급 퐁 게임!</h1>
+      <h2>조작법 W 위, S 아래 (한글 지원 안합니다.)</h2>
+      <h2>3점을 빨리 내면 승리입니다.</h2>
+      <h2>플레이어는 게임 시작 후 나가면 다신 못들어옴</h2>
+      <h2>누군가 빡종하면 그 게임은 무효 처리입니다.</h2>
+    </div>
     </>
   );
 }
