@@ -145,7 +145,7 @@ const GameRoom = () => {
 	}
 	else
 	{
-		if (gameSet)
+		if (gameSet || start)
 			return (<PongGame  userAScore={userA} userBScore={userB} mode={modeFlag } />)
 		else 
 			return (<div><h1>게임 대기 중</h1>
