@@ -52,6 +52,7 @@ const DMList = () => {
     socket?.emit("myFriend", (stateFriend:string ) => {
       console.log("[get myFriend] res: ");
       console.log(JSON.parse(stateFriend));
+      setStateFriend(JSON.parse(stateFriend));
       //setStateFriend(()=>[...stateFriend]);
       // stateFriend.then((ele)=>{
       // console.log("hohohoho", ele);
