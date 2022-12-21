@@ -64,14 +64,14 @@ const Profile = () => {
       console.log("intra: ",response.data.intra)
       setUser(response.data);
 
-      if (user?.intra === myUserData?.intra){
+      if (intra === myUserData?.intra){
         setIsUserMe(true);
       }
       else{
-        if(user?.intra === undefined){
-          console.log("Redirect!");
-          history.push('/workspace/sleact/intro');
-        }
+        //if(intra === undefined){
+        //  console.log("Redirect!");
+        //  history.push('/workspace/sleact/intro');
+        //}
         setIsUserMe(false);
       }
     })
