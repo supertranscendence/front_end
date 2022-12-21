@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import { dataUser, listFriend } from 'src/typings/types';
 import { dataFriend, UserStatus, FriendList } from 'src/typings/types';
+import test from 'node:test';
 
 //
 const DMList = () => {
@@ -48,29 +49,34 @@ const DMList = () => {
 
   useEffect(() => {
 
-    console.log('Get socket any, [myFriend]! ');
-    socket?.emit("myFriend", (stateFriend:any)=> {
+    console.log(socket);
+
+    socket?.emit("myFriend", (stateFriend:test) => {
       console.log("myFriend res: ", stateFriend);
+    })
+    console.log('Get socket any, [myFriend]! ');
+    socket?.emit("myFriend", (json:any)=> {
+      console.log("myFriend res: ", json);
     });
     console.log('Get socket string, [myFriend]! ');
-    socket?.emit("myFriend", (stateFriend:string)=> {
-      console.log("myFriend res: ", stateFriend);
+    socket?.emit("myFriend", (json:string)=> {
+      console.log("myFriend res: ", json);
     });
     console.log('Get socket any.parse, [myFriend]! ');
-    socket?.emit("myFriend", (stateFriend:any)=> {
-      console.log("myFriend res: ", JSON.parse(stateFriend));
+    socket?.emit("myFriend", (json:any)=> {
+      console.log("myFriend res: ", JSON.parse(json));
     });
     console.log('Get socket string.parse, [myFriend]! ');
-    socket?.emit("myFriend", (stateFriend:string)=> {
-      console.log("myFriend res: ", JSON.parse(stateFriend));
+    socket?.emit("myFriend", (json:string)=> {
+      console.log("myFriend res: ", JSON.parse(json));
     });
     console.log('Get socket typeLIST, [myFriend]! ');
-    socket?.emit("myFriend", (stateFriend:listFriend)=> {
-      console.log("myFriend res: ", stateFriend);
+    socket?.emit("myFriend", (json:listFriend)=> {
+      console.log("myFriend res: ", json);
     });
     console.log('Get socket typeLIST-block, [myFriend]! ');
-    socket?.emit("myFriend", (stateFriend:test)=> {
-      console.log("myFriend res: ", stateFriend);
+    socket?.emit("myFriend", (json:test)=> {
+      console.log("myFriend res: ", json);
     });
 
   }, []);
