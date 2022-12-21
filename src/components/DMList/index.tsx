@@ -53,7 +53,7 @@ const DMList = () => {
     let _state:UserStatus  = 0;
 
     socket?.emit("myFriend", data);
-    console.log("myFriend data:", data);
+    console.log("myFriend data:", JSON.stringify(data));
     //console.log("friend:", _friend);
     //console.log("avatar:", _avatar);
     //console.log("blocked:", _block);
