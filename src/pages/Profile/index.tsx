@@ -54,6 +54,7 @@ const Profile = () => {
     if(intra)
     {
       console.log("profile intra in!")
+      console.log("myUserData:", myUserData);
       axios
         .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
         withCredentials:true,
