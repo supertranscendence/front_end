@@ -304,9 +304,9 @@ const getKeyEvent = (evt:any) =>{
     let rect = canvas.getBoundingClientRect();
     // console.log("3",evt.key);
     if (evt.key === "s")
-        socket?.emit("down",{name: GameRoomName, isA:isA});
+        socket?.emit("down",{name: GameRoomName, isA:isA, yPos:(isA?userA.y+50:userB.y+50)});
     else if (evt.key === "w")
-      socket?.emit("up", {name: GameRoomName, isA:isA});
+      socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
@@ -320,33 +320,25 @@ const GameRoomName = GameRoom.split("=")[0];
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
 	
-	  socket?.on("down", (isA : boolean) => {
+	  socket?.on("down", (isA : boolean ,yPos:number) => {
 	    if (isA)
 	    {
-	      userA.y +=  50
-        if (userA.y >=500)
-	    	  userA.y =500;
+	       userA.y = yPos;
       }
 	    else
 	    {
-        userB.y +=  50
-        if (userB.y >=500)
-	    	  userB.y =500;
+	      userB.y = yPos;
       }
 	  })
 	
-	  socket?.on("up", (isA : boolean) => {
+	  socket?.on("up", (isA : boolean,yPos:number) => {
       if (isA)
-      {
-        userA.y -=  50
-        if (userA.y <= 0)
-	    	  userA.y =0;
+	    {
+	       userA.y = yPos;
       }
 	    else
 	    {
-        userB.y -= 50
-	      if (userB.y <= 0)
-	    	  userB.y =0;
+	      userB.y = yPos;
       }
     	})
 
