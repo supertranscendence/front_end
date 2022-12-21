@@ -273,6 +273,8 @@ const game = () =>{
       return;
     }
     const canvas: HTMLCanvasElement = canvasRef.current;
+    update();
+    render();
 	
 	  socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
 	  console.log("on!",)
@@ -304,8 +306,7 @@ const game = () =>{
     
 //   }, [startPaint, paint, exitPaint]);
   // }, [getKeyEvent, canvasRef]);
-    update();
-    render();
+    
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
       window.removeEventListener("keydown",getKeyEvent);
