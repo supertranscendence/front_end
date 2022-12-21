@@ -101,44 +101,6 @@ const getKeyEvent = (evt:any) =>{
 }
 
 
-useEffect(() => {
-//   if (!canvasRef.current) {
-//     return;
-//   }
-//   const canvas: HTMLCanvasElement = canvasRef.current;
-
-  socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
-  console.log("on!",)
-    if (obj.isA)
-    {
-       userA.y = obj.yPos;
-    }
-    else
-    {
-      userB.y = obj.yPos;
-    }
-  })
-
-  socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
-    if (obj.isA)
-    {
-       userA.y = obj.yPos;
-    }
-    else
-    {
-      userB.y = obj.yPos;
-    }
-    })
-
-  window.addEventListener("keydown", getKeyEvent);
-  
-  // canvas.addEventListener("mousemove", getMousePos);
-
-//   return () => {
-//     // window.addEventListener("keydown", getKeyEvent);
-//     window.removeEventListener("keydown",getKeyEvent);
-//   };
-}, [getKeyEvent, canvasRef]);
 
 
 
@@ -340,12 +302,47 @@ const render= ()=>{
 const game = () =>{
     update();
     render();
+    
+// useEffect(() => {
+  //   if (!canvasRef.current) {
+  //     return;
+  //   }
+  //   const canvas: HTMLCanvasElement = canvasRef.current;
+  
+    socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
+    console.log("on!",)
+      if (obj.isA)
+      {
+         userA.y = obj.yPos;
+      }
+      else
+      {
+        userB.y = obj.yPos;
+      }
+    })
+  
+    socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
+      if (obj.isA)
+      {
+         userA.y = obj.yPos;
+      }
+      else
+      {
+        userB.y = obj.yPos;
+      }
+      })
+  
+    window.addEventListener("keydown", getKeyEvent);
+    
+  // }, [getKeyEvent, canvasRef]);
+    
+    
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
       window.removeEventListener("keydown",getKeyEvent);
     }
 }
-  
+///TODO: emit보낼때  콜리젼 계산해서 보내고 다른곳 콜리젼은 지워버리기~ ->찌한테안에값들 주고 
 // number of frames per second
 let framePerSecond = 50;
 //call the game const 50 times every 1 Sec
