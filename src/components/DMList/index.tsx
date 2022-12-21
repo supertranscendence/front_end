@@ -49,7 +49,7 @@ const DMList = () => {
   useEffect(() => {
     console.log('Get socket, [myFriend]! ');
 
-    socket?.emit("myFriend", (response:any)=> {
+    socket?.emit("myFriend", (response:string)=> {
       console.log("myFriend res: ", response);
     });
     //socket?.emit("myFriend", listFriendData);
@@ -57,17 +57,6 @@ const DMList = () => {
     //  console.log("No FRIEND!")
     //  return;
     //}
-    //console.log("myFriend listFriendData:", listFriendData);
-    //console.log("myFriend parse:", JSON.parse(listFriendData));
-    //console.log("myFriend data:", JSON.parse(listFriendData));
-    //console.log("friend:", _friend);
-    //console.log("avatar:", _avatar);
-    //console.log("blocked:", _block);
-    //console.log("state:", _state);
-    //console.log("listFriendData[0].friend:", listFriendData[0].friend);
-    //console.log("listFriendData[0].avatar:", listFriendData[0].avatar);
-    //console.log("listFriendData[0].blocked:", listFriendData[0].blocked);
-    //console.log("listFriendData[0].state:", listFriendData[0].state);
 
     //socket?.emit('myFriend', function(data:listFriend[]){
     //socket?.emit('myFriend', function(data:listFriend[]){
