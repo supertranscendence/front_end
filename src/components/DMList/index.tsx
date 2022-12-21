@@ -52,11 +52,6 @@ const DMList = () => {
     socket?.emit("myFriend", (response:string)=> {
       console.log("myFriend res: ", response);
     });
-    //socket?.emit("myFriend", listFriendData);
-    //if (!listFriendData) {
-    //  console.log("No FRIEND!")
-    //  return;
-    //}
 
     //socket?.emit('myFriend', function(data:listFriend[]){
     //socket?.emit('myFriend', function(data:listFriend[]){
