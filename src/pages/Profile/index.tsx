@@ -41,7 +41,6 @@ const Profile = () => {
   const onClick2FAModal = useCallback(() => { setShow2FAModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
   const onClose2FAModal = useCallback(() => { setShow2FAModal(false); }, []);
-  //const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friend', fetcher, {
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
   });

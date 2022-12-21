@@ -16,7 +16,7 @@ import EachMsg from 'src/components/EachMsg';
 //
 const DMList = () => {
   const { workspace } = useParams<{ workspace?: string }>();
-   const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
+   const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
      dedupingInterval: 2000, // 2초
    });
   // const { data: memberData } = useSWR<IUserWithOnline[]>(
