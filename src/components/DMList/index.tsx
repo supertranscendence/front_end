@@ -73,16 +73,6 @@ const DMList = () => {
       console.log("myFriend res: ", response);
     });
 
-    //socket?.emit('myFriend', function(data:listFriend[]){
-    //socket?.emit('myFriend', function(data:listFriend[]){
-      //console.log('data[0].friend: ', data[0].friend);
-      //console.log('data[0].avatar: ', data[0].avatar);
-      //console.log('data[0].blocked: ', data[0].blocked);
-      //console.log('data[0].state: ', data[0].state);
-    //})
-    //socket?.on('myFriend', (userArr: string[]) => {
-    //  updateFriends(userArr);
-    //});
   }, []);
 
   useEffect(() => {
