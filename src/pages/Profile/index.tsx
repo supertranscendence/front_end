@@ -41,7 +41,8 @@ const Profile = () => {
   const onClick2FAModal = useCallback(() => { setShow2FAModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
   const onClose2FAModal = useCallback(() => { setShow2FAModal(false); }, []);
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
+  //const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friend', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
@@ -52,7 +53,7 @@ const Profile = () => {
     console.log("Check isMyUser");
     console.log("user?.intra: ", user?.intra);
     console.log("myUserData?.intra: ", myUserData?.intra);
-    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
+    if (user?.intra === myUserData?.intra){
       setIsUserMe(true);
     }
     else{
