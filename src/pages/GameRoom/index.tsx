@@ -54,7 +54,7 @@ const GameRoom = () => {
 	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
 	useEffect(()=>{
 		console.log("game set?" );
-		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {setGameSet(true);setUserA(userA); setUserB(userB), setModeFlag(true)});
+		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {setGameSet(true);setUserA(obj.userA); setUserB(obj.userB), setModeFlag(obj.mode)});
 	}, [socket]);
 	
 	
