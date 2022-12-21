@@ -322,7 +322,8 @@ const update =()=>{
         
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
-        socket?.emit("collision", ball );
+        
+        socket?.emit("collision", {...ball, name:GameRoomName} );
     }
 }
 
