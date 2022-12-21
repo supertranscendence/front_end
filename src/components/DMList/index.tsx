@@ -29,13 +29,11 @@ const DMList = () => {
   //const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
   const [listFriendData, setListFriendData] = useState("");
 
-  type test = {
-    friend: string
-    //avatar: string
-    state: UserStatus
-    blocked: boolean
-
-    }
+  //type test = {
+  //  friend: string
+  //  state: UserStatus
+  //  blocked: boolean
+  //  }
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
@@ -51,33 +49,33 @@ const DMList = () => {
 
     console.log(socket);
 
-    socket?.emit("myFriend", (stateFriend:test) => {
+    socket?.emit("myFriend", (stateFriend:listFriend) => {
       console.log("myFriend res: ", stateFriend);
     })
-    console.log('Get socket any, [myFriend]! ');
-    socket?.emit("myFriend", (json:any)=> {
-      console.log("myFriend res: ", json);
-    });
-    console.log('Get socket string, [myFriend]! ');
-    socket?.emit("myFriend", (json:string)=> {
-      console.log("myFriend res: ", json);
-    });
-    console.log('Get socket any.parse, [myFriend]! ');
-    socket?.emit("myFriend", (json:any)=> {
-      console.log("myFriend res: ", JSON.parse(json));
-    });
-    console.log('Get socket string.parse, [myFriend]! ');
-    socket?.emit("myFriend", (json:string)=> {
-      console.log("myFriend res: ", JSON.parse(json));
-    });
-    console.log('Get socket typeLIST, [myFriend]! ');
-    socket?.emit("myFriend", (json:listFriend)=> {
-      console.log("myFriend res: ", json);
-    });
-    console.log('Get socket typeLIST-block, [myFriend]! ');
-    socket?.emit("myFriend", (json:test)=> {
-      console.log("myFriend res: ", json);
-    });
+    //console.log('Get socket any, [myFriend]! ');
+    //socket?.emit("myFriend", (json:any)=> {
+    //  console.log("myFriend res: ", json);
+    //});
+    //console.log('Get socket string, [myFriend]! ');
+    //socket?.emit("myFriend", (json:string)=> {
+    //  console.log("myFriend res: ", json);
+    //});
+    //console.log('Get socket any.parse, [myFriend]! ');
+    //socket?.emit("myFriend", (json:any)=> {
+    //  console.log("myFriend res: ", JSON.parse(json));
+    //});
+    //console.log('Get socket string.parse, [myFriend]! ');
+    //socket?.emit("myFriend", (json:string)=> {
+    //  console.log("myFriend res: ", JSON.parse(json));
+    //});
+    //console.log('Get socket typeLIST, [myFriend]! ');
+    //socket?.emit("myFriend", (json:listFriend)=> {
+    //  console.log("myFriend res: ", json);
+    //});
+    //console.log('Get socket typeLIST-block, [myFriend]! ');
+    //socket?.emit("myFriend", (json:test)=> {
+    //  console.log("myFriend res: ", json);
+    //});
 
   }, []);
 
