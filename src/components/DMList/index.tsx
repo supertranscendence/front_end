@@ -64,31 +64,31 @@ const DMList = () => {
     //setStateFriend(stateFriend);
     //console.log(stateFriend.length);
 
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);
   }, [workspace]);
 
-  useEffect(() => {
-    socket?.on('onlineList', (data: number[]) => {
-      setOnlineList(data);
-    });
-    console.log('socket on dm', socket?.hasListeners('dm'), socket);
-    return () => {
-      console.log('socket off dm', socket?.hasListeners('dm'));
-      socket?.off('onlineList');
-    };
-  }, [socket]);
+  //useEffect(() => {
+  //  socket?.on('onlineList', (data: number[]) => {
+  //    setOnlineList(data);
+  //  });
+  //  console.log('socket on dm', socket?.hasListeners('dm'), socket);
+  //  return () => {
+  //    console.log('socket off dm', socket?.hasListeners('dm'));
+  //    socket?.off('onlineList');
+  //  };
+  //}, [socket]);
 
 
   return (
     <>
       <h2>
-        {/*<CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
+        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
           📎
-        </CollapseButton>*/}
+        </CollapseButton>
         <span>My firends</span>
       </h2>
       <div>
