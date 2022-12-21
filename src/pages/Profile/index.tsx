@@ -151,6 +151,7 @@ const Profile = () => {
           spacing={1}
           direction="row"
         >
+          <Chip label="👋 Welcome, Cadet" variant="outlined" />
           <Chip label="🔥 3연승" variant="outlined" />
           <Chip label="🔥 10연승" variant="outlined" />
         </Stack>
