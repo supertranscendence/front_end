@@ -52,31 +52,32 @@ const Profile = () => {
 
   useEffect(() => {
     if(intra)
-      return ;
-    axios
-      .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-          accept: "*/*"
-          }
+    {
+      axios
+        .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        console.log(response);
+        console.log("intra: ",response.data.intra)
+        setUser(response.data);
+        if (intra === myUserData?.intra){
+          setIsUserMe(true);
+        }
+        else{
+          setIsUserMe(false);
+        }
       })
-    .then((response) =>{
-      console.log(response);
-      console.log("intra: ",response.data.intra)
-      setUser(response.data);
-      if (intra === myUserData?.intra){
-        setIsUserMe(true);
-      }
-      else{
-        setIsUserMe(false);
-      }
-    })
-    .catch((err) => {
-      console.log("[ERROR] get /api/users/{id}");
-      console.log(err);
-      history.push('/workspace/sleact/intro');
-    });
+      .catch((err) => {
+        console.log("[ERROR] get /api/users/{id}");
+        console.log(err);
+        history.push('/workspace/sleact/intro');
+      });
+    }
   }, [myUserData]);
 
   const handleAddFriend = useCallback(() => {
