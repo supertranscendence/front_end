@@ -19,6 +19,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 import KeyIcon from '@mui/icons-material/Key';
 import FtAvatar from 'src/components/FtAvatar';
+import { useHistory } from 'react-router-dom';
 
 
 function createData(
@@ -47,24 +48,18 @@ const Profile = () => {
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
+  const history = useHistory();
 
-  useEffect(() => {
-    console.log("Check isMyUser");
-    console.log("user?.intra: ", user?.intra);
-    console.log("myUserData?.intra: ", myUserData?.intra);
-    if (user?.intra === myUserData?.intra){
-      setIsUserMe(true);
-    }
-    else{
-      if(user?.intra === undefined){
-        console.log("Redirect!");
-        <Redirect to="/workspace/sleact/intro"/>
-      }
-      setIsUserMe(false);
-    }
-    console.log("isUserMe:", isUserMe);
-  }, [user, myUserData]);
-
+  //if (user?.intra === myUserData?.intra){
+  //  setIsUserMe(true);
+  //}
+  //else{
+  //  if(user?.intra === undefined){
+  //    console.log("Redirect!");
+  //    return <Redirect to="/workspace/sleact/intro"/>;
+  //  }
+  //  setIsUserMe(false);
+  //}
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
@@ -76,9 +71,19 @@ const Profile = () => {
       })
     .then((response) =>{
       console.log(response);
-      //console.log("friends: ", response.data);
       console.log("intra: ",response.data.intra)
       setUser(response.data);
+
+      if (user?.intra === myUserData?.intra){
+        setIsUserMe(true);
+      }
+      else{
+        if(user?.intra === undefined){
+          console.log("Redirect!");
+          history.push('/test');
+        }
+        setIsUserMe(false);
+      }
     })
     .catch((err) => {
       console.log("[ERROR] get /api/users/{id}")
