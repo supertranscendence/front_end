@@ -28,11 +28,11 @@ const DMList = () => {
   //const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
   const [listFriendData, setListFriendData] = useState("");
 
-  interface test {
+  type test = {
     friend: string
-    avatar: string
-    state: UserStatus;
-    blocked: true
+    //avatar: string
+    state: UserStatus
+    blocked: boolean
 
     }
 
@@ -63,6 +63,14 @@ const DMList = () => {
     console.log('Get socket string.parse, [myFriend]! ');
     socket?.emit("myFriend", (response:string)=> {
       console.log("myFriend res: ", JSON.parse(response));
+    });
+    console.log('Get socket typeLIST, [myFriend]! ');
+    socket?.emit("myFriend", (response:listFriend)=> {
+      console.log("myFriend res: ", response);
+    });
+    console.log('Get socket typeLIST-block, [myFriend]! ');
+    socket?.emit("myFriend", (response:test)=> {
+      console.log("myFriend res: ", response);
     });
 
     //socket?.emit('myFriend', function(data:listFriend[]){
