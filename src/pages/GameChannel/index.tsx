@@ -107,7 +107,7 @@ const Channel = () => {
         setRedirectRoom((s)=>obj.roomName);
       }
       else{
-        socket?.emit("enterGameRoom",e.target.name, (b:boolean) =>onEnterRoom(b,e.target.name))
+        socket?.emit("enterGameRoom",obj.roomName, (b:boolean) =>onEnterRoom(b,obj.roomName))
       }
       setReadyMatch(()=>false);
     });
