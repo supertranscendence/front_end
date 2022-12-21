@@ -7,7 +7,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
-import { dataUser, listFriend } from 'src/typings/types';
+import { dataUser, FriendType, listFriend } from 'src/typings/types';
 import { dataFriend, UserStatus, FriendList } from 'src/typings/types';
 import test from 'node:test';
 import { bool } from 'aws-sdk/clients/signer';
@@ -26,7 +26,7 @@ const DMList = () => {
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  const [friendData, setFriendData] = useState<listFriend>([
+  const [stateFriend, setStateFriend] = useState<listFriend>([
     //{friend: "dummy1", avatar: "", state: 0, blocked: false}, {friend: "dummy2", avatar: "", state: 0, blocked: false}
   ]);
   //const [friendData, setFriendData] = useState<string[]>([
@@ -49,13 +49,11 @@ const DMList = () => {
 
     console.log(socket);
     console.log("[get myFriend]: ");
-    socket?.emit("myFriend", (stateFriend:listFriend) => {
-      console.log("myFriend res: ", stateFriend[0].friend);
-      //console.log("myFriend res: ", JSON.parse(stateFriend));
+    socket?.emit("myFriend", (stateFriend:listFriend ) => {
+      console.log("[get myFriend] res: ");
+      console.log(stateFriend)
+      console.log(stateFriend.length)
     });
-    socket?.emit("myFriend", friendData);
-    console.log("myFriend friendData: ", friendData);
-
   }, []);
 
   useEffect(() => {
@@ -84,7 +82,7 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
-        {friendData?.map((i) => {
+        {stateFriend?.map((i) => {
             //return <EachDM friend={} avatar={''} state={0} blocked={false}  />;
             return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, img:''}}/>
             //return <EachDM member={i} />;
