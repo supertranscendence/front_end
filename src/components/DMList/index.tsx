@@ -51,8 +51,8 @@ const DMList = () => {
     console.log("[get myFriend]: ");
     socket?.emit("myFriend", (stateFriend:listFriend ) => {
       console.log("[get myFriend] res: ");
-      console.log(stateFriend)
       console.log(stateFriend.length)
+      setStateFriend(stateFriend);
     });
   }, []);
 
