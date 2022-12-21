@@ -81,10 +81,6 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     }
     }, []);
 
-
-
-
-
   const setAdmin = useCallback(()=>{
   console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
     socket?.emit("setAdmin", {roomName:roomName , adminUser :msg.name} ,(arr : string[])=>{console.log("done admin arr:", arr)} );
@@ -178,7 +174,7 @@ if (returnURL)
         </ListItemAvatar>
          <ListItemText ></ListItemText>
           {/* {msg.kg === userData?.id && <span> (나)</span>} */}
-          {/*{<span className="count"> {msg.msg}</span> || null}*/}
+          {<span className="count"> {msg.msg}</span> || null}
       </ListItemButton>
       <Menu
         id="basic-menu"
