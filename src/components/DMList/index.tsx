@@ -7,8 +7,8 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
-import { dataUser, listFriend } from '@typings/types';
-import { dataFriend, UserStatus, FriendList } from '@typings/types';
+import { dataUser, listFriend } from 'src/typings/types';
+import { dataFriend, UserStatus, FriendList } from 'src/typings/types';
 
 //
 const DMList = () => {
@@ -26,6 +26,14 @@ const DMList = () => {
   const [friendData, setFriendData] = useState<string[]>([]);
   const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
 
+  interface test {
+    friend: string
+    avatar: string
+    state: UserStatus;
+    blocked: true
+
+    }
+
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
@@ -38,15 +46,24 @@ const DMList = () => {
 
   useEffect(() => {
     console.log('Get socket, [myFriend]! ');
-    socket?.emit("myFriend", listFriendData);
-    if (!listFriendData[0]) {
-      console.log("No FRIEND!")
-      return;
-    }
-    console.log("listFriendData[0].friend:", listFriendData[0].friend);
-    console.log("listFriendData[0].avatar:", listFriendData[0].avatar);
-    console.log("listFriendData[0].blocked:", listFriendData[0].blocked);
-    console.log("listFriendData[0].state:", listFriendData[0].state);
+    let _friend:string = "";
+    let _avatar:string = "";
+    let _block:boolean = false;
+    let _state:UserStatus  = 0;
+
+    socket?.emit("myFriend", {friend: _friend, avatar: _avatar, blocked: _block, state: _state});
+    console.log("friend:", _friend);
+    console.log("avatar:", _avatar);
+    console.log("blocked:", _block);
+    console.log("state:", _state);
+    //if (!listFriendData[0]) {
+    //  console.log("No FRIEND!")
+    //  return;
+    //}
+    //console.log("listFriendData[0].friend:", listFriendData[0].friend);
+    //console.log("listFriendData[0].avatar:", listFriendData[0].avatar);
+    //console.log("listFriendData[0].blocked:", listFriendData[0].blocked);
+    //console.log("listFriendData[0].state:", listFriendData[0].state);
 
     //socket?.emit('myFriend', function(data:listFriend[]){
     //socket?.emit('myFriend', function(data:listFriend[]){
