@@ -50,7 +50,7 @@ const DMList = () => {
     console.log('Get socket, [myFriend]! ');
 
     socket?.emit("myFriend", (response:any)=> {
-      console.log(response);
+      console.log("myFriend res: ", response);
     });
     //socket?.emit("myFriend", listFriendData);
     //if (!listFriendData) {
@@ -79,7 +79,7 @@ const DMList = () => {
     //socket?.on('myFriend', (userArr: string[]) => {
     //  updateFriends(userArr);
     //});
-  }, [listFriendData]);
+  }, []);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
