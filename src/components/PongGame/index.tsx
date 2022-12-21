@@ -101,11 +101,11 @@ const getKeyEvent = (evt:any) =>{
 }
 
 
-useEffect(() => {
-  if (!canvasRef.current) {
-    return;
-  }
-  const canvas: HTMLCanvasElement = canvasRef.current;
+// useEffect(() => {
+//   if (!canvasRef.current) {
+//     return;
+//   }
+//   const canvas: HTMLCanvasElement = canvasRef.current;
 
   socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
   console.log("on!",)
@@ -134,11 +134,11 @@ useEffect(() => {
   
   // canvas.addEventListener("mousemove", getMousePos);
 
-  return () => {
-    // window.addEventListener("keydown", getKeyEvent);
-    window.removeEventListener("keydown",getKeyEvent);
-  };
-}, [getKeyEvent, canvasRef]);
+//   return () => {
+//     // window.addEventListener("keydown", getKeyEvent);
+//     window.removeEventListener("keydown",getKeyEvent);
+//   };
+// }, [getKeyEvent, canvasRef]);
 
 
 
@@ -339,6 +339,10 @@ const render= ()=>{
 const game = () =>{
     update();
     render();
+    return () => {
+      // window.addEventListener("keydown", getKeyEvent);
+      window.removeEventListener("keydown",getKeyEvent);
+    }
 }
 
 
