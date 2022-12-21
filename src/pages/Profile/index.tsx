@@ -1,7 +1,7 @@
 import { IconButton, Tooltip, Divider, Button, Avatar, Chip } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import React, { useCallback, useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Redirect } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -56,6 +56,10 @@ const Profile = () => {
       setIsUserMe(true);
     }
     else{
+      if(user?.intra === undefined){
+        console.log("Redirect!");
+        <Redirect to="/workspace/sleact/intro"/>
+      }
       setIsUserMe(false);
     }
     console.log("isUserMe:", isUserMe);
