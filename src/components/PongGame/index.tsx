@@ -71,6 +71,12 @@ const net = {
     width : 2,
     color : "WHITE"
 }
+
+
+
+
+
+
 // }
 // draw a rectangle, will be used to draw paddles
 const drawRect = (x:any, y:any, w:any, h:any, color:any)=>{
@@ -271,11 +277,6 @@ const game = () =>{
     update();
     render();
 }
-// number of frames per second
-let framePerSecond = 60;
-
-//call the game const 50 times every 1 Sec
-let loop = setInterval(game,1000/framePerSecond);
 
 const getKeyEvent = (evt:any) =>{
 	// evt.preventDefaultevt();
@@ -346,23 +347,12 @@ const GameRoomName = GameRoom.split("=")[0];
 //   }, [startPaint, paint, exitPaint]);
   }, [getKeyEvent, canvasRef]);
 
-////////////////
-// const startGo = ()=>{
-// console.log("gogo");
-// 	setInterval(game,1000/framePerSecond);
-// }
-// const getMousePos = (evt:any) =>{
-// 	console.log("1",evt);
-// 	if (!canvasRef.current) {
-// 		return;
-// 	  }
-// 	  const canvas: HTMLCanvasElement = canvasRef.current;
-//     let rect = canvas.getBoundingClientRect();
-    
-//     userA.y = evt.clientY - rect.top - userA.height/2;
-// }
-
-
+  
+  
+// number of frames per second
+let framePerSecond = 60;
+//call the game const 50 times every 1 Sec
+let loop = setInterval(game,1000/framePerSecond);
 
   return (
   <>
@@ -373,12 +363,6 @@ const GameRoomName = GameRoom.split("=")[0];
     </>
   );
 }
-// else
-// 	return <div className="App">
-// 	<canvas ref={canvasRef} height={height} width={width} className="canvas"/>
-
-//   </div>
-// }
 
 PongGame.defaultProps = {
   width: 800,
