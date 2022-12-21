@@ -83,7 +83,8 @@ const Intro = () => {
         )}
       </div>*/}
     <FirstProfileModal
-      show={showFirstProfileModal}
+      //show={showFirstProfileModal}
+      show={false}
       onCloseModal={onCloseModal}
       setShowProfileModal={setShowFirstProfileModal}
       />
