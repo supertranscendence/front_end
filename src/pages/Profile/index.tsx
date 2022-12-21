@@ -53,6 +53,7 @@ const Profile = () => {
   useEffect(() => {
     if(intra)
     {
+      console.log("profile intra in!")
       axios
         .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
         withCredentials:true,
@@ -78,7 +79,7 @@ const Profile = () => {
         history.push('/workspace/sleact/intro');
       });
     }
-  }, [user, intra, myUserData]);
+  }, [intra, myUserData, ]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user?.intra};
