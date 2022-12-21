@@ -52,7 +52,7 @@ const Profile = () => {
 
   useEffect(() => {
     if(intra)
-    {
+      return ;
     axios
       .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
       withCredentials:true,
@@ -77,7 +77,6 @@ const Profile = () => {
       console.log(err);
       history.push('/workspace/sleact/intro');
     });
-  }
   }, [intra, myUserData]);
 
   const handleAddFriend = useCallback(() => {
