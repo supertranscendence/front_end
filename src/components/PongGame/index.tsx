@@ -276,6 +276,76 @@ let framePerSecond = 60;
 
 //call the game const 50 times every 1 Sec
 let loop = setInterval(game,1000/framePerSecond);
+
+const getKeyEvent = (evt:any) =>{
+	// evt.preventDefaultevt();
+    // console.log("1",evt);
+    // console.log("1",evt.key);
+	if (!canvasRef.current) {
+	    // console.log("2",evt.key);
+		return;
+	  }
+	const canvas: HTMLCanvasElement = canvasRef.current;
+    let rect = canvas.getBoundingClientRect();
+    // console.log("3",evt.key);
+    if (evt.key === "s")
+    {
+      console.log("s",GameRoomName,isA,isA?userA.y+50:userB.y+50 );
+        socket?.emit("down",{name: GameRoomName, isA:isA, yPos:(isA?userA.y+50:userB.y+50)});
+    }
+    else if (evt.key === "w")
+    {
+      console.log("s",GameRoomName,isA,isA?userA.y-50:userB.y-50 );
+      socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
+    }
+    // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
+    // userA.y = evt.clientY - rect.top - userA.height/2;
+}
+
+const [socket] = useSocket("sleact");
+const { GameRoom } = useParams<{ GameRoom: string }>();
+const GameRoomName = GameRoom.split("=")[0];
+	const isOBS = GameRoom.split("=")[1];
+  useEffect(() => {
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas: HTMLCanvasElement = canvasRef.current;
+	
+	  socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
+	  console.log("on!",)
+	    if (obj.isA)
+	    {
+	       userA.y = obj.yPos;
+      }
+	    else
+	    {
+	      userB.y = obj.yPos;
+      }
+	  })
+	
+	  socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
+      if (obj.isA)
+	    {
+	       userA.y = obj.yPos;
+      }
+	    else
+	    {
+	      userB.y = obj.yPos;
+      }
+    	})
+
+    window.addEventListener("keydown", getKeyEvent);
+    
+    // canvas.addEventListener("mousemove", getMousePos);
+
+    return () => {
+      // window.addEventListener("keydown", getKeyEvent);
+      window.removeEventListener("keydown",getKeyEvent);
+    };
+//   }, [startPaint, paint, exitPaint]);
+  }, [getKeyEvent, canvasRef]);
+
 ////////////////
 // const startGo = ()=>{
 // console.log("gogo");
@@ -292,66 +362,7 @@ let loop = setInterval(game,1000/framePerSecond);
 //     userA.y = evt.clientY - rect.top - userA.height/2;
 // }
 
-const getKeyEvent = (evt:any) =>{
-	// evt.preventDefaultevt();
-    // console.log("1",evt);
-    // console.log("1",evt.key);
-	if (!canvasRef.current) {
-	    // console.log("2",evt.key);
-		return;
-	  }
-	const canvas: HTMLCanvasElement = canvasRef.current;
-    let rect = canvas.getBoundingClientRect();
-    // console.log("3",evt.key);
-    if (evt.key === "s")
-        socket?.emit("down",{name: GameRoomName, isA:isA, yPos:(isA?userA.y+50:userB.y+50)});
-    else if (evt.key === "w")
-      socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
-    // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
-    // userA.y = evt.clientY - rect.top - userA.height/2;
-}
-const [socket] = useSocket("sleact");
-const { GameRoom } = useParams<{ GameRoom: string }>();
-const GameRoomName = GameRoom.split("=")[0];
-	const isOBS = GameRoom.split("=")[1];
-  useEffect(() => {
-    if (!canvasRef.current) {
-      return;
-    }
-    const canvas: HTMLCanvasElement = canvasRef.current;
-	
-	  socket?.on("down", (isA : boolean ,yPos:number) => {
-	    if (isA)
-	    {
-	       userA.y = yPos;
-      }
-	    else
-	    {
-	      userB.y = yPos;
-      }
-	  })
-	
-	  socket?.on("up", (isA : boolean,yPos:number) => {
-      if (isA)
-	    {
-	       userA.y = yPos;
-      }
-	    else
-	    {
-	      userB.y = yPos;
-      }
-    	})
 
-    window.addEventListener("keydown", getKeyEvent);
-    
-    // canvas.addEventListener("mousemove", getMousePos);
-
-    return () => {
-      // window.addEventListener("keydown", getKeyEvent);
-      window.removeEventListener("keydown",getKeyEvent);
-    };
-//   }, [startPaint, paint, exitPaint]);
-  }, [getKeyEvent, canvasRef]);
 
   return (
   <>
