@@ -22,7 +22,10 @@ interface Coordinate {
 const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
-
+  const [socket] = useSocket("sleact");
+  const { GameRoom } = useParams<{ GameRoom: string }>();
+  const GameRoomName = GameRoom.split("=")[0];
+  const isOBS = GameRoom.split("=")[1];
   
 const ball = {
     x : canvas?canvas.width/2 : 300,
@@ -72,11 +75,6 @@ const net = {
     color : "WHITE"
 }
 
-
-
-
-
-
 // }
 // draw a rectangle, will be used to draw paddles
 const drawRect = (x:any, y:any, w:any, h:any, color:any)=>{
@@ -110,10 +108,6 @@ const drawArc = (x:any, y:any, r:any, color:any)=>{
 // listening to the mouse
 
 //   const canvas: HTMLCanvasElement = canvasRef.current;
-
-
-
-
 
 // when userB or USER scores, we reset the ball
 const resetBall = () =>{
@@ -274,40 +268,7 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-    update();
-    render();
-}
-
-const getKeyEvent = (evt:any) =>{
-	// evt.preventDefaultevt();
-    // console.log("1",evt);
-    // console.log("1",evt.key);
-	if (!canvasRef.current) {
-	    // console.log("2",evt.key);
-		return;
-	  }
-	const canvas: HTMLCanvasElement = canvasRef.current;
-    let rect = canvas.getBoundingClientRect();
-    // console.log("3",evt.key);
-    if (evt.key === "s")
-    {
-      console.log("s",GameRoomName,isA,isA?userA.y+50:userB.y+50 );
-        socket?.emit("down",{name: GameRoomName, isA:isA, yPos:(isA?userA.y+50:userB.y+50)});
-    }
-    else if (evt.key === "w")
-    {
-      console.log("s",GameRoomName,isA,isA?userA.y-50:userB.y-50 );
-      socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
-    }
-    // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
-    // userA.y = evt.clientY - rect.top - userA.height/2;
-}
-
-const [socket] = useSocket("sleact");
-const { GameRoom } = useParams<{ GameRoom: string }>();
-const GameRoomName = GameRoom.split("=")[0];
-	const isOBS = GameRoom.split("=")[1];
-  useEffect(() => {
+  // useEffect(() => {
     if (!canvasRef.current) {
       return;
     }
@@ -340,12 +301,44 @@ const GameRoomName = GameRoom.split("=")[0];
     
     // canvas.addEventListener("mousemove", getMousePos);
 
+    
+//   }, [startPaint, paint, exitPaint]);
+  // }, [getKeyEvent, canvasRef]);
+    update();
+    render();
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
       window.removeEventListener("keydown",getKeyEvent);
     };
-//   }, [startPaint, paint, exitPaint]);
-  }, [getKeyEvent, canvasRef]);
+}
+
+const getKeyEvent = (evt:any) =>{
+	// evt.preventDefaultevt();
+    // console.log("1",evt);
+    // console.log("1",evt.key);
+	if (!canvasRef.current) {
+	    // console.log("2",evt.key);
+		return;
+	  }
+	const canvas: HTMLCanvasElement = canvasRef.current;
+    let rect = canvas.getBoundingClientRect();
+    // console.log("3",evt.key);
+    if (evt.key === "s")
+    {
+      console.log("s",GameRoomName,isA,isA?userA.y+50:userB.y+50 );
+        socket?.emit("down",{name: GameRoomName, isA:isA, yPos:(isA?userA.y+50:userB.y+50)});
+    }
+    else if (evt.key === "w")
+    {
+      console.log("s",GameRoomName,isA,isA?userA.y-50:userB.y-50 );
+      socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
+    }
+    // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
+    // userA.y = evt.clientY - rect.top - userA.height/2;
+}
+
+
+  
 
   
   
