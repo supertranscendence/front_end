@@ -4,7 +4,7 @@ import { CollapseButton } from 'src/components/DMList/styles';
 import { IDM, IUser, IUserWithOnline } from 'src/typings/db';
 import fetcher from 'src/utils/fetcher';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, Redirect } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import { dataUser, FriendType, listFriend } from 'src/typings/types';
@@ -15,6 +15,7 @@ import EachMsg from 'src/components/EachMsg';
 
 //
 const DMList = () => {
+
   const { workspace } = useParams<{ workspace?: string }>();
    const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
      dedupingInterval: 2000, // 2초
@@ -40,6 +41,8 @@ const DMList = () => {
   //  setFriendData((arr)=>[...userArr.map((str)=>{
   //    return str})]);
   //  },[socket, setFriendData])
+
+
 
   useEffect(() => {
 

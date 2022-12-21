@@ -10,9 +10,13 @@ import { dataUser } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 import useInput from "src/hooks/useInput"
 
-
-
 const LoginCheck = () => {
+  if (localStorage.getItem(" refreshToken") ){
+    if (localStorage.getItem("accessToken") ){
+      console.log("already have ref and acc token");
+      return <Redirect to="/workspace/sleact/intro"/>
+    }
+  }
   const [code, onChangeCode, setCode] = useInput('');
   const [isError, setIsError] = useState(false);
   //const [done2FA, setDone2FA] = useState(false);
