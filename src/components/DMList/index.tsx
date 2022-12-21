@@ -45,11 +45,13 @@ const DMList = () => {
 
   useEffect(() => {
 
+    //const str = [{"friend":"hyopark","state":2,"blocked":false,"avatar":""},{"friend":"jji","state":1,"blocked":false,"avatar":""}]
     console.log(socket);
     console.log("[get myFriend]: ");
-    socket?.emit("myFriend", (stateFriend:Promise<string> ) => {
+    //socket?.emit("myFriend", (stateFriend:Promise<string> ) => {
+    socket?.emit("myFriend", (stateFriend:string ) => {
       console.log("[get myFriend] res: ");
-      console.log(stateFriend);
+      console.log(JSON.parse(stateFriend));
       //setStateFriend(()=>[...stateFriend]);
       // stateFriend.then((ele)=>{
       // console.log("hohohoho", ele);
