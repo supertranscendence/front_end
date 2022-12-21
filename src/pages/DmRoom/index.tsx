@@ -295,7 +295,7 @@ else if (redirectFlag)
             //   <div>{msg}</div>
             //   {/* <div className="time">{message}</div> */}
             // </div>
-            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} roomName={DmRoom!} ></EachMsg>
+            <EachMsg key={room} msg={{msg: msg, name:user, avatar: ""}} roomName={DmRoom!} ></EachMsg>
           );
         })}
         </Scrollbars>

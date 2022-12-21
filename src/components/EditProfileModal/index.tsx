@@ -24,7 +24,6 @@ interface Props {
   setShowProfileModal : (flag:boolean) => void
 }
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
-  //const {data: myUserData}  = useSWR<dataUser>('api/users/my/friend', fetcher);
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
   //const [fileName, setFileName] = useInput('');
   //const {workspace, channel}=useParams<{workspace : string , channel:string}>();

@@ -4,77 +4,56 @@ import { CollapseButton } from 'src/components/DMList/styles';
 import { IDM, IUser, IUserWithOnline } from 'src/typings/db';
 import fetcher from 'src/utils/fetcher';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, Redirect } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
-import { dataUser, listFriend } from 'src/typings/types';
+import { dataUser, FriendType, listFriend } from 'src/typings/types';
 import { dataFriend, UserStatus, FriendList } from 'src/typings/types';
+import test from 'node:test';
+import { bool } from 'aws-sdk/clients/signer';
+import EachMsg from 'src/components/EachMsg';
 
 //
 const DMList = () => {
+
   const { workspace } = useParams<{ workspace?: string }>();
-   const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
+   const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
      dedupingInterval: 2000, // 2초
    });
-  // const { data: memberData } = useSWR<IUserWithOnline[]>(
-  //   userData ? `/api/workspaces/${workspace}/members` : null,
-  //   fetcher,
-  // );
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  //const [friendData, setFriendData] = useState<string[]>([]);
-  const [friendData, setFriendData] = useState<string[]>([]);
+  const [stateFriend, setStateFriend] = useState<listFriend>([
+    //{friend: "dummy1", avatar: "", state: 0, blocked: false}, {friend: "dummy2", avatar: "", state: 0, blocked: false}
+  ]);
+  //const [friendData, setFriendData] = useState<string[]>([
+  //  "dummy1", "dummy2", "dummy3"
+  //]);
   //const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
   const [listFriendData, setListFriendData] = useState("");
-
-  interface test {
-    friend: string
-    avatar: string
-    state: UserStatus;
-    blocked: true
-
-    }
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
 
-  const updateFriends = useCallback((userArr:string[])=>{
-    console.log("[frineds map]: ",userArr);
-    setFriendData((arr)=>[...userArr.map((str)=>{
-      return str})]);
-    },[socket, setFriendData])
+  //const updateFriends = useCallback((userArr:string[])=>{
+  //  console.log("[frineds map]: ",userArr);
+  //  setFriendData((arr)=>[...userArr.map((str)=>{
+  //    return str})]);
+  //  },[socket, setFriendData])
+
+
 
   useEffect(() => {
 
-    console.log('Get socket any, [myFriend]! ');
-    socket?.emit("myFriend", (response:any)=> {
-      console.log("myFriend res: ", response);
-    });
-    console.log('Get socket string, [myFriend]! ');
-    socket?.emit("myFriend", (response:string)=> {
-      console.log("myFriend res: ", response);
-    });
-    console.log('Get socket any.parse, [myFriend]! ');
-    socket?.emit("myFriend", (response:any)=> {
-      console.log("myFriend res: ", JSON.parse(response));
-    });
-    console.log('Get socket string.parse, [myFriend]! ');
-    socket?.emit("myFriend", (response:string)=> {
-      console.log("myFriend res: ", JSON.parse(response));
+    console.log(socket);
+    console.log("[get myFriend]: ");
+    socket?.emit("myFriend", (stateFriend:listFriend ) => {
+      console.log("[get myFriend] res: ");
+      console.log(stateFriend.length)
+      setStateFriend(stateFriend);
     });
 
-    //socket?.emit('myFriend', function(data:listFriend[]){
-    //socket?.emit('myFriend', function(data:listFriend[]){
-      //console.log('data[0].friend: ', data[0].friend);
-      //console.log('data[0].avatar: ', data[0].avatar);
-      //console.log('data[0].blocked: ', data[0].blocked);
-      //console.log('data[0].state: ', data[0].state);
-    //})
-    //socket?.on('myFriend', (userArr: string[]) => {
-    //  updateFriends(userArr);
-    //});
   }, []);
 
   useEffect(() => {
@@ -103,9 +82,8 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
-        {friendData?.map((i) => {
-            return <EachDM member={i} />;
-            //return <EachDM key={i} member={member} isOnline={isOnline} />;
+        {stateFriend?.map((i) => {
+            return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar}}/>
           })
           }
       </div>

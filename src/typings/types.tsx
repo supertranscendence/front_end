@@ -11,12 +11,14 @@ export type dataUser = {
 	//isFirst: boolean;
 }
 
-export type listFriend = {
+export type FriendType = {
 	friend: string;
-	avatar: string;
 	state: UserStatus;
+	avatar: string;
 	blocked: boolean;
 }
+
+export type listFriend = FriendType[]
 
 //{ friend: string; state: UserStatus; blocked: boolean; avatar : string}
 export type dataFriend = {
