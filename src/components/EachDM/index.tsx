@@ -15,31 +15,35 @@ import { Stack } from '@mui/system';
 import { dataUser } from '@typings/types';
 import useSocket from 'src/hooks/useSocket';
 import FtAvatar from 'src/components/FtAvatar';
+import { UserStatus } from 'src/typings/types';
 
 const grey_color = grey[50];
 interface Props {
-  // member: IUser;
-  member: string;
+  friend: string;
+  avatar: string;
+  state: UserStatus;
+  blocked: boolean;
 }
 
-const EachDM: VFC<Props> = ({ member }) => {
+const EachDM: VFC<Props> = ({ friend, avatar, state, blocked }) => {
   const [socket] = useSocket("sleact");
   const { workspace } = useParams<{ workspace?: string }>();
   const location = useLocation();
   const { data: userData } = useSWR<dataUser>('api/users', fetcher, {
     dedupingInterval: 2000, //x 2초
   });
-  const date = localStorage.getItem(`${workspace}-${member}`) || 0;
-  const { data: count, mutate } = useSWR<number>(
-    userData ? `api/workspaces/${workspace}/dms/${member}/unreads?after=${date}` : null,
-    fetcher,
-  );
+  //const date = localStorage.getItem(`${workspace}-${friend}`) || 0;
+  ////date 는 필요없어!
+  //const { data: count, mutate } = useSWR<number>(
+  //  userData ? `api/workspaces/${workspace}/dms/${member}/unreads?after=${date}` : null,
+  //  fetcher,
+  //);
 
-  useEffect(() => {
-    if (location.pathname === `/workspace/${workspace}/dm/${member}`) {
-      mutate(0);
-    }
-  }, [mutate, location.pathname, workspace, member]);
+  //useEffect(() => {
+  //  if (location.pathname === `/workspace/${workspace}/dm/${friend}`) {
+  //    mutate(0);
+  //  }
+  //}, [mutate, location.pathname, workspace, friend]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -104,12 +108,11 @@ const EachDM: VFC<Props> = ({ member }) => {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-              <FtAvatar userAvatar='' size={32}/>
+              <FtAvatar userAvatar={avatar} size={32}/>
           </StyledBadge>
         </ListItemAvatar>
           {/*<NavLink key={member.id} activeClassName="selected" to={`/workspace/${workspace}/dm/${member.id}`}>*/}
-          <ListItemText className={count && count > 0 ? 'bold' : undefined}>{member}</ListItemText>
-          {(count && count > 0 && <span className="count">{count}</span>) || null}
+          <ListItemText >{friend}</ListItemText>
           {/*</NavLink>*/}
       </ListItemButton>
       <Menu
@@ -122,7 +125,7 @@ const EachDM: VFC<Props> = ({ member }) => {
         }}
       >
         <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile/${userData?.intra}`}>프로필 보기</MenuItem>
-        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${member}`}>DM 보내기</MenuItem>
+        <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/dm/${friend}`}>DM 보내기</MenuItem>
         <MenuItem onClick={handleClose}>게임 신청하기</MenuItem>
         {/*게임 신청하기! */}
       </Menu>

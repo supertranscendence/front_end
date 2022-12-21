@@ -10,6 +10,8 @@ import useSWR from 'swr';
 import { dataUser, listFriend } from 'src/typings/types';
 import { dataFriend, UserStatus, FriendList } from 'src/typings/types';
 import test from 'node:test';
+import { bool } from 'aws-sdk/clients/signer';
+import EachMsg from 'src/components/EachMsg';
 
 //
 const DMList = () => {
@@ -24,58 +26,35 @@ const DMList = () => {
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  //const [friendData, setFriendData] = useState<string[]>([]);
-  const [friendData, setFriendData] = useState<string[]>([]);
+  const [friendData, setFriendData] = useState<listFriend>([
+    //{friend: "dummy1", avatar: "", state: 0, blocked: false}, {friend: "dummy2", avatar: "", state: 0, blocked: false}
+  ]);
+  //const [friendData, setFriendData] = useState<string[]>([
+  //  "dummy1", "dummy2", "dummy3"
+  //]);
   //const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
   const [listFriendData, setListFriendData] = useState("");
-
-  //type test = {
-  //  friend: string
-  //  state: UserStatus
-  //  blocked: boolean
-  //  }
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
 
-  const updateFriends = useCallback((userArr:string[])=>{
-    console.log("[frineds map]: ",userArr);
-    setFriendData((arr)=>[...userArr.map((str)=>{
-      return str})]);
-    },[socket, setFriendData])
+  //const updateFriends = useCallback((userArr:string[])=>{
+  //  console.log("[frineds map]: ",userArr);
+  //  setFriendData((arr)=>[...userArr.map((str)=>{
+  //    return str})]);
+  //  },[socket, setFriendData])
 
   useEffect(() => {
 
     console.log(socket);
-
+    console.log("[get myFriend]: ");
     socket?.emit("myFriend", (stateFriend:listFriend) => {
-      console.log("myFriend res: ", stateFriend);
-    })
-    //console.log('Get socket any, [myFriend]! ');
-    //socket?.emit("myFriend", (json:any)=> {
-    //  console.log("myFriend res: ", json);
-    //});
-    //console.log('Get socket string, [myFriend]! ');
-    //socket?.emit("myFriend", (json:string)=> {
-    //  console.log("myFriend res: ", json);
-    //});
-    //console.log('Get socket any.parse, [myFriend]! ');
-    //socket?.emit("myFriend", (json:any)=> {
-    //  console.log("myFriend res: ", JSON.parse(json));
-    //});
-    //console.log('Get socket string.parse, [myFriend]! ');
-    //socket?.emit("myFriend", (json:string)=> {
-    //  console.log("myFriend res: ", JSON.parse(json));
-    //});
-    //console.log('Get socket typeLIST, [myFriend]! ');
-    //socket?.emit("myFriend", (json:listFriend)=> {
-    //  console.log("myFriend res: ", json);
-    //});
-    //console.log('Get socket typeLIST-block, [myFriend]! ');
-    //socket?.emit("myFriend", (json:test)=> {
-    //  console.log("myFriend res: ", json);
-    //});
+      console.log("myFriend res: ", stateFriend[0].friend);
+      //console.log("myFriend res: ", JSON.parse(stateFriend));
+    });
+    socket?.emit("myFriend", friendData);
+    console.log("myFriend friendData: ", friendData);
 
   }, []);
 
@@ -106,7 +85,9 @@ const DMList = () => {
       </h2>
       <div>
         {friendData?.map((i) => {
-            return <EachDM member={i} />;
+            //return <EachDM friend={} avatar={''} state={0} blocked={false}  />;
+            return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, img:''}}/>
+            //return <EachDM member={i} />;
             //return <EachDM key={i} member={member} isOnline={isOnline} />;
           })
           }
