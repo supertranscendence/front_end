@@ -304,9 +304,9 @@ const getKeyEvent = (evt:any) =>{
     let rect = canvas.getBoundingClientRect();
     // console.log("3",evt.key);
     if (evt.key === "s")
-        socket?.emit("down",GameRoom, isA);
+        socket?.emit("down",{name: GameRoom, isA:isA});
     else if (evt.key === "w")
-      socket?.emit("up", GameRoom, isA);
+      socket?.emit("up", {name: GameRoom, isA:isA});
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }

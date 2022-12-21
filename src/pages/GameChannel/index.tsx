@@ -62,8 +62,8 @@ const Channel = () => {
   },[socket])
   
   const enterRoomOBS =  useCallback( (e:any)=> {
-    console.log ("enterGameRoomOBS?", e);
-    socket?.emit("enterGameRoomOBS");
+    console.log ("enterGameRoomOBS?", e.target.name);
+    socket?.emit("enterGameRoomOBS",e.target.name);
     setRedirectRoom((s)=>e.target.name +"=OBS")
   },[socket])  
   
