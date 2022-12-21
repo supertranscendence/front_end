@@ -28,7 +28,7 @@ const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasPro
   const isOBS = GameRoom.split("=")[1];
   
   
-const ball = {
+  const ball = {
     x : canvas?canvas.width/2 : 300,
     y : canvas?canvas.height/2 : 250,
     radius : mode?30:10,
@@ -36,17 +36,17 @@ const ball = {
     velocityY : 5,
     speed : 5,
     color : "WHITE"
-}
+  }
 
 // User Paddle
-const userA = {
+  const userA = {
     x : 0, // left side of canvas
     y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
     width : 10,
     height : 100,
     score : userAScore?userAScore:0,
     color : "WHITE"
-}
+  }
 
 // const userB = {
 //     x : 790, // left side of canvas
@@ -133,7 +133,7 @@ const drawArc = (x:any, y:any, r:any, color:any)=>{
 }
 
 
-let usUpdate =false;
+let isUpdate =false;
 useEffect(() => {
   //   if (!canvasRef.current) {
   //     return;
@@ -151,7 +151,7 @@ useEffect(() => {
         userB.y = obj.yPos;
       }
       update();
-      usUpdate = true;
+      isUpdate = true;
     })
   
     socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
@@ -164,18 +164,11 @@ useEffect(() => {
         userB.y = obj.yPos;
       }
       update();
-      usUpdate = true;
+      isUpdate = true;
       })
   
     
   }, [getKeyEvent, canvasRef]);
-
-
-
-
-// listening to the mouse
-
-//   const canvas: HTMLCanvasElement = canvasRef.current;
 
 // when userB or USER scores, we reset the ball
 const resetBall = () =>{
@@ -186,7 +179,7 @@ const resetBall = () =>{
 
     ball.x = canvas.width/2;
     ball.y = canvas.height/2;
-    // ball.velocityX = -ball.velocityX;
+    ball.velocityX = -ball.velocityX;//????!?!???!?
     ball.speed = 7;
 }
 
@@ -226,7 +219,7 @@ const drawText=(text:any,x:any,y:any)=>
 }
 
 // collision detection
-const collision = (b:any,p:any)=>{
+const collision = (b:any,p:any, isA:boolean)=>{
 
     p.top = p.y;
     p.bottom = p.y + p.height;
@@ -237,8 +230,14 @@ const collision = (b:any,p:any)=>{
     b.bottom = b.y + b.radius;
     b.left = b.x - b.radius;
     b.right = b.x + b.radius;
-    
-    return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+    // if 
+    // socket?.()///기준
+    // 
+    if (isA)
+      return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+    else
+      return p.right < b.left && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+    //a b 플레이어 반전되게해야함
 }
 
 // update const, the const that does all calculations
@@ -277,10 +276,11 @@ const update =()=>{
     }
     
     // we check if the paddle hit the user or the userB paddle
-    let player = (ball.x + ball.radius < canvas.width/2) ? userA : userB;
+    const isAplayer =(ball.x + ball.radius < canvas.width/2);
+    let player =isAplayer ? userA : userB;
     
     // if the ball hits a paddle
-    if(collision(ball,player)){
+    if(collision(ball,player, isAplayer)){
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
         // normalize the value of collidePoint, we need to get numbers between -1 and 1.
@@ -328,8 +328,6 @@ const render= ()=>{
     // draw the user's paddle
     drawRect(userA.x, userA.y, userA.width, userA.height, userA.color);
     
-    drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
-    
     // draw the userB's paddle
     drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
     
@@ -337,13 +335,13 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-    if (!usUpdate)
+    if (!isUpdate)
       update();
     render();
-    usUpdate =false;
+    isUpdate =false;
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
-      window.removeEventListener("keydown",getKeyEvent);
+      window.removeEventListener("keydown",getKeyEvent);//TODO::키다운 설정 생각하기
     }
 }
 ///TODO: emit보낼때  콜리젼 계산해서 보내고 다른곳 콜리젼은 지워버리기~ ->찌한테안에값들 주고 
