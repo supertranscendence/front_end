@@ -38,6 +38,10 @@ const DMList = () => {
 
   useEffect(() => {
     console.log('Get socket, [myFriend]! ');
+    if (!listFriendData[0]) {
+      console.log("No FRIEND!")
+      return;
+    }
     socket?.emit("myFriend", listFriendData);
     console.log("listFriendData[0].friend:", listFriendData[0].friend);
     console.log("listFriendData[0].avatar:", listFriendData[0].avatar);
@@ -54,7 +58,7 @@ const DMList = () => {
     //socket?.on('myFriend', (userArr: string[]) => {
     //  updateFriends(userArr);
     //});
-  }, [socket, listFriendData]);
+  }, [listFriendData]);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
