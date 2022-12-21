@@ -14,8 +14,8 @@ export type dataUser = {
 export type FriendType = {
 	friend: string;
 	state: UserStatus;
-	avatar: string;
 	blocked: boolean;
+	avatar: string;
 }
 
 export type listFriend = FriendType[]

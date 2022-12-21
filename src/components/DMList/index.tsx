@@ -23,9 +23,8 @@ const DMList = () => {
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  const [stateFriend, setStateFriend] = useState<listFriend>([
-    //{friend: "dummy1", avatar: "", state: 0, blocked: false}, {friend: "dummy2", avatar: "", state: 0, blocked: false}
-  ]);
+  const [stateFriend, setStateFriend] = useState<listFriend>([]);
+  //{friend: "dummy1", avatar: "", state: 0, blocked: false}, {friend: "dummy2", avatar: "", state: 0, blocked: false}
   //const [friendData, setFriendData] = useState<string[]>([
   //  "dummy1", "dummy2", "dummy3"
   //]);
@@ -51,10 +50,13 @@ const DMList = () => {
     socket?.emit("myFriend", (stateFriend:listFriend ) => {
       console.log("[get myFriend] res: ");
       console.log(stateFriend.length)
-      setStateFriend(()=>[...stateFriend]);
+      //setStateFriend(()=>[...stateFriend]);
+      setStateFriend(stateFriend);
     });
-    socket?.emit("myFriend", stateFriend);
-    console.log(stateFriend.length)
+    //socket?.emit("myFriend", stateFriend);
+    //console.log("myFriend stateFriend", stateFriend);
+    //setStateFriend(stateFriend);
+    //console.log(stateFriend.length);
 
   }, []);
 
@@ -84,7 +86,7 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
-        {stateFriend?.map((i) => {
+        {stateFriend.map((i) => {
             return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar}}/>
           })
           }
