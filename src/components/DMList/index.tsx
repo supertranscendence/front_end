@@ -49,14 +49,17 @@ const DMList = () => {
   useEffect(() => {
     console.log('Get socket, [myFriend]! ');
 
-    socket?.emit("myFriend", listFriendData);
-    if (!listFriendData) {
-      console.log("No FRIEND!")
-      return;
-    }
-    console.log("myFriend listFriendData:", listFriendData);
-    console.log("myFriend parse:", JSON.parse(listFriendData));
-    console.log("myFriend data:", JSON.parse(listFriendData));
+    socket?.emit("myFriend", (response:any)=> {
+      console.log(response);
+    });
+    //socket?.emit("myFriend", listFriendData);
+    //if (!listFriendData) {
+    //  console.log("No FRIEND!")
+    //  return;
+    //}
+    //console.log("myFriend listFriendData:", listFriendData);
+    //console.log("myFriend parse:", JSON.parse(listFriendData));
+    //console.log("myFriend data:", JSON.parse(listFriendData));
     //console.log("friend:", _friend);
     //console.log("avatar:", _avatar);
     //console.log("blocked:", _block);
