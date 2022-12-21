@@ -119,11 +119,11 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
       <Stack spacing={1}>
+			  <form onSubmit={onEditNickname}>
         <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
           <h1>SET MY PROFILE</h1>
           <span>{"설정을 완료하지 않고 나가기를 누르면"}<br/> { " default 설정이 적용됩니다"}</span>
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
-			<form onSubmit={onEditNickname}>
           <Stack>
             <h4>아바타 업로드</h4>
             <input
@@ -148,10 +148,10 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
               inputProps={{ maxLength: 16 }}
               helperText="닉네임은 최대 16글자까지만 가능해요."
               />
-            <Button type="submit" variant='outlined'><EditIcon /> 프로필 설정하기</Button>
           </Stack>
-      </form>
+            <Button type="submit" variant='outlined'><EditIcon /> 프로필 설정하기</Button>
       </Stack>
+      </form>
     </Stack>
   </Modal>
   );
