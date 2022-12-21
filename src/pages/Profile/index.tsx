@@ -50,16 +50,6 @@ const Profile = () => {
   const [user, setUser] = useState<dataUser>();
   const history = useHistory();
 
-  //if (user?.intra === myUserData?.intra){
-  //  setIsUserMe(true);
-  //}
-  //else{
-  //  if(user?.intra === undefined){
-  //    console.log("Redirect!");
-  //    return <Redirect to="/workspace/sleact/intro"/>;
-  //  }
-  //  setIsUserMe(false);
-  //}
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
@@ -80,7 +70,7 @@ const Profile = () => {
       else{
         if(user?.intra === undefined){
           console.log("Redirect!");
-          history.push('/test');
+          history.push('/workspace/sleact/intro');
         }
         setIsUserMe(false);
       }
