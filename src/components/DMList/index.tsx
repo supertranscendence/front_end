@@ -49,28 +49,28 @@ const DMList = () => {
   useEffect(() => {
 
     console.log('Get socket any, [myFriend]! ');
-    socket?.emit("myFriend", (response:any)=> {
-      console.log("myFriend res: ", response);
+    socket?.emit("myFriend", (stateFriend:any)=> {
+      console.log("myFriend res: ", stateFriend);
     });
     console.log('Get socket string, [myFriend]! ');
-    socket?.emit("myFriend", (response:string)=> {
-      console.log("myFriend res: ", response);
+    socket?.emit("myFriend", (stateFriend:string)=> {
+      console.log("myFriend res: ", stateFriend);
     });
     console.log('Get socket any.parse, [myFriend]! ');
-    socket?.emit("myFriend", (response:any)=> {
-      console.log("myFriend res: ", JSON.parse(response));
+    socket?.emit("myFriend", (stateFriend:any)=> {
+      console.log("myFriend res: ", JSON.parse(stateFriend));
     });
     console.log('Get socket string.parse, [myFriend]! ');
-    socket?.emit("myFriend", (response:string)=> {
-      console.log("myFriend res: ", JSON.parse(response));
+    socket?.emit("myFriend", (stateFriend:string)=> {
+      console.log("myFriend res: ", JSON.parse(stateFriend));
     });
     console.log('Get socket typeLIST, [myFriend]! ');
-    socket?.emit("myFriend", (response:listFriend)=> {
-      console.log("myFriend res: ", response);
+    socket?.emit("myFriend", (stateFriend:listFriend)=> {
+      console.log("myFriend res: ", stateFriend);
     });
     console.log('Get socket typeLIST-block, [myFriend]! ');
-    socket?.emit("myFriend", (response:test)=> {
-      console.log("myFriend res: ", response);
+    socket?.emit("myFriend", (stateFriend:test)=> {
+      console.log("myFriend res: ", stateFriend);
     });
 
   }, []);
