@@ -98,8 +98,17 @@ const Channel = () => {
   },[socket,setNewRoomFlag]);
   
   useEffect(()=>{
-    socket?.on("findMatch", (room:string)=>{
-      setRedirectRoom((s)=>room);
+    socket?.on("findMatch", (obj : {roomName:string, isA:boolean })=>{
+      // setRedirectRoom((s)=>obj.room);
+      if(obj.isA){
+        setNewRoomFlag(true);//
+        console.log("findMatch Done");
+        console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
+        setRedirectRoom((s)=>obj.roomName);
+      }
+      else{
+        socket?.emit("enterGameRoom",e.target.name, (b:boolean) =>onEnterRoom(b,e.target.name))
+      }
       setReadyMatch(()=>false);
     });
   },[socket]);
