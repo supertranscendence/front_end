@@ -185,12 +185,12 @@ const update =()=>{
         userB.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoom!, mode:mode});
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:mode});
     }else if( ball.x + ball.radius > canvas.width){
       userA.score++;
         resetBall();
         resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoom!, mode:mode});
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:mode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
 
@@ -304,14 +304,16 @@ const getKeyEvent = (evt:any) =>{
     let rect = canvas.getBoundingClientRect();
     // console.log("3",evt.key);
     if (evt.key === "s")
-        socket?.emit("down",{name: GameRoom, isA:isA});
+        socket?.emit("down",{name: GameRoomName, isA:isA});
     else if (evt.key === "w")
-      socket?.emit("up", {name: GameRoom, isA:isA});
+      socket?.emit("up", {name: GameRoomName, isA:isA});
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
 const [socket] = useSocket("sleact");
-const { GameRoom } = useParams<{ GameRoom?: string }>();
+const { GameRoom } = useParams<{ GameRoom: string }>();
+const GameRoomName = GameRoom.split("=")[0];
+	const isOBS = GameRoom.split("=")[1];
   useEffect(() => {
     if (!canvasRef.current) {
       return;
