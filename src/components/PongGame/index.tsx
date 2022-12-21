@@ -69,7 +69,7 @@ const userB = {
 
 // NET
 const net = {
-    x : (canvas?canvas.width:0 - 2)/2,
+    x : (800 - 2)/2,
     y : 0,
     height : 10,
     width : 2,
