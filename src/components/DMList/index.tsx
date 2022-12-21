@@ -24,6 +24,7 @@ const DMList = () => {
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
   const [friendData, setFriendData] = useState<string[]>([]);
+  const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
@@ -36,17 +37,24 @@ const DMList = () => {
     },[socket, setFriendData])
 
   useEffect(() => {
-    console.log('Get myFriend! ');
-    socket?.emit('myFriend', function(data:listFriend[]){
-    console.log('data[0].friend: ', data[0].friend);
-    console.log('data[0].avatar: ', data[0].avatar);
-    console.log('data[0].blocked: ', data[0].blocked);
-    console.log('data[0].state: ', data[0].state);
-    })
+    console.log('Get socket, [myFriend]! ');
+    socket?.emit("myFriend", listFriendData);
+    console.log("listFriendData[0].friend:", listFriendData[0].friend);
+    console.log("listFriendData[0].avatar:", listFriendData[0].avatar);
+    console.log("listFriendData[0].blocked:", listFriendData[0].blocked);
+    console.log("listFriendData[0].state:", listFriendData[0].state);
+
+    //socket?.emit('myFriend', function(data:listFriend[]){
+    //socket?.emit('myFriend', function(data:listFriend[]){
+      //console.log('data[0].friend: ', data[0].friend);
+      //console.log('data[0].avatar: ', data[0].avatar);
+      //console.log('data[0].blocked: ', data[0].blocked);
+      //console.log('data[0].state: ', data[0].state);
+    //})
     //socket?.on('myFriend', (userArr: string[]) => {
     //  updateFriends(userArr);
     //});
-  }, [socket, ]);
+  }, [socket, listFriendData]);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
