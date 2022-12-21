@@ -22,7 +22,7 @@ interface Props {
   msg : {
     name: string,
     msg :string,
-    img:string
+    avatar:string
   }
   // isOnline: boolean;
 }

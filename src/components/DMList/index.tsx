@@ -83,10 +83,7 @@ const DMList = () => {
       </h2>
       <div>
         {stateFriend?.map((i) => {
-            //return <EachDM friend={} avatar={''} state={0} blocked={false}  />;
-            return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, img:''}}/>
-            //return <EachDM member={i} />;
-            //return <EachDM key={i} member={member} isOnline={isOnline} />;
+            return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar}}/>
           })
           }
       </div>
