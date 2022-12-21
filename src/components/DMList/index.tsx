@@ -19,10 +19,6 @@ const DMList = () => {
    const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
      dedupingInterval: 2000, // 2초
    });
-  // const { data: memberData } = useSWR<IUserWithOnline[]>(
-  //   userData ? `/api/workspaces/${workspace}/members` : null,
-  //   fetcher,
-  // );
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);

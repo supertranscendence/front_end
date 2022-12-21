@@ -66,7 +66,7 @@ const Profile = () => {
       .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
@@ -88,13 +88,32 @@ const Profile = () => {
       .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
     .then((response) =>{
       console.log(response);
       //setUser(response.data);
+    })
+    .catch((err) => {
+      console.log("[ERROR] post /api/users/ for adduser")
+      console.log(err)
+    });
+  }, [user, ]);
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + `/api/game/${user?.intra}`, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log("response API/GAME/");
+      console.log(response);
     })
     .catch((err) => {
       console.log("[ERROR] post /api/users/ for adduser")
@@ -150,7 +169,7 @@ const Profile = () => {
         <Stack
           spacing={1}
           direction="row"
-        >
+          >
           <Chip label="👋 Welcome, Cadet" variant="outlined" />
           <Chip label="🔥 3연승" variant="outlined" />
           <Chip label="🔥 10연승" variant="outlined" />
