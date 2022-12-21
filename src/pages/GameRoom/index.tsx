@@ -104,7 +104,7 @@ const GameRoom = () => {
 	if (gameDone)
 	{
 		return (<div><h1>{gameDone}님이 이겼네요 호호</h1>
-			<button onClick={leaveRoom}>나가기</button>
+			<button onClick={retrunChannel}>나가기</button>
 			</div>
 		)
 	}
