@@ -100,7 +100,7 @@ const getKeyEvent = (evt:any) =>{
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
-
+window.addEventListener("keydown", getKeyEvent);
 
 // }
 // draw a rectangle, will be used to draw paddles
@@ -167,7 +167,6 @@ useEffect(() => {
       usUpdate = true;
       })
   
-    window.addEventListener("keydown", getKeyEvent);
     
   }, [getKeyEvent, canvasRef]);
 
