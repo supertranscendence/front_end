@@ -27,6 +27,7 @@ const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasPro
   const GameRoomName = GameRoom.split("=")[0];
   const isOBS = GameRoom.split("=")[1];
   
+  
 const ball = {
     x : canvas?canvas.width/2 : 300,
     y : canvas?canvas.height/2 : 250,
@@ -101,11 +102,6 @@ const getKeyEvent = (evt:any) =>{
 }
 
 
-
-
-
-
-
 // }
 // draw a rectangle, will be used to draw paddles
 const drawRect = (x:any, y:any, w:any, h:any, color:any)=>{
@@ -135,6 +131,48 @@ const drawArc = (x:any, y:any, r:any, color:any)=>{
     ctx.fill();
 	}
 }
+
+
+let usUpdate =false;
+useEffect(() => {
+  //   if (!canvasRef.current) {
+  //     return;
+  //   }
+  //   const canvas: HTMLCanvasElement = canvasRef.current;
+  
+  socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
+    console.log("on!",)
+      if (obj.isA)
+      {
+         userA.y = obj.yPos;
+      }
+      else
+      {
+        userB.y = obj.yPos;
+      }
+      update();
+      usUpdate = true;
+    })
+  
+    socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
+      if (obj.isA)
+      {
+         userA.y = obj.yPos;
+      }
+      else
+      {
+        userB.y = obj.yPos;
+      }
+      update();
+      usUpdate = true;
+      })
+  
+    window.addEventListener("keydown", getKeyEvent);
+    
+  }, [getKeyEvent, canvasRef]);
+
+
+
 
 // listening to the mouse
 
@@ -300,50 +338,10 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-    
-    
-    
-// useEffect(() => {
-  //   if (!canvasRef.current) {
-  //     return;
-  //   }
-  //   const canvas: HTMLCanvasElement = canvasRef.current;
-  
-    let usUpdate =false;
-    socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
-    console.log("on!",)
-      if (obj.isA)
-      {
-         userA.y = obj.yPos;
-      }
-      else
-      {
-        userB.y = obj.yPos;
-      }
+    if (!usUpdate)
       update();
-      usUpdate = true;
-    })
-  
-    socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
-      if (obj.isA)
-      {
-         userA.y = obj.yPos;
-      }
-      else
-      {
-        userB.y = obj.yPos;
-      }
-      update();
-      usUpdate = true;
-      })
-  
-    window.addEventListener("keydown", getKeyEvent);
-    
-  // }, [getKeyEvent, canvasRef]);
-  if (!usUpdate)
-    update();
-  render();
-    
+    render();
+    usUpdate =false;
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
       window.removeEventListener("keydown",getKeyEvent);
