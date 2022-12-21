@@ -23,8 +23,10 @@ const DMList = () => {
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
+  //const [friendData, setFriendData] = useState<string[]>([]);
   const [friendData, setFriendData] = useState<string[]>([]);
-  const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
+  //const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
+  const [listFriendData, setListFriendData] = useState("");
 
   interface test {
     friend: string
@@ -46,22 +48,19 @@ const DMList = () => {
 
   useEffect(() => {
     console.log('Get socket, [myFriend]! ');
-    let data:string = "";
-    let _friend:string = "";
-    let _avatar:string = "";
-    let _block:boolean = false;
-    let _state:UserStatus  = 0;
 
-    socket?.emit("myFriend", data);
-    console.log("myFriend data:", JSON.stringify(data));
+    socket?.emit("myFriend", listFriendData);
+    if (!listFriendData) {
+      console.log("No FRIEND!")
+      return;
+    }
+    console.log("myFriend listFriendData:", listFriendData);
+    console.log("myFriend parse:", JSON.parse(listFriendData));
+    console.log("myFriend data:", JSON.parse(listFriendData));
     //console.log("friend:", _friend);
     //console.log("avatar:", _avatar);
     //console.log("blocked:", _block);
     //console.log("state:", _state);
-    //if (!listFriendData[0]) {
-    //  console.log("No FRIEND!")
-    //  return;
-    //}
     //console.log("listFriendData[0].friend:", listFriendData[0].friend);
     //console.log("listFriendData[0].avatar:", listFriendData[0].avatar);
     //console.log("listFriendData[0].blocked:", listFriendData[0].blocked);
