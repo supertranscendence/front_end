@@ -30,7 +30,7 @@ const Channel = () => {
   const [showCreateRoomModal, setShowCreateRoomModal] = useState(false);
   const [newRoomFlag, setNewRoomFlag] = useState(false);
   const [redirectRoom, setRedirectRoom] = useState('');
-  const [readyMach, setReadyMach] = useState(false);
+  const [readyMatch, setReadyMatch] = useState(false);
   // const [roomInfo, setRoomInfo] = useState('');
   useEffect(()=>{
     if (!newRoomFlag)
@@ -100,7 +100,7 @@ const Channel = () => {
   useEffect(()=>{
     socket?.on("findMatch", (room:string)=>{
       setRedirectRoom((s)=>room);
-      setReadyMach(()=>false);
+      setReadyMatch(()=>false);
     });
   },[socket]);
   
@@ -109,9 +109,9 @@ const Channel = () => {
     console.log("on findMatch")
     socket?.emit("findMatch", (size:number)=>{
       console.log("size",size);
-    setReadyMach(true)});
-    // setReadyMach(true)
-  },[setReadyMach]);
+    setReadyMatch(()=>true)});
+    // setReadyMatch(true)
+  },[setReadyMatch]);
   
   useEffect(()=>{
     if (!newRoomFlag)
@@ -124,13 +124,12 @@ const Channel = () => {
   
   if (redirectRoom)
     return ( <Redirect to= {`/workspace/sleact/channel/Game/${redirectRoom}`}/>);
-  else if (readyMach)
+  else if (readyMatch)
     {
       return (<div> 매칭 중..</div>)
     }
   else
   {
-  //TODO : 클리어 룸 버그가 너무 많음 고쳐야함
     return (
       <div>
         {/*<Table columns={columns} data={roomArr} />*/}
