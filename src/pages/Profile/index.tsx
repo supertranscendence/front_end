@@ -51,6 +51,10 @@ const Profile = () => {
   const history = useHistory();
 
   useEffect(() => {
+    if(intra)
+    {
+
+
     axios
       .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
       withCredentials:true,
@@ -63,22 +67,19 @@ const Profile = () => {
       console.log(response);
       console.log("intra: ",response.data.intra)
       setUser(response.data);
-
       if (intra === myUserData?.intra){
         setIsUserMe(true);
       }
       else{
-        //if(intra === undefined){
-        //  console.log("Redirect!");
-        //  history.push('/workspace/sleact/intro');
-        //}
         setIsUserMe(false);
       }
     })
     .catch((err) => {
-      console.log("[ERROR] get /api/users/{id}")
-      console.log(err)
+      console.log("[ERROR] get /api/users/{id}");
+      console.log(err);
+      history.push('/workspace/sleact/intro');
     });
+  }
   }, [myUserData]);
 
   const handleAddFriend = useCallback(() => {
