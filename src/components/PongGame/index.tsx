@@ -28,7 +28,7 @@ const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasPro
   const isOBS = GameRoom.split("=")[1];
   
   
-  const ball = {
+const ball = {
     x : canvas?canvas.width/2 : 300,
     y : canvas?canvas.height/2 : 250,
     radius : mode?30:10,
@@ -36,17 +36,17 @@ const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasPro
     velocityY : 5,
     speed : 5,
     color : "WHITE"
-  }
+}
 
 // User Paddle
-  const userA = {
+const userA = {
     x : 0, // left side of canvas
     y : (canvas?canvas.height:0 - 100) + 350, // -100 the height of paddle
     width : 10,
     height : 100,
     score : userAScore?userAScore:0,
     color : "WHITE"
-  }
+}
 
 // const userB = {
 //     x : 790, // left side of canvas
@@ -133,6 +133,16 @@ const drawArc = (x:any, y:any, r:any, color:any)=>{
 }
 
 
+// const ball = {
+//   x : n,
+//   y : ,
+//   radius : ,
+//   velocityX : ,
+//   velocityY : ,
+//   speed : ,
+//   color : ,
+// }
+
 let isUpdate =false;
 useEffect(() => {
   //   if (!canvasRef.current) {
@@ -140,6 +150,24 @@ useEffect(() => {
   //   }
   //   const canvas: HTMLCanvasElement = canvasRef.current;
   
+  socket?.on("collision", (obj:{
+      x : number,
+      y : number,
+      radius : number,
+      velocityX : number,
+      velocityY : number,
+      speed : number,
+      color : string}) => {
+      console.log("collsion obj", obj);
+      ball.x = obj.x;
+      ball.y = obj.y;
+      ball.radius = obj.radius;
+      ball.velocityX = obj.velocityX;
+      ball.velocityY = obj.velocityY;
+      ball.speed = obj.speed;
+      ball.color = obj.color;
+    })
+
   socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
     console.log("on!",)
       if (obj.isA)
@@ -219,7 +247,7 @@ const drawText=(text:any,x:any,y:any)=>
 }
 
 // collision detection
-const collision = (b:any,p:any, isApalyer:boolean)=>{
+const collision = (b:any,p:any)=>{
 
     p.top = p.y;
     p.bottom = p.y + p.height;
@@ -230,14 +258,8 @@ const collision = (b:any,p:any, isApalyer:boolean)=>{
     b.bottom = b.y + b.radius;
     b.left = b.x - b.radius;
     b.right = b.x + b.radius;
-    // if 
-    // socket?.()///기준
-    // 
-    if (isApalyer)
-      return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
-    else
-      return p.right < b.left && p.top < b.bottom && p.left > b.right && p.bottom > b.top;
-    //a b 플레이어 반전되게해야함
+    // socket?.()///rlwn
+    return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
 }
 
 // update const, the const that does all calculations
@@ -276,11 +298,10 @@ const update =()=>{
     }
     
     // we check if the paddle hit the user or the userB paddle
-    const isAplayer =(ball.x + ball.radius < canvas.width/2);
-    let player =isAplayer ? userA : userB;
+    let player = (ball.x + ball.radius < canvas.width/2) ? userA : userB;
     
     // if the ball hits a paddle
-    if(collision(ball,player, isAplayer)){
+    if(collision(ball,player)){
         // we check where the ball hits the paddle
         let collidePoint = (ball.y - (player.y + player.height/2));
         // normalize the value of collidePoint, we need to get numbers between -1 and 1.
@@ -301,7 +322,7 @@ const update =()=>{
         
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
-        console.log ("collllllison!");
+        socket?.emit("collision", ball );
     }
 }
 
