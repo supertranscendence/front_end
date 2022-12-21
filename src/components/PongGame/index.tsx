@@ -219,7 +219,7 @@ const drawText=(text:any,x:any,y:any)=>
 }
 
 // collision detection
-const collision = (b:any,p:any, isA:boolean)=>{
+const collision = (b:any,p:any, isApalyer:boolean)=>{
 
     p.top = p.y;
     p.bottom = p.y + p.height;
@@ -233,10 +233,10 @@ const collision = (b:any,p:any, isA:boolean)=>{
     // if 
     // socket?.()///기준
     // 
-    if (isA)
+    if (isApalyer)
       return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
     else
-      return p.right < b.left && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+      return p.right < b.left && p.top < b.bottom && p.left > b.right && p.bottom > b.top;
     //a b 플레이어 반전되게해야함
 }
 
