@@ -78,7 +78,7 @@ const Profile = () => {
         history.push('/workspace/sleact/intro');
       });
     }
-  }, [myUserData]);
+  }, [user, intra, myUserData]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user?.intra};
