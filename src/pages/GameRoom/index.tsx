@@ -94,7 +94,7 @@ const GameRoom = () => {
 	const modeGameStart = useCallback(()=>{
 		console.log("on gameStart", GameRoomName );
 		socket?.emit("gameStart", GameRoomName );
-		setModeFlag(true);
+		setModeFlag((b)=>{return !b;});//TODO:지금은 냅다 트루인데 일단 토글로 해놓고 추후 수정 필요 -> 소켓으로 모드로 바꼇는지 안바꼇는지 changeMode Event
 	},[socket]);
 	
 	if (returnFlag)
@@ -123,7 +123,7 @@ const GameRoom = () => {
 						alignItems="center"
 						justifyContent="space-between"
 					>
-						<h1>GAME ROOM</h1>{/* game_room_name */}
+						{<h1>GAME ROOM</h1>}{/* game_room_name */}
 						<Tooltip title="나가기" arrow>
 							<IconButton aria-label="cancle" onClick={leaveRoom}>
 								<CancelIcon />
