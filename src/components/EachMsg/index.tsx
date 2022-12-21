@@ -18,11 +18,11 @@ import { dataUser } from 'src/typings/types';
 import FtAvatar from 'src/components/FtAvatar';
 
 interface Props {
-  roomName: string
+  roomName?: string
   msg : {
     name: string,
     msg :string,
-    img:string
+    avatar:string
   }
   // isOnline: boolean;
 }
@@ -34,8 +34,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const location = useLocation();
   const [socket] = useSocket("sleact");
   const [returnURL, setReturnURL] = useState("");
+  const [friendMode, setFriendMode] = useState('flex');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [user, setUser] = useState<dataUser>();
@@ -47,11 +48,11 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     setAnchorEl(null);
   };
 
-
-
-
-
   useEffect(() => {
+    if(roomName === undefined){
+      console.log("Friend List Mode");
+      setFriendMode('none');
+    }
     console.log("[!!!!]msg.name: ", msg.name);
     if(msg.name != "it's me"){
       axios
@@ -79,10 +80,6 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       setUser(myUserData);
     }
     }, []);
-
-
-
-
 
   const setAdmin = useCallback(()=>{
   console.log("setAdmin",{roomName:roomName , adminUser :msg.name} );
@@ -175,7 +172,6 @@ if (returnURL)
           </StyledBadge>
           {msg.name}
         </ListItemAvatar>
-
          <ListItemText ></ListItemText>
           {/* {msg.kg === userData?.id && <span> (나)</span>} */}
           {<span className="count"> {msg.msg}</span> || null}
@@ -190,13 +186,12 @@ if (returnURL)
         }}
       >
         <MenuItem onClick={showProfile}>프로필 보기</MenuItem>
-        <MenuItem onClick={setAdmin}>관리자 권한 주기</MenuItem>
+        <MenuItem onClick={setAdmin}  sx={{display: friendMode}}>관리자 권한 주기</MenuItem>{/* display none */}
         <MenuItem onClick={shellWeDm}>DM 초대</MenuItem>
         <MenuItem onClick={shellWeGame}>Game 초대</MenuItem>
-        <MenuItem onClick={muteUser}>음소거 설정 / 해제</MenuItem>
-        <MenuItem onClick={kickUser}>추방</MenuItem>
-        <MenuItem onClick={banUser}>영원히 추방</MenuItem>
-
+        <MenuItem onClick={muteUser} sx={{display: friendMode}}>음소거 설정 / 해제</MenuItem>{/* display none */}
+        <MenuItem onClick={kickUser} sx={{display: friendMode}}>추방</MenuItem>{/* display none */}
+        <MenuItem onClick={banUser} sx={{display: friendMode}}>영원히 추방</MenuItem>{/* display none */}
       </Menu>
     </List>
   );

@@ -1,7 +1,7 @@
 import { IconButton, Tooltip, Divider, Button, Avatar, Chip } from '@mui/material';
 import { Container, Stack } from '@mui/system';
 import React, { useCallback, useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Redirect } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,6 +21,8 @@ import KeyIcon from '@mui/icons-material/Key';
 import FtAvatar from 'src/components/FtAvatar';
 import { Socket } from 'dgram';
 import useSocket from "src/hooks/useSocket";
+import { useHistory } from 'react-router-dom';
+
 
 
 function createData(
@@ -43,7 +45,7 @@ const Profile = () => {
   const onClick2FAModal = useCallback(() => { setShow2FAModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
   const onClose2FAModal = useCallback(() => { setShow2FAModal(false); }, []);
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/friends', fetcher, {
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
@@ -51,40 +53,39 @@ const Profile = () => {
   const [user, setUser] = useState<dataUser>();
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
+  const history = useHistory();
 
   useEffect(() => {
-    console.log("Check isMyUser");
-    console.log("user?.intra: ", user?.intra);
-    console.log("myUserData?.intra: ", myUserData?.intra);
-    if (user?.intra != "UNKNOWN" && user?.intra === myUserData?.intra){
-      setIsUserMe(true);
-    }
-    else{
-      setIsUserMe(false);
-    }
-    console.log("isUserMe:", isUserMe);
-  }, [user, myUserData]);
-
-  useEffect(() => {
-    axios
-      .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-          accept: "*/*"
-          }
+    if(intra)
+    {
+      console.log("profile intra in!")
+      console.log("myUserData:", myUserData);
+      axios
+        .get(process.env.REACT_APP_API_URL + `/api/users/${intra}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        console.log(response);
+        console.log("intra: ",response.data.intra)
+        setUser(response.data);
+        if (intra === myUserData?.intra){
+          setIsUserMe(true);
+        }
+        else{
+          setIsUserMe(false);
+        }
       })
-    .then((response) =>{
-      console.log(response);
-      //console.log("friends: ", response.data);
-      console.log("intra: ",response.data.intra)
-      setUser(response.data);
-    })
-    .catch((err) => {
-      console.log("[ERROR] get /api/users/{id}")
-      console.log(err)
-    });
-  }, []);
+      .catch((err) => {
+        console.log("[ERROR] get /api/users/{id}");
+        console.log(err);
+        history.push('/workspace/sleact/intro');
+      });
+    }
+  }, [ ]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user?.intra};
@@ -92,13 +93,32 @@ const Profile = () => {
       .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
     .then((response) =>{
       console.log(response);
       //setUser(response.data);
+    })
+    .catch((err) => {
+      console.log("[ERROR] post /api/users/ for adduser")
+      console.log(err)
+    });
+  }, [user, ]);
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + `/api/game/${user?.intra}`, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log("response API/GAME/");
+      console.log(response);
     })
     .catch((err) => {
       console.log("[ERROR] post /api/users/ for adduser")
@@ -160,7 +180,7 @@ const Profile = () => {
         <Stack
           spacing={1}
           direction="row"
-        >
+          >
           <Chip label="👋 Welcome, Cadet" variant="outlined" />
           <Chip label="🔥 3연승" variant="outlined" />
           <Chip label="🔥 10연승" variant="outlined" />

@@ -206,7 +206,7 @@ else if (redirectFlag)
         {users.map((user, index) => {
           return (
             <>
-            <EachMsg key={user} msg={{msg: '', name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            <EachMsg key={user} msg={{msg: '', name:user, avatar: ""}} roomName={ChatRoom!} ></EachMsg>
             </>
           );
         })}
@@ -219,7 +219,7 @@ else if (redirectFlag)
           const { room, user, msg } = message;
           // messages 배열을 map함수로 돌려 각 원소마다 item을 렌더링 해줍니다.
           return (
-            <EachMsg key={room} msg={{msg: msg, name:user, img: ""}} roomName={ChatRoom!} ></EachMsg>
+            <EachMsg key={room} msg={{msg: msg, name:user, avatar: ""}} roomName={ChatRoom!} ></EachMsg>
           );
         })}
         </Scrollbars>
