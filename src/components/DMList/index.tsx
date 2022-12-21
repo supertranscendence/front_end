@@ -47,19 +47,14 @@ const DMList = () => {
 
     console.log(socket);
     console.log("[get myFriend]: ");
-    socket?.emit("myFriend", (stateFriend:Promise<{
-      friend: string;
-      state: UserStatus;
-      avatar: string;
-      blocked: boolean;
-  }[]> ) => {
+    socket?.emit("myFriend", (stateFriend:Promise<string> ) => {
       console.log("[get myFriend] res: ");
       console.log(stateFriend);
       //setStateFriend(()=>[...stateFriend]);
-      stateFriend.then((ele)=>{
-      console.log("hohohoho", ele);
-        setStateFriend(ele);
-      })
+      // stateFriend.then((ele)=>{
+      // console.log("hohohoho", ele);
+        // setStateFriend(ele);
+      // })
     });
     //socket?.emit("myFriend", stateFriend);
     //console.log("myFriend stateFriend", stateFriend);
