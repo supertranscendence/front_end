@@ -82,19 +82,19 @@ const GameRoom = () => {
 	
 	useEffect(()=>{
 		console.log("start" );
-		socket?.on("gameStart", (b:boolean)=> isStart(b));
+		socket?.on("gameStart", (obj:{start:boolean, mode:boolean})=> {isStart(obj.start), setModeFlag(obj.mode) });
 	}, [socket]);
 	
 	const gameStart = useCallback(()=>{
 		// setGameSet(true);
 		console.log("on gameStart", GameRoomName );
-		socket?.emit("gameStart", GameRoomName );
+		socket?.emit("gameStart", {room:GameRoomName, mode:false} );
 	},[socket]);
 	
 	const modeGameStart = useCallback(()=>{
 		console.log("on gameStart", GameRoomName );
-		socket?.emit("gameStart", GameRoomName );
-		setModeFlag((b)=>{return !b;});//TODO:지금은 냅다 트루인데 일단 토글로 해놓고 추후 수정 필요 -> 소켓으로 모드로 바꼇는지 안바꼇는지 changeMode Event
+		socket?.emit("gameStart", {room:GameRoomName, mode:true} );
+		// setModeFlag((b)=>{return !b;});//TODO:지금은 냅다 트루인데 일단 토글로 해놓고 추후 수정 필요 -> 소켓으로 모드로 바꼇는지 안바꼇는지 changeMode Event
 	},[socket]);
 	
 	if (returnFlag)
