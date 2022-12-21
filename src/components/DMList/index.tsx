@@ -64,7 +64,7 @@ const DMList = () => {
     //setStateFriend(stateFriend);
     //console.log(stateFriend.length);
 
-  }, [stateFriend]);
+  }, [socket]);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
@@ -86,9 +86,9 @@ const DMList = () => {
   return (
     <>
       <h2>
-        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
+        {/*<CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
           📎
-        </CollapseButton>
+        </CollapseButton>*/}
         <span>My firends</span>
       </h2>
       <div>
