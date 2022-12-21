@@ -300,8 +300,8 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-    update();
-    render();
+    
+    
     
 // useEffect(() => {
   //   if (!canvasRef.current) {
@@ -309,6 +309,7 @@ const game = () =>{
   //   }
   //   const canvas: HTMLCanvasElement = canvasRef.current;
   
+    let usUpdate =false;
     socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
     console.log("on!",)
       if (obj.isA)
@@ -319,6 +320,8 @@ const game = () =>{
       {
         userB.y = obj.yPos;
       }
+      update();
+      usUpdate = true;
     })
   
     socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
@@ -330,12 +333,16 @@ const game = () =>{
       {
         userB.y = obj.yPos;
       }
+      update();
+      usUpdate = true;
       })
   
     window.addEventListener("keydown", getKeyEvent);
     
   // }, [getKeyEvent, canvasRef]);
-    
+  if (!usUpdate)
+    update();
+  render();
     
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
