@@ -92,6 +92,7 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
+        <>{console.log(stateFriend)}</>
         {stateFriend.map((i) => {
             return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar}}/>
           })
