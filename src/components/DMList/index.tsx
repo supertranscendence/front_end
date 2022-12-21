@@ -7,7 +7,7 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
-import { dataUser } from '@typings/types';
+import { dataUser, listFriend } from '@typings/types';
 import { dataFriend, UserStatus, FriendList } from '@typings/types';
 
 //
@@ -37,10 +37,11 @@ const DMList = () => {
 
   useEffect(() => {
     console.log('Get myFriend! ');
-    socket?.emit('myFriend', function(data:FriendList[]){
-    console.log('Message from Server: ', data);
+    socket?.emit('myFriend', function(data:listFriend[]){
     console.log('data[0].friend: ', data[0].friend);
-    console.log('data[0].status: ', data[0].status);
+    console.log('data[0].avatar: ', data[0].avatar);
+    console.log('data[0].blocked: ', data[0].blocked);
+    console.log('data[0].state: ', data[0].state);
     })
     //socket?.on('myFriend', (userArr: string[]) => {
     //  updateFriends(userArr);

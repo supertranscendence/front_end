@@ -5,6 +5,7 @@ import { dataFriend, dataUser } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
+import FirstProfileModal from 'src/components/FirstProfileModal';
 
 const Intro = () => {
   useEffect(() => {
@@ -59,7 +60,9 @@ const Intro = () => {
 	//  updated: null,
 	//  friends: dFriends,
   //};
-
+  const [showFirstProfileModal, setShowFirstProfileModal] = useState(true);
+  //const onClickEditProfile = useCallback(() => { setShowFirstProfileModal(true); }, []);
+  const onCloseModal = useCallback(() => { setShowFirstProfileModal(false); }, []);
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
@@ -79,6 +82,12 @@ const Intro = () => {
           ))
         )}
       </div>*/}
+    <FirstProfileModal
+      //show={showFirstProfileModal}
+      show={false}
+      onCloseModal={onCloseModal}
+      setShowProfileModal={setShowFirstProfileModal}
+      />
     </Container>
   );
 };
