@@ -12,6 +12,7 @@ import { dataFriend, UserStatus, FriendList } from 'src/typings/types';
 import test from 'node:test';
 import { bool } from 'aws-sdk/clients/signer';
 import EachMsg from 'src/components/EachMsg';
+import useInput from 'src/hooks/useInput';
 
 //
 const DMList = () => {
@@ -23,12 +24,13 @@ const DMList = () => {
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  const [stateFriend, setStateFriend] = useState<listFriend>([]);
-  //{friend: "dummy1", avatar: "", state: 0, blocked: false}, {friend: "dummy2", avatar: "", state: 0, blocked: false}
-  //const [friendData, setFriendData] = useState<string[]>([
-  //  "dummy1", "dummy2", "dummy3"
-  //]);
-  //const [listFriendData, setListFriendData] = useState<listFriend[]>([]);
+  //const [stateFriend, setStateFriend] = useState<listFriend>([]);
+  //let stateFriend:string | undefined = "";
+  const [stateFriend, setStateFriend] = useState("")
+  const [stateFriendList, setStateFriendList] = useState<listFriend>([]);
+
+  //const [temp, setTemp] = useInput("");
+
   const [listFriendData, setListFriendData] = useState("");
 
   const toggleChannelCollapse = useCallback(() => {
@@ -42,29 +44,17 @@ const DMList = () => {
   //  },[socket, setFriendData])
 
 
-
   useEffect(() => {
-
-    //const str = [{"friend":"hyopark","state":2,"blocked":false,"avatar":""},{"friend":"jji","state":1,"blocked":false,"avatar":""}]
-    console.log(socket);
     console.log("[get myFriend]: ");
-    //socket?.emit("myFriend", (stateFriend:Promise<string> ) => {
     socket?.emit("myFriend", (stateFriend:string ) => {
       console.log("[get myFriend] res: ");
       console.log(JSON.parse(stateFriend));
-      setStateFriend(JSON.parse(stateFriend));
-      //setStateFriend(()=>[...stateFriend]);
-      // stateFriend.then((ele)=>{
-      // console.log("hohohoho", ele);
-        // setStateFriend(ele);
-      // })
-    });
-    //socket?.emit("myFriend", stateFriend);
-    //console.log("myFriend stateFriend", stateFriend);
-    //setStateFriend(stateFriend);
-    //console.log(stateFriend.length);
+      setStateFriendList(JSON.parse(stateFriend));
 
-  }, []);
+    });
+    console.log(stateFriend);
+
+  }, [socket]);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
@@ -92,8 +82,7 @@ const DMList = () => {
         <span>My firends</span>
       </h2>
       <div>
-        <>{console.log(stateFriend)}</>
-        {stateFriend.map((i) => {
+        {stateFriendList.map((i) => {
             return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar}}/>
           })
           }
