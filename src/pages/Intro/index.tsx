@@ -1,7 +1,7 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Container } from '@mui/system';
-import { achievementType, dataFriend, dataUser, getAchievementType } from 'src/typings/types';
+import { achievementType, dataFriend, dataUser, achievementTypeList } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -14,13 +14,16 @@ const Intro = () => {
   });
   const [showFirstProfileModal, setShowFirstProfileModal] = useState(true);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
-  const [userAchi, setUserAchi] = useState<getAchievementType>();
+  const [userAchi, setUserAchi] = useState<achievementTypeList>([]);
   //const onClickEditProfile = useCallback(() => { setShowFirstProfileModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowFirstProfileModal(false); }, []);
 
   const checkIsFirstLogin = (achi:number | undefined) => {
     if(achi === undefined)
+    {
+      console.log("checkIsFirstLogin -> achi = undefined");
       setIsFirstLogin(true);
+    }
     //if(achi != 0)
     //  setIsFirstLogin(true);
   }
@@ -39,14 +42,14 @@ const Intro = () => {
       console.log("response API/ACHIVMENT/");
       console.log(response.data);
       setUserAchi(response.data);
-      checkIsFirstLogin(userAchi?.achievements[0].achievement);
+      checkIsFirstLogin(userAchi[0].achievement);
     })
     .catch((err) => {
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err)
     });
 
-  }, []);
+  }, [myUserData ]);
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
