@@ -134,20 +134,6 @@ export const Channels = styled.nav`
     font-weight: bold;
   }
 
-  & .count {
-    margin-left: auto;
-    background: #cd2553;
-    border-radius: 16px;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    height: 18px;
-    line-height: 18px;
-    padding: 0 9px;
-    color: white;
-    margin-right: 16px;
-  }
-
   & h2 {
     height: 36px;
     line-height: 36px;
@@ -158,6 +144,20 @@ export const Channels = styled.nav`
     font-size: 15px;
   }
 `;
+
+//& .count {
+//  margin-left: auto;
+//  background: #cd2553;
+//  border-radius: 16px;
+//  display: inline-block;
+//  font-size: 12px;
+//  font-weight: 700;
+//  height: 18px;
+//  line-height: 18px;
+//  padding: 0 9px;
+//  color: white;
+//  margin-right: 16px;
+//}
 
 export const WorkspaceName = styled.button`
   height: 64px;

@@ -16,7 +16,7 @@ import useSocket from 'src/hooks/useSocket';
 import axios from 'axios';
 import { dataUser } from 'src/typings/types';
 import FtAvatar from 'src/components/FtAvatar';
-
+import { useHistory } from 'react-router-dom';
 interface Props {
   roomName?: string
   msg : {
@@ -41,6 +41,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   });
   const [user, setUser] = useState<dataUser>();
   const open = Boolean(anchorEl);
+  const history = useHistory();
   const handleClick = (event:any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -113,7 +114,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
 
   const showProfile = useCallback(()=>{
     console.log("showProfile",{roomName:roomName , goDM :msg.name} );
-    setReturnURL(`/workspace/sleact/profile/${msg.name}`);
+    history.push(`/workspace/sleact/profile/${msg.name}`)
+    //setReturnURL(`/workspace/sleact/profile/${msg.name}`);
+
   },[socket, ])
 
 
@@ -148,10 +151,10 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   }));
 
 
-if (returnURL)
-{
-  return (<Redirect to = {returnURL}/>)
-}
+//if (returnURL)
+//{
+//  return (<Redirect to = {returnURL}/>)
+//}
 
   return (
     <List>
@@ -174,7 +177,7 @@ if (returnURL)
         </ListItemAvatar>
          <ListItemText ></ListItemText>
           {/* {msg.kg === userData?.id && <span> (나)</span>} */}
-          {<span className="count"> {msg.msg}</span> || null}
+          {<span> {msg.msg}</span> || null}
       </ListItemButton>
       <Menu
         id="basic-menu"
