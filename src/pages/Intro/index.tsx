@@ -26,9 +26,9 @@ const Intro = () => {
   }
 
   useEffect(() => {
-    console.log("GET /api/achivment/ MY user.intra: ", myUserData?.intra);
+    console.log("GET /api/achievement/ MY user.intra: ", myUserData?.intra);
     axios
-    .get(process.env.REACT_APP_API_URL + `/api/achivement/${myUserData?.intra}`, {
+    .get(process.env.REACT_APP_API_URL + `/api/achievement/${myUserData?.intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem("accessToken"),
