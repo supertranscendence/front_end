@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import Edit2FAModal from 'src/components/Edit2FAModal';
 import axios, { Axios } from 'axios';
-import { dataUser, GameType, listGame, getAchievementType } from 'src/typings/types';
+import { achievementTypeList, dataUser, GameType, listGame,  } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -22,21 +22,6 @@ import FtAvatar from 'src/components/FtAvatar';
 import { Socket } from 'dgram';
 import useSocket from "src/hooks/useSocket";
 import { useHistory } from 'react-router-dom';
-
-
-
-//function createData(
-//    player: string,
-//    score: number,
-//    time: string,
-//  ) {
-//    return { player, score, time};
-//  }
-
-  //const rows = [
-  //  createData('jisokang VS hypark', 15, '2021-01-01'),
-  //  createData('jisokang VS hypark', 15, '2021-01-01'),
-  //];
 
 const Profile = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -52,7 +37,7 @@ const Profile = () => {
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
   const [userGame, setUserGame] = useState<listGame>();
-  const [userAchi, setUserAchi] = useState<getAchievementType>();
+  const [userAchi, setUserAchi] = useState<achievementTypeList>([]);
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
   const history = useHistory();
@@ -87,7 +72,7 @@ const Profile = () => {
         history.push('/workspace/sleact/intro');
       });
     }
-  }, []);
+  }, [myUserData]);
 
   const handleAddFriend = useCallback(() => {
     const value = {intra: user?.intra};
@@ -144,7 +129,7 @@ const Profile = () => {
       return "👋 Welcome, Cadet"
     }
     else if(num === 1){
-      return "🔥 Win!"
+      return "🔥 1st, Win!"
     }
     else{
       return "😞 Wrong"
@@ -223,7 +208,7 @@ const Profile = () => {
           spacing={1}
           direction="row"
           >
-            {userAchi && userAchi.achievements.map((row) => (
+            {userAchi && userAchi.map((row) => (
                   <Chip label={printAchi(row.achievement)} variant="outlined" />
               ))}
         </Stack>
