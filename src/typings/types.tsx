@@ -41,7 +41,26 @@ export type dataFriend = {
     id: number;
 }
 
-export type achivementList = number[]
+export type getAchievementType = {
+	id: number;
+	intra: string;
+	nickname: string;
+	avatar: string;
+	level: number;
+	tf: boolean;
+	//verify: null,???
+	email: string;
+	created: Date;
+	updated: Date;
+	achievements: achievementTypeList;
+}
+
+export type achievementType = {
+	tid: number;
+	achievement: number;
+}
+
+export type achievementTypeList = achievementType[]
 
 export enum UserStatus {
 	me,

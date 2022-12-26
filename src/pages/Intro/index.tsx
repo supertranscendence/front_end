@@ -1,47 +1,59 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Container } from '@mui/system';
-import { dataFriend, dataUser } from 'src/typings/types';
+import { achievementType, dataFriend, dataUser, getAchievementType } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
 import FirstProfileModal from 'src/components/FirstProfileModal';
 
 const Intro = () => {
-  //useEffect(() => {
-  //  axios
-  //    .get(process.env.REACT_APP_API_URL + "/api/users/my/", {
-  //    withCredentials:true,
-  //      headers:{
-  //        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-  //        accept: "*/*"
-  //        }
-  //    })
-  //  .then((response) =>{
-  //    console.log("[response]: ", response);
-  //    //console.log("friends: ", response.data);
-  //    console.log("[친구]: ",response.data)
-  //  })
-  //  .catch((err) => {
-  //    console.log("[ERROR] get /api/users/")
-  //    console.log(err)
-  //  });
-  //}, []);
+
   const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
   });
-  console.log("myUserData:", myUserData);
-
   const [showFirstProfileModal, setShowFirstProfileModal] = useState(true);
+  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [userAchi, setUserAchi] = useState<getAchievementType>();
   //const onClickEditProfile = useCallback(() => { setShowFirstProfileModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowFirstProfileModal(false); }, []);
+
+  const checkIsFirstLogin = (achi:number | undefined) => {
+    if(achi === undefined)
+      setIsFirstLogin(true);
+    //if(achi != 0)
+    //  setIsFirstLogin(true);
+  }
+
+  useEffect(() => {
+    console.log("GET /api/achivment/ MY user.intra: ", myUserData?.intra);
+    axios
+    .get(process.env.REACT_APP_API_URL + `/api/achivement/${myUserData?.intra}`, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log("response API/ACHIVMENT/");
+      console.log(response.data);
+      setUserAchi(response.data);
+      checkIsFirstLogin(userAchi?.achievements[0].achievement);
+    })
+    .catch((err) => {
+      console.log("[ERROR] get API/ACHIVMENT/")
+      console.log(err)
+    });
+
+  }, []);
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
 
     <FirstProfileModal
       //show={showFirstProfileModal}
-      show={false}
+      show={isFirstLogin}
       onCloseModal={onCloseModal}
       setShowProfileModal={setShowFirstProfileModal}
       />

@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import Edit2FAModal from 'src/components/Edit2FAModal';
 import axios, { Axios } from 'axios';
-import { dataUser, GameType, listGame, achivementList } from 'src/typings/types';
+import { dataUser, GameType, listGame, getAchievementType } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -52,7 +52,7 @@ const Profile = () => {
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
   const [userGame, setUserGame] = useState<listGame>();
-  const [userAchi, setUserAchi] = useState<achivementList>([]);
+  const [userAchi, setUserAchi] = useState<getAchievementType>();
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
   const history = useHistory();
@@ -122,7 +122,7 @@ const Profile = () => {
     .then((response) =>{
       console.log("response API/GAME/");
       console.log(response);
-      setUserGame(response.data);
+      setUserAchi(response.data);
     })
     .catch((err) => {
       console.log("[ERROR] post /api/users/ for adduser")
@@ -139,10 +139,22 @@ const Profile = () => {
   // id: 0 - first_login (이걸로 초기 계정 설정창 띄움)
   // id: 1 - first_win
 
+  const printAchi = (num:number) => {
+    if(num === 0){
+      return "👋 Welcome, Cadet"
+    }
+    else if(num === 1){
+      return "🔥 Win!"
+    }
+    else{
+      return "😞 Wrong"
+    }
+  }
+
   useEffect(() => {
-    console.log("GET /api/achivment/ user.intra: ", user?.intra);
+    console.log("GET /api/achievement/ user.intra: ", user?.intra);
     axios
-      .get(process.env.REACT_APP_API_URL + `/api/achivement/${user?.intra}`, {
+      .get(process.env.REACT_APP_API_URL + `/api/achievement/${user?.intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem("accessToken"),
@@ -211,8 +223,8 @@ const Profile = () => {
           spacing={1}
           direction="row"
           >
-            {userAchi && userAchi.map((row) => (
-                  <Chip label={row} variant="outlined" />
+            {userAchi && userAchi.achievements.map((row) => (
+                  <Chip label={printAchi(row.achievement)} variant="outlined" />
               ))}
         </Stack>
         {/* observer list 출력 */}
