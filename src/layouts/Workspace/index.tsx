@@ -57,11 +57,20 @@ var deleteCookie = function(name:string){
 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
   }
 
-interface Props {
+// function test() {
+  interface Props {
     children:any
   }
-const Workspace:FC<Props> = ({children}) =>
-{
+  const Workspace:FC<Props> = ({children}) =>
+  {
+    window.addEventListener('beforeunload', (event:any) => {
+      // 표준에 따라 기본 동작 방지
+      event.preventDefault();
+      // Chrome에서는 returnValue 설정이 필요함
+      onLogout();
+      event.returnValue = '';
+    });
+  
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
       dedupingInterval: 2000, // 2초
     });
