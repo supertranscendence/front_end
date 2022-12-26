@@ -55,14 +55,15 @@ const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const DmRoom = loadable(() => import ('src/pages/DmRoom') );
 const Pong = loadable(() => import ('src/pages/Pong') );
 
-var deleteCookie = function(name:string){
-	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-  }
 
-// function test() {
+// var deleteCookie = function(name:string){
+// 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+//   }
+
   interface Props {
     children:any
   }
+  
   const Workspace:FC<Props> = ({children}) =>
   {
     window.addEventListener('beforeunload', (event:any) => {
@@ -77,13 +78,13 @@ var deleteCookie = function(name:string){
       else{
         console.log("로그아웃 안함");
       }
-      
       event.returnValue = '';
     });
-  
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
+    
+    const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
       dedupingInterval: 2000, // 2초
     });
+  const [returnFlag, setReturnFlag] = useState("");
 	const {workspace} = useParams<{workspace:string}>();
 	const {data, mutate} = useSWR('token', authfetcher);
 
@@ -96,13 +97,21 @@ var deleteCookie = function(name:string){
     setAnchorEl(null);
   };
 
+  // if (returnFlag)
+  // {
+  //   console.log("retruen Flag :", returnFlag);
+  //   return (<Redirect to={returnFlag}/>);
+  // }
+  
   console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
     console.log("if문 들어감!")
     console.log("return /");
-		location.href ="http://gilee.click/";
+		// location.href ="http://gilee.click/";
 		// return <Redirect to="/"/>;
+		if (!returnFlag)
+		  setReturnFlag("/");
 	}
 
 	const allDelCookies = (domain?:any, path?:any) => {
@@ -119,15 +128,15 @@ var deleteCookie = function(name:string){
       console.log('삭제할 쿠키가 없습니다.');
     } else {
       for (let i:any = 0; i < cookies.length; i++) {
-        // const uname = cookies[i].split('=')[0];
-        // document.cookie = `${uname}=; expires=${expiration}`;
+        
+        //TODO: 도메인을 환경변수로 받아올것!!!!!!
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=.gilee.click;";
-        // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
-        // document.cookie = 'mycookie=; expire=날짜; domain=cusmaker.com;'
+        document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=127.0.0.1;";
+        document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=localhost;";
       }
       console.log('쿠키 전부 삭제완료!![',document.cookie,"]");    }
   };
-	const [ShowUserMenu,setShowUserMenu] = useState(false);
+	// const [ShowUserMenu,setShowUserMenu] = useState(false);
 	const onLogout = useCallback(()=>
 	{
     console.log("onLogout 들어감!")
@@ -140,11 +149,17 @@ var deleteCookie = function(name:string){
 
 		console.log("re tokken",localStorage.getItem(" refreshToken"));
 		console.log("ac tokken",localStorage.getItem("accessToken"));
-		location.href="/";
+		// location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
+		setReturnFlag("/");
 
-	}, [localStorage]);
-
+	}, [localStorage, setReturnFlag]);
+	if (returnFlag)
+  {
+    console.log("retruen Flag :", returnFlag);
+    return (<Redirect to={returnFlag}/>);
+  }
+  else
     return(
       <div>
       <AppBar position="static">

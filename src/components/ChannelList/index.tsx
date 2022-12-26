@@ -27,7 +27,8 @@ const ChannelList: FC<Props> = () => {
 
   const chat:IChannel  = {name:"Chat", WorkspaceId:-1, id:-1, private:false};
   const game:IChannel  = {name:"Game", WorkspaceId:-1, id:-1, private:false};
-  const gameroom:IChannel  = {name:"GameRoom", WorkspaceId:-1, id:-1, private:false};
+  const main:IChannel  = {name:"main", WorkspaceId:-1, id:-1, private:false};
+  // const gameroom:IChannel  = {name:"GameRoom", WorkspaceId:-1, id:-1, private:false};
   return (
     <>
       <h2>
@@ -43,8 +44,9 @@ const ChannelList: FC<Props> = () => {
       <div>
           {!channelCollapse && (
           <>
-            <a href={`/workspace/sleact/intro`}>Main</a>
+            {/* <a href={`/workspace/sleact/intro`}>Main</a> */}
 
+            <EachChannel channel={main}></EachChannel>
             <EachChannel channel={chat}></EachChannel>
             <EachChannel channel={game}></EachChannel>
             {/*<EachChannel channel={gameroom}></EachChannel>*/}

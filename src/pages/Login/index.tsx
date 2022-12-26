@@ -13,7 +13,8 @@ const LogIn = () => {
     dedupingInterval:100000
   });
   // let data  = '';
-  // console.log("data", data);
+  console.log("login page");
+  
   if (localStorage.getItem(" refreshToken") ){
     if (localStorage.getItem("accessToken") ){
       console.log("already have ref and acc token");
