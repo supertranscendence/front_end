@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, {FC, useCallback, useState ,useEffect} from 'react';
 import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';
-import { Link, Redirect, Switch, Route, useParams, NavLink } from 'react-router-dom';
+import { Link, Redirect, Switch, Route, useParams, useHistory } from 'react-router-dom';
 // import { Header, ProfileImg, RightMenu, WorkspaceWrapper,Workspaces, Channels, Chats, MenuScroll, WorkspaceName, ProfileModal, LogOutButton, WorkspaceButton, AddButton, WorkspaceModal } from '@layouts/Workspace/style';
 import gravatar from "gravatar";
 import loadable from '@loadable/component';
@@ -42,8 +42,6 @@ import {
     WorkspaceWrapper,
     InnerHeader
   } from './style';
-
-//import GamePong from 'src/pages/GamePong/Game';
 
 const Intro = loadable(() => import ('src/pages/Intro') );
 const Profile = loadable(() => import ('src/pages/Profile') );
@@ -110,7 +108,11 @@ const Workspace:FC<Props> = ({children}) =>
       }
       console.log('쿠키 전부 삭제완료!![',document.cookie,"]");    }
   };
-	const [ShowUserMenu,setShowUserMenu] = useState(false);
+  const history = useHistory();
+  const onMyProfile = useCallback(()=>
+  {
+    history.push(`/workspace/sleact/profile/${myUserData?.intra}`)
+  }, [])
 	const onLogout = useCallback(()=>
 	{
     console.log("onLogout 들어감!")
@@ -149,7 +151,7 @@ const Workspace:FC<Props> = ({children}) =>
                   'aria-labelledby': 'basic-button',
                 }}
                 >
-                <MenuItem onClick={handleClose} component={Link} to={`/workspace/${workspace}/profile/${myUserData?.intra}`}>My Profile</MenuItem>
+                <MenuItem onClick={onMyProfile}>My Profile</MenuItem>
                 <MenuItem onClick={onLogout} >Logout</MenuItem>
               </Menu>
             </Box>
