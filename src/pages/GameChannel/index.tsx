@@ -102,7 +102,9 @@ const Channel = () => {
       // setRedirectRoom((s)=>obj.room);
       console.log("ononon findMatch", obj);
       if(obj.isA){
-        setNewRoomFlag(true);//
+        console.log("createRoom!");
+        socket?.emit("createGameRoom",  obj.roomName, ()=>setNewRoomFlag(true));
+    
         console.log("findMatch Done");
         console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
         setRedirectRoom((s)=>obj.roomName);
