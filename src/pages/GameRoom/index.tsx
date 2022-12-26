@@ -94,8 +94,10 @@ const GameRoom = () => {
 	  },[]);
 	
 	useEffect(()=>{
-		console.log("start" );
-		socket?.on("gameStart", (obj:{start:boolean, mode:boolean})=> {isStart(obj.start), setModeFlag(obj.mode) });
+		console.log("start");
+		socket?.on("gameStart", (obj:{start:boolean, mode:boolean})=> {
+			isStart(obj.start);
+			setModeFlag(obj.mode) });
 	}, [socket]);
 	
 	const gameStart = useCallback(()=>{
