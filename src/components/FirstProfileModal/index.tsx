@@ -55,7 +55,7 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
-    axios
+  axios
     .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
         headers:{
@@ -111,18 +111,38 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
       console.log("[ERROR] post /api/users for nickname")
       console.log(err)
     });
+
+
+
+    axios
+    .post(process.env.REACT_APP_API_URL + `api/users/achievement`, {achi: 1}, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log("response api/users/achievement", response);
+    })
+    .catch((err) => {
+      console.log("[ERROR] post api/users/achievement", err);
+      console.log(err);
+    });
+
   }, [newNick, ]);
 
   if (!show) {
     return null;
   }
   return (
-    <Modal show={show} onCloseModal={onCloseModal}>
+    //<Modal show={show} onCloseModal={onCloseModal}>
+    <Modal show={show}>
       <Stack spacing={1}>
 			  <form onSubmit={onEditNickname}>
         <Stack spacing={1} divider={<Divider orientation='horizontal' flexItem />}>
           <h1>SET MY PROFILE</h1>
-          <span>{"설정을 완료하지 않고 나가기를 누르면"}<br/> { " default 설정이 적용됩니다"}</span>
+          {/*<span>{"설정을 완료하지 않고 나가기를 누르면"}<br/> { " default 설정이 적용됩니다"}</span>*/}
           {/* 처음 시작 화면이면 SET MY PROFILE 뜨도록! */}
           <Stack>
             <h4>아바타 업로드</h4>

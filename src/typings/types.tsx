@@ -12,11 +12,11 @@ export type dataUser = {
 }
 
 export type GameType = {
-	created: string;
+	created: Date | null;
 	id: number;
 	player: string;
 	score: string;
-	updated: string;
+	updated: Date | null;
 }
 
 export type listGame = GameType[]
@@ -40,6 +40,27 @@ export type dataFriend = {
 	updated: Date | null;
     id: number;
 }
+
+export type getAchievementType = {
+	id: number;
+	intra: string;
+	nickname: string;
+	avatar: string;
+	level: number;
+	tf: boolean;
+	//verify: null,???
+	email: string;
+	created: Date;
+	updated: Date;
+	achievements: achievementTypeList;
+}
+
+export type achievementType = {
+	tid: number;
+	achievement: number;
+}
+
+export type achievementTypeList = achievementType[]
 
 export enum UserStatus {
 	me,
