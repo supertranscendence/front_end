@@ -111,7 +111,8 @@ const Workspace:FC<Props> = ({children}) =>
   const history = useHistory();
   const onMyProfile = useCallback(()=>
   {
-    history.push(`/workspace/sleact/profile/${myUserData?.intra}`)
+    console.log("myUser Intra", myUserData?.intra);
+    history.push(`/workspace/sleact/profile/${myUserData?.intra}`);
   }, [])
 	const onLogout = useCallback(()=>
 	{
