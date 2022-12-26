@@ -87,26 +87,26 @@ const Profile = () => {
       });
 
       //----------------------------------------------------------------------------------------
-      console.log("profile get game data start!")
+      //console.log("profile get game data start!")
       //----------------------------------------------------------------------------------------
-      axios
-        .get(process.env.REACT_APP_API_URL + `/api/game/${intra}`, {
-        withCredentials:true,
-          headers:{
-            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-            accept: "*/*"
-            }
-        })
-      .then((response) =>{
-        console.log("[Game Data]: ",response.data);
-        console.log("[Game]: ",response);
-        //console.log(response);
-        //setUser(response.data);
-      })
-      .catch((err) => {
-        console.log("[ERROR] get /api/game/{id}");
-        console.log(err);
-      });
+      //axios
+      //  .get(process.env.REACT_APP_API_URL + `/api/game/${intra}`, {
+      //  withCredentials:true,
+      //    headers:{
+      //      authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+      //      accept: "*/*"
+      //      }
+      //  })
+      //.then((response_game) =>{
+      //  console.log("[Game Data]: ",response_game.data);
+      //  console.log("[Game]: ",response_game);
+      //  //console.log(response);
+      //  //setUser(response.data);
+      //})
+      //.catch((err_game) => {
+      //  console.log("[ERROR] get /api/game/{id}");
+      //  console.log(err_game);
+      //});
 
 
     }
@@ -213,7 +213,6 @@ const Profile = () => {
         {/* observer list 출력 */}
         <Divider variant="middle" />
         <h2>Battle log</h2>
-        20전 7승 13패 승률 35%
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} >
               <TableHead>
