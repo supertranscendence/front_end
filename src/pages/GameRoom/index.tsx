@@ -29,12 +29,21 @@ const GameRoom = () => {
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
 		console.log("gameRoomInfo emit")
-		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string , isA:boolean}) =>{console.log("obj emit", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB), setIsA(obj.isA) })
+		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string , isA:boolean}) =>{
+			console.log("obj emit", obj);
+			setUserNameA(obj.playerA);
+			setUserNameB(obj.playerB);
+			setIsA(obj.isA);
+			})
 	  },[socket])
 	  
 	useEffect(()=>{
 		console.log("gameRoomInfo on")
-		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string, isA:boolean}) =>{console.log("obj on", obj);setUserNameA(obj.playerA),setUserNameB(obj.playerB) })
+		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string, isA:boolean}) =>{
+			console.log("obj on", obj);
+			setUserNameA(obj.playerA);
+			setUserNameB(obj.playerB);
+			})
 	  },[socket])
 	  
 	//게임이 끝났을때 다른 페이지를 렌더할 이벤트 
@@ -54,7 +63,12 @@ const GameRoom = () => {
 	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
 	useEffect(()=>{
 		console.log("game set?" );
-		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {setGameSet(true);setUserA(obj.userA); setUserB(obj.userB), setModeFlag(obj.mode)});
+		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
+			setGameSet(true);
+			setUserA(obj.userA);
+			setUserB(obj.userB);
+			setModeFlag(obj.mode)
+			});
 	}, [socket]);
 	
 	
@@ -78,7 +92,6 @@ const GameRoom = () => {
 		console.log("on leave", GameRoomName)
 		socket?.emit("leaveGameRoom", {room:GameRoomName}, retrunChannel);
 	  },[]);
-	  
 	
 	useEffect(()=>{
 		console.log("start" );
@@ -111,37 +124,37 @@ const GameRoom = () => {
 	
 	if (isOBS === undefined)
 	{
-	if (start)
-		return (<PongGame userAScore ={0} userBScore={0} mode={modeFlag} isA={isA}/>)
-	else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
-		return(
-			<Container maxWidth="lg">
-				<Stack spacing={1}>
-					<Stack />
-					<Stack
-						direction="row"
-						alignItems="center"
-						justifyContent="space-between"
-					>
-						{<h1>GAME ROOM</h1>}{/* game_room_name */}
-						<Tooltip title="나가기" arrow>
-							<IconButton aria-label="cancle" onClick={leaveRoom}>
-								<CancelIcon />
-							</IconButton>
-						</Tooltip>
+		if (start)
+			return (<PongGame userAScore ={0} userBScore={0} mode={modeFlag} isA={isA}/>)
+		else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
+			return(
+				<Container maxWidth="lg">
+					<Stack spacing={1}>
+						<Stack />
+						<Stack
+							direction="row"
+							alignItems="center"
+							justifyContent="space-between"
+						>
+							{<h1>GAME ROOM</h1>}{/* game_room_name */}
+							<Tooltip title="나가기" arrow>
+								<IconButton aria-label="cancle" onClick={leaveRoom}>
+									<CancelIcon />
+								</IconButton>
+							</Tooltip>
+						</Stack>
+						<Divider variant="middle" />
+						<PrintHostVsPlayer userNameA={userNameA} userNameB={userNameB} />  
+						{/* <h2>observer list</h2>
+						<div>hyopark</div> */}
+						{/* observer list 출력 */}
+						<Divider variant="middle" />
+						<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
+						<Button variant="outlined"  onClick={modeGameStart}>MODE GAME START</Button>
 					</Stack>
-					<Divider variant="middle" />
-					<PrintHostVsPlayer userNameA={userNameA} userNameB={userNameB} />  
-					{/* <h2>observer list</h2>
-					<div>hyopark</div> */}
-					{/* observer list 출력 */}
-					<Divider variant="middle" />
-					<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
-					<Button variant="outlined"  onClick={modeGameStart}>MODE GAME START</Button>
-				</Stack>
-					{/* <>{warn?{warn}:""}</> */}
-			</Container>
-		);
+						{/* <>{warn?{warn}:""}</> */}
+				</Container>
+			);
 	}
 	else
 	{
