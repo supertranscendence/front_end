@@ -118,7 +118,7 @@ const Channel = () => {
     console.log("on findMatch")
     socket?.emit("findMatch", (size:number)=>{
       console.log("size",size);
-    setReadyMatch(()=>true)});
+    setReadyMatch((f)=>{return (!f);})});
     // setReadyMatch(true)
   },[setReadyMatch]);
 
