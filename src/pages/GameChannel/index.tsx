@@ -100,6 +100,7 @@ const Channel = () => {
   useEffect(()=>{
     socket?.on("findMatch", (obj : {roomName:string, isA:boolean })=>{
       // setRedirectRoom((s)=>obj.room);
+      console.log("ononon findMatch", obj);
       if(obj.isA){
         setNewRoomFlag(true);//
         console.log("findMatch Done");
@@ -118,9 +119,20 @@ const Channel = () => {
     console.log("on findMatch")
     socket?.emit("findMatch", (size:number)=>{
       console.log("size",size);
-    setReadyMatch((f)=>{return (!f);})});
-    // setReadyMatch(true)
-  },[setReadyMatch]);
+    // setReadyMatch((f)=>{return (!f);})
+    setReadyMatch(true);
+    });
+  },[socket, setReadyMatch]);
+  
+  const leaveMatch = useCallback(()=>{
+    //대기열 등록
+    console.log("on leaveMatch")
+    socket?.emit("findMatch", (size:number)=>{
+      console.log("size",size);
+    // setReadyMatch((f)=>{return (!f);})
+    setReadyMatch(false);
+    });
+  },[socket, setReadyMatch]);
 
   
   useEffect(()=>{
@@ -137,7 +149,7 @@ const Channel = () => {
   else if (readyMatch)
     {
       return (<><div> 매칭 중..</div>
-        <button onClick={findMatch}>매칭 나가기(테스팅 중)</button>
+        <button onClick={leaveMatch}>매칭 나가기(테스팅 중)</button>
           </>
       )//버튼
       
