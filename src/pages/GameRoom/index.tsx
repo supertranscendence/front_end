@@ -96,8 +96,9 @@ const GameRoom = () => {
 	useEffect(()=>{
 		console.log("start");
 		socket?.on("gameStart", (obj:{start:boolean, mode:boolean})=> {
+			setModeFlag(obj.mode)
 			isStart(obj.start);
-			setModeFlag(obj.mode) });
+		});
 	}, [socket]);
 	
 	const gameStart = useCallback(()=>{
@@ -127,7 +128,7 @@ const GameRoom = () => {
 	if (isOBS === undefined)
 	{
 		if (start)
-			return (<PongGame userAScore ={0} userBScore={0} mode={modeFlag} isA={isA}/>)
+			return (<PongGame userAScore ={0} userBScore={0} gameMode={modeFlag} isA={isA}/>)
 		else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
 			return(
 				<Container maxWidth="lg">
@@ -161,7 +162,7 @@ const GameRoom = () => {
 	else
 	{
 		if (gameSet || start)
-			return (<PongGame  userAScore={userA} userBScore={userB} mode={modeFlag } />)
+			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag } />)
 		else 
 			return (<div><h1>게임 대기 중</h1>
 				<button onClick={leaveRoom}>나가기</button></div>)

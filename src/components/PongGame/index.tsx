@@ -10,7 +10,7 @@ interface CanvasProps {
   height: number;
   userAScore: number;
   userBScore: number;
-  mode: boolean;
+  gameMode: boolean;
   isA?:boolean;
 }
 
@@ -19,7 +19,7 @@ interface Coordinate {
   y: number;
 };
 
-const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasProps) =>{
+const PongGame = ({ width, height,userAScore, userBScore, gameMode,isA  }: CanvasProps) =>{
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas  = canvasRef.current;
   const [socket] = useSocket("sleact");
@@ -31,7 +31,7 @@ const PongGame = ({ width, height,userAScore, userBScore, mode,isA  }: CanvasPro
 const ball = {
     x : canvas?canvas.width/2 : 300,
     y : canvas?canvas.height/2 : 250,
-    radius : mode?30:10,
+    radius : gameMode?30:10,
     velocityX : 5,
     velocityY : 5,
     speed : 5,
@@ -89,12 +89,12 @@ const getKeyEvent = (evt:any) =>{
     // console.log("3",evt.key);
     if (evt.key === "s")
     {
-      console.log("s",GameRoomName,isA,isA?userA.y+50:userB.y+50 );
+      console.log("s",GameRoomName,isA,isA?userA.y+50:userB.y+50,gameMode );
         socket?.emit("down",{name: GameRoomName, isA:isA, yPos:(isA?userA.y+50:userB.y+50)});
     }
     else if (evt.key === "w")
     {
-      console.log("s",GameRoomName,isA,isA?userA.y-50:userB.y-50 );
+      console.log("s",GameRoomName,isA,isA?userA.y-50:userB.y-50 ,gameMode);
       socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
     }
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
@@ -158,7 +158,7 @@ useEffect(() => {
       velocityY : number,
       speed : number,
       color : string}) => {
-      console.log("collsion obj", obj);
+      console.log("collsion obj", obj,gameMode);
       ball.x = obj.x;
       ball.y = obj.y;
       ball.radius = obj.radius;
@@ -169,7 +169,7 @@ useEffect(() => {
     })
 
   socket?.on("down", (obj:{isA : boolean ,yPos:number}) => {
-    console.log("on!",)
+    console.log("on!",gameMode)
       if (obj.isA)
       {
          userA.y = obj.yPos;
@@ -274,12 +274,12 @@ const update =()=>{
       resetBall();
       userB.score++;
         // resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:mode});
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
     }else if( ball.x + ball.radius > canvas.width +10){
       resetBall();
       userA.score++;
         // resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:mode});
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
         //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
 
