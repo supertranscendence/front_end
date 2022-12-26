@@ -11,6 +11,16 @@ export type dataUser = {
 	//isFirst: boolean;
 }
 
+export type GameType = {
+	created: string;
+	id: number;
+	player: string;
+	score: string;
+	updated: string;
+}
+
+export type listGame = GameType[]
+
 export type FriendType = {
 	friend: string;
 	state: UserStatus;

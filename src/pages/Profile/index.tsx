@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import Edit2FAModal from 'src/components/Edit2FAModal';
 import axios, { Axios } from 'axios';
-import { dataUser } from 'src/typings/types';
+import { dataUser, GameType, listGame } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -25,18 +25,18 @@ import { useHistory } from 'react-router-dom';
 
 
 
-function createData(
-    player: string,
-    score: number,
-    time: string,
-  ) {
-    return { player, score, time};
-  }
+//function createData(
+//    player: string,
+//    score: number,
+//    time: string,
+//  ) {
+//    return { player, score, time};
+//  }
 
-  const rows = [
-    createData('jisokang VS hypark', 15, '2021-01-01'),
-    createData('jisokang VS hypark', 15, '2021-01-01'),
-  ];
+  //const rows = [
+  //  createData('jisokang VS hypark', 15, '2021-01-01'),
+  //  createData('jisokang VS hypark', 15, '2021-01-01'),
+  //];
 
 const Profile = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -51,7 +51,7 @@ const Profile = () => {
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
-  const [userGame, setUserGame] = useState();
+  const [userGame, setUserGame] = useState<listGame>();
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
   const history = useHistory();
@@ -85,30 +85,6 @@ const Profile = () => {
         console.log(err);
         history.push('/workspace/sleact/intro');
       });
-
-      //----------------------------------------------------------------------------------------
-      //console.log("profile get game data start!")
-      //----------------------------------------------------------------------------------------
-      //axios
-      //  .get(process.env.REACT_APP_API_URL + `/api/game/${intra}`, {
-      //  withCredentials:true,
-      //    headers:{
-      //      authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-      //      accept: "*/*"
-      //      }
-      //  })
-      //.then((response_game) =>{
-      //  console.log("[Game Data]: ",response_game.data);
-      //  console.log("[Game]: ",response_game);
-      //  //console.log(response);
-      //  //setUser(response.data);
-      //})
-      //.catch((err_game) => {
-      //  console.log("[ERROR] get /api/game/{id}");
-      //  console.log(err_game);
-      //});
-
-
     }
   }, []);
 
@@ -145,6 +121,7 @@ const Profile = () => {
     .then((response) =>{
       console.log("response API/GAME/");
       console.log(response);
+      setUserGame(response.data);
     })
     .catch((err) => {
       console.log("[ERROR] post /api/users/ for adduser")
@@ -224,14 +201,14 @@ const Profile = () => {
               </TableRow>
               </TableHead>
               <TableBody>
-              {rows.map((row) => (
+              {userGame && userGame.map((row) => (
                   <TableRow
-                  key={row.player}
+                  key={row.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                   <TableCell>{row.player}</TableCell>
                   <TableCell>{row.score}</TableCell>
-                  <TableCell>{row.time}</TableCell>
+                  <TableCell>{row.updated}</TableCell>
                   </TableRow>
               ))}
               </TableBody>
