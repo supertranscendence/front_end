@@ -115,7 +115,7 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
 
 
     axios
-    .post(process.env.REACT_APP_API_URL + `/achievements`, {achi: 0}, {
+    .post(process.env.REACT_APP_API_URL + `/api/achievements`, {achi: 0}, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem("accessToken"),
