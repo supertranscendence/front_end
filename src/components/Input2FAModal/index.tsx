@@ -73,7 +73,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
 
   if (returnURL)
   {
-    location.href = "/";
+    // location.href = "/";
     return (<Redirect to = {returnURL}/>)
   }
   if (!show) {

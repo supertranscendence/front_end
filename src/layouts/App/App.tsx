@@ -13,7 +13,7 @@ const App = () => {
   return (
   <Switch>
     <Redirect exact path = "/" to ="/Login"/>
-    <Route path = "/login" component={Login}/>
+    <Route path = "/Login" component={Login}/>
     <Route path = "/logincheck" component={LoginCheck}/>
     {/*<Route path = "/signup" component={SignUp}/>*/}
     {/* <Route path = "/workspace/channel" component={Channel}/>
