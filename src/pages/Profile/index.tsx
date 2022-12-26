@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import EditProfileModal from 'src/components/EditProfileModal';
 import Edit2FAModal from 'src/components/Edit2FAModal';
 import axios, { Axios } from 'axios';
-import { dataUser, GameType, listGame } from 'src/typings/types';
+import { dataUser, GameType, listGame, achivementList } from 'src/typings/types';
 import useSWR from 'swr';
 import fetcher from 'src/utils/fetcher';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
@@ -52,6 +52,7 @@ const Profile = () => {
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
   const [userGame, setUserGame] = useState<listGame>();
+  const [userAchi, setUserAchi] = useState<achivementList>([]);
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
   const history = useHistory();
@@ -134,6 +135,32 @@ const Profile = () => {
     socket?.emit("Block",intra);
   }, [socket]);
 
+  //achiv
+  // id: 0 - first_login (이걸로 초기 계정 설정창 띄움)
+  // id: 1 - first_win
+
+  useEffect(() => {
+    console.log("GET /api/achivment/ user.intra: ", user?.intra);
+    axios
+      .get(process.env.REACT_APP_API_URL + `/api/achivement/${user?.intra}`, {
+      withCredentials:true,
+        headers:{
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+          accept: "*/*"
+          }
+      })
+    .then((response) =>{
+      console.log("response API/ACHIVMENT/");
+      console.log(response.data);
+      setUserAchi(response.data);
+    })
+    .catch((err) => {
+      console.log("[ERROR] get API/ACHIVMENT/")
+      console.log(err)
+    });
+  }, [user, ]);
+
+
   return (
     <Container maxWidth="lg">
       <Stack spacing={1}>
@@ -184,9 +211,9 @@ const Profile = () => {
           spacing={1}
           direction="row"
           >
-          <Chip label="👋 Welcome, Cadet" variant="outlined" />
-          <Chip label="🔥 3연승" variant="outlined" />
-          <Chip label="🔥 10연승" variant="outlined" />
+            {userAchi && userAchi.map((row) => (
+                  <Chip label={row} variant="outlined" />
+              ))}
         </Stack>
         {/* observer list 출력 */}
         <Divider variant="middle" />
@@ -208,7 +235,7 @@ const Profile = () => {
                   >
                   <TableCell>{row.player}</TableCell>
                   <TableCell>{row.score}</TableCell>
-                  <TableCell>{row.updated}</TableCell>
+                  <TableCell>{row.created?.toDateString()}</TableCell>
                   </TableRow>
               ))}
               </TableBody>
