@@ -109,6 +109,7 @@ const Channel = () => {
       }
       else{
         socket?.emit("enterGameRoom",obj.roomName, (b:boolean) =>onEnterRoom(b,obj.roomName))
+        setRedirectRoom((s)=>obj.roomName);
       }
       setReadyMatch(()=>false);
     });
@@ -122,7 +123,7 @@ const Channel = () => {
     // setReadyMatch((f)=>{return (!f);})
     setReadyMatch(true);
     });
-  },[socket, setReadyMatch]);
+  },[setReadyMatch]);
   
   const leaveMatch = useCallback(()=>{
     //대기열 등록
@@ -132,8 +133,8 @@ const Channel = () => {
     // setReadyMatch((f)=>{return (!f);})
     setReadyMatch(false);
     });
-  },[socket, setReadyMatch]);
-
+  },[setReadyMatch]);
+  
   
   useEffect(()=>{
     if (!newRoomFlag)
