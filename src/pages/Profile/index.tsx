@@ -152,9 +152,9 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    console.log("GET /api/achievement/ user.intra: ", user?.intra);
+    console.log("GET /achievements/user.intra: ", user?.intra);
     axios
-      .get(process.env.REACT_APP_API_URL + `/api/achievement/${user?.intra}`, {
+      .get(process.env.REACT_APP_API_URL + `/achievements/${user?.intra}`, {
       withCredentials:true,
         headers:{
           authorization: 'Bearer ' + localStorage.getItem("accessToken"),
