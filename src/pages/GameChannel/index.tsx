@@ -121,6 +121,7 @@ const Channel = () => {
     setReadyMatch(()=>true)});
     // setReadyMatch(true)
   },[setReadyMatch]);
+
   
   useEffect(()=>{
     if (!newRoomFlag)
@@ -136,7 +137,7 @@ const Channel = () => {
   else if (readyMatch)
     {
       return (<><div> 매칭 중..</div>
-        <button>매칭 나가기(아직안만듬</button>
+        <button onClick={findMatch}>매칭 나가기(테스팅 중)</button>
           </>
       )//버튼
       
