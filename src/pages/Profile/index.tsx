@@ -133,6 +133,7 @@ const Profile = () => {
   }, [user, ]);
 
   useEffect(() => {
+    console.log("/api/game/ user.intra: ", user?.intra);
     axios
       .get(process.env.REACT_APP_API_URL + `/api/game/${user?.intra}`, {
       withCredentials:true,
