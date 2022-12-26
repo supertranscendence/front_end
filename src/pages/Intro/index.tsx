@@ -46,7 +46,9 @@ const Intro = () => {
     })
     .catch((err) => {
       console.log("[ERROR] get API/ACHIVMENT/")
-      console.log(err)
+      console.log(err.status)
+      if(err.status === 500)
+        setIsFirstLogin(true)
     });
 
   }, [myUserData ]);
