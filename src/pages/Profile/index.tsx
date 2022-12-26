@@ -51,6 +51,7 @@ const Profile = () => {
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
+  const [userGame, setUserGame] = useState();
   const { workspace } = useParams<{ workspace?: string }>();
   const [socket] = useSocket(workspace);
   const history = useHistory();
@@ -84,6 +85,30 @@ const Profile = () => {
         console.log(err);
         history.push('/workspace/sleact/intro');
       });
+
+      //----------------------------------------------------------------------------------------
+      console.log("profile get game data start!")
+      //----------------------------------------------------------------------------------------
+      axios
+        .get(process.env.REACT_APP_API_URL + `/api/game/${intra}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        console.log("[Game Data]: ",response.data);
+        console.log("[Game]: ",response);
+        //console.log(response);
+        //setUser(response.data);
+      })
+      .catch((err) => {
+        console.log("[ERROR] get /api/game/{id}");
+        console.log(err);
+      });
+
+
     }
   }, []);
 
