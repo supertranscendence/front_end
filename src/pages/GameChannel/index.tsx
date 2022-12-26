@@ -108,14 +108,15 @@ const Channel = () => {
           setRedirectRoom((s)=>obj.roomName);
           console.log("findMatch Done");
           console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
+          
         });
     
       }
       else{
         socket?.emit("enterGameRoom",obj.roomName, (b:boolean) =>onEnterRoom(b,obj.roomName))
-        // setRedirectRoom((s)=>obj.roomName);
+        setRedirectRoom((s)=>obj.roomName);
       }
-      setReadyMatch(()=>false);
+      setReadyMatch(false);
     });
   },[socket]);
   
