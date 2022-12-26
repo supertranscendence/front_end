@@ -113,7 +113,7 @@ const Workspace:FC<Props> = ({children}) =>
   {
     console.log("myUser Intra", myUserData?.intra);
     history.push(`/workspace/sleact/profile/${myUserData?.intra}`);
-  }, [])
+  }, [myUserData])
 	const onLogout = useCallback(()=>
 	{
     console.log("onLogout 들어감!")
