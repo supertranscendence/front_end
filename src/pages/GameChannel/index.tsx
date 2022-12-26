@@ -50,7 +50,7 @@ const Channel = () => {
   }, []);
   
   const onEnterRoom = useCallback( (b:boolean, roomName :string)=>{
-    console.log("result",b,roomName);
+    console.log("enter room result",b,roomName);
     if(!b)
       setRedirectRoom((s)=>roomName)
   },[])
@@ -103,15 +103,17 @@ const Channel = () => {
       console.log("ononon findMatch", obj);
       if(obj.isA){
         console.log("createRoom!");
-        socket?.emit("createGameRoom",  obj.roomName, ()=>setNewRoomFlag(true));
+        socket?.emit("createGameRoom",  obj.roomName, ()=>{
+          setNewRoomFlag(true);
+          setRedirectRoom((s)=>obj.roomName);
+          console.log("findMatch Done");
+          console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
+        });
     
-        console.log("findMatch Done");
-        console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
-        setRedirectRoom((s)=>obj.roomName);
       }
       else{
         socket?.emit("enterGameRoom",obj.roomName, (b:boolean) =>onEnterRoom(b,obj.roomName))
-        setRedirectRoom((s)=>obj.roomName);
+        // setRedirectRoom((s)=>obj.roomName);
       }
       setReadyMatch(()=>false);
     });
