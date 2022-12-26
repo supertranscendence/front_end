@@ -67,7 +67,15 @@ var deleteCookie = function(name:string){
       // 표준에 따라 기본 동작 방지
       event.preventDefault();
       // Chrome에서는 returnValue 설정이 필요함
-      onLogout();
+      if (confirm("Test") === true)
+      {
+        console.log("굳");
+        onLogout();
+      }
+      else{
+        console.log("로그아웃 안함");
+      }
+      
       event.returnValue = '';
     });
   
