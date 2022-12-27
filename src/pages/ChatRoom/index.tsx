@@ -39,7 +39,6 @@ const updateUsers = useCallback((userArr:string[])=>{
   setUsers((arr)=>[...userArr.map((str)=>{
     return str})]);
   },[socket,setUsers])
-///TODO : 룸인포 없이도 되는지 확인 아마도 크리에이터가 룸인포 못받아서 들어오자마자 날리는 걸수도
 useEffect(()=>{
   socket?.emit("roomInfo", {roomName:ChatRoom}, (userArr : string[]) =>updateUsers(userArr))
 },[])
@@ -97,6 +96,7 @@ if (ChatRoom)
 
   useEffect(() => {
     socket?.on("newMsg", (msg:any) => handleReceiveMessage(msg) );
+    console.log("on!@!@#!@#");
   }, [socket, handleReceiveMessage]);
 
   useEffect(() => {

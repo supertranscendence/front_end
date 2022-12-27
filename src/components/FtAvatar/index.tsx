@@ -16,5 +16,6 @@ const FtAvatar: VFC<Props> = ({userAvatar, size}) => {
 		/>
 	);
 }
+	//TODO 환경변수
 
 export default FtAvatar;

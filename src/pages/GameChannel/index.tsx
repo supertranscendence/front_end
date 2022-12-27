@@ -22,7 +22,6 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { ConstructionOutlined } from '@mui/icons-material';
 
 //const PAGE_SIZE = 20;
-///TODO:  어딜가나 조인 풀리게 clearRoom달아놓기 -> 했는데 백엔드에서 게임룸 조인도 풀어달라하기
 
 const Channel = () => {
   const { workspace } = useParams<{ workspace?: string }>();
@@ -123,12 +122,10 @@ const Channel = () => {
     console.log("ononon findMatch", obj);
       if(obj.isA){//a유저이면 방생성자로서 역할 해주기
           console.log("createRoom!");
-          // socket?.emit("createGameRoom", obj.roomName, ()=>{// TODO: 찌가 바꿔주면 이거만 빼자 
           setNewRoomFlag((f)=>true);
           setRedirectRoom((s)=>obj.roomName);
           console.log("findMatch Done");
           console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
-        // });
       }
       else{//b유저이면 만들어진 방에 입장하는 역할
         socket?.emit("enterGameRoom",obj.roomName, (isAlreadyB:boolean) =>{

@@ -42,6 +42,8 @@ const LogIn = () => {
   //   return <Redirect to="/workspace/sleact/intro"/>
   //   // location.href=("/");
   // }
+  
+	//TODO 환경변수 로그인 버튼 (redirect)
 
   return (
     <Container maxWidth="sm">

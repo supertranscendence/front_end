@@ -18,8 +18,7 @@ var deleteCookie = function(name:string){
       console.log('삭제할 쿠키가 없습니다.');
     } else {
       for (let i:any = 0; i < cookies.length; i++) {
-        // const uname = cookies[i].split('=')[0];
-        // document.cookie = `${uname}=; expires=${expiration}`;
+        //TODO 환경변수
 		document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=.gilee.click;";
         // document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration + '; domain =' + domain;
       }
@@ -48,6 +47,7 @@ var deleteCookie = function(name:string){
 			return null;
 		}
 	}
+	//TODO 환경변수
 	else{
 		axios.get("https://server.gilee.click/api/auth/ft/refresh", {
 		withCredentials:true,
