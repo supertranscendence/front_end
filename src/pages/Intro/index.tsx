@@ -45,11 +45,12 @@ const Intro = () => {
       setUserAchi(response.data);
       console.log("userAchi: ", userAchi);
       console.log("userAchi[0]: ", userAchi[0]);
-      if(userAchi[0].achievement === 0)
-        console.log("NOT 처음 로그인!");
+      if(userAchi[0] === undefined) {
+          console.log("😄 첫번째 로그인");
+          setIsFirstLogin(true);
+      }
       else{
-        console.log("😄 첫번째 로그인");
-        setIsFirstLogin(true);
+        console.log("NOT 처음 로그인!");
       }
     })
     .catch((err) => {
