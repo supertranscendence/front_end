@@ -68,7 +68,7 @@ const DMList = () => {
           });
         });
         console.log(stateFriend);    
-  });
+  }, [socket,stateFriendList]);
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
