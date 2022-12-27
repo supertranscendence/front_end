@@ -43,6 +43,9 @@ const Intro = () => {
       console.log("response API/ACHIVMENT/", response.data);
 
       setUserAchi(response.data);
+      if(response.data)
+        console.log("response.data exist! ");
+
       console.log("userAchi: ", userAchi);
       console.log("userAchi[0]: ", userAchi[0]);
       if(userAchi[0] === undefined) {
