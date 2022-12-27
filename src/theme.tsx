@@ -7,12 +7,14 @@ const theme = createTheme({
     primary: {
       main: '#3A123E',
     },
-    secondary: {
-      main: '#19857b',
-    },
     error: {
       main: red.A400,
     },
+    success: {
+      main: '#44b700',
+    },
+  // warning == Yellow
+
   },
 });
 

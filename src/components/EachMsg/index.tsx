@@ -14,18 +14,20 @@ import PendingIcon from '@mui/icons-material/Pending';
 import { Stack } from '@mui/system';
 import useSocket from 'src/hooks/useSocket';
 import axios from 'axios';
-import { dataUser } from 'src/typings/types';
+import { dataUser, UserStatus } from 'src/typings/types';
 import FtAvatar from 'src/components/FtAvatar';
 import { useHistory } from 'react-router-dom';
+import theme from 'src/theme';
 interface Props {
   roomName?: string
   msg : {
     name: string,
     msg :string,
     avatar:string
+    status?: string;
   }
-  // isOnline: boolean;
 }
+
 
 
 
@@ -69,6 +71,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         //console.log("friends: ", response.data);
         console.log("intra: ",response.data.intra)
         setUser(response.data);
+        //set
       })
       .catch((err) => {
         console.log("[ERROR] get /api/users/{id}")
@@ -120,11 +123,17 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   },[socket, ])
 
 
+  // COLOR
+
+  //const color_green = theme.palette.success;  //online
+  //const color_red = theme.palette.error;   //offline
+  //const color_orange = theme.palette.warning; //in_game
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-      backgroundColor: '#44b700',
-      color: '#44b700',
+      //backgroundColor: ${myColor},
+      //color: ${myColor},
+      //color: 'default',
       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
       '&::after': {
         position: 'absolute',
@@ -170,6 +179,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
+            sx={{color: msg.status}}
           >
             <FtAvatar userAvatar={user?.avatar}/>
           </StyledBadge>
