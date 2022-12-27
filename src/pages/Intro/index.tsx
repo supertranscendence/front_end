@@ -39,29 +39,41 @@ const Intro = () => {
           }
       })
     .then((response) =>{
-      console.log("response API/ACHIVMENT/");
-      console.log(response.data);
+      console.log("response API/ACHIVMENT/", response.data);
+
       setUserAchi(response.data);
-      checkIsFirstLogin(userAchi[0].achievement);
+      console.log("userAchi: ", userAchi);
+      console.log("userAchi[0]: ", userAchi[0]);
+      if(userAchi[0].achievement === 0)
+        console.log("NOT 처음 로그인!");
+      else{
+        console.log("😄 첫번째 로그인");
+        setIsFirstLogin(true);
+      }
+
     })
     .catch((err) => {
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err.status)
-      if(err.status === 500)
-        setIsFirstLogin(true)
     });
 
-  }, [myUserData ]);
+  }, [myUserData, userAchi, isFirstLogin ]);
+  if(isFirstLogin === true){
+    return (
+      <Container maxWidth="lg">
+      <FirstProfileModal
+        //show={showFirstProfileModal}
+        show={isFirstLogin}
+        onCloseModal={onCloseModal}
+        setShowProfileModal={setShowFirstProfileModal}
+        />
+    </Container>
+    );
+  }
+
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
-
-    <FirstProfileModal
-      //show={showFirstProfileModal}
-      show={isFirstLogin}
-      onCloseModal={onCloseModal}
-      setShowProfileModal={setShowFirstProfileModal}
-      />
     </Container>
   );
 };

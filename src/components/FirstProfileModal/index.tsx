@@ -113,7 +113,9 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
     });
 
 
-
+/*
+    첫로그인!
+ */
     axios
     .post(process.env.REACT_APP_API_URL + `/api/achievements`, {achi: 0}, {
       withCredentials:true,
@@ -122,9 +124,9 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClo
           accept: "*/*"
           }
       })
-    .then((response) =>{
-      console.log("response /achievements", response);
-    })
+    //.then((response) =>{
+    //  console.log("response /achievements", response);
+    //})
     .catch((err) => {
       console.log("[ERROR] post /achievements", err);
       console.log(err);
