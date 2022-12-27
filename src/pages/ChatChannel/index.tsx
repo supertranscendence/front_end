@@ -140,7 +140,6 @@ else
             alignItems="center"
             spacing={1}
           >
-            <Button variant="outlined" onClick={fetchch} > API 받아오기 (refresh)</Button>
             <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Chat</Button>
           </Stack>
           <TableContainer component={Paper}>
