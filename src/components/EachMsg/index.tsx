@@ -37,6 +37,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const [socket] = useSocket("sleact");
   const [returnURL, setReturnURL] = useState("");
   const [friendMode, setFriendMode] = useState('flex');
+  const [statShow, setStatShow] = useState('flex');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
@@ -55,6 +56,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     if(roomName === undefined){
       console.log("Friend List Mode");
       setFriendMode('none');
+    }
+    if(msg.status === undefined){
+      setStatShow('none');
     }
     console.log("[!!!!]msg.name: ", msg.name);
     if(msg.name != "it's me"){
@@ -118,17 +122,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const showProfile = useCallback(()=>{
     console.log("showProfile",{roomName:roomName , goDM :msg.name} );
     window.location.href = `/workspace/sleact/profile/${msg.name}`;
-    //history.push(`/workspace/sleact/profile/${msg.name}`)
-    //setReturnURL(`/workspace/sleact/profile/${msg.name}`);
-
   },[socket, ])
 
-
-  // COLOR
-
-  //const color_green = theme.palette.success;  //online
-  //const color_red = theme.palette.error;   //offline
-  //const color_orange = theme.palette.warning; //in_game
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -180,7 +175,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
-            sx={{color: msg.status}}
+            sx={{color: msg.status, display: statShow}}
           >
             <FtAvatar userAvatar={user?.avatar}/>
           </StyledBadge>
