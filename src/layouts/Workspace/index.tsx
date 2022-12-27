@@ -159,18 +159,18 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 
 	}, [localStorage, setReturnFlag]);
 	
-	useEffect(() => {
-    console.log("test on change friends state");
-    socket?.on("changeState", () => {
-      console.log("test return well change friends state");
-      socket?.emit("myFriend", (stateFriend:string ) => {
-            console.log("test [get myFriend] res: ");
-            console.log(JSON.parse(stateFriend));
-            setStateFriendList(JSON.parse(stateFriend));
-          });
-        });
-        // console.log(stateFriend); 
-  }, [socket,setStateFriendList]);
+	// useEffect(() => {
+  //   console.log("test on change friends state");
+  //   socket?.on("changeState", () => {
+  //     console.log("test return well change friends state");
+  //     socket?.emit("myFriend", (stateFriend:string ) => {
+  //           console.log("test [get myFriend] res: ");
+  //           console.log(JSON.parse(stateFriend));
+  //           setStateFriendList(JSON.parse(stateFriend));
+  //         });
+  //       });
+  //       // console.log(stateFriend); 
+  // }, [socket,setStateFriendList]);
   
 	if (returnFlag)
   {
