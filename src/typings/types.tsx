@@ -12,11 +12,11 @@ export type dataUser = {
 }
 
 export type GameType = {
-	created: Date | null;
+	created: Date;
 	id: number;
 	player: string;
 	score: string;
-	updated: Date | null;
+	updated: Date;
 }
 
 export type listGame = GameType[]

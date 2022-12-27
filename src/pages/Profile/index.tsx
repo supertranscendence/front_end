@@ -227,12 +227,12 @@ const Profile = () => {
               <TableBody>
               {userGame && userGame.map((row) => (
                   <TableRow
-                  key={row.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                  <TableCell>{row.player}</TableCell>
-                  <TableCell>{row.score}</TableCell>
-                  <TableCell>{row.created?.toDateString()}</TableCell>
+                    key={row.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                    <TableCell>{row.player}</TableCell>
+                    <TableCell>{row.score}</TableCell>
+                    <TableCell>{row.created?.toDateString()}</TableCell>
                   </TableRow>
               ))}
               </TableBody>
