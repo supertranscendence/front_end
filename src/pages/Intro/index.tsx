@@ -7,6 +7,7 @@ import fetcher from 'src/utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
 import FirstProfileModal from 'src/components/FirstProfileModal';
+import { FSx } from 'aws-sdk';
 
 const Intro = () => {
 
@@ -42,19 +43,18 @@ const Intro = () => {
     .then((response) =>{
       console.log("response API/ACHIVMENT/", response.data);
 
-      setUserAchi(response.data);
-      if(response.data)
-        console.log("response.data exist! ");
+      setUserAchi((prev) => response.data);
+      setUserAchi((prev) => {return response.data});
+      //setUserAchi((prev) => Fx());
+      //if(response.data){
+      //  console.log("response.data exist! ");
+      //  if(response.data[0])
+      //    console.log("response.data[0] exist! :", response.data[0]);
+      //}
 
       console.log("userAchi: ", userAchi);
       console.log("userAchi[0]: ", userAchi[0]);
-      if(userAchi[0] === undefined) {
-          console.log("😄 첫번째 로그인");
-          setIsFirstLogin(true);
-      }
-      else{
-        console.log("NOT 처음 로그인!");
-      }
+
     })
     .catch((err) => {
       console.log("[ERROR] get API/ACHIVMENT/")
@@ -74,7 +74,13 @@ const Intro = () => {
   //  </Container>
   //  );
   //}
-
+  if(userAchi[0] === undefined) {
+    console.log("😄 첫번째 로그인");
+    setIsFirstLogin(true);
+  }
+  else{
+    console.log("NOT 처음 로그인!");
+  }
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>

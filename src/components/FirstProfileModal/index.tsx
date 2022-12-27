@@ -1,6 +1,6 @@
 import { CreateModal, CloseModalButton } from 'src/components/Modal/style';
 import React, { FC, PropsWithChildren, useCallback, useState, useRef } from 'react';
-import {Label, Input} from 'src/pages/SignUp/styles';
+//import {Label, Input} from 'src/pages/SignUp/styles';
 import { Avatar, Button, Divider } from '@mui/material';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"

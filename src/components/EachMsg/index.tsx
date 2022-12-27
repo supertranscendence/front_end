@@ -180,7 +180,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
-            sx={{color: msg.status}}
+            sx={{color: msg.status,}}
           >
             <FtAvatar userAvatar={user?.avatar}/>
           </StyledBadge>
