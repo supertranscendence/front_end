@@ -13,7 +13,8 @@ const Intro = () => {
     dedupingInterval: 2000, // 2초
   });
   const [showFirstProfileModal, setShowFirstProfileModal] = useState(true);
-  const [isFirstLogin, setIsFirstLogin] = useState(false);
+  //const [isFirstLogin, setIsFirstLogin] = useState(false);
+  const [isFirstLogin, setIsFirstLogin] = useState(true);
   const [userAchi, setUserAchi] = useState<achievementTypeList>([]);
   //const onClickEditProfile = useCallback(() => { setShowFirstProfileModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowFirstProfileModal(false); }, []);
