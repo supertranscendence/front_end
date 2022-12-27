@@ -12,6 +12,7 @@ const FtAvatar: VFC<Props> = ({userAvatar, size}) => {
 	return(
 		<Avatar
 			src={'https://gilee.click/' + userAvatar + '.png'}
+			// src={`${process.env.REACT_APP_IMG_URL}${userAvatar}.png`}
 			sx={{ width: size, height: size}}
 		/>
 	);

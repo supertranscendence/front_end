@@ -68,6 +68,11 @@ const LogIn = () => {
               onClick={()=>{
                 window.location.href = "http://127.0.0.1:3000/api/auth/ft/redirect";
             }}>로컬 백엔드로 로그인</Button>
+          <Button
+              variant='outlined'
+              onClick={()=>{
+                window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/ft/redirect`;
+            }}>환경변수 주소로로 로그인</Button>
         </Stack>
       </Box>
 

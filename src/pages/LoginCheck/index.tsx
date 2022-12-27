@@ -38,7 +38,8 @@ const LoginCheck = () => {
         console.log("200!", response.status);
         //setIsError(false);
         //TODO 환경변수
-        window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+        // window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
+        window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/ft/redirect`;
       } else {
         setIsError(true);
       }
