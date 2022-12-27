@@ -1,6 +1,7 @@
 
 import React, { useCallback, useState, useEffect } from 'react';
 import { Container } from '@mui/system';
+import { Button } from '@mui/material';
 import { achievementType, dataFriend, dataUser, achievementTypeList } from 'src/typings/types';
 import fetcher from 'src/utils/fetcher';
 import useSWR from 'swr';
@@ -28,7 +29,7 @@ const Intro = () => {
     //  setIsFirstLogin(true);
   }
 
-  useEffect(() => {
+  const onClickTestFirst = useCallback(() => {
     console.log("GET /api/achievement/ MY user.intra: ", myUserData?.intra);
     axios
     .get(process.env.REACT_APP_API_URL + `/api/achievements/${myUserData?.intra}`, {
@@ -39,29 +40,48 @@ const Intro = () => {
           }
       })
     .then((response) =>{
-      console.log("response API/ACHIVMENT/");
-      console.log(response.data);
+      console.log("response API/ACHIVMENT/", response.data);
+
       setUserAchi(response.data);
-      checkIsFirstLogin(userAchi[0].achievement);
+      console.log("userAchi: ", userAchi);
+      console.log("userAchi[0]: ", userAchi[0]);
+      if(userAchi[0] === undefined) {
+          console.log("😄 첫번째 로그인");
+          setIsFirstLogin(true);
+      }
+      else{
+        console.log("NOT 처음 로그인!");
+      }
     })
     .catch((err) => {
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err.status)
-      if(err.status === 500)
-        setIsFirstLogin(true)
     });
 
-  }, [myUserData ]);
+  }, [ ]);
+  //if(isFirstLogin === true){
+  //  return (
+  //    <Container maxWidth="lg">
+  //    <FirstProfileModal
+  //      //show={showFirstProfileModal}
+  //      show={isFirstLogin}
+  //      onCloseModal={onCloseModal}
+  //      setShowProfileModal={setShowFirstProfileModal}
+  //      />
+  //  </Container>
+  //  );
+  //}
+
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
-
-    <FirstProfileModal
-      //show={showFirstProfileModal}
-      show={isFirstLogin}
-      onCloseModal={onCloseModal}
-      setShowProfileModal={setShowFirstProfileModal}
-      />
+      <Button onClick={onClickTestFirst}>첫 로그인 테스트</Button>
+      <FirstProfileModal
+        //show={showFirstProfileModal}
+        show={isFirstLogin}
+        onCloseModal={onCloseModal}
+        setShowProfileModal={setShowFirstProfileModal}
+        />
     </Container>
   );
 };

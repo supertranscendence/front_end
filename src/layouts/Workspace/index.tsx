@@ -61,24 +61,24 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   interface Props {
     children:any
   }
-  
+
   const Workspace:FC<Props> = ({children}) =>
   {
-    window.addEventListener('beforeunload', (event:any) => {
-      // 표준에 따라 기본 동작 방지
-      event.preventDefault();
-      // Chrome에서는 returnValue 설정이 필요함
-      if (confirm("Test") === true)
-      {
-        console.log("굳");
-        onLogout();
-      }
-      else{
-        console.log("로그아웃 안함");
-      }
-      event.returnValue = '';
-    });
-    
+    //window.addEventListener('beforeunload', (event:any) => {
+    //  // 표준에 따라 기본 동작 방지
+    //  event.preventDefault();
+    //  // Chrome에서는 returnValue 설정이 필요함
+    //  if (confirm("Test") === true)
+    //  {
+    //    console.log("굳");
+    //    onLogout();
+    //  }
+    //  else{
+    //    console.log("로그아웃 안함");
+    //  }
+    //  event.returnValue = '';
+    //});
+
     const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
       dedupingInterval: 2000, // 2초
     });
@@ -95,12 +95,6 @@ const Pong = loadable(() => import ('src/pages/Pong') );
     setAnchorEl(null);
   };
 
-  // if (returnFlag)
-  // {
-  //   console.log("retruen Flag :", returnFlag);
-  //   return (<Redirect to={returnFlag}/>);
-  // }
-  
   console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
@@ -126,8 +120,6 @@ const Pong = loadable(() => import ('src/pages/Pong') );
       console.log('삭제할 쿠키가 없습니다.');
     } else {
       for (let i:any = 0; i < cookies.length; i++) {
-        
-        	//TODO 환경변수
 
         //TODO: 도메인을 환경변수로 받아올것!!!!!!
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=.gilee.click;";
@@ -141,7 +133,8 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   const onMyProfile = useCallback(()=>
   {
     console.log("myUser Intra", myUserData?.intra);
-    history.push(`/workspace/sleact/profile/${myUserData?.intra}`);
+    window.location.href = `/workspace/sleact/profile/${myUserData?.intra}`;
+    //history.push(`/workspace/sleact/profile/${myUserData?.intra}`);
   }, [myUserData])
 
 	const onLogout = useCallback(()=>

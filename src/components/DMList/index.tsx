@@ -44,17 +44,32 @@ const DMList = () => {
   //  },[socket, setFriendData])
 
 
+  // useEffect(() => {
+  //   console.log("[get myFriend]: ");
+  //   socket?.emit("myFriend", (stateFriend:string ) => {
+  //     console.log("[get myFriend] res: ");
+  //     console.log(JSON.parse(stateFriend));
+  //     setStateFriendList(JSON.parse(stateFriend));
+
+  //   });
+  //   console.log(stateFriend);
+
+  // }, [socket]);
+  
+  
   useEffect(() => {
-    console.log("[get myFriend]: ");
-    socket?.emit("myFriend", (stateFriend:string ) => {
-      console.log("[get myFriend] res: ");
-      console.log(JSON.parse(stateFriend));
-      setStateFriendList(JSON.parse(stateFriend));
-
-    });
-    console.log(stateFriend);
-
+    console.log("on change friends state");
+    socket?.on("changeState", () => {
+      console.log("return well change friends state");
+      socket?.emit("myFriend", (stateFriend:string ) => {
+            console.log("[get myFriend] res: ");
+            console.log(JSON.parse(stateFriend));
+            setStateFriendList(JSON.parse(stateFriend));
+          });
+        });
+        console.log(stateFriend);    
   }, [socket]);
+  
 
   useEffect(() => {
     console.log('DMList: workspace 바꼈다', workspace);
@@ -72,6 +87,19 @@ const DMList = () => {
   //  };
   //}, [socket]);
 
+  const statToColor = (status:number) =>{
+    if(status === UserStatus.me)
+     return "#000000"
+    else if(status === UserStatus.login)
+      return "#44b700"
+    else if(status === UserStatus.logout)
+      return "#ff1744"
+    else if(status === UserStatus.ingame)
+      return "#ff9800"
+    else
+      return "#FFFFFF"
+
+  }
 
   return (
     <>
@@ -83,7 +111,7 @@ const DMList = () => {
       </h2>
       <div>
         {stateFriendList.map((i) => {
-            return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar}}/>
+            return <EachMsg key={i.friend} msg={{msg: '', name:i.friend, avatar:i.avatar, status:statToColor(i.state)}}/>
           })
           }
       </div>
