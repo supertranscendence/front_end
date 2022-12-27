@@ -280,7 +280,6 @@ const update =()=>{
       userA.score++;
         // resetUser();
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
-        //TODO:게임셋 보내면서 게임 던이면 누가 이겼는지 이름보내줘
     }
 
       
@@ -363,10 +362,9 @@ const game = () =>{
     isUpdate =false;
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
-      window.removeEventListener("keydown",getKeyEvent);//TODO::키다운 설정 생각하기
+      window.removeEventListener("keydown",getKeyEvent);
     }
 }
-///TODO: emit보낼때  콜리젼 계산해서 보내고 다른곳 콜리젼은 지워버리기~ ->찌한테안에값들 주고 
 // number of frames per second
 let framePerSecond = 50;
 //call the game const 50 times every 1 Sec

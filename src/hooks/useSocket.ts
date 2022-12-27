@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { io, Socket } from 'socket.io-client'
 
+	//TODO 환경변수
 const backUrl = 'https://server.gilee.click/api/socket';
 // const backUrl = 'http://127.0.0.1:3000/api/socket';
 

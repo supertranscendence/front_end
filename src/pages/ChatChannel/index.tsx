@@ -45,7 +45,7 @@ const onCloseModal = useCallback(() => {
 const [roomArr, setRoomArr] = useState<{name:string,roomType:string, currCnt:number , enterButton: JSX.Element }[]>([]);
 const enterRoom =  useCallback( (e:any)=> {
   console.log ("ispublic?", e);
-  //TODO enterROom 보낼때 name 왜보냄?
+  //TODO 사실 enterRoomd 보낼떄 name 안보내도 됨
   socket?.emit("enterRoom",{room:e.target.name, name:"userinfo"},()=>{
   })
 },[])

@@ -47,7 +47,6 @@ const GameRoom = () => {
 	  },[socket])
 	  
 	//게임이 끝났을때 다른 페이지를 렌더할 이벤트 
-	//TODO 룸에서 모두 내쫗기 -> 방이 남아있더라
 	useEffect(()=>{
 		console.log("game done?" );
 		socket?.on("gameDone",(winner:string)=> {setGameDone(winner)});
@@ -110,7 +109,6 @@ const GameRoom = () => {
 	const modeGameStart = useCallback(()=>{
 		console.log("on gameStart", GameRoomName );
 		socket?.emit("gameStart", {room:GameRoomName, mode:true} );
-		// setModeFlag((b)=>{return !b;});//TODO:지금은 냅다 트루인데 일단 토글로 해놓고 추후 수정 필요 -> 소켓으로 모드로 바꼇는지 안바꼇는지 changeMode Event
 	},[socket]);
 	
 	if (returnFlag)
@@ -129,7 +127,7 @@ const GameRoom = () => {
 	{
 		if (start)
 			return (<PongGame userAScore ={0} userBScore={0} gameMode={modeFlag} isA={isA}/>)
-		else//TODO: 나가기 온클릭으로 리브룸으로 바꾸기
+		else
 			return(
 				<Container maxWidth="lg">
 					<Stack spacing={1}>
