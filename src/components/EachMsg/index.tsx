@@ -117,7 +117,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
 
   const showProfile = useCallback(()=>{
     console.log("showProfile",{roomName:roomName , goDM :msg.name} );
-    history.push(`/workspace/sleact/profile/${msg.name}`)
+    window.location.href = `/workspace/sleact/profile/${msg.name}`;
+    //history.push(`/workspace/sleact/profile/${msg.name}`)
     //setReturnURL(`/workspace/sleact/profile/${msg.name}`);
 
   },[socket, ])
