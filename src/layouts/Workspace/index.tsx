@@ -64,20 +64,20 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 
   const Workspace:FC<Props> = ({children}) =>
   {
-    window.addEventListener('beforeunload', (event:any) => {
-      // 표준에 따라 기본 동작 방지
-      event.preventDefault();
-      // Chrome에서는 returnValue 설정이 필요함
-      if (confirm("Test") === true)
-      {
-        console.log("굳");
-        onLogout();
-      }
-      else{
-        console.log("로그아웃 안함");
-      }
-      event.returnValue = '';
-    });
+    //window.addEventListener('beforeunload', (event:any) => {
+    //  // 표준에 따라 기본 동작 방지
+    //  event.preventDefault();
+    //  // Chrome에서는 returnValue 설정이 필요함
+    //  if (confirm("Test") === true)
+    //  {
+    //    console.log("굳");
+    //    onLogout();
+    //  }
+    //  else{
+    //    console.log("로그아웃 안함");
+    //  }
+    //  event.returnValue = '';
+    //});
 
     const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
       dedupingInterval: 2000, // 2초
