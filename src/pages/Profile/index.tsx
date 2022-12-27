@@ -107,7 +107,7 @@ const Profile = () => {
     .then((response) =>{
       console.log("response API/GAME/");
       console.log(response);
-      setUserAchi(response.data);
+      setUserGame(response.data);
     })
     .catch((err) => {
       console.log("[ERROR] post /api/users/ for adduser")
