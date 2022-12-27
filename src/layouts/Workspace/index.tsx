@@ -121,6 +121,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
     } else {
       for (let i:any = 0; i < cookies.length; i++) {
 
+
         //TODO: 도메인을 환경변수로 받아올것!!!!!!
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=.gilee.click;";
         document.cookie = cookies[i].split('=')[0] + '=; expires=' + expiration +"; domain=127.0.0.1;";
