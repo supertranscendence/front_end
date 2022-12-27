@@ -19,12 +19,14 @@ import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
 // import useSocket from 'src/hooks/useSocket';
 import authfetcher from 'src/utils/authfetcher';
-import { dataUser } from 'src/typings/types';
+// import { dataUser } from 'src/typings/types';
 // import Intro from '@pages/Intro';
 import FtAvatar from 'src/components/FtAvatar';
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Box, Stack, width } from '@mui/system';
+import useSocket from 'src/hooks/useSocket';
+import { dataUser, FriendType, listFriend } from 'src/typings/types';
 import {
     AddButton,
     Channels,
@@ -85,7 +87,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   const [returnFlag, setReturnFlag] = useState("");
 	const {workspace} = useParams<{workspace:string}>();
 	const {data, mutate} = useSWR('token', authfetcher);
-
+  const [socket] = useSocket(workspace);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleOpenProfileMenu = (event:any) => {
@@ -94,6 +96,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const [stateFriendList, setStateFriendList] = useState<listFriend>([]);
 
   console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
@@ -155,6 +158,20 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 		setReturnFlag("/");
 
 	}, [localStorage, setReturnFlag]);
+	
+	useEffect(() => {
+    console.log("test on change friends state");
+    socket?.on("changeState", () => {
+      console.log("test return well change friends state");
+      socket?.emit("myFriend", (stateFriend:string ) => {
+            console.log("test [get myFriend] res: ");
+            console.log(JSON.parse(stateFriend));
+            setStateFriendList(JSON.parse(stateFriend));
+          });
+        });
+        // console.log(stateFriend); 
+  }, [socket,setStateFriendList]);
+  
 	if (returnFlag)
   {
     console.log("retruen Flag :", returnFlag);
