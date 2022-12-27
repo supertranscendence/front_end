@@ -98,25 +98,29 @@ const Channel = () => {
   },[socket,setNewRoomFlag]);
   
   useEffect(()=>{//매칭완료
+    console.log("여기");
     socket?.on("findMatch", (obj : {roomName:string, isA:boolean })=>{
       // setRedirectRoom((s)=>obj.room);
       console.log("ononon findMatch", obj);
       if(obj.isA){//a유저이면 방생성자로서 역할 해주기
           console.log("createRoom!");
-          socket?.emit("createGameRoom", obj.roomName, ()=>{// TODO: 찌가 바꿔주면 이거만 빼자 
+          // socket?.emit("createGameRoom", obj.roomName, ()=>{// TODO: 찌가 바꿔주면 이거만 빼자 
           setNewRoomFlag(true);
           setRedirectRoom((s)=>obj.roomName);
           console.log("findMatch Done");
           console.log(`/workspace/sleact/channel/Game/${obj.roomName}`);
-        });
+        // });
       }
       else{//b유저이면 만들어진 방에 입장하는 역할
-        socket?.emit("enterGameRoom",obj.roomName, (isAlreadyB:boolean) =>onEnterRoom(isAlreadyB,obj.roomName))
+        socket?.emit("enterGameRoom",obj.roomName, (isAlreadyB:boolean) =>{
+          // onEnterRoom(isAlreadyB,obj.roomName)
+          setRedirectRoom((s)=>obj.roomName);
+        })
         // setRedirectRoom((s)=>obj.roomName);
       }
       setReadyMatch(false);
     });
-  },[socket, setNewRoomFlag]);
+  },[]);
   
   const findMatch = useCallback(()=>{
     //대기열 등록
@@ -137,16 +141,6 @@ const Channel = () => {
     setReadyMatch(false);
     });
   },[setReadyMatch]);
-  
-  
-  useEffect(()=>{
-    if (!newRoomFlag)
-    {
-      console.log("clearGameRoom call");
-      socket?.emit("clearGameRoom");
-      // setNewRoomFlag(false);
-    }
-    },[socket])
   
   if (redirectRoom)
     return ( <Redirect to= {`/workspace/sleact/channel/Game/${redirectRoom}`}/>);
