@@ -45,8 +45,7 @@ const Intro = () => {
     })
     .then(() => {
       console.log("userAchi: ", userAchi);
-      console.log("userAchi[0]: ", userAchi[0]);
-      if(userAchi[0] === undefined) {
+      if(userAchi && userAchi[0] === undefined) {
           console.log("😄 첫번째 로그인");
           setIsFirstLogin(true);
         }
