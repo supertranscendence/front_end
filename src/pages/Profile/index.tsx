@@ -190,8 +190,10 @@ const Profile = () => {
             ) : (
             <div>
               <h1>{ user && user.nickname } PROFILE</h1>
-              <Button variant='outlined' onClick={handleAddFriend} startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
-              <Button variant='outlined' onClick={handleBlockUser} startIcon={<PersonAddAlt1Icon />}>블락 설정/해제</Button>
+              <Stack spacing={1} direction="row">
+                <Button variant='outlined' onClick={handleAddFriend} startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
+                <Button variant='outlined' color='error' onClick={handleBlockUser} startIcon={<PersonAddAlt1Icon />}>블락 설정/해제</Button>
+              </Stack>
             </div>
           )}
         <Stack alignItems="center">
@@ -232,7 +234,7 @@ const Profile = () => {
                     >
                     <TableCell>{row.player}</TableCell>
                     <TableCell>{row.score}</TableCell>
-                    <TableCell>{row.created?.toDateString()}</TableCell>
+                    <TableCell>{row.created.toString()}</TableCell>
                   </TableRow>
               ))}
               </TableBody>
