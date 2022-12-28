@@ -28,9 +28,10 @@ const PongGame = ({ width, height,userAScore, userBScore, gameMode,isA  }: Canva
   const isOBS = GameRoom.split("=")[1];
   // const [stopFlag, setStopflag] = useState(false);
   let stopFlag = false;
+  
 const ball = {
-    x : canvas?canvas.width/2 : 300,
-    y : canvas?canvas.height/2 : 250,
+    x : canvas?canvas.width/2 : 400,
+    y : canvas?canvas.height/2 : 300,
     radius : gameMode?30:10,
     velocityX : 5,
     velocityY : 5,
@@ -216,10 +217,11 @@ const resetBall = () =>{
 		return;
 	  }
 	  const canvas: HTMLCanvasElement = canvasRef.current;
-
+  console.log("reset")!
     ball.x = canvas.width/2;
     ball.y = canvas.height/2;
-    ball.velocityX = -ball.velocityX;//????!?!???!?
+    ball.velocityX = 5;
+    ball.velocityY = 5;
     ball.speed = 7;
 }
 
@@ -283,16 +285,16 @@ const update =()=>{
 	  const canvas: HTMLCanvasElement = canvasRef.current;
     // change the score of players, if the ball goes to the left "ball.x<0" userBputer win, else if "ball.x > canvas.width" the user win
     if( ball.x - ball.radius <  -10){
-      resetBall();
       userB.score++;
+      socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
+      resetBall();
         // resetUser();
       // if (isA !== undefined && isA)
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
     }else if( ball.x + ball.radius > canvas.width +10){
-      resetBall();
       userA.score++;
+      socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
+      resetBall();
       // if (isA !== undefined && isA)
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
     }
 
 
