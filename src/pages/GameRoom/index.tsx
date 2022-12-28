@@ -63,10 +63,10 @@ const GameRoom = () => {
 	useEffect(()=>{
 		console.log("game set?" );
 		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
-			setGameSet(true);
 			setUserA(obj.userA);
 			setUserB(obj.userB);
 			setModeFlag(obj.mode)
+			setGameSet(true);
 			});
 	}, [socket]);
 	
