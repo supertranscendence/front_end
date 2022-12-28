@@ -20,10 +20,10 @@ import uuid from 'react-uuid'
 
 interface Props {
   show: boolean;
-  onCloseModal: () => void;
+  //onCloseModal: () => void;
   setShowProfileModal : (flag:boolean) => void
 }
-const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
+const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setShowProfileModal }) => {
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
 
   const inputRef = useRef<HTMLInputElement | null>(null);

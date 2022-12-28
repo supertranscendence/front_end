@@ -40,12 +40,10 @@ const Intro = () => {
           }
       })
     .then((response) =>{
-      console.log("response API/ACHIVMENT/", response.data);
-
+      console.log("response /api/achievement/", response.data);
       setUserAchi(response.data);
-      if(response.data)
-        console.log("response.data exist! ");
-
+    })
+    .then(() => {
       console.log("userAchi: ", userAchi);
       console.log("userAchi[0]: ", userAchi[0]);
       if(userAchi[0] === undefined) {
@@ -61,7 +59,7 @@ const Intro = () => {
       console.log(err.status)
     });
 
-  }, [ ]);
+  }, []);
   //if(isFirstLogin === true){
   //  return (
   //    <Container maxWidth="lg">
@@ -82,7 +80,7 @@ const Intro = () => {
       <FirstProfileModal
         //show={showFirstProfileModal}
         show={isFirstLogin}
-        onCloseModal={onCloseModal}
+        //onCloseModal={onCloseModal}
         setShowProfileModal={setShowFirstProfileModal}
         />
     </Container>
