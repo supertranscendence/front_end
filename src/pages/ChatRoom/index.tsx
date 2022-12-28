@@ -127,6 +127,7 @@ const setPWD = useCallback(()=>{
 
 const onCloseModal = useCallback(() => {
   setShowSetPWDModal(false);
+  setShowInviteModal(false);
 }, []);
 
 const chatData = messages;// socket?.emit("getRoomInfo")
