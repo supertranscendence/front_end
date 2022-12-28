@@ -24,15 +24,15 @@ import useSocket from "src/hooks/useSocket";
 import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
+    //dedupingInterval: 2000, // 2초
+  });
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [show2FAModal, setShow2FAModal] = useState(false);
   const onClickEditProfile = useCallback(() => { setShowProfileModal(true); }, []);
   const onClick2FAModal = useCallback(() => { setShow2FAModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
   const onClose2FAModal = useCallback(() => { setShow2FAModal(false); }, []);
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    //dedupingInterval: 2000, // 2초
-  });
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();
   const [user, setUser] = useState<dataUser>();
@@ -43,7 +43,7 @@ const Profile = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if(intra)
+    if(intra && myUserData)
     {
       console.log("profile intra in!")
       console.log("myUserData:", myUserData);
@@ -59,10 +59,9 @@ const Profile = () => {
         console.log(response);
         console.log("intra: ",response.data.intra)
         setUser(response.data);
-        if (intra === myUserData?.intra){
+        if (intra === myUserData.intra){
           setIsUserMe(true);
-        }
-        else{
+        } else{
           setIsUserMe(false);
         }
       })
@@ -113,7 +112,7 @@ const Profile = () => {
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
-  }, [user, ]);
+  }, [user ]);
 
   const handleBlockUser = useCallback(() => {
     console.log("on handler Block");
