@@ -282,7 +282,7 @@ const update =()=>{
       resetBall();
       userB.score++;
         // resetUser();
-        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
+      socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
     }else if( ball.x + ball.radius > canvas.width +10){
       resetBall();
       userA.score++;
