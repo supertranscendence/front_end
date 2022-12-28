@@ -154,7 +154,7 @@ const Profile = () => {
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err)
     });
-  }, [user, ]);
+  }, [user]);
 
 
   return (

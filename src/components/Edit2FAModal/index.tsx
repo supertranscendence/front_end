@@ -51,7 +51,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
         console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
     });
-  }, [newEmail, checked ]);
+  }, [myUserData, newEmail, checked ]);
 
   if (!show) {
     return null;
