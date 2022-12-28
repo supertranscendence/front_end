@@ -79,7 +79,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
         disabled={!checked}
         helperText="설정하기 버튼을 눌러야 적용됩니다."
         />
-        <Button type="submit" variant='outlined'>인증 메일 설정하기</Button>
+        <Button type="submit" variant='outlined'>2차 인증 설정하기</Button>
     </Stack>
   </form>
   </Modal>

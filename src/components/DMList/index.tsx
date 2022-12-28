@@ -103,9 +103,7 @@ const DMList = () => {
   return (
     <>
       <h2>
-        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-          📎
-        </CollapseButton>
+        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse} />
         <span>My firends</span>
       </h2>
       <div>
