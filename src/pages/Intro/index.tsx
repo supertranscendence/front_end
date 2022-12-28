@@ -15,7 +15,7 @@ const Intro = () => {
   });
   const [showFirstProfileModal, setShowFirstProfileModal] = useState(true);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
-  const [userAchi, setUserAchi] = useState<achievementTypeList>([]);
+  const [userAchi, setUserAchi] = useState<achievementTypeList>();
   //const onClickEditProfile = useCallback(() => { setShowFirstProfileModal(true); }, []);
   const onCloseModal = useCallback(() => { setShowFirstProfileModal(false); }, []);
 
