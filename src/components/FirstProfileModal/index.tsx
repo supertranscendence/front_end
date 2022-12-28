@@ -79,7 +79,6 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
             Body: file, // 파일 객체
           },
       });
-
       const promise = upload.promise();
       promise.then(
           function () {

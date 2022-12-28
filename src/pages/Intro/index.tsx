@@ -49,9 +49,10 @@ const Intro = () => {
       if(userAchi[0] === undefined) {
           console.log("😄 첫번째 로그인");
           setIsFirstLogin(true);
-      }
-      else{
-        console.log("NOT 처음 로그인!");
+        }
+        else{
+          console.log("NOT 처음 로그인!");
+          setIsFirstLogin(false);
       }
     })
     .catch((err) => {
@@ -60,18 +61,18 @@ const Intro = () => {
     });
 
   }, []);
-  //if(isFirstLogin === true){
-  //  return (
-  //    <Container maxWidth="lg">
-  //    <FirstProfileModal
-  //      //show={showFirstProfileModal}
-  //      show={isFirstLogin}
-  //      onCloseModal={onCloseModal}
-  //      setShowProfileModal={setShowFirstProfileModal}
-  //      />
-  //  </Container>
-  //  );
-  //}
+  if(isFirstLogin === true){
+    return (
+      <Container maxWidth="lg">
+      <FirstProfileModal
+        //show={showFirstProfileModal}
+        show={isFirstLogin}
+        //onCloseModal={onCloseModal}
+        setShowProfileModal={setShowFirstProfileModal}
+        />
+    </Container>
+    );
+  }
 
   return (
     <Container maxWidth="lg">
