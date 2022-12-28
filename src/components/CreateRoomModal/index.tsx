@@ -22,17 +22,17 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
   const[pwCheck, onChangePWCheck, setPWCheck] = useInput(false);
   const[pw, onChangePW, setPW] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  const [socket] = useSocket(workspace);  
+  const [socket] = useSocket(workspace);
   const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const[roomInfo, onChangeRoomInfo, setRoomInfo] = useInput<{room:string, isPublic:boolean, pwd?:string}>({room:'', isPublic:true});
-  
+
   const clearModal = useCallback(()=>{
     //mutate();
     setNewRoom("");
     setPW("");
     setShowCreateRoomModal(false);
   },[]);
-  
+
   const changeHandler = (checked:any, id:any) => {
     if (checked) {
       setCheckedInputs([...checkedInputs, id]);
@@ -45,7 +45,7 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
       setPWCheck((c)=>{return !c})
     }
   };
-  
+
   const onCreateRoom = useCallback((e:any) => {
     e.preventDefault();
     if (!newRoom || !newRoom.trim()) {
@@ -71,16 +71,16 @@ const CreateRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose
     <form onSubmit={onCreateRoom}>
     <Label id="room-create">
       <span>방 생성</span>
-      방 이름<Input id="room" value={newRoom} onChange={onChangeNewRoom}/>
-      <input 
+      방 이름<Input id="room" value={newRoom} onChange={onChangeNewRoom} maxLength={16} />
+      <input
         id={"pwCheck"}
-        type="checkbox" 
+        type="checkbox"
         onChange={(e:any)=>{
           changeHandler(e.currentTarget.checked, "pwCheck")
         }}
         checked={checkedInputs.includes("pwCheck") ? true : false}
       />
-      비밀번호<Input id="pw"  type="password"  value={pw} onChange={onChangePW} disabled={!pwCheck}/>
+      비밀번호<Input id="pw"  type="password"  value={pw} onChange={onChangePW} maxLength={16} disabled={!pwCheck}/>
       </Label>
       <Button type="submit">생성</Button>
     </form>

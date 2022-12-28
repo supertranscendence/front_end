@@ -21,14 +21,14 @@ const CreateGameRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onC
   const[newRoom, onChangeNewRoom, setNewRoom] = useInput('');
 
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  const [socket] = useSocket(workspace);  
-  
+  const [socket] = useSocket(workspace);
+
   const clearModal = useCallback(()=>{
     //mutate();
     setNewRoom("");
     setShowCreateRoomModal(false);
   },[]);
-  
+
   const onCreateRoom = useCallback((e:any) => {
     e.preventDefault();
     if (!newRoom || !newRoom.trim()) {
@@ -46,7 +46,7 @@ const CreateGameRoomModal: FC<PropsWithChildren<Props>> = ({ show, children, onC
     <form onSubmit={onCreateRoom}>
     <Label id="room-create">
       <span>방 생성</span>
-      방 이름<Input id="room" value={newRoom} onChange={onChangeNewRoom}/>
+      방 이름<Input id="room" value={newRoom} onChange={onChangeNewRoom} maxLength={16}/>
       </Label>
       <Button type="submit">생성</Button>
     </form>

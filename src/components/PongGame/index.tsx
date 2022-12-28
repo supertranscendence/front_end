@@ -158,7 +158,7 @@ useEffect(() => {
   //     return;
   //   }
   //   const canvas: HTMLCanvasElement = canvasRef.current;
-  
+
   socket?.on("collision", (obj:{
       x : number,
       y : number,
@@ -190,7 +190,7 @@ useEffect(() => {
       // update();
       // isUpdate = true;
     })
-  
+
     socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
       if (obj.isA)
       {
@@ -203,11 +203,11 @@ useEffect(() => {
       // update();
       // isUpdate = true;
       })
-      
+
       socket?.on("GameSwitch", () => {
         stopFlag = !stopFlag
       });
-    
+
   }, [getKeyEvent, canvasRef]);
 
 // when userB or USER scores, we reset the ball
@@ -253,7 +253,7 @@ const drawText=(text:any,x:any,y:any)=>
 	  const ctx = canvas.getContext('2d');
 	if (ctx){
     ctx.fillStyle = "#FFF";
-    ctx.font = "75px fantasy";
+    ctx.font = "75px Arial";
     ctx.fillText(text, x, y);
 	}
 }
@@ -265,7 +265,7 @@ const collision = (b:any,p:any)=>{
     p.bottom = p.y + p.height;
     p.left = p.x;
     p.right = p.x + p.width;
-    
+
     b.top = b.y - b.radius;
     b.bottom = b.y + b.radius;
     b.left = b.x - b.radius;
@@ -276,7 +276,7 @@ const collision = (b:any,p:any)=>{
 
 // update const, the const that does all calculations
 const update =()=>{
-    
+
     if (!canvasRef.current) {
 		return;
 	  }
@@ -295,23 +295,23 @@ const update =()=>{
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
     }
 
-      
+
     // the ball has a velocity
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
-    
+
     // userBputer plays for itself, and we must be able to beat it
     // simple AI
     // userB.y += ((ball.y - (userB.y + userB.height/2)))*0.1;
-    
+
     // when the ball collides with bottom and top walls we inverse the y velocity.
     if(ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){
         ball.velocityY = -ball.velocityY;
     }
-    
+
     // we check if the paddle hit the user or the userB paddle
     let player = (ball.x + ball.radius < canvas.width/2) ? userA : userB;
-    
+
     // if the ball hits a paddle
     if(collision(ball,player)){
         // we check where the ball hits the paddle
@@ -319,52 +319,52 @@ const update =()=>{
         // normalize the value of collidePoint, we need to get numbers between -1 and 1.
         // -player.height/2 < collide Point < player.height/2
         collidePoint = collidePoint / (player.height/2);
-        
+
         // when the ball hits the top of a paddle we want the ball, to take a -45degees angle
         // when the ball hits the center of the paddle we want the ball to take a 0degrees angle
         // when the ball hits the bottom of the paddle we want the ball to take a 45degrees
         // Math.PI/4 = 45degrees
         let angleRad = (Math.PI/4) * collidePoint;
-        
+
         // change the X and Y velocity direction
         let direction = (ball.x + ball.radius < canvas.width/2) ? 1 : -1;
         // let direction = 1;
         ball.velocityX = direction * ball.speed * Math.cos(angleRad);
         ball.velocityY = ball.speed * Math.sin(angleRad);
-        
+
         // speed up the ball everytime a paddle hits it.
         ball.speed += 0.1;
-        
+
         socket?.emit("collision", {...ball, name:GameRoomName} );
     }
 }
 
 // render const, the const that does al the drawing
 const render= ()=>{
-    
+
     if (!canvasRef.current) {
 		return;
 	  }
 	  const canvas: HTMLCanvasElement = canvasRef.current;
-	  
+
     // clear the canvas
     drawRect(0, 0, canvas.width, canvas.height, "#000");
-    
+
     // draw the user score to the left
     drawText(userA.score,canvas.width/4,canvas.height/5);
-    
+
     // draw the userB score to the right
     drawText(userB.score,3*canvas.width/4,canvas.height/5);
-    
+
     // draw the net
     drawNet();
-    
+
     // draw the user's paddle
     drawRect(userA.x, userA.y, userA.width, userA.height, userA.color);
-    
+
     // draw the userB's paddle
     drawRect(userB.x, userB.y, userB.width, userB.height, userB.color);
-    
+
     // draw the ball
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
@@ -384,11 +384,11 @@ const game = () =>{
 }
 // number of frames per second
 //call the game const 50 times every 1 Sec
-  
+
 useEffect(() => {
   const framePerSecond = 50;
   const loop = setInterval(game,1000/framePerSecond);
-  
+
   return () => {
     clearInterval(loop);
   }
