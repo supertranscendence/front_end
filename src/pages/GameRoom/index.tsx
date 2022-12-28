@@ -22,6 +22,7 @@ const GameRoom = () => {
 	
 	const GameRoomName = GameRoom.split("=")[0];
 	const isOBS = GameRoom.split("=")[1];
+	console.log(GameRoom);
 	
 	// let userA = 0;
 	// let userB = 0;
@@ -61,7 +62,7 @@ const GameRoom = () => {
 	
 	const onGameSet = useCallback((obj:{userA:number, userB:number, mode:boolean})=>{
 		console.log("start1",start);
-		if (isOBS !== undefined && gameSet===false && start === false){
+		if (isOBS !== undefined && gameSet === false ){
 				console.log("start2",start);
 			console.log("game set in?" ,obj);
 
@@ -74,7 +75,7 @@ const GameRoom = () => {
 		}
 		}
 	
-	,[])
+	,[start, gameSet])
 	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
 	let testUserA = 0;
 	let testUserB = 0;
@@ -82,10 +83,12 @@ const GameRoom = () => {
 	useEffect(()=>{
 		console.log("game set?" );
 		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
-			socket?.off('gameSet');
+			socket.off("gameSet");
+			console.log("game set!" );
 			onGameSet(obj)
-			});
-		socket?.off('gameSet');
+			})
+		// console.log("game off!" );
+		// socket?.off('gameSet');
 			// return () => {
 			// };
 	}, []);
@@ -131,6 +134,13 @@ const GameRoom = () => {
 		console.log("on gameStart", GameRoomName );
 		socket?.emit("gameStart", {room:GameRoomName, mode:true} );
 	},[socket]);
+	
+	useEffect(() => {
+	console.log("=========")
+	console.log(window.location.href);
+	console.log(GameRoom);
+	console.log("=========")
+	}, [isOBS])
 	
 	if (returnFlag)
 	{

@@ -38,6 +38,10 @@ const ball = {
     color : "WHITE"
 }
 
+useEffect(() => {
+console.log(`Score: ${userAScore} : ${userBScore}`)
+}, [userAScore, userBScore])
+
 // User Paddle
 const userA = {
     x : 0, // left side of canvas
@@ -282,12 +286,12 @@ const update =()=>{
       resetBall();
       userB.score++;
         // resetUser();
-      if (isA !== undefined && isA)
+      // if (isA !== undefined && isA)
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
     }else if( ball.x + ball.radius > canvas.width +10){
       resetBall();
       userA.score++;
-      if (isA !== undefined && isA)
+      // if (isA !== undefined && isA)
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
     }
 
@@ -379,9 +383,16 @@ const game = () =>{
     }
 }
 // number of frames per second
-let framePerSecond = 50;
 //call the game const 50 times every 1 Sec
-let loop = setInterval(game,1000/framePerSecond);
+  
+useEffect(() => {
+  const framePerSecond = 50;
+  const loop = setInterval(game,1000/framePerSecond);
+  
+  return () => {
+    clearInterval(loop);
+  }
+}, []);
 
   return (
   <>
