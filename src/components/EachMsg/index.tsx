@@ -175,7 +175,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
-            sx={{ '& .MuiBadge-badge': {color: msg.status, display: statShow} }}
+            sx={{ '& .MuiBadge-badge': {backgroundColor: msg.status, color: msg.status, display: statShow} }}
           >
             <FtAvatar userAvatar={user?.avatar}/>
           </StyledBadge>
@@ -195,12 +195,12 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         }}
       >
         <MenuItem onClick={showProfile}>프로필 보기</MenuItem>
-        <MenuItem onClick={setAdmin}  sx={{display: friendMode}}>관리자 권한 주기</MenuItem>{/* display none */}
-        <MenuItem onClick={shellWeDm}>DM 초대</MenuItem>
-        <MenuItem onClick={shellWeGame}>Game 초대</MenuItem>
-        <MenuItem onClick={muteUser} sx={{display: friendMode}}>음소거 설정 / 해제</MenuItem>{/* display none */}
-        <MenuItem onClick={kickUser} sx={{display: friendMode}}>추방</MenuItem>{/* display none */}
-        <MenuItem onClick={banUser} sx={{display: friendMode}}>영원히 추방</MenuItem>{/* display none */}
+        <MenuItem onClick={setAdmin}  sx={{display: friendMode}}>관리자 권한 주기</MenuItem>
+        <MenuItem onClick={shellWeDm} sx={{display: friendMode}}>DM 초대</MenuItem>
+        <MenuItem onClick={shellWeGame} sx={{display: friendMode}}>Game 초대</MenuItem>
+        <MenuItem onClick={muteUser} sx={{display: friendMode}}>음소거 설정 / 해제</MenuItem>
+        <MenuItem onClick={kickUser} sx={{display: friendMode}}>추방</MenuItem>
+        <MenuItem onClick={banUser} sx={{display: friendMode}}>영원히 추방</MenuItem>
       </Menu>
     </List>
   );
