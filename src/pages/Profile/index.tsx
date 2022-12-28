@@ -31,7 +31,7 @@ const Profile = () => {
   const onCloseModal = useCallback(() => { setShowProfileModal(false); }, []);
   const onClose2FAModal = useCallback(() => { setShow2FAModal(false); }, []);
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    dedupingInterval: 2000, // 2초
+    //dedupingInterval: 2000, // 2초
   });
   const [isUserMe, setIsUserMe] = useState(false);
   const { intra } = useParams<{ intra: string }>();

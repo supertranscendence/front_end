@@ -81,9 +81,9 @@ const Pong = loadable(() => import ('src/pages/Pong') );
     //  event.returnValue = '';
     //});
 
-    const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-      dedupingInterval: 2000, // 2초
-    });
+  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
+    //dedupingInterval: 2000, // 2초
+  });
   const [returnFlag, setReturnFlag] = useState("");
 	const {workspace} = useParams<{workspace:string}>();
 	const {data, mutate} = useSWR('token', authfetcher);
@@ -158,7 +158,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 		setReturnFlag("/");
 
 	}, [localStorage, setReturnFlag]);
-	
+
 	// useEffect(() => {
   //   console.log("test on change friends state");
   //   socket?.on("changeState", () => {
@@ -169,9 +169,9 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   //           setStateFriendList(JSON.parse(stateFriend));
   //         });
   //       });
-  //       // console.log(stateFriend); 
+  //       // console.log(stateFriend);
   // }, [socket,setStateFriendList]);
-  
+
 	if (returnFlag)
   {
     console.log("retruen Flag :", returnFlag);

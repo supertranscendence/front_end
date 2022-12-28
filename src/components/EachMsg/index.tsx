@@ -40,7 +40,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const [statShow, setStatShow] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    dedupingInterval: 2000, // 2초
+    //dedupingInterval: 2000, // 2초
   });
   const [user, setUser] = useState<dataUser>();
   const open = Boolean(anchorEl);

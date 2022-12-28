@@ -11,7 +11,7 @@ import FirstProfileModal from 'src/components/FirstProfileModal';
 const Intro = () => {
 
   const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    dedupingInterval: 2000, // 2초
+    //dedupingInterval: 2000, // 2초
   });
   const [showFirstProfileModal, setShowFirstProfileModal] = useState(true);
   const [isFirstLogin, setIsFirstLogin] = useState(false);
@@ -42,8 +42,8 @@ const Intro = () => {
       })
     .then(({data}) =>{
       console.log("response /api/achievement/", data);
-      //setUserAchi(response.data);
       if(data && data[0] && data[0].achievement === 0){
+        // Back-End에서 순서 못바꾸면 data.find()로 0있는지 찾는 방식으로 해야함.
         console.log("NOT 처음 로그인!");
         setIsFirstLogin(false);
       }

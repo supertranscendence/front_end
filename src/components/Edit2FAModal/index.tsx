@@ -17,7 +17,7 @@ interface Props {
 const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    dedupingInterval: 2000, // 2초
+    //dedupingInterval: 2000, // 2초
   });
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
   //const [tmpChecked, setTmpChecked] = useState(myUserData?.tf);

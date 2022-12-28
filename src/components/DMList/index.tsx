@@ -19,7 +19,7 @@ const DMList = () => {
 
   const { workspace } = useParams<{ workspace?: string }>();
    const { data: myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-     dedupingInterval: 2000, // 2초
+    // dedupingInterval: 2000, // 2초
    });
   const [socket] = useSocket(workspace);
   const [channelCollapse, setChannelCollapse] = useState(false);
@@ -55,8 +55,8 @@ const DMList = () => {
   //   console.log(stateFriend);
 
   // }, [socket]);
-  
-  
+
+
   useEffect(() => {
     console.log("on change friends state");
     socket?.on("changeState", () => {
@@ -67,7 +67,7 @@ const DMList = () => {
             setStateFriendList(JSON.parse(stateFriend));
           });
         });
-        console.log(stateFriend);    
+        console.log(stateFriend);
   }, [socket,setStateFriendList]);
 
   useEffect(() => {
