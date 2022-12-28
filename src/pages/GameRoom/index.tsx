@@ -66,9 +66,12 @@ const GameRoom = () => {
 				console.log("start2",start);
 			console.log("game set in?" ,obj);
 
-			testUserA=obj.userA;
-			testUserB=obj.userB;
-			testMode=obj.mode;
+			// userA=obj.userA;
+			// userB=obj.userB;
+			// mode=obj.mode;
+			setUserA(obj.userA);
+			setUserB(obj.userB);
+			setModeFlag(obj.mode);
 			setGameSet((f)=>{return true});
 			setStart((f)=>{return true});
 			console.log('socket off gameSet');
@@ -77,9 +80,9 @@ const GameRoom = () => {
 	
 	,[start, gameSet])
 	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
-	let testUserA = 0;
-	let testUserB = 0;
-	let testMode = false;
+	// let testUserA = 0;
+	// let testUserB = 0;
+	// let testMode = false;
 	useEffect(()=>{
 		console.log("game set?" );
 		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
@@ -196,7 +199,7 @@ const GameRoom = () => {
 		if (gameSet || start)
 		{
 			console.log("pong2");
-			return (<PongGame  userAScore={testUserA} userBScore={testUserB} gameMode={testMode} />)
+			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag} />)
 		}
 		else 
 			return (<div><h1>게임 대기 중</h1>
