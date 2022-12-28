@@ -17,14 +17,14 @@ const GameRoom = () => {
 	const [socket] = useSocket("sleact");
 	const [returnFlag, setReturnFlag] = useState(false);
 	const [modeFlag, setModeFlag] = useState(false);
-	// const [userA, setUserA]  = useState(0);//score
-	// const [userB, setUserB]  = useState(0);//score
+	const [userA, setUserA]  = useState(0);//score
+	const [userB, setUserB]  = useState(0);//score
 	
 	const GameRoomName = GameRoom.split("=")[0];
 	const isOBS = GameRoom.split("=")[1];
 	
-	let userA = 0;
-	let userB = 0;
+	// let userA = 0;
+	// let userB = 0;
 	//gameSet 
 	//gameDone
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
@@ -64,13 +64,18 @@ const GameRoom = () => {
 	useEffect(()=>{
 		console.log("game set?" );
 		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
-			// setUserA(obj.userA);
-			// setUserB(obj.userB);
-			userA = obj.userA;
-			userB = obj.userB;
+			console.log("game set in?" ,obj);
+			setUserA(obj.userA);
+			setUserB(obj.userB);
+			// userA = obj.userA;
+			// userB = obj.userB;
 			setModeFlag(obj.mode)
 			setGameSet(true);
+			console.log('socket off gameSet');
+			socket?.off('gameSet');
 			});
+			// return () => {
+			// };
 	}, []);
 	
 	
@@ -163,7 +168,7 @@ const GameRoom = () => {
 	else
 	{
 		if (gameSet || start)
-			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag } />)
+			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag} />)
 		else 
 			return (<div><h1>게임 대기 중</h1>
 				<button onClick={leaveRoom}>나가기</button></div>)
