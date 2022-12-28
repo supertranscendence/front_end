@@ -37,7 +37,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   const [socket] = useSocket("sleact");
   const [returnURL, setReturnURL] = useState("");
   const [friendMode, setFriendMode] = useState('flex');
-  const [statShow, setStatShow] = useState('flex');
+  const [statShow, setStatShow] = useState('');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     dedupingInterval: 2000, // 2초
@@ -175,7 +175,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             overlap="circular"
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
-            sx={{color: msg.status, display: statShow}}
+            sx={{ '& .MuiBadge-badge': {color: msg.status, display: statShow} }}
           >
             <FtAvatar userAvatar={user?.avatar}/>
           </StyledBadge>
