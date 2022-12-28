@@ -43,11 +43,7 @@ const Intro = () => {
     .then((response) =>{
       console.log("response /api/achievement/", response.data);
       setUserAchi(response.data);
-      console.log("1.userAchi: ", userAchi);
-    })
-    .then(() => {
-      console.log("2.userAchi: ", userAchi);
-      if(userAchi && userAchi.length > 0 && userAchi[0].achievement === 0) {
+      if(response.data && response.data[0].achievement === 0){
         console.log("NOT 처음 로그인!");
         setIsFirstLogin(false);
       }
@@ -56,6 +52,17 @@ const Intro = () => {
         setIsFirstLogin(true);
       }
     })
+    //.then(() => {
+    //  console.log("2.userAchi: ", userAchi);
+    //  if(userAchi && userAchi.length > 0 && userAchi[0].achievement === 0) {
+    //    console.log("NOT 처음 로그인!");
+    //    setIsFirstLogin(false);
+    //  }
+    //  else{
+    //    console.log("😄 첫번째 로그인");
+    //    setIsFirstLogin(true);
+    //  }
+    //})
     .catch((err) => {
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err.status)
