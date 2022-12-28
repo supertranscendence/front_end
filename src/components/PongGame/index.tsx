@@ -26,8 +26,8 @@ const PongGame = ({ width, height,userAScore, userBScore, gameMode,isA  }: Canva
   const { GameRoom } = useParams<{ GameRoom: string }>();
   const GameRoomName = GameRoom.split("=")[0];
   const isOBS = GameRoom.split("=")[1];
-  
-  
+  // const [stopFlag, setStopflag] = useState(false);
+  let stopFlag = false;
 const ball = {
     x : canvas?canvas.width/2 : 300,
     y : canvas?canvas.height/2 : 250,
@@ -97,6 +97,11 @@ const getKeyEvent = (evt:any) =>{
       console.log("s",GameRoomName,isA,isA?userA.y-50:userB.y-50 ,gameMode);
       socket?.emit("up", {name: GameRoomName, isA:isA, yPos:(isA?userA.y-50:userB.y-50)});
     }
+    else if (evt.key === "p")
+    {
+      console.log("p");
+      socket?.emit("GameSwitch", {name: GameRoomName, isA:isA});
+    }
     // console.log( userA.y, evt.clientY, rect.top, userA.height/2)
     // userA.y = evt.clientY - rect.top - userA.height/2;
 }
@@ -143,7 +148,7 @@ const drawArc = (x:any, y:any, r:any, color:any)=>{
 //   color : ,
 // }
 
-let isUpdate =false;
+// let isUpdate =false;
 useEffect(() => {
   //   if (!canvasRef.current) {
   //     return;
@@ -178,8 +183,8 @@ useEffect(() => {
       {
         userB.y = obj.yPos;
       }
-      update();
-      isUpdate = true;
+      // update();
+      // isUpdate = true;
     })
   
     socket?.on("up", (obj:{isA : boolean,yPos:number}) => {
@@ -191,10 +196,13 @@ useEffect(() => {
       {
         userB.y = obj.yPos;
       }
-      update();
-      isUpdate = true;
+      // update();
+      // isUpdate = true;
       })
-  
+      
+      socket?.on("GameSwitch", () => {
+        stopFlag = !stopFlag
+      });
     
   }, [getKeyEvent, canvasRef]);
 
@@ -356,10 +364,14 @@ const render= ()=>{
     drawArc(ball.x, ball.y, ball.radius, ball.color);
 }
 const game = () =>{
-    if (!isUpdate)
+    // if (!isUpdate)
+    console.log("stopFlag", stopFlag);
+    if (!stopFlag)
+    {
       update();
-    render();
-    isUpdate =false;
+      render();
+    }
+    // isUpdate =false;
     return () => {
       // window.addEventListener("keydown", getKeyEvent);
       window.removeEventListener("keydown",getKeyEvent);
