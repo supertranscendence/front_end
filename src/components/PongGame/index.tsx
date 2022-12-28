@@ -365,7 +365,7 @@ const render= ()=>{
 }
 const game = () =>{
     // if (!isUpdate)
-    console.log("stopFlag", stopFlag);
+    // console.log("stopFlag", stopFlag);
     if (!stopFlag)
     {
       update();
