@@ -56,9 +56,9 @@ export type dataFriend = {
 //}
 
 export type achievementType = {
-	tid: number;
 	achievement: number;
 	created: Date;
+	tid: number;
     updated: Date;
 }
 
