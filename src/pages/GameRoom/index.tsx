@@ -64,6 +64,9 @@ const GameRoom = () => {
 	useEffect(()=>{
 		console.log("game set?" );
 		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
+		console.log("start1",start);
+			if (isOBS !== undefined && gameSet===false && start === false){
+				console.log("start2",start);
 			console.log("game set in?" ,obj);
 			setUserA(obj.userA);
 			setUserB(obj.userB);
@@ -73,7 +76,8 @@ const GameRoom = () => {
 			setGameSet(true);
 			console.log('socket off gameSet');
 			socket?.off('gameSet');
-			});
+		}
+		});
 			// return () => {
 			// };
 	}, []);
@@ -90,6 +94,7 @@ const GameRoom = () => {
 			console.log("false" ,b);
 		}
 	},[]);
+
 	const retrunChannel = useCallback(()=>{
 		console.log("on retrunChannel")
 		setReturnFlag((flag)=>true);
@@ -134,7 +139,10 @@ const GameRoom = () => {
 	if (isOBS === undefined)
 	{
 		if (start)
+		{
+			console.log("pong1");
 			return (<PongGame userAScore ={0} userBScore={0} gameMode={modeFlag} isA={isA}/>)
+		}
 		else
 			return(
 				<Container maxWidth="lg">
@@ -168,7 +176,10 @@ const GameRoom = () => {
 	else
 	{
 		if (gameSet || start)
+		{
+			console.log("pong2");
 			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag} />)
+		}
 		else 
 			return (<div><h1>게임 대기 중</h1>
 				<button onClick={leaveRoom}>나가기</button></div>)
