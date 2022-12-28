@@ -47,12 +47,12 @@ const Intro = () => {
     .then(() => {
       console.log("userAchi: ", userAchi);
       if(userAchi && userAchi[0].achievement === 0) {
-        console.log("NOT 처음 로그인!");
-        setIsFirstLogin(false);
-      }
-      else{
         console.log("😄 첫번째 로그인");
         setIsFirstLogin(true);
+      }
+      else{
+        console.log("NOT 처음 로그인!");
+        setIsFirstLogin(false);
       }
     })
     .catch((err) => {
