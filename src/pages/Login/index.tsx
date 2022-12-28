@@ -14,7 +14,7 @@ const LogIn = () => {
   });
   // let data  = '';
   console.log("login page");
-  
+
   if (localStorage.getItem(" refreshToken") ){
     if (localStorage.getItem("accessToken") ){
       console.log("already have ref and acc token");
@@ -42,7 +42,7 @@ const LogIn = () => {
   //   return <Redirect to="/workspace/sleact/intro"/>
   //   // location.href=("/");
   // }
-  
+
 	//TODO 환경변수 로그인 버튼 (redirect)
 
   return (
@@ -66,7 +66,7 @@ const LogIn = () => {
           <Button
               variant='outlined'
               onClick={()=>{
-                window.location.href = "http://127.0.0.1:3000/api/auth/ft/redirect";
+                window.location.href = "http://127.0.0.1/api/auth/ft/redirect";
             }}>로컬 백엔드로 로그인</Button>
           <Button
               variant='outlined'
