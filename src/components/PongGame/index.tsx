@@ -282,11 +282,12 @@ const update =()=>{
       resetBall();
       userB.score++;
         // resetUser();
-      socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
+      if (isA !== undefined && isA)
+        socket?.emit("gameSet", {userA: userA.score, userB:userB.score ,name:GameRoomName!, mode:gameMode});
     }else if( ball.x + ball.radius > canvas.width +10){
       resetBall();
       userA.score++;
-        // resetUser();
+      if (isA !== undefined && isA)
         socket?.emit("gameSet", {userA: userA.score, userB:userB.score,name:GameRoomName!, mode:gameMode});
     }
 
