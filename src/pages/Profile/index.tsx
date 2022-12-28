@@ -79,7 +79,7 @@ const Profile = () => {
     if(user)
     {
       console.log("AddMyFriend: ", user.intra);
-      socket?.emit("AddMyFriend", {friendName: user.intra});
+      socket?.emit("AddMyFriend", user.intra);
     }
     //axios
     //  .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
