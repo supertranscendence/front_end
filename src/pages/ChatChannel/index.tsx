@@ -17,6 +17,7 @@ import useSWR from "swr";
 import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import PWDModal from 'src/components/PWDModal';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const ChatChannel = () => {
@@ -121,7 +122,9 @@ const fetchch = useCallback(()=>{
 },[])
 
 
-
+const onClickRefresh = useCallback(() => {
+  location.reload();
+}, [])
 
 if (redirectRoom)
   return ( <Redirect to= {`/workspace/sleact/channel/Chat/${redirectRoom}`}/>);
@@ -140,6 +143,7 @@ else
             alignItems="center"
             spacing={1}
           >
+            <Button variant="outlined" onClick={onClickRefresh}><RefreshIcon /></Button>
             <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Chat</Button>
           </Stack>
           <TableContainer component={Paper}>

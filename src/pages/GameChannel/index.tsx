@@ -20,6 +20,7 @@ import PWDModal from 'src/components/PWDModal';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { ConstructionOutlined } from '@mui/icons-material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 //const PAGE_SIZE = 20;
 
@@ -39,35 +40,35 @@ const Channel = () => {
       socket?.emit("clearGameRoom");
     }
     },[socket])
-  
+
   const onClickAddRoom = useCallback(() => {
     setShowCreateRoomModal((f)=>true);
   }, []);
-  
+
   const onCloseModal = useCallback(() => {
     setShowCreateRoomModal((f)=>false);
   }, []);
-  
+
   const onEnterRoom = useCallback( (isAlreadyB:boolean, roomName :string)=>{
     console.log("enter room result",isAlreadyB,roomName);
     if(!isAlreadyB)
       setRedirectRoom((s)=>roomName)
   },[])
-  
+
   const [roomArr, setRoomArr] = useState<{name:string, userAname:string, enterButton: JSX.Element , obEnterButton: JSX.Element }[]>([]);
   const enterRoom =  useCallback( (e:any)=> {
     console.log ("enterGameRoom?", e);
     socket?.emit("enterGameRoom",e.target.name, (isAlreadyB:boolean) =>onEnterRoom(isAlreadyB,e.target.name))
   },[socket])
-  
+
   const enterRoomOBS =  useCallback( (e:any)=> {
     console.log ("enterGameRoomOBS?", e.target.name);
     socket?.emit("enterGameRoomOBS",e.target.name);
     setRedirectRoom((s)=>e.target.name +"=OBS")
-  },[socket])  
-  
+  },[socket])
+
   useEffect(()=>{
-  
+
     socket?.emit("getGameRoomInfo", {}, (publicRoomsArr : {roomName:string , userAname : string}[])=>{
     console.log("publicRooms", publicRoomsArr);
     setRoomArr( (r)=> [...publicRoomsArr.map((eachObj)=>{
@@ -77,8 +78,8 @@ const Channel = () => {
           enterButton:
             // <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}`}><Button name={eachObj.roomName} onClick={enterRoom}>Join</Button></Link> ,
             <Button name={eachObj.roomName} onClick={enterRoom} >Join</Button>,
-          obEnterButton: 
-            // <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}=OBS`}><Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button></Link> 
+          obEnterButton:
+            // <Link to={`/workspace/${workspace}/channel/Game/${eachObj.roomName}=OBS`}><Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button></Link>
             <Button name={eachObj.roomName} onClick={enterRoomOBS}>옵저버 Join</Button>
         }})
         ])
@@ -86,7 +87,7 @@ const Channel = () => {
   });
   console.log("room arr:", roomArr);
   }, [ socket]);
-  
+
   useEffect(()=>{
     socket?.on("newGameRoomCreated", (room:string)=>{
       setNewRoomFlag((f)=>true);//
@@ -95,9 +96,9 @@ const Channel = () => {
       setRedirectRoom((s)=>room);
     });
   },[socket,setNewRoomFlag]);
-  
 
-  
+
+
   const findMatch = useCallback(()=>{
     //대기열 등록
     console.log("on findMatch")
@@ -107,7 +108,7 @@ const Channel = () => {
     setReadyMatch((f)=>true);
     });
   },[setReadyMatch]);
-  
+
   const leaveMatch = useCallback(()=>{
     //대기열 해제
     console.log("on leaveMatch")
@@ -117,7 +118,7 @@ const Channel = () => {
     setReadyMatch((f)=>false);
     });
   },[setReadyMatch]);
-  
+
   const findedMatch = useCallback((obj : {roomName:string, isA:boolean })=>{
     console.log("ononon findMatch", obj);
       if(obj.isA){//a유저이면 방생성자로서 역할 해주기
@@ -136,14 +137,17 @@ const Channel = () => {
       }
       setReadyMatch((f)=>false);
   },[setRedirectRoom,setReadyMatch,setNewRoomFlag]);
-  
-  
+
+
   useEffect(()=>{//매칭완료
     console.log("여기");
     socket?.on("findMatch", (obj : {roomName:string, isA:boolean })=>findedMatch(obj));
   },[socket, findedMatch]);
-  
-  
+
+  const onClickRefresh = useCallback(() => {
+    location.reload();
+  }, [])
+
   if (redirectRoom)
     return ( <Redirect to= {`/workspace/sleact/channel/Game/${redirectRoom}`}/>);
   else if (readyMatch)
@@ -151,7 +155,7 @@ const Channel = () => {
       return (<><div> 매칭 중..</div>
         <button onClick={leaveMatch}>매칭 나가기(테스팅 중)</button>
           </>
-      )//버튼 
+      )//버튼
     }
   else
   {
@@ -168,6 +172,7 @@ const Channel = () => {
               alignItems="center"
               spacing={1}
             >
+              <Button variant="outlined" onClick={onClickRefresh}><RefreshIcon /></Button>
               <Button variant="outlined" startIcon={<AddIcon />} onClick={onClickAddRoom}>New Game</Button>
               <Button variant="outlined"  onClick={findMatch} startIcon={<EmojiEventsIcon  />}>Find Match</Button>
             </Stack>
