@@ -31,6 +31,7 @@ const Intro = () => {
 
   //const onClickTestFirst = useCallback(() => {
   useEffect(() => {
+
     console.log("GET /api/achievement/ MY user.intra: ", myUserData?.intra);
     axios
     .get(process.env.REACT_APP_API_URL + `/api/achievements/${myUserData?.intra}`, {
@@ -68,7 +69,7 @@ const Intro = () => {
       console.log(err.status)
     });
 
-  }, []);
+  }, [myUserData]);
   if(isFirstLogin === true){
     return (
       <Container maxWidth="lg">
