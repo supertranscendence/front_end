@@ -59,25 +59,33 @@ const GameRoom = () => {
 		socket?.on("kickAll",()=>{setReturnFlag(true)} );
 	}, [socket]);
 	
+	const onGameSet = useCallback((obj:{userA:number, userB:number, mode:boolean})=>{
+		console.log("start1",start);
+		if (isOBS !== undefined && gameSet===false && start === false){
+				console.log("start2",start);
+			console.log("game set in?" ,obj);
+
+			testUserA=obj.userA;
+			testUserB=obj.userB;
+			testMode=obj.mode;
+			setGameSet((f)=>{return true});
+			setStart((f)=>{return true});
+			console.log('socket off gameSet');
+		}
+		}
 	
+	,[])
 	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
+	let testUserA = 0;
+	let testUserB = 0;
+	let testMode = false;
 	useEffect(()=>{
 		console.log("game set?" );
 		socket?.on("gameSet",(obj:{userA:number, userB:number, mode:boolean} )=> {
-		console.log("start1",start);
-			if (isOBS !== undefined && gameSet===false && start === false){
-				console.log("start2",start);
-			console.log("game set in?" ,obj);
-			setUserA(obj.userA);
-			setUserB(obj.userB);
-			// userA = obj.userA;
-			// userB = obj.userB;
-			setModeFlag(obj.mode)
-			setGameSet(true);
-			console.log('socket off gameSet');
 			socket?.off('gameSet');
-		}
-		});
+			onGameSet(obj)
+			});
+		socket?.off('gameSet');
 			// return () => {
 			// };
 	}, []);
@@ -178,7 +186,7 @@ const GameRoom = () => {
 		if (gameSet || start)
 		{
 			console.log("pong2");
-			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag} />)
+			return (<PongGame  userAScore={testUserA} userBScore={testUserB} gameMode={testMode} />)
 		}
 		else 
 			return (<div><h1>게임 대기 중</h1>
