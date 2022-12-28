@@ -29,7 +29,8 @@ const Intro = () => {
     //  setIsFirstLogin(true);
   }
 
-  const onClickTestFirst = useCallback(() => {
+  //const onClickTestFirst = useCallback(() => {
+  useEffect(() => {
     console.log("GET /api/achievement/ MY user.intra: ", myUserData?.intra);
     axios
     .get(process.env.REACT_APP_API_URL + `/api/achievements/${myUserData?.intra}`, {
@@ -76,7 +77,7 @@ const Intro = () => {
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
-      <Button onClick={onClickTestFirst}>첫 로그인 테스트</Button>
+      {/*<Button onClick={onClickTestFirst}>첫 로그인 테스트</Button>*/}
       <FirstProfileModal
         //show={showFirstProfileModal}
         show={isFirstLogin}
