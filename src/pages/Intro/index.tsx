@@ -40,10 +40,10 @@ const Intro = () => {
           accept: "*/*"
           }
       })
-    .then((response) =>{
-      console.log("response /api/achievement/", response.data);
-      setUserAchi(response.data);
-      if(response.data && response.data[0].achievement === 0){
+    .then(({data}) =>{
+      console.log("response /api/achievement/", data);
+      //setUserAchi(response.data);
+      if(data && data[0] && data[0].achievement === 0){
         console.log("NOT 처음 로그인!");
         setIsFirstLogin(false);
       }
