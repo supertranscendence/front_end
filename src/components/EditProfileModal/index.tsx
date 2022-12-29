@@ -25,14 +25,6 @@ interface Props {
 }
 const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowProfileModal }) => {
   const [newNick, onChangeNewNick, setNewNick] = useInput('');
-  //const [fileName, setFileName] = useInput('');
-  //const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  //const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
-  //const clearModal = useCallback(()=>{
-  //  mutate();
-  //  setShowProfileModal(false);
-  //},[]);
-  //const [tempAvatar, setTempAvatar] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
   const onUploadImageButtonClick = useCallback(() => {
     if (!inputRef.current) {
@@ -62,8 +54,6 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
-    //console.log("accessToken: ", localStorage.getItem("accessToken"));
-    //console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
     axios
     .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
@@ -164,7 +154,7 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
               inputProps={{ maxLength: 16 }}
               helperText="닉네임은 최대 16글자까지만 가능해요."
               />
-            <Button type="submit" variant='outlined'><EditIcon /> 프로필 수정하기</Button>
+            <Button type="submit" variant='outlined'><EditIcon /> 닉네임 수정하기</Button>
           </Stack>
       </form>
       </Stack>

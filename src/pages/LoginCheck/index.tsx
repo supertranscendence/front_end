@@ -26,8 +26,6 @@ const LoginCheck = () => {
     )
 
     .then((response) =>{
-      if(response.status === 500)
-          location.href = "/error";
       console.log("2FA Response all", response);
       console.log("STATUS", response.status);
 

@@ -102,7 +102,7 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
       .put(process.env.REACT_APP_API_URL + `/api/users/`, {nick: newNick}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })

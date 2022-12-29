@@ -39,15 +39,6 @@ const LogIn = () => {
     }
   }
 
-  // // 로그인 판단을 일단 로컬스토리지 리프레시 토큰으로 남겨놨습니다.
-  // if (data){
-  //   console.log("already have acc token");
-  //   return <Redirect to="/workspace/sleact/intro"/>
-  //   // location.href=("/");
-  // }
-
-	//TODO 환경변수 로그인 버튼 (redirect)
-
   return (
     <Container maxWidth="sm">
       <Box sx={{
@@ -68,7 +59,7 @@ const LogIn = () => {
           <Button
               variant='outlined'
               onClick={()=>{
-                window.location.href = "http://127.0.0.1:3000/api/auth/ft/redirect";
+                window.location.href = "http://127.0.0.1/api/auth/ft/redirect";
             }}>로컬 백엔드로 로그인</Button>
           <Button
               variant='outlined'
