@@ -76,10 +76,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         setUser(response.data);
       })
       .catch((err) => {
-        if(err.status === 500)
-            window.location.href = "/error";
         console.log("[ERROR] get /api/users/{id}")
         console.log(err)
+        window.location.href = "/error";
       });
     }
     else{

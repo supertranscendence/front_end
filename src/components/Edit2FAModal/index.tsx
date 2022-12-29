@@ -37,10 +37,9 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
         location.href = "/error";
       setChecked(response.data.tf);
     }).catch((err) => {
-      if(err.status === 500)
-        window.location.href = "/error";
       console.log("[ERROR] post /api/users/email for 2FA")
       console.log(err)
+      window.location.href = "/error";
   });
   }, []);
 
@@ -59,10 +58,9 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
         setChecked(checked);
       })
       .catch((err) => {
-        if(err.status === 500)
-          window.location.href = "/error";
         console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
+        window.location.href = "/error";
     });
   }, [newEmail, checked ]);
 

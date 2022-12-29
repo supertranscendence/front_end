@@ -55,10 +55,9 @@ const Intro = () => {
       }
     })
     .catch((err) => {
-      if(err.status === 500)
-        window.location.href = "/error";
       console.log("[ERROR] get API/ACHIVMENT/")
-      console.log(err.status)
+      console.log(err)
+      window.location.href = "/error";
     });
 
   }, [myUserData]);

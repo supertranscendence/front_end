@@ -79,10 +79,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
         console.log(response);
       })
       .catch((err) => {
-        if(err.status === 500)
-            window.location.href = "/error";
         console.log("[ERROR] put /api/users/avatar")
         console.log(err)
+        window.location.href = "/error";
       });
 
       const upload = new AWS.S3.ManagedUpload({
@@ -125,10 +124,9 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       console.log(response);
     })
     .catch((err) => {
-      if(err.status === 500)
-        window.location.href = "/error";
       console.log("[ERROR] post /api/users for nickname")
       console.log(err)
+      window.location.href = "/error";
     });
   }, [newNick, ]);
 

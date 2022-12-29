@@ -70,10 +70,9 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
         console.log(response);
       })
       .catch((err) => {
-        if(err.status === 500)
-            window.location.href = "/error";
         console.log("[ERROR] put /api/users/avatar")
         console.log(err)
+        window.location.href = "/error";
       });
 
       const upload = new AWS.S3.ManagedUpload({
@@ -113,10 +112,9 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
       console.log(response);
     })
     .catch((err) => {
-      if(err.status === 500)
-        window.location.href = "/error";
       console.log("[ERROR] post /api/users for nickname")
       console.log(err)
+      window.location.href = "/error";
     });
 
 
@@ -138,10 +136,9 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
         location.href = "/error";
     })
     .catch((err) => {
-      if(err.status === 500)
-        window.location.href = "/error";
       console.log("[ERROR] post /achievements", err);
       console.log(err);
+      window.location.href = "/error";
     });
 
   }, [newNick, ]);
