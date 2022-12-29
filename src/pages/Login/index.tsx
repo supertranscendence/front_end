@@ -1,6 +1,7 @@
 //import { Error, Form, Header, Input, Label, LinkContainer } from 'src/pages/SignUp/styles';
 import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
+import authfetcher from 'src/utils/authfetcher';
 import React, { useCallback, useState } from 'react';
 import { Avatar, Button, Container } from '@mui/material';
 import { Box, Stack } from '@mui/system';
@@ -9,7 +10,9 @@ import axios from 'axios'
 
 const LogIn = () => {
   console.log("login page");
-
+  const {data, mutate} = useSWR('token', authfetcher ,{
+    dedupingInterval:100000
+  });
   if (localStorage.getItem(" refreshToken") ){
     if (localStorage.getItem("accessToken") ){
       console.log("already have ref and acc token");

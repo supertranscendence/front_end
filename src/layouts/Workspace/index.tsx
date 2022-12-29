@@ -3,8 +3,6 @@ import React, {FC, useCallback, useState ,useEffect} from 'react';
 import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';
 import { Link, Redirect, Switch, Route, useParams, useHistory } from 'react-router-dom';
-// import { Header, ProfileImg, RightMenu, WorkspaceWrapper,Workspaces, Channels, Chats, MenuScroll, WorkspaceName, ProfileModal, LogOutButton, WorkspaceButton, AddButton, WorkspaceModal } from '@layouts/Workspace/style';
-import gravatar from "gravatar";
 import loadable from '@loadable/component';
 //import Menu from 'src/components/Menu';
 import { IChannel, IUser } from 'src/typings/db';
@@ -16,16 +14,12 @@ import CreateChannelModal from 'src/components/CreateRoomModal'
 // import { channel } from 'diagnostics_channel';
 import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
-// import useSocket from 'src/hooks/useSocket';
-import authfetcher from 'src/utils/authfetcher';
-// import { dataUser } from 'src/typings/types';
-// import Intro from '@pages/Intro';
 import FtAvatar from 'src/components/FtAvatar';
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Box, Stack, width } from '@mui/system';
 import useSocket from 'src/hooks/useSocket';
 import { dataUser, FriendType, listFriend } from 'src/typings/types';
+import authfetcher from 'src/utils/authfetcher';
 import {
     AddButton,
     Channels,
@@ -83,8 +77,8 @@ const DmRoom = loadable(() => import ('src/pages/DmRoom') );
   });
   const [returnFlag, setReturnFlag] = useState("");
 	const {workspace} = useParams<{workspace:string}>();
-	const {data, mutate} = useSWR('token', authfetcher);
   const [socket,disconnect] = useSocket(workspace);
+  const {data, mutate} = useSWR('token', authfetcher);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleOpenProfileMenu = (event:any) => {
