@@ -97,6 +97,10 @@ const DmRoom = loadable(() => import ('src/pages/DmRoom') );
 		if (!returnFlag)
 		  setReturnFlag("/");
 	}
+	useEffect(()=>{
+	  socket?.on("error",()=>setReturnFlag("/error"));
+	},[socket]);
+	
 
 	const allDelCookies = (domain?:any, path?:any) => {
     // const doc = document;
