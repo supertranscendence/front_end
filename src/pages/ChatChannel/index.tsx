@@ -115,8 +115,8 @@ else
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell><b>Room Name</b></TableCell>
-                <TableCell align="right"><b>Room Type</b></TableCell>
+                <TableCell><b>Name</b></TableCell>
+                <TableCell align="right"><b>Type</b></TableCell>
                 <TableCell align="right"><b>Slot</b></TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
@@ -132,7 +132,7 @@ else
                   {/*{isGamePrivate(row.isprivate)}*/}
                 </TableCell>
                 <TableCell align="right">{row.roomType}</TableCell>
-                <TableCell align="right">{row.currCnt}/{4}</TableCell>
+                <TableCell align="right">{row.currCnt}</TableCell>
                 <TableCell align="right">
                   {row.enterButton}
                 </TableCell>
