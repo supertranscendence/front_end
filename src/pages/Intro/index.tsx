@@ -29,7 +29,6 @@ const Intro = () => {
     //  setIsFirstLogin(true);
   }
 
-  //const onClickTestFirst = useCallback(() => {
   useEffect(() => {
     if(myUserData){
       console.log("GET /api/achievement/ MY user.intra: ", myUserData.intra);
@@ -66,9 +65,7 @@ const Intro = () => {
     return (
       <Container maxWidth="lg">
       <FirstProfileModal
-        //show={showFirstProfileModal}
         show={isFirstLogin}
-        //onCloseModal={onCloseModal}
         setShowProfileModal={setShowFirstProfileModal}
         />
     </Container>
@@ -78,12 +75,6 @@ const Intro = () => {
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
-      {/*<FirstProfileModal
-        //show={showFirstProfileModal}
-        show={isFirstLogin}
-        //onCloseModal={onCloseModal}
-        setShowProfileModal={setShowFirstProfileModal}
-        />*/}
     </Container>
   );
 };

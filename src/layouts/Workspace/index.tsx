@@ -3,14 +3,6 @@ import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';
 import { Link, Redirect, Switch, Route, useParams, useHistory } from 'react-router-dom';
 import loadable from '@loadable/component';
-//import Menu from 'src/components/Menu';
-import { IChannel, IUser } from 'src/typings/db';
-import { Label, Input} from 'src/pages/SignUp/styles';
-import Modal from 'src/components/Modal'
-import useInput from 'src/hooks/useInput'
-import {toast} from 'react-toastify'
-import CreateChannelModal from 'src/components/CreateRoomModal'
-// import { channel } from 'diagnostics_channel';
 import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
 import FtAvatar from 'src/components/FtAvatar';
@@ -45,32 +37,12 @@ const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const DmRoom = loadable(() => import ('src/pages/DmRoom') );
 
+interface Props {
+  children:any
+}
 
-// var deleteCookie = function(name:string){
-// 	document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-//   }
-
-  interface Props {
-    children:any
-  }
-
-  const Workspace:FC<Props> = ({children}) =>
-  {
-    //window.addEventListener('beforeunload', (event:any) => {
-    //  // 표준에 따라 기본 동작 방지
-    //  event.preventDefault();
-    //  // Chrome에서는 returnValue 설정이 필요함
-    //  if (confirm("Test") === true)
-    //  {
-    //    console.log("굳");
-    //    onLogout();
-    //  }
-    //  else{
-    //    console.log("로그아웃 안함");
-    //  }
-    //  event.returnValue = '';
-    //});
-
+const Workspace:FC<Props> = ({children}) =>
+{
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
     //dedupingInterval: 2000, // 2초
   });
@@ -99,7 +71,7 @@ const DmRoom = loadable(() => import ('src/pages/DmRoom') );
 	useEffect(()=>{
 	  socket?.on("error",()=>setReturnFlag("/error"));
 	},[socket]);
-	
+
 
 	const allDelCookies = (domain?:any, path?:any) => {
     // const doc = document;
