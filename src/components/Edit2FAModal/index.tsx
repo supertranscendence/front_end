@@ -27,6 +27,21 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
     setChecked(event.target.checked);
   };
 
+  axios
+  .get(process.env.REACT_APP_API_URL + '/api/users/my/', {
+    withCredentials:true,
+    headers:{
+      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+      accept: "*/*"
+      }
+  })
+  .then(({data})=>{
+    setChecked(data.tf);
+  }).catch((err) => {
+    console.log("[ERROR] post /api/users/email for 2FA")
+    console.log(err)
+});
+
   //const onSubmitEmail = useCallback((e:any) => {
   const onSubmitEmail = useCallback((event: any) => {
     axios
@@ -50,9 +65,6 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
   if (!show) {
     return null;
     }
-  else if(!myUserData){
-    <>로딩중...</>
-  }
   return(
   <Modal show={show} >
   <form onSubmit={onSubmitEmail}>
