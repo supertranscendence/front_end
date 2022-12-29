@@ -43,6 +43,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     //dedupingInterval: 2000, // 2초
   });
   const [user, setUser] = useState<dataUser>();
+  const [redirectFlag, setRedirectFlag] = useState("");
   const open = Boolean(anchorEl);
   const history = useHistory();
   const handleClick = (event:any) => {
@@ -131,7 +132,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       {
         socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
           console.log("enterGameRoomOBS", gameRoomName);
-          window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
+          setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
+          // window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
         });
       }
     });
@@ -164,6 +166,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       },
     },
   }));
+
+  if (redirectFlag)
+    return (<Redirect to={redirectFlag}/>)
 
   return (
     <List>
