@@ -14,7 +14,6 @@ import useInput from 'src/hooks/useInput'
 import {toast} from 'react-toastify'
 import CreateChannelModal from 'src/components/CreateRoomModal'
 // import { channel } from 'diagnostics_channel';
-import DirectMessage from 'src/pages/DirectMessage';
 import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
 // import useSocket from 'src/hooks/useSocket';
@@ -49,11 +48,9 @@ const Intro = loadable(() => import ('src/pages/Intro') );
 const Profile = loadable(() => import ('src/pages/Profile') );
 const Chat = loadable(() => import ('src/pages/ChatChannel') );
 const Game = loadable(() => import ('src/pages/GameChannel') );
-const GamePong = loadable(() => import ('src/pages/GamePong/Game') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const DmRoom = loadable(() => import ('src/pages/DmRoom') );
-const Pong = loadable(() => import ('src/pages/Pong') );
 
 
 // var deleteCookie = function(name:string){
@@ -152,7 +149,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 
 		console.log("re tokken",localStorage.getItem(" refreshToken"));
 		console.log("ac tokken",localStorage.getItem("accessToken"));
-		
+
 		disconnect();
 		// location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
@@ -205,15 +202,11 @@ const Pong = loadable(() => import ('src/pages/Pong') );
             <Switch>
               <Route path = "/workspace/:workspace/intro" component={Intro}/>
               <Route path = "/workspace/:workspace/profile/:intra" component={Profile}/>
-              {/*<Route path = "/workspace/:workspace/dm/:id" component={DirectMessage}/>*/}
               <Route path = "/workspace/:workspace/channel/Chat/:ChatRoom/" component={ChatRoom}/>
               <Route path = "/workspace/:workspace/channel/DM/:DmRoom/" component={DmRoom}/>
               <Route path = "/workspace/:workspace/channel/Chat/" component={Chat}/>
               <Route path = "/workspace/:workspace/channel/Game/:GameRoom" component={GameRoom}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
-              {/* <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={GamePong}/> */}
-              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={Pong}/>
-              {/* <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/> */}
             </Switch>
           </Chats>
       </WorkspaceWrapper>
