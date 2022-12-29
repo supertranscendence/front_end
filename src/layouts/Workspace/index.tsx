@@ -113,7 +113,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
     path = path || '/';
 
     const cookies = document.cookie.split('; '); // 배열로 반환
-    console.log(cookies);
+    //console.log(cookies);
     const expiration = 'Sat, 01 Jan 1972 00:00:00 GMT';
 
     // 반목문 순회하면서 쿠키 전체 삭제
@@ -149,26 +149,13 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 		// deleteCookie("accessToken");
     allDelCookies();
 
-		console.log("re tokken",localStorage.getItem(" refreshToken"));
-		console.log("ac tokken",localStorage.getItem("accessToken"));
+		//console.log("re tokken",localStorage.getItem(" refreshToken"));
+		//console.log("ac tokken",localStorage.getItem("accessToken"));
 		// location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
 		setReturnFlag("/");
 
 	}, [localStorage, setReturnFlag]);
-
-	// useEffect(() => {
-  //   console.log("test on change friends state");
-  //   socket?.on("changeState", () => {
-  //     console.log("test return well change friends state");
-  //     socket?.emit("myFriend", (stateFriend:string ) => {
-  //           console.log("test [get myFriend] res: ");
-  //           console.log(JSON.parse(stateFriend));
-  //           setStateFriendList(JSON.parse(stateFriend));
-  //         });
-  //       });
-  //       // console.log(stateFriend);
-  // }, [socket,setStateFriendList]);
 
 	if (returnFlag)
   {
