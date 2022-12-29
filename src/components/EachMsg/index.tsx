@@ -25,6 +25,7 @@ interface Props {
     msg :string,
     avatar:string
     status?: string;
+    isDm?:boolean;
   }
 }
 
@@ -54,10 +55,11 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   };
 
   useEffect(() => {
-    if(roomName === undefined){
+    if(roomName === undefined || (msg.isDm !== undefined && msg.isDm === true) ){
       console.log("Friend List Mode");
       setFriendMode('none');
     }
+    
     if(msg.status === undefined){
       setStatShow('none');
     }
@@ -126,10 +128,18 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   
   const goOBS = useCallback(()=>{
     console.log("goOBS",{roomName:roomName , gameUser:msg.name} ); 
-    socket?.emit("goOBS", {roomName:roomName , gameUser:msg.name}, ()=>{
-      console.log("shellWeGame done!");
-      
-    });
+    if (msg.isDm !== undefined && msg.isDm === true)
+    {
+      socket?.emit("goOBS", {gameUser:msg.name}, ()=>{
+        console.log("shellWeGame done!");
+      });
+    }
+    else
+    {
+      socket?.emit("goOBS", {roomName:roomName , gameUser:msg.name}, ()=>{
+        console.log("shellWeGame done!");
+      });
+    }
   },[socket, ])
 
 
