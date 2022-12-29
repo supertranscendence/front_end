@@ -3,27 +3,11 @@ import React, {FC, useCallback, useState ,useEffect} from 'react';
 import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';
 import { Link, Redirect, Switch, Route, useParams, useHistory } from 'react-router-dom';
-// import { Header, ProfileImg, RightMenu, WorkspaceWrapper,Workspaces, Channels, Chats, MenuScroll, WorkspaceName, ProfileModal, LogOutButton, WorkspaceButton, AddButton, WorkspaceModal } from '@layouts/Workspace/style';
-import gravatar from "gravatar";
 import loadable from '@loadable/component';
-//import Menu from 'src/components/Menu';
-import { IChannel, IUser } from 'src/typings/db';
-import { Label, Input} from 'src/pages/SignUp/styles';
-import Modal from 'src/components/Modal'
-import useInput from 'src/hooks/useInput'
-import {toast} from 'react-toastify'
-import CreateChannelModal from 'src/components/CreateRoomModal'
-// import { channel } from 'diagnostics_channel';
-import DirectMessage from 'src/pages/DirectMessage';
 import DMList from 'src/components/DMList';
 import ChannelList from 'src/components/ChannelList';
-// import useSocket from 'src/hooks/useSocket';
-import authfetcher from 'src/utils/authfetcher';
-// import { dataUser } from 'src/typings/types';
-// import Intro from '@pages/Intro';
 import FtAvatar from 'src/components/FtAvatar';
 import { AppBar, Avatar, Button, Container, IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { Box, Stack, width } from '@mui/system';
 import useSocket from 'src/hooks/useSocket';
 import { dataUser, FriendType, listFriend } from 'src/typings/types';
@@ -49,11 +33,9 @@ const Intro = loadable(() => import ('src/pages/Intro') );
 const Profile = loadable(() => import ('src/pages/Profile') );
 const Chat = loadable(() => import ('src/pages/ChatChannel') );
 const Game = loadable(() => import ('src/pages/GameChannel') );
-const GamePong = loadable(() => import ('src/pages/GamePong/Game') );
 const GameRoom = loadable(() => import ('src/pages/GameRoom') );
 const ChatRoom = loadable(() => import ('src/pages/ChatRoom') );
 const DmRoom = loadable(() => import ('src/pages/DmRoom') );
-const Pong = loadable(() => import ('src/pages/Pong') );
 
 
 // var deleteCookie = function(name:string){
@@ -86,7 +68,6 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   });
   const [returnFlag, setReturnFlag] = useState("");
 	const {workspace} = useParams<{workspace:string}>();
-	const {data, mutate} = useSWR('token', authfetcher);
   const [socket,disconnect] = useSocket(workspace);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -152,7 +133,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 
 		console.log("re tokken",localStorage.getItem(" refreshToken"));
 		console.log("ac tokken",localStorage.getItem("accessToken"));
-		
+
 		disconnect();
 		// location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
@@ -212,7 +193,6 @@ const Pong = loadable(() => import ('src/pages/Pong') );
               <Route path = "/workspace/:workspace/channel/Game/:GameRoom" component={GameRoom}/>
               <Route path = "/workspace/:workspace/channel/Game/" component={Game}/>
               {/* <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={GamePong}/> */}
-              <Route path = "/workspace/:workspace/channel/GameRoom/Pong" component={Pong}/>
               {/* <Route path = "/workspace/:workspace/channel/GameRoom/" component={GameRoom}/> */}
             </Switch>
           </Chats>

@@ -2,18 +2,12 @@
 import { Link, Redirect } from 'react-router-dom';
 import useSWR from 'swr';
 import React, { useCallback, useState } from 'react';
-import authfetcher from 'src/utils/authfetcher';
 import { Avatar, Button, Container } from '@mui/material';
 import { Box, Stack } from '@mui/system';
 import LoginIcon from '@mui/icons-material/Login';
 import axios from 'axios'
 
 const LogIn = () => {
-
-  const {data, mutate} = useSWR('token', authfetcher ,{
-    dedupingInterval:100000
-  });
-  // let data  = '';
   console.log("login page");
 
   if (localStorage.getItem(" refreshToken") ){
