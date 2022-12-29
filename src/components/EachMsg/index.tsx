@@ -122,6 +122,20 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     console.log("showProfile",{roomName:roomName , goDM :msg.name} );
     window.location.href = `/workspace/sleact/profile/${msg.name}`;
   },[socket, ])
+  
+  const goOBS = useCallback(()=>{
+    console.log("goOBS",{roomName:roomName , gameUser:msg.name} ); 
+    socket?.emit("goOBS", {roomName:roomName , gameUser:msg.name}, (gameRoomName:string)=>{
+      console.log("shellWeGame done", gameRoomName);
+      if (gameRoomName !== "")
+      {
+        socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
+          console.log("enterGameRoomOBS", gameRoomName);
+          window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
+        });
+      }
+    });
+  },[socket, ])
 
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -191,6 +205,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
         <MenuItem onClick={muteUser} sx={{display: friendMode}}>음소거 설정 / 해제</MenuItem>
         <MenuItem onClick={kickUser} sx={{display: friendMode}}>추방</MenuItem>
         <MenuItem onClick={banUser} sx={{display: friendMode}}>영원히 추방</MenuItem>
+        <MenuItem onClick={goOBS}>게임 관전</MenuItem>
       </Menu>
     </List>
   );
