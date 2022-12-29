@@ -24,15 +24,15 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
   const [checked, setChecked] = useState(myUserData?.tf);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    console.log("myUserData?.tf: ",myUserData?.tf);
-    console.log("2FA Checked(e.target): ", event.target.checked);
-    console.log("2FA Checked(checked): ",  checked);
+    //console.log("myUserData?.tf: ",myUserData?.tf);
+    //console.log("2FA Checked(e.target): ", event.target.checked);
+    //console.log("2FA Checked(checked): ",  checked);
   };
 
   //const onSubmitEmail = useCallback((e:any) => {
   const onSubmitEmail = useCallback((event: any) => {
-    console.log("onSubmitEmail called!!")
-    console.log("newEmail: ",newEmail);
+    //console.log("onSubmitEmail called!!")
+    //console.log("newEmail: ",newEmail);
     //console.log("2FA Checked Box(e.target): ", event.target.checked);
     //setChecked(checked);
     axios
@@ -44,7 +44,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
           }
       })
       .then((response) =>{
-        console.log(response);
+        //console.log(response);
         setChecked(checked);
       })
       .catch((err) => {

@@ -211,7 +211,7 @@ const Profile = () => {
           <b>Updated Date:</b><>{ user && user.updated }</>
         </Stack>
         <Divider variant="middle" />
-        <h2>Achivment</h2>
+        <h2>ACHIEVEMENTS</h2>
         <Stack
           spacing={1}
           direction="row"
@@ -222,7 +222,7 @@ const Profile = () => {
         </Stack>
         {/* observer list 출력 */}
         <Divider variant="middle" />
-        <h2>Battle log</h2>
+        <h2>BATTLE LOG</h2>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} >
               <TableHead>

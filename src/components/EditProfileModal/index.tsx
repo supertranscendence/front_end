@@ -62,13 +62,13 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
     const uuidKey = uuid();
     console.log("UUID Key: ", uuidKey);
 
-    console.log("accessToken: ", localStorage.getItem("accessToken"));
-    console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
+    //console.log("accessToken: ", localStorage.getItem("accessToken"));
+    //console.log("refreshToken: ", localStorage.getItem(" refreshToken"));
     axios
     .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })

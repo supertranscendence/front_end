@@ -8,7 +8,6 @@ export type dataUser = {
 	updated: Date | null;
 	friends: Array<dataFriend> | undefined;
 	tf: boolean;
-	//isFirst: boolean;
 }
 
 export type GameType = {
@@ -30,7 +29,6 @@ export type FriendType = {
 
 export type listFriend = FriendType[]
 
-//{ friend: string; state: UserStatus; blocked: boolean; avatar : string}
 export type dataFriend = {
 	tid: number;
 	intra: string;
@@ -40,20 +38,6 @@ export type dataFriend = {
 	updated: Date | null;
     id: number;
 }
-
-//export type getAchievementType = {
-//	id: number;
-//	intra: string;
-//	nickname: string;
-//	avatar: string;
-//	level: number;
-//	tf: boolean;
-//	verify: string;
-//	email: string;
-//	created: Date;
-//	updated: Date;
-//	achievements: achievementTypeList;
-//}
 
 export type achievementType = {
 	achievement: number;
