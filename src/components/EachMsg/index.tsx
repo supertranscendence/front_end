@@ -60,7 +60,7 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     if(msg.status === undefined){
       setStatShow('none');
     }
-    console.log("[!!!!]msg.name: ", msg.name);
+    //console.log("[!!!!]msg.name: ", msg.name);
     if(msg.name != "it's me"){
       axios
         .get(process.env.REACT_APP_API_URL + `/api/users/${msg.name}`, {
@@ -71,9 +71,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             }
         })
       .then((response) =>{
-        console.log(response);
+        //console.log(response);
         //console.log("friends: ", response.data);
-        console.log("intra: ",response.data.intra)
+        //console.log("intra: ",response.data.intra)
         setUser(response.data);
         //set
       })
@@ -127,9 +127,6 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
 
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-      //backgroundColor: ${myColor},
-      //color: ${myColor},
-      //color: 'default',
       boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
       '&::after': {
         position: 'absolute',
@@ -154,12 +151,6 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       },
     },
   }));
-
-
-//if (returnURL)
-//{
-//  return (<Redirect to = {returnURL}/>)
-//}
 
   return (
     <List>

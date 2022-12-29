@@ -44,23 +44,25 @@ const LoginCheck = () => {
   }, [code, isError]);
 
   return (
-    <Stack spacing={1}>
-      <h1>인증 코드 입력</h1>
-      <form onSubmit={onSubmit2FAcode}>
-      <TextField
-        error={isError}
-        id="2FA_input"
-        label="인증 코드 입력"
-        size='small'
-        type='text'
-        value={code}
-        onChange={onChangeCode}
-        required={true}
-        helperText='email로 받은 인증코드를 입력해주세요.'
-        />
-      <Button type="submit" variant='outlined'>인증 보내기</Button>
-      </form>
-    </Stack>
+    <Container maxWidth="sm">
+      <Stack spacing={1}>
+        <h1>인증 코드 입력</h1>
+        <form onSubmit={onSubmit2FAcode}>
+        <TextField
+          error={isError}
+          id="2FA_input"
+          label="인증 코드 입력"
+          size='small'
+          type='text'
+          value={code}
+          onChange={onChangeCode}
+          required={true}
+          helperText='email로 받은 인증코드를 입력해주세요.'
+          />
+        <Button type="submit" variant='outlined'>인증 보내기</Button>
+        </form>
+      </Stack>
+    </Container>
 
   );
 };

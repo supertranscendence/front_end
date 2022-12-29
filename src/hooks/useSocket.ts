@@ -24,7 +24,7 @@ const useSocket = (workspace?: string): [Socket | undefined, () => void] => {
     return [undefined, disconnect];
   }
   if (!sockets[workspace]) {
-    console.log("auth token:", 'Bearer ' + localStorage.getItem("accessToken"));
+    //console.log("auth token:", 'Bearer ' + localStorage.getItem("accessToken"));
     sockets[workspace] = io(`${backUrl}`, {
       transports: ['websocket'],
       auth: {

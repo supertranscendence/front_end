@@ -37,54 +37,24 @@ const DMList = () => {
     setChannelCollapse((prev) => !prev);
   }, []);
 
-  //const updateFriends = useCallback((userArr:string[])=>{
-  //  console.log("[frineds map]: ",userArr);
-  //  setFriendData((arr)=>[...userArr.map((str)=>{
-  //    return str})]);
-  //  },[socket, setFriendData])
-
-
-  // useEffect(() => {
-  //   console.log("[get myFriend]: ");
-  //   socket?.emit("myFriend", (stateFriend:string ) => {
-  //     console.log("[get myFriend] res: ");
-  //     console.log(JSON.parse(stateFriend));
-  //     setStateFriendList(JSON.parse(stateFriend));
-
-  //   });
-  //   console.log(stateFriend);
-
-  // }, [socket]);
-
-
   useEffect(() => {
     console.log("on change friends state");
     socket?.on("changeState", () => {
       console.log("return well change friends state");
       socket?.emit("myFriend", (stateFriend:string ) => {
-            console.log("[get myFriend] res: ");
-            console.log(JSON.parse(stateFriend));
+            //console.log("[get myFriend] res: ");
+            //console.log(JSON.parse(stateFriend));
             setStateFriendList(JSON.parse(stateFriend));
           });
         });
-        console.log(stateFriend);
+        //console.log(stateFriend);
   }, [socket, setStateFriendList]);
 
   useEffect(() => {
-    console.log('DMList: workspace 바꼈다', workspace);
+    //console.log('DMList: workspace 바꼈다', workspace);
     setOnlineList([]);
   }, [workspace]);
 
-  //useEffect(() => {
-  //  socket?.on('onlineList', (data: number[]) => {
-  //    setOnlineList(data);
-  //  });
-  //  console.log('socket on dm', socket?.hasListeners('dm'), socket);
-  //  return () => {
-  //    console.log('socket off dm', socket?.hasListeners('dm'));
-  //    socket?.off('onlineList');
-  //  };
-  //}, [socket]);
 
   const statToColor = (status:number) =>{
     if(status === UserStatus.me)

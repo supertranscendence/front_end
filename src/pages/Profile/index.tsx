@@ -21,6 +21,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import FtAvatar from 'src/components/FtAvatar';
 import { Socket } from 'dgram';
 import useSocket from "src/hooks/useSocket";
+import BlockIcon from '@mui/icons-material/Block';
 import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
@@ -75,28 +76,11 @@ const Profile = () => {
 
   //////////////////
   const handleAddFriend = useCallback(() => {
-    //const value = {intra: user?.intra};
     if(user)
     {
       console.log("AddMyFriend: ", user.intra);
       socket?.emit("AddMyFriend", user.intra);
     }
-    //axios
-    //  .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
-    //  withCredentials:true,
-    //    headers:{
-    //      authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-    //      accept: "*/*"
-    //      }
-    //  })
-    //.then((response) =>{
-    //  console.log(response);
-    //  //setUser(response.data);
-    //})
-    //.catch((err) => {
-    //  console.log("[ERROR] post /api/users/ for adduser")
-    //  console.log(err)
-    //});
   }, [socket, user ]);
 
   useEffect(() => {
@@ -197,7 +181,7 @@ const Profile = () => {
               <h1>{ user && user.nickname } PROFILE</h1>
               <Stack spacing={1} direction="row">
                 <Button variant='outlined' onClick={handleAddFriend} startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
-                <Button variant='outlined' color='error' onClick={handleBlockUser} startIcon={<PersonAddAlt1Icon />}>블락 설정/해제</Button>
+                <Button variant='outlined' color='error' onClick={handleBlockUser} startIcon={<BlockIcon />}>블락 설정/해제</Button>
               </Stack>
             </div>
           )}
@@ -210,7 +194,7 @@ const Profile = () => {
           <b>Updated Date:</b><>{ user && user.updated }</>
         </Stack>
         <Divider variant="middle" />
-        <h2>Achivment</h2>
+        <h2>ACHIEVEMENTS</h2>
         <Stack
           spacing={1}
           direction="row"
@@ -221,7 +205,7 @@ const Profile = () => {
         </Stack>
         {/* observer list 출력 */}
         <Divider variant="middle" />
-        <h2>Battle log</h2>
+        <h2>BATTLE LOG</h2>
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} >
               <TableHead>

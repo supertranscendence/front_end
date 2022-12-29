@@ -13,7 +13,6 @@ const theme = createTheme({
     success: {
       main: '#44b700',
     },
-  // warning == Yellow
 
   },
 });

@@ -19,7 +19,7 @@ export const CreateMenu = styled.div`
     user-select: none;
     min-width: 360px;
     z-index: 512;
-    max-height: calc(100vh - 20px);
+    max-height: calc(100vh);
     color: rgb(29, 28, 29);
   }
 `;

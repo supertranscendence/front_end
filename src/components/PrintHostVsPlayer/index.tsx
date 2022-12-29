@@ -10,22 +10,16 @@ interface Props {
 	userNameA:string;
 	userNameB:string;
   }
-  
+
 const PrintHostVsPlayer :FC<PropsWithChildren<Props>> = ({userNameA,userNameB}) => {
-	//const { data: member } = useSWR<IUser>('api/users', fetcher, {
-    //	dedupingInterval: 2000, // 2초
-  	//});
 	return(
 		<Stack direction="row" justifyContent="space-between">
 			<div>
-				<Avatar/>
-				<b>{userNameA}</b>
+				<h1><b>{userNameA}</b></h1>
 			</div>
 			<h3> VS </h3>
 			<div>
-				<Avatar/>
-				{/*<b>{member?.nickname}</b>*/}
-				<b>{userNameB}</b>
+				<h1><b>{userNameB}</b></h1>
 			</div>
 		</Stack>
 	);

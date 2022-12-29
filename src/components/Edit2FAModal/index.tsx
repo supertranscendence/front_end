@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useCallback, useState, useRef } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useState, useRef, useEffect } from 'react';
 import Modal from "src/components/Modal"
 import { Stack } from '@mui/system';
 import { TextField, Button } from '@mui/material';
@@ -13,28 +13,39 @@ interface Props {
   //onClose2FAModal: () => void;
   setShow2FAModal : (flag:boolean) => void
   }
-
+//1. props로 myUserData를 넘겨준다!
+//2. 아니 근데 SWR은 백엔드에서 변경된건지 어케암?
 const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    //dedupingInterval: 2000, // 2초
-  });
+  //const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
+  //  //dedupingInterval: 2000, // 2초
+  //});
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
   //const [tmpChecked, setTmpChecked] = useState(myUserData?.tf);
-  const [checked, setChecked] = useState(myUserData?.tf);
+  const [checked, setChecked] = useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    console.log("myUserData?.tf: ",myUserData?.tf);
-    console.log("2FA Checked(e.target): ", event.target.checked);
-    console.log("2FA Checked(checked): ",  checked);
   };
+  useEffect(() => {
+    console.log("useeffect called");
+    axios
+    .get(process.env.REACT_APP_API_URL + '/api/users/my/', {
+      withCredentials:true,
+      headers:{
+        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+        accept: "*/*"
+        }
+    })
+    .then(({data})=>{
+      setChecked(data.tf);
+    }).catch((err) => {
+      console.log("[ERROR] post /api/users/email for 2FA")
+      console.log(err)
+  });
+  }, []);
 
   //const onSubmitEmail = useCallback((e:any) => {
   const onSubmitEmail = useCallback((event: any) => {
-    console.log("onSubmitEmail called!!")
-    console.log("newEmail: ",newEmail);
-    //console.log("2FA Checked Box(e.target): ", event.target.checked);
-    //setChecked(checked);
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
@@ -44,20 +55,19 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
           }
       })
       .then((response) =>{
-        console.log(response);
+        //console.log(response);
         setChecked(checked);
       })
       .catch((err) => {
         console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
     });
-  }, [myUserData, newEmail, checked ]);
+  }, [newEmail, checked ]);
 
   if (!show) {
     return null;
     }
-    return(
-  //<Modal show={show} onCloseModal={onClose2FAModal}>
+  return(
   <Modal show={show} >
   <form onSubmit={onSubmitEmail}>
     <Stack spacing={1}>
