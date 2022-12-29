@@ -60,9 +60,8 @@ const Intro = () => {
         window.location.href = "/error";
       });
     }
-
-
   }, [myUserData]);
+
   if(isFirstLogin === true){
     return (
       <Container maxWidth="lg">
@@ -79,13 +78,12 @@ const Intro = () => {
   return (
     <Container maxWidth="lg">
       <h1> Welcome {myUserData && myUserData.nickname} a.k.a. {myUserData && myUserData.intra} !! </h1>
-      {/*<Button onClick={onClickTestFirst}>첫 로그인 테스트</Button>*/}
-      <FirstProfileModal
+      {/*<FirstProfileModal
         //show={showFirstProfileModal}
         show={isFirstLogin}
         //onCloseModal={onCloseModal}
         setShowProfileModal={setShowFirstProfileModal}
-        />
+        />*/}
     </Container>
   );
 };
