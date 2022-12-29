@@ -31,34 +31,35 @@ const Intro = () => {
 
   //const onClickTestFirst = useCallback(() => {
   useEffect(() => {
-
-    console.log("GET /api/achievement/ MY user.intra: ", myUserData?.intra);
-    axios
-    .get(process.env.REACT_APP_API_URL + `/api/achievements/${myUserData?.intra}`, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-          accept: "*/*"
-          }
+    if(myUserData){
+      console.log("GET /api/achievement/ MY user.intra: ", myUserData.intra);
+      axios
+      .get(process.env.REACT_APP_API_URL + `/api/achievements/${myUserData.intra}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        if(response.status === 500)
+            location.href = "/error";
+        if(response && response.data && response.data[0] && response.data[0].achievement === 0){
+          // Back-End에서 순서 못바꾸면 data.find()로 0있는지 찾는 방식으로 해야함.
+          console.log("NOT 처음 로그인!");
+          setIsFirstLogin(false);
+        }
+        else{
+          console.log("😄 첫번째 로그인");
+          setIsFirstLogin(true);
+        }
       })
-    .then((response) =>{
-      if(response.status === 500)
-          location.href = "/error";
-      if(response && response.data && response.data[0] && response.data[0].achievement === 0){
-        // Back-End에서 순서 못바꾸면 data.find()로 0있는지 찾는 방식으로 해야함.
-        console.log("NOT 처음 로그인!");
-        setIsFirstLogin(false);
-      }
-      else{
-        console.log("😄 첫번째 로그인");
-        setIsFirstLogin(true);
-      }
-    })
-    .catch((err) => {
-      console.log("[ERROR] get API/ACHIVMENT/")
-      console.log(err)
-      window.location.href = "/error";
-    });
+      .catch((err) => {
+        console.log("[ERROR] get API/ACHIVMENT/")
+        console.log(err)
+        window.location.href = "/error";
+      });
+    }
 
   }, [myUserData]);
   if(isFirstLogin === true){
