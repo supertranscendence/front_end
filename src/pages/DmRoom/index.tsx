@@ -298,7 +298,7 @@ else
             //   <div>{msg}</div>
             //   {/* <div className="time">{message}</div> */}
             // </div>
-            <EachMsg key={room} msg={{msg: msg, name:user, avatar: ""}} roomName={DmRoom!} ></EachMsg>
+            <EachMsg key={room} msg={{msg: msg, name:user, avatar: "", isDm: true}} roomName={DmRoom!}  ></EachMsg>
           );
         })}
         </Scrollbars>
