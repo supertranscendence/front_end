@@ -72,20 +72,7 @@ const Workspace:FC<Props> = ({children}) =>
 	  socket?.on("error",()=>setReturnFlag("/error"));
 	},[socket]);
 	
-	useEffect(()=>{
-	  socket?.on("goOBS",(gameRoomName:string)=>{
-	    if (gameRoomName !== "")
-      {
-        socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
-          console.log("enterGameRoomOBS", gameRoomName);
-          setReturnFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
-          // window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
-        });
-      }
-	  });
-	  
-	  
-	},[socket]);
+	
 	
 	const allDelCookies = (domain?:any, path?:any) => {
     // const doc = document;
