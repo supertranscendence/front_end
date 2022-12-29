@@ -132,8 +132,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
       {
         socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
           console.log("enterGameRoomOBS", gameRoomName);
-          setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
-          // window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
+          // setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
+          window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
         });
       }
     });
@@ -167,8 +167,8 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
     },
   }));
 
-  if (redirectFlag)
-    return (<Redirect to={redirectFlag}/>)
+  // if (redirectFlag)
+  //   return (<Redirect to={redirectFlag}/>)
 
   return (
     <List>
