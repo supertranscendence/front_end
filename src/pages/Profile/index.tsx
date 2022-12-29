@@ -69,16 +69,14 @@ const Profile = () => {
         }
       })
       .catch((err) => {
-        if(err.status === 500)
-            window.location.href = "/error";
         console.log("[ERROR] get /api/users/{id}");
         console.log(err);
+        window.location.href = "/error";
         history.push('/workspace/sleact/intro');
       });
     }
   }, [myUserData]);
 
-  //////////////////
   const handleAddFriend = useCallback(() => {
     if(user)
     {
@@ -88,38 +86,35 @@ const Profile = () => {
   }, [socket, user ]);
 
   useEffect(() => {
-    console.log("/api/game/ user.intra: ", user?.intra);
-    axios
-      .get(process.env.REACT_APP_API_URL + `/api/game/${user?.intra}`, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-          accept: "*/*"
-          }
+    if(user){
+      console.log("/api/game/ user.intra: ", user.intra);
+      axios
+        .get(process.env.REACT_APP_API_URL + `/api/game/${user.intra}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        if(response.status === 500)
+            location.href = "/error";
+        console.log("response API/GAME/");
+        console.log(response);
+        setUserGame(response.data);
       })
-    .then((response) =>{
-      if(response.status === 500)
-          location.href = "/error";
-      console.log("response API/GAME/");
-      console.log(response);
-      setUserGame(response.data);
-    })
-    .catch((err) => {
-      if(err.status === 500)
+      .catch((err) => {
+        console.log("[ERROR] post /api/users/ for adduser")
+        console.log(err)
         window.location.href = "/error";
-      console.log("[ERROR] post /api/users/ for adduser")
-      console.log(err)
-    });
+      });
+    }
   }, [user ]);
 
   const handleBlockUser = useCallback(() => {
     console.log("on handler Block");
     socket?.emit("Block",intra);
   }, [socket]);
-
-  //achiv
-  // id: 0 - first_login (이걸로 초기 계정 설정창 띄움)
-  // id: 1 - first_win
 
   const printAchi = (num:number) => {
     if(num === 0){
@@ -134,28 +129,31 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    console.log("GET /achievements/user.intra: ", user?.intra);
-    axios
-      .get(process.env.REACT_APP_API_URL + `/api/achievements/${user?.intra}`, {
-      withCredentials:true,
-        headers:{
-          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-          accept: "*/*"
-          }
-      })
-    .then((response) =>{
-      if(response.status === 500)
+    if(user){
+      console.log("GET /achievements/user.intra: ", user.intra);
+      axios
+        .get(process.env.REACT_APP_API_URL + `/api/achievements/${user.intra}`, {
+        withCredentials:true,
+          headers:{
+            authorization: 'Bearer ' + localStorage.getItem("accessToken"),
+            accept: "*/*"
+            }
+        })
+      .then((response) =>{
+        if(response.status === 500)
+        {
+          console.log("response.status === 500!!!!!!!");
           location.href = "/error";
-      console.log("response API/ACHIVMENT/");
-      console.log(response.data);
-      setUserAchi(response.data);
-    })
-    .catch((err) => {
-      if(err.status === 500)
+        }
+        console.log("response API/ACHIVMENT/");
+        console.log(response.data);
+        setUserAchi(response.data);
+      })
+      .catch((err) => {
+        console.log(err)
         window.location.href = "/error";
-      console.log("[ERROR] get API/ACHIVMENT/")
-      console.log(err)
-    });
+      });
+    }
   }, [user]);
 
 
