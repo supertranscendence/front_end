@@ -13,7 +13,6 @@ import loadable from '@loadable/component';
 import CreateChannelModal from 'src/components/CreateRoomModal'
 import CreateGameRoomModal from 'src/components/CreateGameRoomModal'
 import axios from "axios";
-import authfetcher from "src/utils/authfetcher";
 import useSWR from "swr";
 import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import PWDModal from 'src/components/PWDModal';

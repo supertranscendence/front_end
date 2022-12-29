@@ -142,7 +142,7 @@ const onCloseModal = useCallback(() => {
   setShowInviteModal(false);
 }, []);
 
-const chatData = messages;// socket?.emit("getRoomInfo")
+const chatData = messages;
 
 const chatSections = makeSection(messages ? ([] as any[]).concat(...messages).reverse() : []);
 
