@@ -21,6 +21,7 @@ import KeyIcon from '@mui/icons-material/Key';
 import FtAvatar from 'src/components/FtAvatar';
 import { Socket } from 'dgram';
 import useSocket from "src/hooks/useSocket";
+import BlockIcon from '@mui/icons-material/Block';
 import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
@@ -197,7 +198,7 @@ const Profile = () => {
               <h1>{ user && user.nickname } PROFILE</h1>
               <Stack spacing={1} direction="row">
                 <Button variant='outlined' onClick={handleAddFriend} startIcon={<PersonAddAlt1Icon />}>친구 추가</Button>
-                <Button variant='outlined' color='error' onClick={handleBlockUser} startIcon={<PersonAddAlt1Icon />}>블락 설정/해제</Button>
+                <Button variant='outlined' color='error' onClick={handleBlockUser} startIcon={<BlockIcon />}>블락 설정/해제</Button>
               </Stack>
             </div>
           )}
