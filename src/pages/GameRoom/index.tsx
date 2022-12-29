@@ -19,14 +19,14 @@ const GameRoom = () => {
 	const [modeFlag, setModeFlag] = useState(false);
 	const [userA, setUserA]  = useState(0);//score
 	const [userB, setUserB]  = useState(0);//score
-	
+
 	const GameRoomName = GameRoom.split("=")[0];
 	const isOBS = GameRoom.split("=")[1];
 	console.log(GameRoom);
-	
+
 	// let userA = 0;
 	// let userB = 0;
-	//gameSet 
+	//gameSet
 	//gameDone
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
@@ -38,7 +38,7 @@ const GameRoom = () => {
 			setIsA(obj.isA);
 			})
 	  },[socket])
-	  
+
 	useEffect(()=>{
 		console.log("gameRoomInfo on")
 		socket?.on("gameRoomInfo",  (obj:{playerA:string,playerB:string, isA:boolean}) =>{
@@ -47,19 +47,19 @@ const GameRoom = () => {
 			setUserNameB(obj.playerB);
 			})
 	  },[socket])
-	  
-	//게임이 끝났을때 다른 페이지를 렌더할 이벤트 
+
+	//게임이 끝났을때 다른 페이지를 렌더할 이벤트
 	useEffect(()=>{
 		console.log("game done?" );
 		socket?.on("gameDone",(winner:string)=> {setGameDone(winner)});
 	}, [socket]);
-	
+
 	//킥 올 이벤트를 받아서 리턴 시킬 이벤트
 	useEffect(()=>{
 		console.log("kickAll!" );
 		socket?.on("kickAll",()=>{setReturnFlag(true)} );
 	}, [socket]);
-	
+
 	const onGameSet = useCallback((obj:{userA:number, userB:number, mode:boolean})=>{
 		console.log("start1",start);
 		if (isOBS !== undefined && gameSet === false ){
@@ -77,7 +77,7 @@ const GameRoom = () => {
 			console.log('socket off gameSet');
 		}
 		}
-	
+
 	,[start, gameSet])
 	//점수가 바뀌면 받아올 이벤트 (옵저버이면서 점수가 나면 퐁게임 렌더시작)
 	// let testUserA = 0;
@@ -95,16 +95,16 @@ const GameRoom = () => {
 			// return () => {
 			// };
 	}, []);
-	
-	
+
+
 	const isStart = useCallback((b:boolean)=>{
-		if (b) 
+		if (b)
 		{
 			console.log("true" ,b);
 			setStart((b)=>true)
 		}
-		else 
-		{   
+		else
+		{
 			console.log("false" ,b);
 		}
 	},[]);
@@ -113,12 +113,12 @@ const GameRoom = () => {
 		console.log("on retrunChannel")
 		setReturnFlag((flag)=>true);
 	  },[])
-	  
+
 	const leaveRoom = useCallback(()=>{
 		console.log("on leave", GameRoomName)
 		socket?.emit("leaveGameRoom", {room:GameRoomName}, retrunChannel);
 	  },[]);
-	
+
 	useEffect(()=>{
 		console.log("start");
 		socket?.on("gameStart", (obj:{start:boolean, mode:boolean})=> {
@@ -126,25 +126,25 @@ const GameRoom = () => {
 			isStart(obj.start);
 		});
 	}, [socket]);
-	
+
 	const gameStart = useCallback(()=>{
 		// setGameSet(true);
 		console.log("on gameStart", GameRoomName );
 		socket?.emit("gameStart", {room:GameRoomName, mode:false} );
 	},[socket]);
-	
+
 	const modeGameStart = useCallback(()=>{
 		console.log("on gameStart", GameRoomName );
 		socket?.emit("gameStart", {room:GameRoomName, mode:true} );
 	},[socket]);
-	
+
 	useEffect(() => {
 	console.log("=========")
 	console.log(window.location.href);
 	console.log(GameRoom);
 	console.log("=========")
 	}, [isOBS])
-	
+
 	if (returnFlag)
 	{
 		return ( <Redirect to= {`/workspace/sleact/channel/Game`}/>);
@@ -156,7 +156,7 @@ const GameRoom = () => {
 			</div>
 		)
 	}
-	
+
 	if (isOBS === undefined)
 	{
 		if (start)
@@ -182,10 +182,7 @@ const GameRoom = () => {
 							</Tooltip>
 						</Stack>
 						<Divider variant="middle" />
-						<PrintHostVsPlayer userNameA={userNameA} userNameB={userNameB} />  
-						{/* <h2>observer list</h2>
-						<div>hyopark</div> */}
-						{/* observer list 출력 */}
+						<PrintHostVsPlayer userNameA={userNameA} userNameB={userNameB} />
 						<Divider variant="middle" />
 						<Button variant="outlined"  onClick={gameStart}>GAME START</Button>
 						<Button variant="outlined"  onClick={modeGameStart}>MODE GAME START</Button>
@@ -201,10 +198,10 @@ const GameRoom = () => {
 			console.log("pong2");
 			return (<PongGame  userAScore={userA} userBScore={userB} gameMode={modeFlag} />)
 		}
-		else 
+		else
 			return (<div><h1>게임 대기 중</h1>
 				<button onClick={leaveRoom}>나가기</button></div>)
 	}
 };
 export default GameRoom;
-// 
+//

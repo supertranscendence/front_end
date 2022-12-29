@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react';
 import authfetcher from 'src/utils/authfetcher';
 import { Avatar, Button, Container } from '@mui/material';
 import { Box, Stack } from '@mui/system';
+import LoginIcon from '@mui/icons-material/Login';
 import axios from 'axios'
 
 const LogIn = () => {
@@ -48,15 +49,14 @@ const LogIn = () => {
   return (
     <Container maxWidth="sm">
       <Box sx={{
-            marginTop: 15,
+            marginTop: '40%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
         <Stack spacing={1}>
-          <Avatar/>
-          <h1>Jjiranscendence</h1>
+          <h1>JJIRANSCENDENCE</h1>
           <Stack/>
           <Button
               variant='outlined'
@@ -70,9 +70,10 @@ const LogIn = () => {
             }}>로컬 백엔드로 로그인</Button>
           <Button
               variant='outlined'
+              startIcon={<LoginIcon/>}
               onClick={()=>{
                 window.location.href = `${process.env.REACT_APP_API_URL}/api/auth/ft/redirect`;
-            }}>환경변수 주소로로 로그인</Button>
+            }}>Login with 42</Button>
         </Stack>
       </Box>
 

@@ -103,8 +103,6 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 	{
     console.log("if문 들어감!")
     console.log("return /");
-		// location.href ="http://gilee.click/";
-		// return <Redirect to="/"/>;
 		if (!returnFlag)
 		  setReturnFlag("/");
 	}

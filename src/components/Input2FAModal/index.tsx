@@ -20,15 +20,6 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
   const [returnURL, setReturnURL] = useState("");
   //const onSubmit2FAcode = useCallback((e:any) => {
   const onSubmit2FAcode = useCallback((e:any) => {
-    /**
-     * code는 잘 들어가고 있음
-     * 왜 axios 가운데에서는
-     *  - alert이나
-     *  - location.herf도 안됨.
-     * form submit안에서 리다이렉션 일어나는거 같아서 지웠는데 이것도 아님
-     * e.preventDefault가 영향을 주는 것도 아님 - on/off 해도 안됨
-     *
-     *    */
     console.log("code: ", code);
     console.log("onSubmit2FAcode called!!");
     //e.preventDefault();
@@ -45,23 +36,6 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
         //location.href = "/";
         setReturnURL('/');
 
-        //alert("then response");
-        //console.log(response.status);
-        //if (response.status == 200)
-        //{
-          //alert("response 200!");
-          //console.log("response 200!");
-          //window.location.href = "https://server.gilee.click/api/auth/ft/redirect";
-          //location.href=(`https://server.gilee.click/api/auth/ft/redirect`);
-          //alert("location.href=(`https://server.gilee.click/api/auth/ft/redirect`)");
-          //setReturnURL('/');
-          //alert("setReturnURL(`https://server.gilee.click/api/auth/ft/redirect`)");
-        //}
-        //else
-        //{
-        //  alert("no! something wrong!");
-        //  console.log("no! something wrong!");
-        //}
       })
       .catch((err) => {
         setReturnURL('/');
@@ -71,9 +45,7 @@ const Input2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, onClose2F
     });
   }, [code,setReturnURL ]);
 
-  if (returnURL)
-  {
-    // location.href = "/";
+  if (returnURL){
     return (<Redirect to = {returnURL}/>)
   }
   if (!show) {
