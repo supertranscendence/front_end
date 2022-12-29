@@ -267,6 +267,9 @@ else if (redirectFlag)
   return ( <Redirect to= {redirectFlag}/>);
 }
 
+if ( !DmRoom )
+  return (<div>로딩중</div>);
+else
   return (
   <div>
   <Container onDrop={onDrop} onDragOver={onDragOver}>
@@ -314,13 +317,13 @@ else if (redirectFlag)
       show={showSetPWDModal}
       onCloseModal={onCloseModal}
       setShowSetPWDModal={setShowSetPWDModal}
-      roomInfo={DmRoom!}
+      roomInfo={DmRoom}
     />
     <InviteModal
       show={showInviteModal}
       onCloseModal={onCloseModal}
       setShowInviteModal={setShowInviteModal}
-      roomInfo={DmRoom!}
+      roomInfo={DmRoom}
       // inviteNum={0}
       // whoInvite={""}
     />

@@ -61,6 +61,7 @@ const Intro = () => {
       });
     }
 
+
   }, [myUserData]);
   if(isFirstLogin === true){
     return (
