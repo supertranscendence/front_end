@@ -81,7 +81,10 @@ const Profile = () => {
     if(user)
     {
       console.log("AddMyFriend: ", user.intra);
-      socket?.emit("AddMyFriend", user.intra);
+      socket?.emit("AddMyFriend", user.intra, ()=>{
+        location.reload();
+      });
+      
     }
   }, [socket, user ]);
 
