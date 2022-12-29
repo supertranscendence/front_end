@@ -39,10 +39,9 @@ const LoginCheck = () => {
       }
     })
     .catch((err) => {
-      if(err.status === 500)
-        window.location.href = "/error";
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
       console.log(err)
+      window.location.href = "/error";
     });
   }
   }, [code, isError]);

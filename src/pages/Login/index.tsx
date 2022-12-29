@@ -33,9 +33,8 @@ const LogIn = () => {
         localStorage.setItem("accessToken",response.data.act);
       })
       .catch((err) => {
-        if(err.status === 500)
-          window.location.href = "/error";
         console.log(err)
+        window.location.href = "/error";
       });
     }
   }
@@ -69,7 +68,7 @@ const LogIn = () => {
           <Button
               variant='outlined'
               onClick={()=>{
-                window.location.href = "http://127.0.0.1/api/auth/ft/redirect";
+                window.location.href = "http://127.0.0.1:3000/api/auth/ft/redirect";
             }}>로컬 백엔드로 로그인</Button>
           <Button
               variant='outlined'

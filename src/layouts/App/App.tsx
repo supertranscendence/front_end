@@ -1,11 +1,9 @@
 import React from 'react';
 import loadable from '@loadable/component';
 import {Switch, Route, Redirect } from 'react-router-dom';
-import Profile from '@pages/Profile';
 
 const Login = loadable(() => import ('src/pages/Login') );
 const LoginCheck = loadable(() => import ('src/pages/LoginCheck') );
-//const SignUp = loadable(() => import ('src/pages/SignUp') );
 const Workspaces = loadable(() => import ('src/layouts/Workspace/index') );
 const Error = loadable(() => import ('src/pages/Error') );
 
@@ -16,12 +14,9 @@ const App = () => {
     <Redirect exact path = "/" to ="/Login"/>
     <Route path = "/Login" component={Login}/>
     <Route path = "/logincheck" component={LoginCheck}/>
-    {/*<Route path = "/signup" component={SignUp}/>*/}
-    {/* <Route path = "/workspace/channel" component={Channel}/>
-    <Route path = "/workspace/dm" component={DirectMessage}/> */}
     <Route path = "/workspace/:workspace" component={Workspaces}/>
     <Route path = "/error" component={Error}/>
-    {/* // /workspace/test */}
+    <Route path = "/*" component={Error}/>
   </Switch>
   );
 };
