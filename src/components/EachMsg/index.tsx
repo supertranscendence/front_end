@@ -126,16 +126,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
   
   const goOBS = useCallback(()=>{
     console.log("goOBS",{roomName:roomName , gameUser:msg.name} ); 
-    socket?.emit("goOBS", {roomName:roomName , gameUser:msg.name}, (gameRoomName:string)=>{
-      console.log("shellWeGame done", gameRoomName);
-      if (gameRoomName !== "")
-      {
-        socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
-          console.log("enterGameRoomOBS", gameRoomName);
-          // setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
-          window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
-        });
-      }
+    socket?.emit("goOBS", {roomName:roomName , gameUser:msg.name}, ()=>{
+      console.log("shellWeGame done!");
+      
     });
   },[socket, ])
 
