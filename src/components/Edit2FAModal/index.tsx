@@ -28,7 +28,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
     .get(process.env.REACT_APP_API_URL + '/api/users/my/', {
       withCredentials:true,
       headers:{
-        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+        authorization: 'Bearer ' + localStorage.getItem("accessToken"),
         accept: "*/*"
         }
     })
@@ -48,7 +48,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
