@@ -7,10 +7,17 @@ axios
 {
   withCredentials:true,
   headers:{
-    authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+    authorization: 'Bearer ' + localStorage.getItem("accessToken"),
     accept: "*/*"
   }
 })
-.then((response) => response.data);
+.then((response) => {
+  if(response.status === 500)
+    location.href = "/error";
+  return response.data;
+})
+.catch((err) => {
+
+});
 
 export default fetcher;

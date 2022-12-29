@@ -3,7 +3,6 @@ import React, { FC, PropsWithChildren, useCallback,useState } from 'react';
 import {Label, Input, Button} from 'src/pages/SignUp/styles';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"
-import axios from 'axios';
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import {toast} from 'react-toastify'
 import fetcher from 'src/utils/fetcher'

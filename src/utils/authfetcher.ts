@@ -32,11 +32,7 @@ var deleteCookie = function(name:string){
 	if (!localStorage.getItem(" refreshToken"))
 	{
 		if (document.cookie != ''){
-			//console.log ("authfetcher call", document.cookie);
 			document.cookie.split(';').forEach((s)=>{returnArr.push(s.split("="))});
-			// document.cookie = '';
-			// deleteCookie("refreshToken");
-			// deleteCookie("accessToken");
 			allDelCookies();
 			localStorage.setItem(returnArr[1][0],returnArr[1][1]);
 			localStorage.setItem(returnArr[0][0],returnArr[0][1]);
@@ -47,9 +43,8 @@ var deleteCookie = function(name:string){
 			return null;
 		}
 	}
-	//TODO 환경변수
 	else{
-		axios.get("https://server.gilee.click/api/auth/ft/refresh", {
+		axios.get(process.env.REACT_APP_API_URL + "/api/auth/ft/refresh", {
 		withCredentials:true,
 			headers:{
 			authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),

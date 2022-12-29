@@ -41,9 +41,10 @@ const Intro = () => {
           accept: "*/*"
           }
       })
-    .then(({data}) =>{
-      console.log("response /api/achievement/", data);
-      if(data && data[0] && data[0].achievement === 0){
+    .then((response) =>{
+      if(response.status === 500)
+          location.href = "/error";
+      if(response && response.data && response.data[0] && response.data[0].achievement === 0){
         // Back-End에서 순서 못바꾸면 data.find()로 0있는지 찾는 방식으로 해야함.
         console.log("NOT 처음 로그인!");
         setIsFirstLogin(false);
@@ -53,18 +54,9 @@ const Intro = () => {
         setIsFirstLogin(true);
       }
     })
-    //.then(() => {
-    //  console.log("2.userAchi: ", userAchi);
-    //  if(userAchi && userAchi.length > 0 && userAchi[0].achievement === 0) {
-    //    console.log("NOT 처음 로그인!");
-    //    setIsFirstLogin(false);
-    //  }
-    //  else{
-    //    console.log("😄 첫번째 로그인");
-    //    setIsFirstLogin(true);
-    //  }
-    //})
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err.status)
     });

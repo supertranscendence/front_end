@@ -26,6 +26,8 @@ const LoginCheck = () => {
     )
 
     .then((response) =>{
+      if(response.status === 500)
+          location.href = "/error";
       console.log("2FA Response all", response);
       console.log("STATUS", response.status);
 
@@ -37,6 +39,8 @@ const LoginCheck = () => {
       }
     })
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] post /api/auth/ft/email for 2FA")
       console.log(err)
     });

@@ -59,15 +59,19 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
     .put(process.env.REACT_APP_API_URL + `/api/users/avatar/`,{avatar: uuidKey}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
       .then((response) =>{
+        if(response.status === 500)
+          location.href = "/error";
         console.log("[RESPONSE] put /api/users/avatar")
         console.log(response);
       })
       .catch((err) => {
+        if(err.status === 500)
+            window.location.href = "/error";
         console.log("[ERROR] put /api/users/avatar")
         console.log(err)
       });
@@ -104,9 +108,13 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
           }
       })
     .then((response) =>{
+      if(response.status === 500)
+        location.href = "/error";
       console.log(response);
     })
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] post /api/users for nickname")
       console.log(err)
     });
@@ -125,10 +133,13 @@ const FirstProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, setSh
           accept: "*/*"
           }
       })
-    //.then((response) =>{
-    //  console.log("response /achievements", response);
-    //})
+    .then((response) =>{
+      if(response.status === 500)
+        location.href = "/error";
+    })
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] post /achievements", err);
       console.log(err);
     });

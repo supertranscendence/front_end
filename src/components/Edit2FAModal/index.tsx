@@ -17,11 +17,7 @@ interface Props {
 //2. 아니 근데 SWR은 백엔드에서 변경된건지 어케암?
 const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
-  //const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-  //  //dedupingInterval: 2000, // 2초
-  //});
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
-  //const [tmpChecked, setTmpChecked] = useState(myUserData?.tf);
   const [checked, setChecked] = useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -36,15 +32,18 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
         accept: "*/*"
         }
     })
-    .then(({data})=>{
-      setChecked(data.tf);
+    .then((response)=>{
+      if(response.status === 500)
+        location.href = "/error";
+      setChecked(response.data.tf);
     }).catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] post /api/users/email for 2FA")
       console.log(err)
   });
   }, []);
 
-  //const onSubmitEmail = useCallback((e:any) => {
   const onSubmitEmail = useCallback((event: any) => {
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
@@ -55,10 +54,13 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
           }
       })
       .then((response) =>{
-        //console.log(response);
+        if(response.status === 500)
+          location.href = "/error";
         setChecked(checked);
       })
       .catch((err) => {
+        if(err.status === 500)
+          window.location.href = "/error";
         console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
     });

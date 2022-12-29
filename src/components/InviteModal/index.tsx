@@ -3,7 +3,6 @@ import React, {useEffect, FC, PropsWithChildren, useCallback,useState } from 're
 import {Label, Input, Button} from 'src/pages/SignUp/styles';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"
-import axios from 'axios';
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import {toast} from 'react-toastify'
 import fetcher from 'src/utils/fetcher'
@@ -22,7 +21,7 @@ interface Props {
 
 const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowInviteModal ,roomInfo }) => {
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  const [socket] = useSocket(workspace);  
+  const [socket] = useSocket(workspace);
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const [inviteType, setInviteType] = useState('');
   const [whoInvite, setWhoInvite] = useState('');
@@ -31,9 +30,9 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     //mutate();
     setShowInviteModal(false);
   },[]);
-  
+
   const modalUp = useCallback((inviteObj : {sendIntraId:string,  recvIntraId:string, type:string}) => {
-    
+
     console.log("in getInvite",inviteObj );
     // setWhoInvite( inviteObj.sendIntraId );
     setWhoInvite(inviteObj.sendIntraId);
@@ -43,19 +42,19 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   },
   []
 );
-  
+
   useEffect(() => {
     console.log("shellWeDm!");
     socket?.on("shellWeDm", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="Dm"; modalUp(inviteObj)});
   }, [socket]);
-  
+
   useEffect(() => {
     console.log("shellWeGame!");
     socket?.on("shellWeGame", (inviteObj : {sendIntraId:string,  recvIntraId:string, type: string})=> {inviteObj.type="Game"; modalUp(inviteObj)});
   }, [socket]);
 
- 
-  
+
+
   const retrunRoom = useCallback((joinedRoom:string)=>{
     console.log("on retrunRoom", joinedRoom)
     // if (inviteType == "Dm")
@@ -63,12 +62,12 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     // else if (inviteType == "Game")
     //   setReturnFlag(`/workspace/sleact/channel/Game/${joinedRoom}`);
   },[inviteType])
-  
+
   const goRoom = useCallback ((e:any)=>{
     e.preventDefault();
     // const eventName = "go" + inviteType;
     console.log("go room ok")
-    
+
     if (inviteType === "Dm")
     {
       console.log("goDm",{roomName:roomInfo , user:whoInvite})
@@ -81,7 +80,7 @@ const InviteModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
     }
     clearModal();
     },[whoInvite, inviteType ])
-    
+
   const noRoom = (e:any)=>{
     e.preventDefault();
     console.log("noRoom");

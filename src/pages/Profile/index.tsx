@@ -57,6 +57,8 @@ const Profile = () => {
             }
         })
       .then((response) =>{
+        if(response.status === 500)
+          location.href = "/error";
         console.log(response);
         console.log("intra: ",response.data.intra)
         setUser(response.data);
@@ -67,6 +69,8 @@ const Profile = () => {
         }
       })
       .catch((err) => {
+        if(err.status === 500)
+            window.location.href = "/error";
         console.log("[ERROR] get /api/users/{id}");
         console.log(err);
         history.push('/workspace/sleact/intro');
@@ -94,11 +98,15 @@ const Profile = () => {
           }
       })
     .then((response) =>{
+      if(response.status === 500)
+          location.href = "/error";
       console.log("response API/GAME/");
       console.log(response);
       setUserGame(response.data);
     })
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] post /api/users/ for adduser")
       console.log(err)
     });
@@ -136,11 +144,15 @@ const Profile = () => {
           }
       })
     .then((response) =>{
+      if(response.status === 500)
+          location.href = "/error";
       console.log("response API/ACHIVMENT/");
       console.log(response.data);
       setUserAchi(response.data);
     })
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] get API/ACHIVMENT/")
       console.log(err)
     });

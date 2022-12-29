@@ -73,10 +73,14 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
           }
       })
       .then((response) =>{
+        if(response.status === 500)
+          location.href = "/error";
         console.log("[RESPONSE] put /api/users/avatar")
         console.log(response);
       })
       .catch((err) => {
+        if(err.status === 500)
+            window.location.href = "/error";
         console.log("[ERROR] put /api/users/avatar")
         console.log(err)
       });
@@ -111,15 +115,18 @@ const EditProfileModal: FC<PropsWithChildren<Props>> = ({ show, children, onClos
       .put(process.env.REACT_APP_API_URL + `/api/users/`, {nick: newNick}, {
       withCredentials:true,
         headers:{
-          authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+          authorization: 'Bearer ' + localStorage.getItem("accessToken"),
           accept: "*/*"
           }
       })
     .then((response) =>{
+      if(response.status === 500)
+        location.href = "/error";
       console.log(response);
-      //setUser(response.data);
     })
     .catch((err) => {
+      if(err.status === 500)
+        window.location.href = "/error";
       console.log("[ERROR] post /api/users for nickname")
       console.log(err)
     });

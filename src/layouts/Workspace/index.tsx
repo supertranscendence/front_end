@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {FC, useCallback, useState ,useEffect} from 'react';
 import useSWR, { mutate } from 'swr';
 import fetcher from 'src/utils/fetcher';

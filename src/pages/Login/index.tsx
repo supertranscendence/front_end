@@ -26,11 +26,17 @@ const LogIn = () => {
         accept: "*/*"
         }
       }).then((response) =>{
+        if(response.status === 500)
+          location.href = "/error";
         console.log(response);
         console.log("data",response.data);
         localStorage.setItem("accessToken",response.data.act);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if(err.status === 500)
+          window.location.href = "/error";
+        console.log(err)
+      });
     }
   }
 

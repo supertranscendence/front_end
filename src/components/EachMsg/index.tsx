@@ -71,11 +71,9 @@ const EachMsg: VFC<Props> = ({ msg, roomName }) => {
             }
         })
       .then((response) =>{
-        //console.log(response);
-        //console.log("friends: ", response.data);
-        //console.log("intra: ",response.data.intra)
+        if(response.status === 500)
+            window.location.href = "/error";
         setUser(response.data);
-        //set
       })
       .catch((err) => {
         console.log("[ERROR] get /api/users/{id}")

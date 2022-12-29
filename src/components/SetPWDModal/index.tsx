@@ -3,7 +3,6 @@ import React, { FC, PropsWithChildren, useCallback,useState } from 'react';
 import {Label, Input, Button} from 'src/pages/SignUp/styles';
 import useInput from "src/hooks/useInput"
 import Modal from "src/components/Modal"
-import axios from 'axios';
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import {toast} from 'react-toastify'
 import fetcher from 'src/utils/fetcher'
@@ -20,25 +19,25 @@ interface Props {
 const SetPWDModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModal, setShowSetPWDModal ,roomInfo }) => {
   const [pwd, onChangepwd, setpwd] = useInput('');
   const {workspace, channel}=useParams<{workspace : string , channel:string}>();
-  const [socket] = useSocket(workspace);  
+  const [socket] = useSocket(workspace);
   // const [checkedInputs, setCheckedInputs] = useState<any[]>([]);
   const [redirectRoom, setRedirectRoom] = useState('');
-  
+
   const clearModal = useCallback(()=>{
     //mutate();
     setpwd("");
     setShowSetPWDModal(false);
   },[]);
-  
- 
-  
+
+
+
   const onSetPublic = useCallback((e:any) => {
     e.preventDefault();
     console.log("set publc!!");
     socket?.emit("SetPWD", {roomName: roomInfo , pw: "" , gottaPublic: true} ,()=>{console.log("done")})
     clearModal()
   }, [pwd]);
-  
+
   const onSetPWD = useCallback((e:any) => {
     e.preventDefault();
     if (!pwd)
@@ -51,12 +50,12 @@ const SetPWDModal: FC<PropsWithChildren<Props>> = ({ show, children, onCloseModa
   if (!show) {
     return null;
   }
-  
+
   // if (redirectRoom){
   //   console.log ("asd");
   //   return (<Redirect to={`/workspace/${workspace}/channel/Chat/${redirectRoom}`} />);
   // }
-  
+
   return (
     <Modal show = {show} onCloseModal={onCloseModal}>
     <button onClick ={onSetPublic}> 퍼블릭 룸 으로 변경</button>

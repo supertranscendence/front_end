@@ -11,7 +11,6 @@ import React, { useMemo, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Redirect, Switch, Route, useParams } from 'react-router-dom';
 import loadable from '@loadable/component';
 import CreateChannelModal from 'src/components/CreateRoomModal'
-import axios from "axios";
 import { Button, Container, Grid, Stack, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import PWDModal from 'src/components/PWDModal';
@@ -87,18 +86,6 @@ useEffect(()=>{
     setRedirectRoom((s)=>room);
   });
 },[socket,setNewRoomFlag]);
-
-
-const fetchch = useCallback(()=>{
-  axios.get(process.env.REACT_APP_API_URL +  "/api/auth/ft/refresh", {
-  withCredentials:true,
-    headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      accept: "*/*"
-      }
-  }).then((response) =>{ console.log(response);console.log("data",response.data);}).catch((err) => console.log(err));
-},[])
-
 
 const onClickRefresh = useCallback(() => {
   location.reload();
