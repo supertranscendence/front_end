@@ -98,7 +98,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   };
   const [stateFriendList, setStateFriendList] = useState<listFriend>([]);
 
-  console.log("workspace",localStorage.getItem(" refreshToken"))
+  //console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
     console.log("if문 들어감!")
