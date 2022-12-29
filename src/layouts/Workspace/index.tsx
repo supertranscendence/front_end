@@ -87,7 +87,7 @@ const Pong = loadable(() => import ('src/pages/Pong') );
   const [returnFlag, setReturnFlag] = useState("");
 	const {workspace} = useParams<{workspace:string}>();
 	const {data, mutate} = useSWR('token', authfetcher);
-  const [socket] = useSocket(workspace);
+  const [socket,disconnect] = useSocket(workspace);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleOpenProfileMenu = (event:any) => {
@@ -149,8 +149,11 @@ const Pong = loadable(() => import ('src/pages/Pong') );
 		// deleteCookie("accessToken");
     allDelCookies();
 
-		//console.log("re tokken",localStorage.getItem(" refreshToken"));
-		//console.log("ac tokken",localStorage.getItem("accessToken"));
+
+		console.log("re tokken",localStorage.getItem(" refreshToken"));
+		console.log("ac tokken",localStorage.getItem("accessToken"));
+		
+		disconnect();
 		// location.href="/";
 		//setShowUserMenu(ShowUserMenu => false);
 		setReturnFlag("/");
