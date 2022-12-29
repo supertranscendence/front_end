@@ -99,6 +99,22 @@ const Workspace:FC<Props> = ({children}) =>
   };
 
   const history = useHistory();
+  
+  
+  useEffect(()=>{
+    socket?.on("goOBS",(gameRoomName:string)=>{
+      if (gameRoomName !== "")
+      {
+        socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
+          console.log("enterGameRoomOBS", gameRoomName);
+          // setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
+          // window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
+          history.push(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
+        });
+      }
+    });
+  },[socket]);
+  
   const onMyProfile = useCallback(()=>
   {
     console.log("myUser Intra", myUserData?.intra);

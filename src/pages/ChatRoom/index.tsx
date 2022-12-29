@@ -55,18 +55,18 @@ useEffect(()=>{
   })
 },[])
 
-useEffect(()=>{
-  socket?.on("goOBS",(gameRoomName:string)=>{
-    if (gameRoomName !== "")
-    {
-      socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
-        console.log("enterGameRoomOBS", gameRoomName);
-        setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
-        // window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
-      });
-    }
-  });
-},[socket]);
+// useEffect(()=>{
+//   socket?.on("goOBS",(gameRoomName:string)=>{
+//     if (gameRoomName !== "")
+//     {
+//       socket?.emit("enterGameRoomOBS",gameRoomName, ()=>{
+//         console.log("enterGameRoomOBS", gameRoomName);
+//         setRedirectFlag(`/workspace/sleact/channel/Game/${gameRoomName}=OBS`);
+//         // window.location.href = `/workspace/sleact/channel/Game/${gameRoomName}=OBS`;
+//       });
+//     }
+//   });
+// },[socket]);
 
 
 useEffect(()=>{
