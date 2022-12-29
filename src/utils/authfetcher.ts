@@ -8,11 +8,11 @@ var deleteCookie = function(name:string){
     // const doc = document;
     domain = domain || document.domain;
     path = path || '/';
-  
+
     const cookies = document.cookie.split('; '); // 배열로 반환
-    console.log(cookies);
+    //console.log(cookies);
     const expiration = 'Sat, 01 Jan 1972 00:00:00 GMT';
-  
+
     // 반목문 순회하면서 쿠키 전체 삭제
     if (!document.cookie) {
       console.log('삭제할 쿠키가 없습니다.');
@@ -25,14 +25,14 @@ var deleteCookie = function(name:string){
       console.log('쿠키 전부 삭제완료!![',document.cookie,"]");
     }
   };
-  
+
  const authfetcher = (url:string) => {
 	const returnArr:string[][] = [];
-	console.log("fetcher data", localStorage.getItem(" refreshToken"));
+	//console.log("fetcher data", localStorage.getItem(" refreshToken"));
 	if (!localStorage.getItem(" refreshToken"))
 	{
 		if (document.cookie != ''){
-			console.log ("authfetcher call", document.cookie);
+			//console.log ("authfetcher call", document.cookie);
 			document.cookie.split(';').forEach((s)=>{returnArr.push(s.split("="))});
 			// document.cookie = '';
 			// deleteCookie("refreshToken");
@@ -43,7 +43,7 @@ var deleteCookie = function(name:string){
 			return returnArr[0][1];
 		}
 		else{
-			console.log("fetcher end", localStorage.getItem(" refreshToken"));
+			//console.log("fetcher end", localStorage.getItem(" refreshToken"));
 			return null;
 		}
 	}
@@ -55,7 +55,7 @@ var deleteCookie = function(name:string){
 			authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
 			accept: "*/*"
 			}
-		}).then((response) =>{ 
+		}).then((response) =>{
 			console.log(response);
 			console.log("data",response.data);
 			localStorage.setItem("accessToken",response.data.act);
