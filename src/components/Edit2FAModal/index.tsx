@@ -17,12 +17,12 @@ interface Props {
 //2. 아니 근데 SWR은 백엔드에서 변경된건지 어케암?
 const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
-  const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
-    //dedupingInterval: 2000, // 2초
-  });
+  //const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
+  //  //dedupingInterval: 2000, // 2초
+  //});
   const [newEmail, onChangeNewEmail, setNewEmail] = useInput('');
   //const [tmpChecked, setTmpChecked] = useState(myUserData?.tf);
-  const [checked, setChecked] = useState(myUserData?.tf);
+  const [checked, setChecked] = useState(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
@@ -62,7 +62,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
         console.log("[ERROR] post /api/users/email for 2FA")
         console.log(err)
     });
-  }, [myUserData, newEmail, checked ]);
+  }, [newEmail, checked ]);
 
   if (!show) {
     return null;
