@@ -13,7 +13,8 @@ interface Props {
   //onClose2FAModal: () => void;
   setShow2FAModal : (flag:boolean) => void
   }
-
+//1. props로 myUserData를 넘겨준다!
+//2. 아니 근데 SWR은 백엔드에서 변경된건지 어케암?
 const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FAModal }) => {
 
   const { data:myUserData } = useSWR<dataUser>(process.env.REACT_APP_API_URL + '/api/users/my/', fetcher, {
@@ -24,17 +25,10 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
   const [checked, setChecked] = useState(myUserData?.tf);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    //console.log("myUserData?.tf: ",myUserData?.tf);
-    //console.log("2FA Checked(e.target): ", event.target.checked);
-    //console.log("2FA Checked(checked): ",  checked);
   };
 
   //const onSubmitEmail = useCallback((e:any) => {
   const onSubmitEmail = useCallback((event: any) => {
-    //console.log("onSubmitEmail called!!")
-    //console.log("newEmail: ",newEmail);
-    //console.log("2FA Checked Box(e.target): ", event.target.checked);
-    //setChecked(checked);
     axios
       .post(process.env.REACT_APP_API_URL + `/api/users/email`, {tf: checked, email: newEmail}, {
       withCredentials:true,
@@ -56,8 +50,10 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
   if (!show) {
     return null;
     }
-    return(
-  //<Modal show={show} onCloseModal={onClose2FAModal}>
+  else if(!myUserData){
+    <>로딩중...</>
+  }
+  return(
   <Modal show={show} >
   <form onSubmit={onSubmitEmail}>
     <Stack spacing={1}>

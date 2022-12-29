@@ -76,28 +76,11 @@ const Profile = () => {
 
   //////////////////
   const handleAddFriend = useCallback(() => {
-    //const value = {intra: user?.intra};
     if(user)
     {
       console.log("AddMyFriend: ", user.intra);
       socket?.emit("AddMyFriend", user.intra);
     }
-    //axios
-    //  .post(process.env.REACT_APP_API_URL + `/api/users/`, value, {
-    //  withCredentials:true,
-    //    headers:{
-    //      authorization: 'Bearer ' + localStorage.getItem("accessToken"),
-    //      accept: "*/*"
-    //      }
-    //  })
-    //.then((response) =>{
-    //  console.log(response);
-    //  //setUser(response.data);
-    //})
-    //.catch((err) => {
-    //  console.log("[ERROR] post /api/users/ for adduser")
-    //  console.log(err)
-    //});
   }, [socket, user ]);
 
   useEffect(() => {
