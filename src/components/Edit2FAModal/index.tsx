@@ -27,6 +27,7 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
     setChecked(event.target.checked);
   };
   useEffect(() => {
+    console.log("useeffect called");
     axios
     .get(process.env.REACT_APP_API_URL + '/api/users/my/', {
       withCredentials:true,
