@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useCallback, useState, useRef } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useState, useRef, useEffect } from 'react';
 import Modal from "src/components/Modal"
 import { Stack } from '@mui/system';
 import { TextField, Button } from '@mui/material';
@@ -26,21 +26,22 @@ const Edit2FAModal: FC<PropsWithChildren<Props>> = ({ show, children, setShow2FA
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-
-  axios
-  .get(process.env.REACT_APP_API_URL + '/api/users/my/', {
-    withCredentials:true,
-    headers:{
-      authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
-      accept: "*/*"
-      }
-  })
-  .then(({data})=>{
-    setChecked(data.tf);
-  }).catch((err) => {
-    console.log("[ERROR] post /api/users/email for 2FA")
-    console.log(err)
-});
+  useEffect(() => {
+    axios
+    .get(process.env.REACT_APP_API_URL + '/api/users/my/', {
+      withCredentials:true,
+      headers:{
+        authorization: 'Bearer ' + localStorage.getItem(" refreshToken"),
+        accept: "*/*"
+        }
+    })
+    .then(({data})=>{
+      setChecked(data.tf);
+    }).catch((err) => {
+      console.log("[ERROR] post /api/users/email for 2FA")
+      console.log(err)
+  });
+  }, []);
 
   //const onSubmitEmail = useCallback((e:any) => {
   const onSubmitEmail = useCallback((event: any) => {
