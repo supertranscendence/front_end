@@ -40,7 +40,12 @@ const updateUsers = useCallback((userArr:string[])=>{
     return str})]);
   },[socket,setUsers])
 useEffect(()=>{
-  socket?.emit("roomInfo", {roomName:ChatRoom}, (userArr : string[]) =>updateUsers(userArr))
+  socket?.emit("roomInfo", {roomName:ChatRoom}, (obj: {userArr : string[], joined:boolean}) =>{
+  if (obj.joined ===false)
+    setReturnFlag(true);
+  else
+    updateUsers(obj.userArr);
+  })
 },[])
 
 

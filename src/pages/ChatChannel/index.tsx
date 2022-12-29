@@ -61,26 +61,6 @@ useEffect(()=>{
   }
   },[socket])
 
-// const getJoinedRoom = useCallback((str:string)=>{
-//   const arr :string[] = str.split(" ");
-//   console.log("arr",arr);
-//   console.log("arr.length",arr.length);
-//   if (arr.length > 1){
-//     // setJoinedRoom((f)=>true);
-//     return ;
-//   }
-// },[]);
-
-// useEffect(()=>{
-//  socket?.emit("joinedRoom", getJoinedRoom)
-// },[]);
-
-// if (joinedRoom)
-// {
-//  socket?.emit("ExitRoom", {name:"hyopark", room:"test001"} );
-//  setJoinedRoom((f)=>false);
-//  console.log("EXIT in FRONT!");
-// }
 
 useEffect(()=>{
 
