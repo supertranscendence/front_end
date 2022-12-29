@@ -7,6 +7,7 @@ const Login = loadable(() => import ('src/pages/Login') );
 const LoginCheck = loadable(() => import ('src/pages/LoginCheck') );
 //const SignUp = loadable(() => import ('src/pages/SignUp') );
 const Workspaces = loadable(() => import ('src/layouts/Workspace/index') );
+const Error = loadable(() => import ('src/pages/Error') );
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
     {/* <Route path = "/workspace/channel" component={Channel}/>
     <Route path = "/workspace/dm" component={DirectMessage}/> */}
     <Route path = "/workspace/:workspace" component={Workspaces}/>
+    <Route path = "/error" component={Error}/>
     {/* // /workspace/test */}
   </Switch>
   );
