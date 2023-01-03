@@ -1,5 +1,5 @@
 import React, { useState,useCallback, useEffect } from "react";
-import { Link, Redirect,useParams } from "react-router-dom";
+import { Link, Redirect, Switch, Route, useParams, useHistory } from 'react-router-dom';
 import { Container, Stack, Button, IconButton, Divider, Tooltip, Box } from "@mui/material";
 import CancelIcon from '@mui/icons-material/Cancel';
 import PrintHostVsPlayer from "src/components/PrintHostVsPlayer";
@@ -23,6 +23,22 @@ const GameRoom = () => {
 	const GameRoomName = GameRoom.split("=")[0];
 	const isOBS = GameRoom.split("=")[1];
 	console.log(GameRoom);
+	const history = useHistory();
+	useEffect(() => {
+		const listenBackEvent = () => {
+		  // 뒤로가기 할 때 수행할 동작을 적는다
+		};
+	
+		const unlistenHistoryEvent = history.listen(( action :any) => {
+		  if (action === "POP") {
+			listenBackEvent();
+		  }
+		});
+	
+		return unlistenHistoryEvent;
+	  }, [
+	  // effect에서 사용하는 state를 추가
+	]);
 
 	// let userA = 0;
 	// let userB = 0;
@@ -31,7 +47,7 @@ const GameRoom = () => {
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
 		console.log("gameRoomInfo emit")
-		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string , isA:boolean, joined:boolean}) =>{
+		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string, playerB:string , isA:boolean, joined:boolean}) =>{
 			if(obj.joined === true)
 			{
 				console.log("obj emit", obj);
