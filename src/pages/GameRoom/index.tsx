@@ -25,8 +25,8 @@ const GameRoom = () => {
 	const isOBS = GameRoom.split("=")[1];
 	console.log(GameRoom);
 	
-	const [locationKeys, setLocationKeys] = useState([]);
 	const history = useHistory();
+	const [locationKeys, setLocationKeys] = useState([]);
 	useEffect(() => {
 	  // 뒷정리 함수 이용
 	  return history.listen((location: { key: never; }) => {

@@ -59,7 +59,30 @@ const Workspace:FC<Props> = ({children}) =>
     setAnchorEl(null);
   };
   const [stateFriendList, setStateFriendList] = useState<listFriend>([]);
-
+  const history = useHistory();
+	const [locationKeys, setLocationKeys] = useState([]);
+	useEffect(() => {
+	  // 뒷정리 함수 이용
+	  return history.listen((location: { key: never; }) => {
+		if (history.action === "PUSH") {
+		  setLocationKeys([location.key]);
+		}
+	
+		if (history.action === "POP") {
+		  if (locationKeys[1] === location.key) {
+			setLocationKeys(([_, ...keys]) => keys);
+	
+			// 앞으로 가기
+		  } else {
+			setLocationKeys((keys) => [location.key, ...keys]);
+			window.location.reload();
+			console.log("pop");
+			// 뒤로 가기
+			// history.push("/detail");
+		  }
+		}
+	  });
+	}, [locationKeys, history]);
   //console.log("workspace",localStorage.getItem(" refreshToken"))
 	if ( !localStorage.getItem(" refreshToken") )
 	{
