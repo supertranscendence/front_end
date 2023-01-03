@@ -27,9 +27,11 @@ const GameRoom = () => {
 	useEffect(() => {
 		let unlisten = history.listen((location) => {
 		  if (history.action === 'PUSH') {
+		    alert();
 		    console.log("push");
 		  }
 		  if (history.action === 'POP') {
+			alert();
 			console.log("pop");
 			window.location.reload();
 		  }
