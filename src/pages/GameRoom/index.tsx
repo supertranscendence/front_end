@@ -25,24 +25,47 @@ const GameRoom = () => {
 	const isOBS = GameRoom.split("=")[1];
 	console.log(GameRoom);
 	
-
-useEffect(() => {
-    const listenBackEvent = () => {
-      // 뒤로가기 할 때 수행할 동작을 적는다
-      console.log("pop");
+	const [locationKeys, setLocationKeys] = useState([]);
+	const history = useHistory();
+	useEffect(() => {
+	  // 뒷정리 함수 이용
+	  return history.listen((location: { key: never; }) => {
+		if (history.action === "PUSH") {
+		  setLocationKeys([location.key]);
+		}
+	
+		if (history.action === "POP") {
+		  if (locationKeys[1] === location.key) {
+			setLocationKeys(([_, ...keys]) => keys);
+	
+			// 앞으로 가기
+		  } else {
+			setLocationKeys((keys) => [location.key, ...keys]);
 			window.location.reload();
-    };
+			console.log("pop");
+			// 뒤로 가기
+			// history.push("/detail");
+		  }
+		}
+	  });
+	}, [locationKeys, history]);
+// useEffect(() => {
+//     const listenBackEvent = () => {
+//       // 뒤로가기 할 때 수행할 동작을 적는다
+//       console.log("pop");
+// 			window.location.reload();
+//     };
 
-    const unlistenHistoryEvent = history.listen(({ action }) => {
-      if (action === "POP") {
-        listenBackEvent();
-      }
-    });
+//     const unlistenHistoryEvent = history.listen(({ action }) => {
+//       if (action === "POP") {
+//         listenBackEvent();
+//       }
+//     });
 
-    return unlistenHistoryEvent;
-  }, [
-  // effect에서 사용하는 state를 추가
-]);
+//     return unlistenHistoryEvent;
+//   }, [
+//   // effect에서 사용하는 state를 추가
+// ]);
 	// const history = useHistory();
 	// useEffect(() => {
 	// 	let unlisten = history.listen((location) => {
