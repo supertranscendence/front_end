@@ -121,7 +121,7 @@ const Workspace:FC<Props> = ({children}) =>
       console.log('쿠키 전부 삭제완료!![',document.cookie,"]");    }
   };
 
-  const history = useHistory();
+  // const history = useHistory();
   
   
   useEffect(()=>{
