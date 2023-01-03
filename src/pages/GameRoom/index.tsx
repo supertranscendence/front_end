@@ -25,21 +25,20 @@ const GameRoom = () => {
 	console.log(GameRoom);
 	const history = useHistory();
 	useEffect(() => {
-		const listenBackEvent = () => {
-		  // 뒤로가기 할 때 수행할 동작을 적는다
-		  location.reload();
-		};
-	
-		const unlistenHistoryEvent = history.listen(( action :any) => {
-		  if (action === "POP") {
-			listenBackEvent();
+		let unlisten = history.listen((location) => {
+		  if (history.action === 'PUSH') {
+		    console.log("push");
+		  }
+		  if (history.action === 'POP') {
+			console.log("pop");
+			location.reload();
 		  }
 		});
 	
-		return unlistenHistoryEvent;
-	  }, [
-	  // effect에서 사용하는 state를 추가
-	]);
+		return () => {
+		  unlisten();
+		};
+	  }, [history]);
 
 	// let userA = 0;
 	// let userB = 0;
