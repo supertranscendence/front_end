@@ -31,7 +31,7 @@ const GameRoom = () => {
 		  }
 		  if (history.action === 'POP') {
 			console.log("pop");
-			location.reload();
+			window.location.reload();
 		  }
 		});
 	
