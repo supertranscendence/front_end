@@ -31,6 +31,7 @@
     "dayjs": "^1.11.6",
     "faker": "^5.5.3",
     "gravatar": "^1.8.2",
+    "history": "^5.3.0",
     "loader-utils": "^3.2.1",
     "react": "^18.2.0",
     "react-custom-scrollbars-2": "^4.5.0",

@@ -5,6 +5,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import PrintHostVsPlayer from "src/components/PrintHostVsPlayer";
 import PongGame from "src/components/PongGame";
 import useSocket from "src/hooks/useSocket"
+import { history } from "src/utils/history"
 const GameRoom = () => {
 	const { workspace, GameRoom } = useParams<{ workspace: string; GameRoom: string }>();
 	// const [alreadyStart, setAlreadyStart]  = useState(false);
@@ -23,24 +24,43 @@ const GameRoom = () => {
 	const GameRoomName = GameRoom.split("=")[0];
 	const isOBS = GameRoom.split("=")[1];
 	console.log(GameRoom);
-	const history = useHistory();
-	useEffect(() => {
-		let unlisten = history.listen((location) => {
-		  if (history.action === 'PUSH') {
-		    alert();
-		    console.log("push");
-		  }
-		  if (history.action === 'POP') {
-			alert();
-			console.log("pop");
-			window.location.reload();
-		  }
-		});
 	
-		return () => {
-		  unlisten();
-		};
-	  }, [history]);
+
+useEffect(() => {
+    const listenBackEvent = () => {
+      // 뒤로가기 할 때 수행할 동작을 적는다
+      console.log("pop");
+			window.location.reload();
+    };
+
+    const unlistenHistoryEvent = history.listen(({ action }) => {
+      if (action === "POP") {
+        listenBackEvent();
+      }
+    });
+
+    return unlistenHistoryEvent;
+  }, [
+  // effect에서 사용하는 state를 추가
+]);
+	// const history = useHistory();
+	// useEffect(() => {
+	// 	let unlisten = history.listen((location) => {
+	// 	  if (history.action === 'PUSH') {
+	// 	    alert();
+	// 	    console.log("push");
+	// 	  }
+	// 	  if (history.action === 'POP') {
+	// 		alert();
+	// 		console.log("pop");
+	// 		window.location.reload();
+	// 	  }
+	// 	});
+	
+	// 	return () => {
+	// 	  unlisten();
+	// 	};
+	//   }, [history]);
 
 	// let userA = 0;
 	// let userB = 0;
