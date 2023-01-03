@@ -31,11 +31,19 @@ const GameRoom = () => {
 	//방 크리에이터를 위한 룸인포 처음에 불러올 이벤트
 	useEffect(()=>{
 		console.log("gameRoomInfo emit")
-		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string , isA:boolean}) =>{
-			console.log("obj emit", obj);
-			setUserNameA(obj.playerA);
-			setUserNameB(obj.playerB);
-			setIsA(obj.isA);
+		socket?.emit("gameRoomInfo", GameRoomName, (obj:{playerA:string,playerB:string , isA:boolean, joined:boolean}) =>{
+			if(obj.joined === true)
+			{
+				console.log("obj emit", obj);
+				setUserNameA(obj.playerA);
+				setUserNameB(obj.playerB);
+				setIsA(obj.isA);
+			}
+			else
+			{
+				console.log("obj emit not joined", obj);
+				setReturnFlag(true);
+			}
 			})
 	  },[socket])
 
