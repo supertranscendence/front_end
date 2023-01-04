@@ -29,25 +29,33 @@ const GameRoom = () => {
 	const [locationKeys, setLocationKeys] = useState([]);
 	useEffect(() => {
 	  // 뒷정리 함수 이용
-	  return history.listen((location: { key: never; }) => {
-		if (history.action === "PUSH") {
-		  setLocationKeys([location.key]);
-		}
+	  window.onpageshow = function (event:any) {     if (event.persisted) {
+	  // 뒤로가기로 페이지 로드 시         
+	  console.log(event.persisted);
+	  window.location.reload();
+	  }
+	  else {
+	  // 새로운 페이지 로드 시     
+	  } }
+	//   return history.listen((location: { key: never; }) => {
+	// 	if (history.action === "PUSH") {
+	// 	  setLocationKeys([location.key]);
+	// 	}
 	
-		if (history.action === "POP") {
-		  if (locationKeys[1] === location.key) {
-			setLocationKeys(([_, ...keys]) => keys);
+	// 	if (history.action === "POP") {
+	// 	  if (locationKeys[1] === location.key) {
+	// 		setLocationKeys(([_, ...keys]) => keys);
 	
-			// 앞으로 가기
-		  } else {
-			setLocationKeys((keys) => [location.key, ...keys]);
-			window.location.reload();
-			console.log("pop");
-			// 뒤로 가기
-			// history.push("/detail");
-		  }
-		}
-	  });
+	// 		// 앞으로 가기
+	// 	  } else {
+	// 		setLocationKeys((keys) => [location.key, ...keys]);
+	// 		window.location.reload();
+	// 		console.log("pop");
+	// 		// 뒤로 가기
+	// 		// history.push("/detail");
+	// 	  }
+	// 	}
+	//   });
 	}, [locationKeys, history]);
 // useEffect(() => {
 //     const listenBackEvent = () => {
